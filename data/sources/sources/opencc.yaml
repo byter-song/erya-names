@@ -1,0 +1,16 @@
+sourceId: opencc
+repository: https://github.com/BYVoid/OpenCC.git
+commit: 5c764a5a886f46eb365656ed91a0410d7162fac6
+license:
+  spdx: Apache-2.0
+  file: LICENSE
+  sha256: b534e465949558eec2597b04f5092b5e161236a68dfbfd04d547592ac3964308
+uses: [conversion]
+reviewStatus: verified
+releaseEligible: true
+files:
+  - path: data/dictionary/STCharacters.txt
+    sha256: a0ca1601c70648cf48b33c3c6210ccbecc5c7eead4b4c3daf76587ba2c03582b
+  - path: data/dictionary/TSCharacters.txt
+    sha256: 9ff46a7d30e5765375eb13d33f2b03a34d298913caf2b120380679f33ae1642d
+notes: Apache-2.0 conversion input; converted records still require review.

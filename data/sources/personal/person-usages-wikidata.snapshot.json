@@ -1,0 +1,42 @@
+{
+  "sourceId": "wikidata-person-usage",
+  "license": "CC0-1.0",
+  "retrievedAt": "2026-09-30T07:18:00.000Z",
+  "rows": [
+    {
+      "qid": "Q319618",
+      "name": "王安石",
+      "description": "中国宋朝的政治家、文学家、思想家（1021-1086）",
+      "birthDate": "1021-12-14T00:00:00Z",
+      "deathDate": "1086-05-27T00:00:00Z"
+    },
+    {
+      "qid": "Q464470",
+      "name": "李清照",
+      "description": "北宋末年至南宋初年女词人",
+      "birthDate": "1084-03-25T00:00:00Z",
+      "deathDate": "1155-05-26T00:00:00Z"
+    },
+    {
+      "qid": "Q33772",
+      "name": "杜甫",
+      "description": "唐代诗人",
+      "birthDate": "0712-01-01T00:00:00Z",
+      "deathDate": "0770-01-01T00:00:00Z"
+    },
+    {
+      "qid": "Q36020",
+      "name": "苏轼",
+      "description": "北宋文学家",
+      "birthDate": "1037-01-14T00:00:00Z",
+      "deathDate": "1101-08-31T00:00:00Z"
+    },
+    {
+      "qid": "Q7071",
+      "name": "李白",
+      "description": "唐代诗人",
+      "birthDate": "0701-05-23T00:00:00Z",
+      "deathDate": "0762-12-04T00:00:00Z"
+    }
+  ]
+}

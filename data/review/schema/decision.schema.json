@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Erya Names human review decision",
+  "type": "object",
+  "required": [
+    "candidateId",
+    "reviewStage",
+    "decision",
+    "reviewer",
+    "reviewedAt",
+    "sourceChecked",
+    "semanticNote",
+    "riskNote"
+  ],
+  "properties": {
+    "candidateId": { "type": "string", "minLength": 1 },
+    "reviewStage": { "enum": ["primary", "secondary"] },
+    "decision": {
+      "enum": ["approve", "edit-and-approve", "dispute", "retire", "request-source"]
+    },
+    "reviewer": {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": { "enum": ["human", "agent", "automation"] }
+      }
+    },
+    "reviewedAt": { "type": "string", "format": "date-time" },
+    "sourceChecked": { "type": "boolean" },
+    "semanticNote": { "type": "string", "minLength": 1 },
+    "riskNote": { "type": "string", "minLength": 1 }
+  }
+}

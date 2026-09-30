@@ -1,0 +1,498 @@
+{
+  "48": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "里仁篇",
+    "location": "里仁篇",
+    "quote": "子曰：“不仁者不可以久处约，不可以长处乐。仁者安仁，知者利仁。”",
+    "normalizedQuote": "子曰：“不仁者不可以久处约，不可以长处乐。仁者安仁，知者利仁。”",
+    "sourceRecordId": "chinese-poetry:lunyu:74876b9d104c985c"
+  },
+  "38": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "橘颂",
+    "location": "九章",
+    "quote": "秉德无私，参天地兮。",
+    "normalizedQuote": "秉德无私，参天地兮。",
+    "sourceRecordId": "chinese-poetry:chuci:8c66f87b4ce75121"
+  },
+  "49": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "里仁篇",
+    "location": "里仁篇",
+    "quote": "子曰：“人之过也，各於其党。观过，斯知仁矣。”",
+    "normalizedQuote": "子曰：“人之过也，各于其党。观过，斯知仁矣。”",
+    "sourceRecordId": "chinese-poetry:lunyu:2adaf93d9379ed24"
+  },
+  "43": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "东君",
+    "location": "九歌",
+    "quote": "抚余马兮安驱，夜皎皎兮既明",
+    "normalizedQuote": "抚余马兮安驱，夜皎皎兮既明",
+    "sourceRecordId": "chinese-poetry:chuci:d31cb32b58c878e2"
+  },
+  "31": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "涉江",
+    "location": "九章",
+    "quote": "霰雪纷其无垠兮，云霏霏而承宇。",
+    "normalizedQuote": "霰雪纷其无垠兮，云霏霏而承宇。",
+    "sourceRecordId": "chinese-poetry:chuci:7cb427eccaa696d5"
+  },
+  "23": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "汾沮洳",
+    "location": "国风·魏风",
+    "quote": "彼汾一方，言采其桑。彼其之子，美如英。美如英，殊异乎公行。",
+    "normalizedQuote": "彼汾一方，言采其桑。彼其之子，美如英。美如英，殊异乎公行。",
+    "sourceRecordId": "chinese-poetry:shijing:2a0279b11f19c05d"
+  },
+  "12": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "载驰",
+    "location": "国风·鄘风",
+    "quote": "我行其野，芃芃其麦。控于大邦，谁因谁极？大夫君子，无我有尤。百尔所思，不如我所之。",
+    "normalizedQuote": "我行其野，芃芃其麦。控于大邦，谁因谁极？大夫君子，无我有尤。百尔所思，不如我所之。",
+    "sourceRecordId": "chinese-poetry:shijing:f317cd4797db52a4"
+  },
+  "10": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "四月",
+    "location": "小雅·谷风之什",
+    "quote": "山有嘉卉，侯栗侯梅。废为残贼，莫知其尤！",
+    "normalizedQuote": "山有嘉卉，侯栗侯梅。废为残贼，莫知其尤！",
+    "sourceRecordId": "chinese-poetry:shijing:3971803e8e37971a"
+  },
+  "30": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "少司命",
+    "location": "九歌",
+    "quote": "秋兰兮青青，绿叶兮紫茎",
+    "normalizedQuote": "秋兰兮青青，绿叶兮紫茎",
+    "sourceRecordId": "chinese-poetry:chuci:3b7b7cf9f3cd3b9e"
+  },
+  "1": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "野有蔓草",
+    "location": "国风·郑风",
+    "quote": "野有蔓草，零露瀼瀼。有美一人，婉如清扬。邂逅相遇，与子偕臧。",
+    "normalizedQuote": "野有蔓草，零露瀼瀼。有美一人，婉如清扬。邂逅相遇，与子偕臧。",
+    "sourceRecordId": "chinese-poetry:shijing:f601d13d8edcf58c"
+  },
+  "4": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "女曰鸡鸣",
+    "location": "国风·郑风",
+    "quote": "弋言加之，与子宜之。宜言饮酒，与子偕老。琴瑟在御，莫不静好。",
+    "normalizedQuote": "弋言加之，与子宜之。宜言饮酒，与子偕老。琴瑟在御，莫不静好。",
+    "sourceRecordId": "chinese-poetry:shijing:ee3b863b4e9c5950"
+  },
+  "54": {
+    "sourceId": "chinese-poetry:daxue",
+    "title": "大學",
+    "location": "大學",
+    "quote": "大學之道，在明明德，在親民，在止於至善。知止而后有定，定而后能靜，靜而后能安，安而后能慮，慮而后能得。物有本末，事有終始，知所先後，則近道矣。",
+    "normalizedQuote": "大学之道，在明明德，在亲民，在止于至善。知止而后有定，定而后能静，静而后能安，安而后能虑，虑而后能得。物有本末，事有终始，知所先后，则近道矣。",
+    "sourceRecordId": "chinese-poetry:daxue:7c8979a7937f85e2"
+  },
+  "55": {
+    "sourceId": "chinese-poetry:daxue",
+    "title": "大學",
+    "location": "大學",
+    "quote": "大學之道，在明明德，在親民，在止於至善。知止而后有定，定而后能靜，靜而后能安，安而后能慮，慮而后能得。物有本末，事有終始，知所先後，則近道矣。",
+    "normalizedQuote": "大学之道，在明明德，在亲民，在止于至善。知止而后有定，定而后能静，静而后能安，安而后能虑，虑而后能得。物有本末，事有终始，知所先后，则近道矣。",
+    "sourceRecordId": "chinese-poetry:daxue:7c8979a7937f85e2"
+  },
+  "56": {
+    "sourceId": "chinese-poetry:daxue",
+    "title": "大學",
+    "location": "大學",
+    "quote": "大學之道，在明明德，在親民，在止於至善。知止而后有定，定而后能靜，靜而后能安，安而后能慮，慮而后能得。物有本末，事有終始，知所先後，則近道矣。",
+    "normalizedQuote": "大学之道，在明明德，在亲民，在止于至善。知止而后有定，定而后能静，静而后能安，安而后能虑，虑而后能得。物有本末，事有终始，知所先后，则近道矣。",
+    "sourceRecordId": "chinese-poetry:daxue:7c8979a7937f85e2"
+  },
+  "58": {
+    "sourceId": "chinese-poetry:zhongyong",
+    "title": "中庸",
+    "location": "中庸",
+    "quote": "天命之謂性，率性之謂道，修道之謂教。道也者，不可須臾離也，可離非道也。是故君子戒慎乎其所不睹，恐懼乎其所不聞。莫見乎隱，莫顯乎微。故君子慎其獨也。喜怒哀樂之未發，謂之中；發而皆中節，謂之和；中也者，天下之大本也；和也者，天下之達道也。致中和，天地位焉，萬物育焉。",
+    "normalizedQuote": "天命之谓性，率性之谓道，修道之谓教。道也者，不可须臾离也，可离非道也。是故君子戒慎乎其所不睹，恐惧乎其所不闻。莫见乎隐，莫显乎微。故君子慎其独也。喜怒哀乐之未发，谓之中；发而皆中节，谓之和；中也者，天下之大本也；和也者，天下之达道也。致中和，天地位焉，万物育焉。",
+    "sourceRecordId": "chinese-poetry:zhongyong:1234d25176928782"
+  },
+  "57": {
+    "sourceId": "chinese-poetry:daxue",
+    "title": "大學",
+    "location": "大學",
+    "quote": "古之欲明明德於天下者，先治其國；欲治其國者，先齊其家；欲齊其家者，先修其身；欲修其身者，先正其心；欲正其心者，先誠其意；欲誠其意者，先致其知，致知在格物。物格而後知至，知至而後意誠，意誠而後心正，心正而後身修，身修而後家齊，家齊而後國治，國治而後天下平。自天子以至於庶人，壹是皆以修身為本。其本亂而末治者否矣，其所厚者薄，而其所薄者厚，未之有也！此謂知本，此謂知之至也。",
+    "normalizedQuote": "古之欲明明德于天下者，先治其国；欲治其国者，先齐其家；欲齐其家者，先修其身；欲修其身者，先正其心；欲正其心者，先诚其意；欲诚其意者，先致其知，致知在格物。物格而后知至，知至而后意诚，意诚而后心正，心正而后身修，身修而后家齐，家齐而后国治，国治而后天下平。自天子以至于庶人，壹是皆以修身为本。其本乱而末治者否矣，其所厚者薄，而其所薄者厚，未之有也！此谓知本，此谓知之至也。",
+    "sourceRecordId": "chinese-poetry:daxue:fa9f5dda9429bd0d"
+  },
+  "42": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "云中君",
+    "location": "九歌",
+    "quote": "浴兰汤兮沐芳，华采衣兮若英",
+    "normalizedQuote": "浴兰汤兮沐芳，华采衣兮若英",
+    "sourceRecordId": "chinese-poetry:chuci:af8dde9caaae1925"
+  },
+  "29": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "湘君",
+    "location": "九歌",
+    "quote": "采芳洲兮杜若，将以遗兮下女",
+    "normalizedQuote": "采芳洲兮杜若，将以遗兮下女",
+    "sourceRecordId": "chinese-poetry:chuci:5c0ba8000c82e0a6"
+  },
+  "18": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "采薇",
+    "location": "小雅·鹿鸣之什",
+    "quote": "昔我往矣，杨柳依依。今我来思，雨雪霏霏。行道迟迟，载渴载饥。我心伤悲，莫知我哀！",
+    "normalizedQuote": "昔我往矣，杨柳依依。今我来思，雨雪霏霏。行道迟迟，载渴载饥。我心伤悲，莫知我哀！",
+    "sourceRecordId": "chinese-poetry:shijing:c21ab051b3179ea7"
+  },
+  "19": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "采薇",
+    "location": "小雅·鹿鸣之什",
+    "quote": "昔我往矣，杨柳依依。今我来思，雨雪霏霏。行道迟迟，载渴载饥。我心伤悲，莫知我哀！",
+    "normalizedQuote": "昔我往矣，杨柳依依。今我来思，雨雪霏霏。行道迟迟，载渴载饥。我心伤悲，莫知我哀！",
+    "sourceRecordId": "chinese-poetry:shijing:c21ab051b3179ea7"
+  },
+  "52": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "雍也篇",
+    "location": "雍也篇",
+    "quote": "子曰：“质胜文则野，文胜质则史。文质彬彬，然后君子。”",
+    "normalizedQuote": "子曰：“质胜文则野，文胜质则史。文质彬彬，然后君子。”",
+    "sourceRecordId": "chinese-poetry:lunyu:02ea468a2cedc123"
+  },
+  "53": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "雍也篇",
+    "location": "雍也篇",
+    "quote": "子曰：“质胜文则野，文胜质则史。文质彬彬，然后君子。”",
+    "normalizedQuote": "子曰：“质胜文则野，文胜质则史。文质彬彬，然后君子。”",
+    "sourceRecordId": "chinese-poetry:lunyu:02ea468a2cedc123"
+  },
+  "22": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "君子偕老",
+    "location": "国风·鄘风",
+    "quote": "玼兮玼兮，其之翟也。鬒发如云，不屑髢也。玉之瑱也，象之揥也，扬且之晳也。胡然而天也！胡然而帝也。",
+    "normalizedQuote": "玼兮玼兮，其之翟也。鬒发如云，不屑髢也。玉之瑱也，象之揥也，扬且之晳也。胡然而天也！胡然而帝也。",
+    "sourceRecordId": "chinese-poetry:shijing:ff9491a3ba655a24"
+  },
+  "51": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "颜渊篇",
+    "location": "颜渊篇",
+    "quote": "子曰：“博学于文，约之以礼，亦可以弗畔矣夫。”",
+    "normalizedQuote": "子曰：“博学于文，约之以礼，亦可以弗畔矣夫。”",
+    "sourceRecordId": "chinese-poetry:lunyu:3f7928842417eccd"
+  },
+  "27": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "离骚",
+    "location": "离骚",
+    "quote": "名余曰正则兮，字余曰灵均。",
+    "normalizedQuote": "名余曰正则兮，字余曰灵均。",
+    "sourceRecordId": "chinese-poetry:chuci:df30ece8b1530479"
+  },
+  "28": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "离骚",
+    "location": "离骚",
+    "quote": "名余曰正则兮，字余曰灵均。",
+    "normalizedQuote": "名余曰正则兮，字余曰灵均。",
+    "sourceRecordId": "chinese-poetry:chuci:df30ece8b1530479"
+  },
+  "39": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "离骚",
+    "location": "离骚",
+    "quote": "前望舒使先驱兮，后飞廉使奔属。",
+    "normalizedQuote": "前望舒使先驱兮，后飞廉使奔属。",
+    "sourceRecordId": "chinese-poetry:chuci:85e1c512c83410c2"
+  },
+  "20": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "文王",
+    "location": "大雅·文王之什",
+    "quote": "世之不显，厥犹翼翼。思皇多士，生此王国。王国克生，维周之桢；济济多士，文王以宁。",
+    "normalizedQuote": "世之不显，厥犹翼翼。思皇多士，生此王国。王国克生，维周之桢；济济多士，文王以宁。",
+    "sourceRecordId": "chinese-poetry:shijing:c1984cb7e1833376"
+  },
+  "35": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "东皇太一",
+    "location": "九歌",
+    "quote": "五音纷兮繁会，君欣欣兮乐康。",
+    "normalizedQuote": "五音纷兮繁会，君欣欣兮乐康。",
+    "sourceRecordId": "chinese-poetry:chuci:1633225409ec22b2"
+  },
+  "59": {
+    "sourceId": "chinese-poetry:tang-0",
+    "title": "遊長寧公主流杯池二十五首 十",
+    "location": "遊長寧公主流杯池二十五首 十",
+    "quote": "霽曉氣清和，披襟賞薜蘿。",
+    "normalizedQuote": "霁晓气清和，披襟赏薜萝。",
+    "sourceRecordId": "chinese-poetry:tang-0:166db3ff6d16d3c5"
+  },
+  "16": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "子衿",
+    "location": "国风·郑风",
+    "quote": "青青子衿，悠悠我心。纵我不往，子宁不嗣音？",
+    "normalizedQuote": "青青子衿，悠悠我心。纵我不往，子宁不嗣音？",
+    "sourceRecordId": "chinese-poetry:shijing:5985ccb326bbe924"
+  },
+  "17": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "子衿",
+    "location": "国风·郑风",
+    "quote": "青青子衿，悠悠我心。纵我不往，子宁不嗣音？",
+    "normalizedQuote": "青青子衿，悠悠我心。纵我不往，子宁不嗣音？",
+    "sourceRecordId": "chinese-poetry:shijing:5985ccb326bbe924"
+  },
+  "3": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "静女",
+    "location": "国风·邶风",
+    "quote": "静女其姝，俟我于城隅。爱而不见，搔首踟蹰。",
+    "normalizedQuote": "静女其姝，俟我于城隅。爱而不见，搔首踟蹰。",
+    "sourceRecordId": "chinese-poetry:shijing:8b97c1d1e4ea1505"
+  },
+  "8": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "抑",
+    "location": "大雅·荡之什",
+    "quote": "慎尔出话，敬尔威仪，无不柔嘉。白圭之玷，尚可磨也；斯言之玷，不可为也！",
+    "normalizedQuote": "慎尔出话，敬尔威仪，无不柔嘉。白圭之玷，尚可磨也；斯言之玷，不可为也！",
+    "sourceRecordId": "chinese-poetry:shijing:f59e58317b03df0a"
+  },
+  "15": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "子衿",
+    "location": "国风·郑风",
+    "quote": "青青子佩，悠悠我思。纵我不往，子宁不来？",
+    "normalizedQuote": "青青子佩，悠悠我思。纵我不往，子宁不来？",
+    "sourceRecordId": "chinese-poetry:shijing:5bbe27713d1c5636"
+  },
+  "47": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "泰伯篇",
+    "location": "泰伯篇",
+    "quote": "曾子曰：“士不可以不弘毅，任重而道远。仁以为己任，不亦重乎？死而后已，不亦远乎？”",
+    "normalizedQuote": "曾子曰：“士不可以不弘毅，任重而道远。仁以为己任，不亦重乎？死而后已，不亦远乎？”",
+    "sourceRecordId": "chinese-poetry:lunyu:4c8f13141d95bfcb"
+  },
+  "0": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "野有蔓草",
+    "location": "国风·郑风",
+    "quote": "野有蔓草，零露漙兮。有美一人，清扬婉兮。邂逅相遇，适我愿兮。",
+    "normalizedQuote": "野有蔓草，零露漙兮。有美一人，清扬婉兮。邂逅相遇，适我愿兮。",
+    "sourceRecordId": "chinese-poetry:shijing:7990d44de9fa80b9"
+  },
+  "13": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "桃夭",
+    "location": "国风·周南",
+    "quote": "桃之夭夭，其叶蓁蓁。之子于归，宜其家人。",
+    "normalizedQuote": "桃之夭夭，其叶蓁蓁。之子于归，宜其家人。",
+    "sourceRecordId": "chinese-poetry:shijing:fcd06bc77ccc662e"
+  },
+  "5": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "湛露",
+    "location": "小雅·南有嘉鱼之什",
+    "quote": "其桐其椅，其实离离。岂弟君子，莫不令仪。",
+    "normalizedQuote": "其桐其椅，其实离离。岂弟君子，莫不令仪。",
+    "sourceRecordId": "chinese-poetry:shijing:fa7656c8428bc175"
+  },
+  "50": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "为政篇",
+    "location": "为政篇",
+    "quote": "子张学干禄。子曰：“多闻阙疑，慎言其余，则寡尤；多见阙殆，慎行其余，则寡悔。言寡尤，行寡悔，禄在其中矣。”",
+    "normalizedQuote": "子张学干禄。子曰：“多闻阙疑，慎言其余，则寡尤；多见阙殆，慎行其余，则寡悔。言寡尤，行寡悔，禄在其中矣。”",
+    "sourceRecordId": "chinese-poetry:lunyu:ca276f888169d3eb"
+  },
+  "32": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "少司命",
+    "location": "九歌",
+    "quote": "入不言兮出不辞，乘回风兮载云旗",
+    "normalizedQuote": "入不言兮出不辞，乘回风兮载云旗",
+    "sourceRecordId": "chinese-poetry:chuci:ab2f22a04dca922f"
+  },
+  "26": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "离骚",
+    "location": "离骚",
+    "quote": "路漫漫其修远兮，吾将上下而求索。",
+    "normalizedQuote": "路漫漫其修远兮，吾将上下而求索。",
+    "sourceRecordId": "chinese-poetry:chuci:ea9c49014d61669b"
+  },
+  "44": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "自悲",
+    "location": "七谏",
+    "quote": "厌白玉以为面兮，怀琬琰以为心。",
+    "normalizedQuote": "厌白玉以为面兮，怀琬琰以为心。",
+    "sourceRecordId": "chinese-poetry:chuci:3f6888d926611dec"
+  },
+  "24": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "汾沮洳",
+    "location": "国风·魏风",
+    "quote": "彼汾一曲，言采其藚。彼其之子，美如玉。美如玉，殊异乎公族。",
+    "normalizedQuote": "彼汾一曲，言采其藚。彼其之子，美如玉。美如玉，殊异乎公族。",
+    "sourceRecordId": "chinese-poetry:shijing:65fefb759d72fb77"
+  },
+  "34": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "东皇太一",
+    "location": "九歌",
+    "quote": "扬枹兮拊鼓，疏缓节兮安歌",
+    "normalizedQuote": "扬枹兮拊鼓，疏缓节兮安歌",
+    "sourceRecordId": "chinese-poetry:chuci:32fb0fa99ed38f0e"
+  },
+  "61": {
+    "sourceId": "chinese-poetry:song-300",
+    "title": "满庭芳",
+    "location": "满庭芳",
+    "quote": "风老莺雏，雨肥梅子，午阴嘉树清圆。",
+    "normalizedQuote": "风老莺雏，雨肥梅子，午阴嘉树清圆。",
+    "sourceRecordId": "chinese-poetry:song-300:d68a663f447844da"
+  },
+  "41": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "思美人",
+    "location": "九章",
+    "quote": "芳与泽其杂糅兮，羌芳华自中出。",
+    "normalizedQuote": "芳与泽其杂糅兮，羌芳华自中出。",
+    "sourceRecordId": "chinese-poetry:chuci:86b1c6ab5d7739dd"
+  },
+  "7": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "思齐",
+    "location": "大雅·文王之什",
+    "quote": "思齐大任，文王之母，思媚周姜，京室之妇。大姒嗣徽音，则百斯男。",
+    "normalizedQuote": "思齐大任，文王之母，思媚周姜，京室之妇。大姒嗣徽音，则百斯男。",
+    "sourceRecordId": "chinese-poetry:shijing:61323d23ed35257f"
+  },
+  "11": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "采苓",
+    "location": "国风·唐风",
+    "quote": "采苓采苓，首阳之巅。人之为言，苟亦无信。舍旃舍旃，苟亦无然。人之为言，胡得焉？",
+    "normalizedQuote": "采苓采苓，首阳之巅。人之为言，苟亦无信。舍旃舍旃，苟亦无然。人之为言，胡得焉？",
+    "sourceRecordId": "chinese-poetry:shijing:75c3b1b0b137cc94"
+  },
+  "6": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "假乐",
+    "location": "大雅·生民之什",
+    "quote": "假乐君子，显显令德，宜民宜人。受禄于天，保右命之，自天申之。",
+    "normalizedQuote": "假乐君子，显显令德，宜民宜人。受禄于天，保右命之，自天申之。",
+    "sourceRecordId": "chinese-poetry:shijing:3a9e362553d2eaef"
+  },
+  "14": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "木瓜",
+    "location": "国风·卫风",
+    "quote": "投我以木桃，报之以琼瑶。匪报也，永以为好也！",
+    "normalizedQuote": "投我以木桃，报之以琼瑶。匪报也，永以为好也！",
+    "sourceRecordId": "chinese-poetry:shijing:052b0520de530a92"
+  },
+  "36": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "湘君",
+    "location": "九歌",
+    "quote": "美要眇兮宜修，沛吾乘兮桂舟",
+    "normalizedQuote": "美要眇兮宜修，沛吾乘兮桂舟",
+    "sourceRecordId": "chinese-poetry:chuci:10c6a081c87f8f9a"
+  },
+  "40": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "疾世",
+    "location": "九思",
+    "quote": "抱昭华兮宝璋，欲衒鬻兮莫取。",
+    "normalizedQuote": "抱昭华兮宝璋，欲衒鬻兮莫取。",
+    "sourceRecordId": "chinese-poetry:chuci:80d540185d317ac3"
+  },
+  "21": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "板",
+    "location": "大雅·生民之什",
+    "quote": "怀德维宁，宗子维城。无俾城坏，无独斯畏。",
+    "normalizedQuote": "怀德维宁，宗子维城。无俾城坏，无独斯畏。",
+    "sourceRecordId": "chinese-poetry:shijing:062ff78da8886630"
+  },
+  "9": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "燕燕",
+    "location": "国风·邶风",
+    "quote": "仲氏任只，其心塞渊。终温且惠，淑慎其身。先君之思，以勖寡人。",
+    "normalizedQuote": "仲氏任只，其心塞渊。终温且惠，淑慎其身。先君之思，以勖寡人。",
+    "sourceRecordId": "chinese-poetry:shijing:448328bf3f81927c"
+  },
+  "2": {
+    "sourceId": "chinese-poetry:shijing",
+    "title": "车舝",
+    "location": "小雅·甫田之什",
+    "quote": "高山仰止，景行行止。四牡騑騑，六辔如琴。觏尔新婚，以慰我心。",
+    "normalizedQuote": "高山仰止，景行行止。四牡𬴂𬴂，六辔如琴。觏尔新婚，以慰我心。",
+    "sourceRecordId": "chinese-poetry:shijing:2d391904301ef084"
+  },
+  "25": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "怀沙",
+    "location": "九章",
+    "quote": "怀瑾握瑜兮，穷不知所示。",
+    "normalizedQuote": "怀瑾握瑜兮，穷不知所示。",
+    "sourceRecordId": "chinese-poetry:chuci:f87b913f90c7c8f5"
+  },
+  "37": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "橘颂",
+    "location": "九章",
+    "quote": "后皇嘉树，橘徕服兮。",
+    "normalizedQuote": "后皇嘉树，橘徕服兮。",
+    "sourceRecordId": "chinese-poetry:chuci:2e3022d5f1bf33dd"
+  },
+  "60": {
+    "sourceId": "chinese-poetry:song-300",
+    "title": "桂枝香",
+    "location": "桂枝香",
+    "quote": "彩舟云淡，星河鹭起，画图难足。",
+    "normalizedQuote": "彩舟云淡，星河鹭起，画图难足。",
+    "sourceRecordId": "chinese-poetry:song-300:207bbe2ec3fd98cb"
+  },
+  "45": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "为政篇",
+    "location": "为政篇",
+    "quote": "子曰：“温故而知新，可以为师矣。”",
+    "normalizedQuote": "子曰：“温故而知新，可以为师矣。”",
+    "sourceRecordId": "chinese-poetry:lunyu:0072d1ca11324c14"
+  },
+  "46": {
+    "sourceId": "chinese-poetry:lunyu",
+    "title": "为政篇",
+    "location": "为政篇",
+    "quote": "子曰：“温故而知新，可以为师矣。”",
+    "normalizedQuote": "子曰：“温故而知新，可以为师矣。”",
+    "sourceRecordId": "chinese-poetry:lunyu:0072d1ca11324c14"
+  },
+  "33": {
+    "sourceId": "chinese-poetry:chuci",
+    "title": "东皇太一",
+    "location": "九歌",
+    "quote": "吉日兮辰良，穆将愉兮上皇",
+    "normalizedQuote": "吉日兮辰良，穆将愉兮上皇",
+    "sourceRecordId": "chinese-poetry:chuci:fdb431c10c06fb82"
+  }
+}

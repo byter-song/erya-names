@@ -1,0 +1,28 @@
+sourceId: chinese-poetry
+repository: https://github.com/chinese-poetry/chinese-poetry.git
+commit: b8594f81a89752241442f2ce267d6f66f96704ee
+license:
+  spdx: MIT
+  file: LICENSE
+  sha256: c195319aeaa3ffcbe16aa5d26eec19eae5a42f84337dd2b3dc3c9d5ccbbd6507
+uses: [allusions]
+reviewStatus: verified
+releaseEligible: true
+files:
+  - path: 诗经/shijing.json
+    sha256: 3c7ca54d59424542ada99adfcc85420287fbbd5c8a511e9baf705cb2b04051e7
+  - path: 楚辞/chuci.json
+    sha256: 5069e733d93781cecd55405c6d4699a7c17125b3f13cf79810d68792482e5b9b
+  - path: 论语/lunyu.json
+    sha256: bc336a3839706377892719db44c48a09794a493190535a42bf1c7d4c4233e96c
+  - path: 四书五经/daxue.json
+    sha256: 1939dfeb2cb8fde6c96fb5ce6bd1cff93df05460027c90c685f4863b05c550e8
+  - path: 四书五经/mengzi.json
+    sha256: 349888018acd0b3fea58de92e53403b8c77640d84b1ae9d37360d5ff1966bcdc
+  - path: 四书五经/zhongyong.json
+    sha256: 2962a8b52bf78c010b051622b8803a956b461813ae0ed86148e4851e7d605ed8
+  - path: 全唐诗/poet.tang.0.json
+    sha256: 4f88f429938082523cdc72a1612bd7a7c3e3f7a33f8192c61ae51340efc3c92d
+  - path: 宋词/宋词三百首.json
+    sha256: ca5d74f7fdb9d5a6acc22a7c8b4395228cad4bb8be53df44c19ba83ab6983b20
+notes: MIT raw classics input only; every selected allusion requires independent context and semantic review.

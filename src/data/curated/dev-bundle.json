@@ -1,0 +1,306 @@
+{
+  "manifest": {
+    "version": "dev-2026.09.17",
+    "status": "development",
+    "builtAt": "2026-09-17T00:00:00.000Z",
+    "contentHash": "development-reviewed-fixture-v1"
+  },
+  "characters": [
+    {
+      "char": "清",
+      "pinyin": ["qīng"],
+      "meanings": ["清澈、纯净"],
+      "styleTags": ["清朗自然", "文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "扬",
+      "pinyin": ["yáng"],
+      "meanings": ["举起、传播"],
+      "styleTags": ["清朗自然"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "景",
+      "pinyin": ["jǐng"],
+      "meanings": ["光明、景致"],
+      "styleTags": ["清朗自然"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "行",
+      "pinyin": ["xíng"],
+      "meanings": ["行止、德行"],
+      "styleTags": ["沉稳端正"],
+      "risks": ["多音字，需确认读音"],
+      "riskSignals": [
+        {
+          "kind": "multiple_pronunciation",
+          "outcome": "warn",
+          "explanation": "行是多音字，姓名读音需人工确认",
+          "sourceRefs": ["dev-risk-review-2026-09-17"],
+          "reviewStatus": "verified"
+        }
+      ],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "知",
+      "pinyin": ["zhī"],
+      "meanings": ["知识、明辨"],
+      "styleTags": ["文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "远",
+      "pinyin": ["yuǎn"],
+      "meanings": ["高远、长久"],
+      "styleTags": ["沉稳端正", "文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "怀",
+      "pinyin": ["huái"],
+      "meanings": ["心怀、怀抱"],
+      "styleTags": ["文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "瑾",
+      "pinyin": ["jǐn"],
+      "meanings": ["美玉，比喻美德"],
+      "styleTags": ["文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "二级字表" }]
+    },
+    {
+      "char": "若",
+      "pinyin": ["ruò"],
+      "meanings": ["如、若"],
+      "styleTags": ["文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "华",
+      "pinyin": ["huá"],
+      "meanings": ["光彩、繁盛"],
+      "styleTags": ["清朗自然"],
+      "risks": ["存在 huá、huà 等读音，需确认"],
+      "riskSignals": [
+        {
+          "kind": "multiple_pronunciation",
+          "outcome": "warn",
+          "explanation": "华存在 huá、huà 等读音，姓名读音需人工确认",
+          "sourceRefs": ["dev-risk-review-2026-09-17"],
+          "reviewStatus": "verified"
+        }
+      ],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "嘉",
+      "pinyin": ["jiā"],
+      "meanings": ["美好、嘉许"],
+      "styleTags": ["沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "树",
+      "pinyin": ["shù"],
+      "meanings": ["树木、建立"],
+      "styleTags": ["清朗自然"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "修",
+      "pinyin": ["xiū"],
+      "meanings": ["修养、修治"],
+      "styleTags": ["沉稳端正", "文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "安",
+      "pinyin": ["ān"],
+      "meanings": ["安定、从容"],
+      "styleTags": ["沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "朗",
+      "pinyin": ["lǎng"],
+      "meanings": ["明朗、开阔"],
+      "styleTags": ["清朗自然"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    },
+    {
+      "char": "哲",
+      "pinyin": ["zhé"],
+      "meanings": ["智慧、贤明"],
+      "styleTags": ["文雅书卷", "沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+    }
+  ],
+  "allusions": [
+    {
+      "id": "allusion-qingyang",
+      "title": "有美一人",
+      "work": "诗经·郑风·野有蔓草",
+      "quote": "有美一人，清扬婉兮。",
+      "selectedText": "清扬",
+      "interpretation": "清秀明朗，神采飞扬。",
+      "styleTags": ["清朗自然", "文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        {
+          "sourceId": "shijing-public-domain",
+          "location": "郑风·野有蔓草",
+          "excerpt": "有美一人，清扬婉兮。"
+        }
+      ]
+    },
+    {
+      "id": "allusion-jingxing",
+      "title": "高山景行",
+      "work": "诗经·小雅·车辖",
+      "quote": "高山仰止，景行行止。",
+      "selectedText": "景行",
+      "interpretation": "向往高尚德行。",
+      "styleTags": ["沉稳端正", "文雅书卷"],
+      "risks": ["行存在多音，需确认读音"],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        {
+          "sourceId": "shijing-public-domain",
+          "location": "小雅·车辖",
+          "excerpt": "高山仰止，景行行止。"
+        }
+      ]
+    },
+    {
+      "id": "allusion-zhiyuan",
+      "title": "宁静致远",
+      "work": "诫子书",
+      "quote": "非淡泊无以明志，非宁静无以致远。",
+      "selectedText": "宁远",
+      "interpretation": "由宁静致远一语取字，寄托安宁与长远志向。",
+      "styleTags": ["文雅书卷", "沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        {
+          "sourceId": "jiezi-public-domain",
+          "location": "诫子书",
+          "excerpt": "非宁静无以致远。"
+        }
+      ]
+    },
+    {
+      "id": "allusion-huaijin",
+      "title": "怀瑾握瑜",
+      "work": "楚辞·九章·怀沙",
+      "quote": "怀瑾握瑜兮，穷不知所示。",
+      "selectedText": "怀瑾",
+      "interpretation": "怀有美德与才华。",
+      "styleTags": ["文雅书卷", "沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        {
+          "sourceId": "chuci-public-domain",
+          "location": "九章·怀沙",
+          "excerpt": "怀瑾握瑜兮。"
+        }
+      ]
+    },
+    {
+      "id": "allusion-ruohua",
+      "title": "若华",
+      "work": "楚辞·天问",
+      "quote": "羲和之未扬，若华何光。",
+      "selectedText": "若华",
+      "interpretation": "如花木光华，明丽而有生机。",
+      "styleTags": ["清朗自然", "文雅书卷"],
+      "risks": ["华存在多音，需确认读音"],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        { "sourceId": "chuci-public-domain", "location": "天问", "excerpt": "若华何光。" }
+      ]
+    },
+    {
+      "id": "allusion-jiashu",
+      "title": "后皇嘉树",
+      "work": "楚辞·九章·橘颂",
+      "quote": "后皇嘉树，橘徕服兮。",
+      "selectedText": "嘉树",
+      "interpretation": "美好的树木，象征坚定成长。",
+      "styleTags": ["清朗自然", "沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        { "sourceId": "chuci-public-domain", "location": "九章·橘颂", "excerpt": "后皇嘉树。" }
+      ]
+    },
+    {
+      "id": "allusion-xiuyuan",
+      "title": "路漫漫其修远兮",
+      "work": "楚辞·离骚",
+      "quote": "路漫漫其修远兮，吾将上下而求索。",
+      "selectedText": "修远",
+      "interpretation": "修养深厚，志向长远。",
+      "styleTags": ["沉稳端正", "文雅书卷"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        { "sourceId": "chuci-public-domain", "location": "离骚", "excerpt": "路漫漫其修远兮。" }
+      ]
+    },
+    {
+      "id": "allusion-mingzhe",
+      "title": "既明且哲",
+      "work": "诗经·大雅·烝民",
+      "quote": "既明且哲，以保其身。",
+      "selectedText": "明哲",
+      "interpretation": "明达而有智慧。",
+      "styleTags": ["文雅书卷", "沉稳端正"],
+      "risks": [],
+      "reviewStatus": "verified",
+      "sourceRefs": [
+        {
+          "sourceId": "shijing-public-domain",
+          "location": "大雅·烝民",
+          "excerpt": "既明且哲。"
+        }
+      ]
+    }
+  ]
+}

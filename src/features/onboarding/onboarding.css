@@ -1,0 +1,172 @@
+.onboarding {
+  width: min(calc(100vw - 136px), 980px);
+  margin-left: 104px;
+  padding: 46px 24px 68px 0;
+}
+.onboarding__card {
+  padding: clamp(26px, 4vw, 44px);
+}
+.onboarding__card > header {
+  margin: 27px 0 25px;
+}
+.onboarding__card h1 {
+  margin: 10px 0 0;
+  font-size: 2.35rem;
+  font-weight: 400;
+  letter-spacing: 0.045em;
+}
+.onboarding-progress {
+  display: grid;
+  gap: 9px;
+  color: var(--gold-700);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.onboarding-progress__track {
+  position: relative;
+  height: 4px;
+  overflow: visible;
+  border-radius: 999px;
+  background: var(--paper-200);
+}
+.onboarding-progress__track span {
+  position: relative;
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gold-600), var(--gold-300));
+  box-shadow: 0 0 11px rgb(213 182 111 / 26%);
+  transition: width 420ms var(--ease-ink);
+}
+.onboarding-progress__track span::after {
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--paper-50);
+  border-radius: 50%;
+  background: var(--gold-500);
+  box-shadow: 0 0 0 3px rgb(213 182 111 / 15%);
+  content: "";
+  transform: translateY(-50%);
+}
+.onboarding__fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  min-height: 270px;
+  animation: form-ink-in 360ms var(--ease-ink) both;
+}
+.onboarding__fields > label {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  color: var(--ink-800);
+  font-weight: 700;
+}
+.onboarding__fields input,
+.onboarding__fields select,
+.onboarding__fields textarea {
+  min-height: 45px;
+  padding: 10px 12px;
+  border: 1px solid var(--paper-300);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  background: var(--surface-input);
+}
+.onboarding__fields textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+.onboarding__wide {
+  grid-column: 1 / -1;
+}
+.onboarding__fields fieldset {
+  padding: 15px;
+  border: 1px solid rgb(181 142 65 / 20%);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+}
+.onboarding__fields legend {
+  padding: 0 8px;
+  color: var(--gold-700);
+  font-weight: 700;
+}
+.onboarding__choice {
+  display: inline-flex !important;
+  grid-template-columns: none !important;
+  align-items: center;
+  min-height: 38px;
+  gap: 8px !important;
+  margin: 5px 7px 5px 0;
+  padding: 7px 11px;
+  border: 1px solid rgb(128 101 45 / 14%);
+  border-radius: 999px;
+  background: var(--surface-card-solid);
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+.onboarding__choice:has(input:checked) {
+  border-color: var(--gold-500);
+  color: var(--ink-950);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 50%);
+}
+.onboarding__choice:hover {
+  border-color: var(--gold-400);
+  transform: translateY(-1px);
+}
+.onboarding__choice input {
+  min-height: auto;
+}
+.onboarding__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  padding-top: 19px;
+  border-top: 1px solid rgb(181 142 65 / 14%);
+}
+.onboarding__actions > button:not(.ui-button) {
+  min-height: 40px;
+  padding: 7px 10px;
+  border: 0;
+  color: var(--ink-700);
+  background: transparent;
+  cursor: pointer;
+}
+.onboarding__error {
+  color: var(--danger);
+  font-weight: 700;
+}
+@keyframes form-ink-in {
+  from {
+    transform: translateX(10px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-progress__track span,
+  .onboarding__fields,
+  .onboarding__choice {
+    animation: none;
+    transition: none;
+  }
+  .onboarding__choice:hover {
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .onboarding {
+    width: auto;
+    margin-left: 0;
+    padding: 22px 16px 108px;
+  }
+  .onboarding__fields {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,25 @@
+sourceId: wikisource-zhuangzi
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/莊子
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/zhuangzi-xiaoyaoyou-9852766.txt
+    sha256: c843a17b50785683123c56d4239e684d1b451f40cbbfa1cb685087e0eb6eb7c9
+    url: "https://zh.wikisource.org/w/index.php?title=莊子/逍遙遊&oldid=9852766"
+    revision: "9852766"
+  - path: data/sources/snapshots/a/zhuangzi-tiandao-9853721.txt
+    sha256: 769680445cc050f08211e63afe4c6342b21403c2a7bfa05514681df9ae5e0e8e
+    url: "https://zh.wikisource.org/w/index.php?title=莊子/天道&oldid=9853721"
+    revision: "9853721"
+  - path: data/sources/snapshots/a/zhuangzi-dechongfu-9852906.txt
+    sha256: a756ee6e9c009fb1242710b85b4b4cdd6976d45ad7e1bc90e40e72cd80687dff
+    url: "https://zh.wikisource.org/w/index.php?title=莊子/德充符&oldid=9852906"
+    revision: "9852906"
+notes: CC BY-SA 4.0 excerpt snapshots from three pinned Zhuangzi chapter revisions; personal source_checked use only.

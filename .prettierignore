@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+tmp/
+output/
+docs/references/standards/
+data/cache/
+data/normalized/
+data/audit/
+data/review/queue/
+data/review/output/
+src/data/curated/releases/
+.superpowers/
+.playwright-cli/

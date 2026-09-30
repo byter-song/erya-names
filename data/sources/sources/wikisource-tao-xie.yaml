@@ -1,0 +1,25 @@
+sourceId: wikisource-tao-xie
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/陶淵明集
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/tao-yinjiu-2692638.txt
+    sha256: 94b53ccfabb8cb587d782da029ee651011efb9ba3b0fb0100af66662d11c3d52
+    url: "https://zh.wikisource.org/w/index.php?title=飲酒二十首&oldid=2692638"
+    revision: "2692638"
+  - path: data/sources/snapshots/a/xie-dengchi-1412192.txt
+    sha256: b82b6ccee37c615909f68e06afe73cd6107c1b208a9cf38bf1318e9d3c2cfd03
+    url: "https://zh.wikisource.org/w/index.php?title=登池上樓&oldid=1412192"
+    revision: "1412192"
+  - path: data/sources/snapshots/a/xie-shibi-67881.txt
+    sha256: 28e9424763a788cf19e097ecc34ecff2f590cdc5471ea436eb5d0126a07de618
+    url: "https://zh.wikisource.org/w/index.php?title=石壁精舍還湖中作&oldid=67881"
+    revision: "67881"
+notes: CC BY-SA 4.0 excerpt snapshots from pinned Tao Yuanming and Xie Lingyun poem revisions; personal source_checked use only.

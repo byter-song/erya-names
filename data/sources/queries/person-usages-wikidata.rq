@@ -1,0 +1,21 @@
+PREFIX bd: <http://www.bigdata.com/rdf#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+
+# Deliberately bounded: adding a person requires reviewing and changing this QID allowlist.
+SELECT ?person ?personLabel ?personDescription ?birthDate ?deathDate
+WHERE {
+  VALUES ?person {
+    wd:Q7071
+    wd:Q33772
+    wd:Q36020
+    wd:Q319618
+    wd:Q464470
+  }
+  ?person wdt:P31 wd:Q5;
+    wdt:P570 ?deathDate.
+  OPTIONAL { ?person wdt:P569 ?birthDate. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "zh-hans,zh,en". }
+}
+ORDER BY ?person

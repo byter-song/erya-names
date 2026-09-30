@@ -1,0 +1,17 @@
+sourceId: wikisource-daodejing
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/道德經_(王弼本)
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/daodejing-wangbi-2354026.txt
+    sha256: 13ff0da3d7bae688f3443e4775cfd0cf578951cfee7cd6bb0ce830cac0e1c4e8
+    url: "https://zh.wikisource.org/w/index.php?title=道德經_(王弼本)&oldid=2354026"
+    revision: "2354026"
+notes: CC BY-SA 4.0 excerpt snapshot from the pinned Wang Bi edition; personal source_checked use only.

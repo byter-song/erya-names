@@ -1,0 +1,147 @@
+name: quality
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: npm audit --audit-level=high --json > dependency-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-audit
+          path: dependency-audit.json
+
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: make preflight
+      - run: mkdir -p output/test && npm run test:report
+      - run: npm run quality:security
+      - run: npm run quality:bundle
+      - run: npm run quality:manifest
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence
+          path: |
+            dist/
+            output/
+            data/audit/
+            output/test/
+
+  browser:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium webkit
+      - run: npm run test:e2e
+      - run: npm run test:e2e:edge
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-reports
+          path: |
+            playwright-report/
+            test-results/
+
+  static-routing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/e2e/static-routing.spec.ts --project=chromium
+
+  accessibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:accessibility
+      - run: npm run quality:lighthouse
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-performance-reports
+          path: |
+            output/performance/
+            output/lighthouse/
+            playwright-report/
+
+  performance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run quality:performance
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-reports
+          path: output/performance/
+
+  production-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: npm
+      - run: npm ci
+      - run: npm run data:release:audit
+      - run: npm run data:build-runtime -- data/sources/release-metadata.json
+      - run: npm run quality:generation
+        if: always()
+      - run: npm run build:production
+      - run: npx cross-env ERYA_DATASET_MODE=production npm run quality:manifest
+      - run: npm run release:verify
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: production-release-artifact
+          if-no-files-found: ignore
+          path: |
+            dist/
+            output/release/release-manifest.json
+            data/audit/

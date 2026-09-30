@@ -1,0 +1,22 @@
+import { expect, test } from "@playwright/test";
+import path from "node:path";
+import { createProject, chooseNames, compareAndFinalize } from "./helpers";
+test("runs a local release journey through decision, backup and restore", async ({ page }) => {
+  const id = await createProject(page);
+  const names = await chooseNames(page);
+  await compareAndFinalize(page, names);
+  await page.goto(`/projects/${id}/backup`);
+  const pending = page.waitForEvent("download");
+  await page.getByRole("button", { name: "下载 JSON 备份" }).click();
+  const download = await pending;
+  const backup = path.resolve("tmp", `release-journey-${test.info().project.name}.json`);
+  await download.saveAs(backup);
+  await page.goto("/recovery");
+  await page.getByLabel("选择备份文件").setInputFiles(backup);
+  await expect(page.getByRole("region", { name: "恢复预览" })).toBeVisible();
+  await page.getByLabel("冲突处理方式").selectOption("import-copy");
+  await page.getByRole("button", { name: "确认恢复" }).click();
+  await expect(page.getByRole("status")).toContainText("恢复完成");
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: "继续方案" })).toHaveCount(2);
+});

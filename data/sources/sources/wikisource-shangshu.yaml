@@ -1,0 +1,17 @@
+sourceId: wikisource-shangshu
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/尚書
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/shangshu-yaodian-10640694.txt
+    sha256: 14b35e5c08191c714cb74984347c43acc43f10c91bda92dd584e9ab640679886
+    url: "https://zh.wikisource.org/w/index.php?title=尚書/堯典&oldid=10640694"
+    revision: "10640694"
+notes: CC BY-SA 4.0 excerpt snapshot from the pinned Yao Dian revision; personal source_checked use only.

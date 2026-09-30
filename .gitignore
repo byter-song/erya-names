@@ -1,6 +1,54 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editors and local tooling
+.idea/
+.vscode/
+*.swp
+*.swo
 .ttadk/
 .claude
 .codex
 .trae
+.superpowers/
+.playwright-cli/
 
+# Local environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# Dependencies, caches, and temporary files
+node_modules/
+.cache/
+.vite/
+tmp/
+*.tsbuildinfo
+
+# Build, test, and generated reports
+dist/
+coverage/
+test-results/
+playwright-report/
+output/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local workbench specifications
 specs
+
+# Data pipeline intermediates. Source contracts and human review decisions under
+# data/sources/ and data/review/decisions/ remain version-controlled.
+data/cache/
+data/normalized/
+data/audit/
+data/review/queue/
+data/review/output/
+src/data/curated/releases/

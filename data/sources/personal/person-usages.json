@@ -1,0 +1,150 @@
+[
+  {
+    "id": "person:Q319618",
+    "name": "王安石",
+    "period": "北宋（1021—1086）",
+    "identityType": "historical_person",
+    "description": "北宋政治家、文学家、思想家。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikidata-person-usage",
+        "location": "Wikidata Q319618",
+        "url": "https://www.wikidata.org/wiki/Q319618"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:Q464470",
+    "name": "李清照",
+    "period": "宋（1084—1155）",
+    "identityType": "historical_person",
+    "description": "宋代词人。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikidata-person-usage",
+        "location": "Wikidata Q464470",
+        "url": "https://www.wikidata.org/wiki/Q464470"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:Q33772",
+    "name": "杜甫",
+    "period": "唐（712—770）",
+    "identityType": "historical_person",
+    "description": "唐代诗人。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikidata-person-usage",
+        "location": "Wikidata Q33772",
+        "url": "https://www.wikidata.org/wiki/Q33772"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:Q36020",
+    "name": "苏轼",
+    "period": "北宋（1037—1101）",
+    "identityType": "historical_person",
+    "description": "北宋文学家。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikidata-person-usage",
+        "location": "Wikidata Q36020",
+        "url": "https://www.wikidata.org/wiki/Q36020"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:Q7071",
+    "name": "李白",
+    "period": "唐（701—762）",
+    "identityType": "historical_person",
+    "description": "唐代诗人。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikidata-person-usage",
+        "location": "Wikidata Q7071",
+        "url": "https://www.wikidata.org/wiki/Q7071"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1904:1",
+    "name": "刘春霖",
+    "period": "清·光绪三十年（1904）",
+    "identityType": "zhuangyuan",
+    "description": "光绪三十年甲辰恩科进士。",
+    "rankEvidence": "甲辰恩科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "光绪三十年甲辰恩科殿试金榜第一甲第一名",
+        "url": "https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1904:2",
+    "name": "朱汝珍",
+    "period": "清·光绪三十年（1904）",
+    "identityType": "bangyan",
+    "description": "光绪三十年甲辰恩科进士。",
+    "rankEvidence": "甲辰恩科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "光绪三十年甲辰恩科殿试金榜第一甲第二名",
+        "url": "https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1904:3",
+    "name": "商衍鎏",
+    "period": "清·光绪三十年（1904）",
+    "identityType": "tanhua",
+    "description": "光绪三十年甲辰恩科进士。",
+    "rankEvidence": "甲辰恩科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "光绪三十年甲辰恩科殿试金榜第一甲第三名",
+        "url": "https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1838:42",
+    "name": "曾国藩",
+    "period": "清·道光十八年（1838）",
+    "identityType": "jinshi",
+    "description": "道光十八年戊戌科进士。",
+    "rankEvidence": "殿试三甲第四十二名，赐同进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "道光十八年戊戌科殿试三甲第四十二名",
+        "url": "https://epaper.gmw.cn/gmrb/html/2016-06/21/nw.D110000gmrb_20160621_3-16.htm"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  }
+]

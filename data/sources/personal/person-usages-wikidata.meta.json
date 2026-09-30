@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "endpoint": "https://query.wikidata.org/sparql",
+  "queryPath": "data/sources/queries/person-usages-wikidata.rq",
+  "snapshotPath": "data/sources/personal/person-usages-wikidata.snapshot.json",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+  "qidWhitelist": ["Q7071", "Q33772", "Q36020", "Q319618", "Q464470"],
+  "retrievedAt": "2026-09-30T07:18:00.000Z",
+  "querySha256": "f4ea4cba30bbaa9001cf33db32490b004635fbb90ab247b66b6962209953869f",
+  "snapshotSha256": "e69f003be83e76fa93a1350755302a5f813d902385e37f4059edb004af8ba11b"
+}

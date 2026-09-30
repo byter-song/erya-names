@@ -1,0 +1,29 @@
+sourceId: wikisource-han-poetry
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/古詩十九首
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/gushi-shejiang-9685546.txt
+    sha256: d6f2e06c63cc63ae40ae5700ea1d7ff25183278bc6c24b148cf954fe04969b98
+    url: "https://zh.wikisource.org/w/index.php?title=涉江採芙蓉&oldid=9685546"
+    revision: "9685546"
+  - path: data/sources/snapshots/a/gushi-mingyue-2326091.txt
+    sha256: 535846cbdb3c8bddeb97e1baf3bb82c6207114b002322f99daa957499a9bb74d
+    url: "https://zh.wikisource.org/w/index.php?title=明月皎夜光&oldid=2326091"
+    revision: "2326091"
+  - path: data/sources/snapshots/a/yuefu-changge-2648144.txt
+    sha256: c3b2c75aec4233d473cdb848a740d39de7f23e91f549d7309decdf06312ce0a6
+    url: "https://zh.wikisource.org/w/index.php?title=長歌行_(漢樂府)&oldid=2648144"
+    revision: "2648144"
+  - path: data/sources/snapshots/a/yuefu-jiangnan-2648145.txt
+    sha256: 8f1e0d33ad5d969527b694168fd1a89f7d9ac78e614261900a8e4420b40aa158
+    url: "https://zh.wikisource.org/w/index.php?title=江南_(漢樂府)&oldid=2648145"
+    revision: "2648145"
+notes: CC BY-SA 4.0 excerpt snapshots from pinned Ancient Poems and Han Yuefu revisions; personal source_checked use only.

@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "allowImportingTsExtensions": true
+  },
+  "include": [
+    "scripts",
+    "src",
+    "tests",
+    "eslint.config.js",
+    "playwright.config.ts",
+    "prettier.config.js",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "vite-env.d.ts"
+  ]
+}

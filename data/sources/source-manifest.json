@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0.0",
+  "sources": [
+    {
+      "sourceId": "dev-risk-review-2026-09-17",
+      "sourceUrl": "local-curation",
+      "license": "original-curation",
+      "upstreamVersion": "2026-09-17",
+      "sourceLocation": "src/data/curated/dev-bundle.json",
+      "retrievedAt": "2026-09-17",
+      "contentHash": "development-fixture-reviewed-in-repository",
+      "reviewStatus": "verified",
+      "reviewedAt": "2026-09-17",
+      "reviewNotes": "Development-only manual review evidence for structured pronunciation-risk fixtures; not a production corpus source."
+    },
+    {
+      "sourceId": "standard-hanzi-2013",
+      "sourceUrl": "http://www.gov.cn/govweb/xxgk/pub/govpublic/mrlm/201308/W020130822615096093968.pdf",
+      "license": "official-public-document",
+      "upstreamVersion": "2013-06-05",
+      "sourceLocation": "docs/references/standards/通用规范汉字表.pdf",
+      "retrievedAt": "2026-09-17",
+      "contentHash": "af85c706a53d3b3bbad818bcce7415ac9a2284ea14f79fe7f54ce1248a7bdac9",
+      "reviewStatus": "verified",
+      "reviewedAt": "2026-09-17",
+      "reviewNotes": "Official standard reference for L1 character validation."
+    },
+    {
+      "sourceId": "pinyin-data",
+      "sourceUrl": "https://github.com/mozillazg/pinyin-data",
+      "license": "MIT",
+      "upstreamVersion": "to-be-pinned",
+      "sourceLocation": "raw-cache/pinyin-data",
+      "retrievedAt": "pending",
+      "contentHash": "pending",
+      "reviewStatus": "draft",
+      "reviewNotes": "Candidate source for character pinyin and multi-pronunciation review."
+    },
+    {
+      "sourceId": "phrase-pinyin-data",
+      "sourceUrl": "https://github.com/mozillazg/phrase-pinyin-data",
+      "license": "MIT",
+      "upstreamVersion": "to-be-pinned",
+      "sourceLocation": "raw-cache/phrase-pinyin-data",
+      "retrievedAt": "pending",
+      "contentHash": "pending",
+      "reviewStatus": "draft",
+      "reviewNotes": "Candidate source for phrase-level pinyin review."
+    },
+    {
+      "sourceId": "opencc",
+      "sourceUrl": "https://github.com/BYVoid/OpenCC",
+      "license": "Apache-2.0",
+      "upstreamVersion": "to-be-pinned",
+      "sourceLocation": "tooling/opencc",
+      "retrievedAt": "pending",
+      "contentHash": "pending",
+      "reviewStatus": "draft",
+      "reviewNotes": "Candidate conversion tool. Converted outputs require spot checks."
+    },
+    {
+      "sourceId": "chinese-poetry",
+      "sourceUrl": "https://github.com/chinese-poetry/chinese-poetry",
+      "license": "MIT",
+      "upstreamVersion": "to-be-pinned",
+      "sourceLocation": "raw-cache/chinese-poetry",
+      "retrievedAt": "pending",
+      "contentHash": "pending",
+      "reviewStatus": "draft",
+      "reviewNotes": "Raw cache candidate for public-domain classics. Curated excerpts still require chapter and version review."
+    },
+    {
+      "sourceId": "wikidata-person-usage",
+      "sourceUrl": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+      "license": "CC0",
+      "upstreamVersion": "query-to-be-pinned",
+      "sourceLocation": "raw-cache/wikidata-person-usage",
+      "retrievedAt": "pending",
+      "contentHash": "pending",
+      "reviewStatus": "draft",
+      "reviewNotes": "Candidate source for historical person usage evidence. Does not create meaning or identity-based score boosts."
+    },
+    {
+      "sourceId": "manual-zhuangyuan-curation",
+      "sourceUrl": "manual-public-domain-references",
+      "license": "source-specific",
+      "upstreamVersion": "manual",
+      "sourceLocation": "src/data/curated/person-usage.json",
+      "retrievedAt": "pending",
+      "contentHash": "pending",
+      "reviewStatus": "draft",
+      "reviewNotes": "Small manually reviewed set only. Jinshi records must not be labeled as zhuangyuan without rank evidence."
+    },
+    {
+      "sourceId": "cbdb-research-only",
+      "sourceUrl": "https://cbdb.hsites.harvard.edu/",
+      "license": "research-only-restricted",
+      "upstreamVersion": "not-bundled",
+      "sourceLocation": "research-only",
+      "retrievedAt": "not-bundled",
+      "contentHash": "not-bundled",
+      "reviewStatus": "disputed",
+      "reviewNotes": "Academic/free-use and mainland commercial restrictions. Do not bundle or derive release data from it."
+    },
+    {
+      "sourceId": "yaozeyuan-name-generator-reference",
+      "sourceUrl": "https://github.com/YaoZeyuan/name-generator/tree/master",
+      "license": "mixed-source-review-required",
+      "upstreamVersion": "1b60e4925cd58dba71a320fb1cd4d58a559411ed",
+      "sourceLocation": "research-only",
+      "retrievedAt": "2026-09-17",
+      "contentHash": "not-bundled",
+      "reviewStatus": "disputed",
+      "reviewNotes": "Use for pipeline and rule design reference only. Do not copy bundled resources without independent source review."
+    },
+    {
+      "sourceId": "unknown-modern-name-datasets",
+      "sourceUrl": "unknown",
+      "license": "unknown",
+      "upstreamVersion": "unknown",
+      "sourceLocation": "rejected",
+      "retrievedAt": "not-applicable",
+      "contentHash": "not-applicable",
+      "reviewStatus": "retired",
+      "reviewNotes": "Rejected until source and redistribution rights are clear."
+    }
+  ]
+}

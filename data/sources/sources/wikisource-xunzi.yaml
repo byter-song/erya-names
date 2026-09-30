@@ -1,0 +1,21 @@
+sourceId: wikisource-xunzi
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/荀子
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/xunzi-quanxue-9869421.txt
+    sha256: 70f3b508fa9240c8c75e0cdbce28283915a57aa7f96abb16308f19b551250403
+    url: "https://zh.wikisource.org/w/index.php?title=荀子/勸學篇&oldid=9869421"
+    revision: "9869421"
+  - path: data/sources/snapshots/a/xunzi-ruxiao-367073.txt
+    sha256: 52b96cc365a04d88a56e61462846024d71fabf338082a570fb5ad2706a04bb84
+    url: "https://zh.wikisource.org/w/index.php?title=荀子/儒效篇&oldid=367073"
+    revision: "367073"
+notes: CC BY-SA 4.0 excerpt snapshots from pinned Xunzi chapter revisions; personal source_checked use only.

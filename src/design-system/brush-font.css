@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "Erya Ma Shan";
+  src: url("../assets/fonts/MaShanZheng-erya.ttf") format("truetype");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+:root {
+  --font-brush: "Erya Ma Shan", "STKaiti", "KaiTi", "Kaiti SC", "Songti SC", serif;
+}
+
+.brush-type {
+  font-family: var(--font-brush);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.app-rail__brand-mark,
+.project-center__seal,
+.studio-seal,
+.project-center__hero h1,
+.onboarding__card h1,
+.studio-hero h1,
+.comparison-page > header h1,
+.finalization-page > header h1,
+.backup-page > header h1 {
+  font-family: var(--font-brush);
+  font-style: normal;
+  font-weight: 400;
+}

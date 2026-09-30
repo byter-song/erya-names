@@ -1,0 +1,21 @@
+sourceId: wikisource-liji
+sourceType: snapshot
+sourceUrl: https://zh.wikisource.org/wiki/禮記
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikisource-CC-BY-SA-4.0.txt
+  sha256: 7b1a60e199020e95e8411c2f26d73a44015df8ceafcbd57669837a05da750758
+uses: [allusions]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/a/liji-xueji-2346497.txt
+    sha256: a47f1bee8eb15ef2881017053eabd8ca2992f0555ea05fda8794ea18bf17b9be
+    url: "https://zh.wikisource.org/w/index.php?title=禮記/學記&oldid=2346497"
+    revision: "2346497"
+  - path: data/sources/snapshots/a/liji-ruxing-2346486.txt
+    sha256: edceb12730c9709f66286828114a63f83f72246951d7094d2bfad2e9fe7e6c67
+    url: "https://zh.wikisource.org/w/index.php?title=禮記/儒行&oldid=2346486"
+    revision: "2346486"
+notes: CC BY-SA 4.0 excerpt snapshots from two pinned Liji chapter revisions; personal source_checked use only.
