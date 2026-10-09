@@ -1,9 +1,12 @@
-import { FolklorePanel } from "../insights/FolklorePanel";
+import { lazy, Suspense } from "react";
 import { readSurname, nameSoundNotes } from "../../domain/candidate/nameReading";
 import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
-import { elementLabels } from "../../domain/folklore/calendarAdapter";
+import { elementLabels } from "../../domain/folklore/fiveElements";
 import type { FinalReportModel } from "../../application/models/FinalReportModel";
 import { Card } from "../../design-system/primitives/Card";
+const FolklorePanel = lazy(() =>
+  import("../insights/FolklorePanel").then((module) => ({ default: module.FolklorePanel })),
+);
 
 export interface ReportRedactions {
   birthData?: boolean;
@@ -39,7 +42,9 @@ export function FinalReport({
       !redactions.birthData &&
       report.folkloreEnabled &&
       report.profile ? (
-        <FolklorePanel profile={report.profile} />
+        <Suspense fallback={<p role="status">正在载入民俗参考…</p>}>
+          <FolklorePanel profile={report.profile} />
+        </Suspense>
       ) : null}
       {report.finalists.map((candidate, index) => (
         <Card className="final-report__candidate" key={candidate.id}>

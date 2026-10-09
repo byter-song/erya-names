@@ -40,6 +40,30 @@
   font-size: 0.75rem;
   margin-left: 8px;
 }
+.studio-stage-guide {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -8px 0 20px;
+  padding: 13px 16px;
+  border-left: 3px solid var(--gold-500);
+  background: var(--surface-band);
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+.studio-stage-guide strong {
+  color: var(--ink-950);
+  white-space: nowrap;
+}
+.folklore-review-settings {
+  margin: 0 0 22px;
+  padding: 22px 26px;
+  border-top: 2px solid var(--gold-500);
+}
+.folklore-review-settings .studio-fields {
+  margin-bottom: 18px;
+}
 .studio-filterbar {
   display: flex;
   flex-wrap: wrap;
@@ -60,6 +84,33 @@
 .studio-filterbar .studio-search {
   flex: 2;
   min-width: 200px;
+}
+.studio-batch-switch {
+  display: flex;
+  align-items: end;
+  gap: 6px;
+  flex: 1 1 220px;
+}
+.studio-batch-switch > span {
+  align-self: center;
+  margin-right: 4px;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+.studio-batch-switch button {
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid var(--paper-300);
+  border-radius: 5px;
+  color: var(--text-secondary);
+  background: var(--paper-50);
+  cursor: pointer;
+}
+.studio-batch-switch button[aria-pressed="true"] {
+  border-color: var(--gold-600);
+  color: var(--ink-950);
+  background: rgb(232 197 115 / 20%);
+  font-weight: 650;
 }
 .studio-filterbar input,
 .studio-filterbar select {
@@ -142,6 +193,15 @@
   white-space: nowrap;
   margin-top: 6px;
 }
+.candidate-card__statuses {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+}
+.candidate-card__statuses .candidate-card__stage {
+  color: var(--gold-700);
+  background: rgb(232 197 115 / 22%);
+}
 .candidate-card__meaning {
   font-size: 0.88rem;
   line-height: 1.85;
@@ -172,19 +232,43 @@
   border-left: 2px solid var(--cinnabar-600);
   color: var(--cinnabar-700);
 }
+.candidate-card__folklore {
+  display: grid;
+  gap: 5px;
+  margin: 4px 0 16px;
+  padding: 11px 12px;
+  border: 1px solid rgb(181 142 65 / 22%);
+  border-radius: var(--radius-sm);
+  background: var(--surface-band);
+}
+.candidate-card__folklore strong,
+.candidate-card__folklore span {
+  color: var(--gold-700);
+  font-size: 0.76rem;
+}
+.candidate-card__folklore p,
+.candidate-card__folklore small {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
 .candidate-card__actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--paper-200);
 }
 .candidate-card__actions button {
+  width: 100%;
   font-size: 0.76rem;
   padding: 9px 11px;
   min-height: 40px;
+}
+.candidate-card__actions > .ui-button {
+  grid-column: 1 / -1;
 }
 .candidate-card__evaluation {
   display: grid;
@@ -248,6 +332,23 @@
   border-top: 1px solid var(--paper-300);
   font-size: 0.86rem;
 }
+.studio-generate-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid rgb(201 144 39 / 22%);
+  border-radius: 8px;
+  background: var(--surface-band);
+}
+.studio-generate-more p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
 @media (min-width: 1650px) {
   .candidate-funnel__grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -274,8 +375,29 @@
   .studio-filterbar {
     padding: 14px;
   }
+  .studio-batch-switch,
+  .studio-generate-more {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .studio-stage-guide {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .folklore-review-settings {
+    padding: 20px;
+  }
+  .studio-batch-switch > span {
+    align-self: start;
+  }
   .candidate-card {
     padding: 22px;
+  }
+  .candidate-card__actions {
+    grid-template-columns: 1fr;
+  }
+  .candidate-card__actions > .ui-button {
+    grid-column: auto;
   }
   .candidate-card__header h2 {
     font-size: 2rem;

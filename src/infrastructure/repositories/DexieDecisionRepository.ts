@@ -19,6 +19,8 @@ export class DexieDecisionRepository implements DecisionRepository {
       candidateId: input.candidateId,
       stage: input.to,
       ...(input.rejectionReason ? { rejectionReason: input.rejectionReason } : {}),
+      ...(input.lastActiveStage ? { lastActiveStage: input.lastActiveStage } : {}),
+      ...(input.folkloreReviewed ? { folkloreReviewed: true } : {}),
       updatedAt: input.changedAt,
     });
     await this.database.transaction(
@@ -47,25 +49,98 @@ export class DexieDecisionRepository implements DecisionRepository {
           candidateId: input.candidateId,
           from: input.from,
           to: input.to,
+          action: "manual",
           changedAt: input.changedAt,
         });
         if (input.from === "finalist" || input.to === "finalist") {
           const finalDecision = await this.database.finalDecisions.get(input.projectId);
           if (finalDecision) {
             await this.database.finalDecisions.delete(input.projectId);
-            const project = await this.database.projects.get(input.projectId);
-            if (project) {
-              await this.database.projects.put({
-                ...project,
-                stage: "comparison",
-                status: "active",
-                updatedAt: input.changedAt,
-              });
-            }
           }
         }
+        await this.updateProjectStage(input.projectId, input.changedAt);
       },
     );
     return next;
+  }
+
+  async moveMany(input: Parameters<DecisionRepository["moveMany"]>[0]): Promise<void> {
+    await this.database.transaction(
+      "rw",
+      [this.database.candidateDecisions, this.database.decisionHistory, this.database.projects],
+      async () => {
+        const currentRows = await this.database.candidateDecisions.bulkGet(
+          input.moves.map((move) => move.candidateId),
+        );
+        const currentById = new Map(
+          currentRows.flatMap((row) => (row ? [[row.candidateId, row] as const] : [])),
+        );
+        for (const move of input.moves) {
+          const current = currentById.get(move.candidateId);
+          if (!current || current.projectId !== input.projectId)
+            throw new Error("candidate-not-found");
+          if (current.stage !== move.from || current.updatedAt !== move.expectedUpdatedAt)
+            throw new Error("auto-filter-preview-stale");
+        }
+        await this.database.candidateDecisions.bulkPut(
+          input.moves.map((move) =>
+            candidateDecisionSchema.parse({
+              projectId: input.projectId,
+              candidateId: move.candidateId,
+              stage: move.to,
+              updatedAt: input.changedAt,
+            }),
+          ),
+        );
+        await this.database.decisionHistory.bulkAdd(
+          input.moves.map((move) => ({
+            projectId: input.projectId,
+            candidateId: move.candidateId,
+            from: move.from,
+            to: move.to,
+            action: "auto_filter_confirmed" as const,
+            batchId: input.batchId,
+            changedAt: input.changedAt,
+          })),
+        );
+        await this.updateProjectStage(input.projectId, input.changedAt);
+      },
+    );
+  }
+
+  private async updateProjectStage(projectId: string, changedAt: string): Promise<void> {
+    const project = await this.database.projects.get(projectId);
+    if (!project) return;
+    const [finalistCount, comparisonCount, funnelCount] = await Promise.all([
+      this.database.candidateDecisions
+        .where("[projectId+stage]")
+        .equals([projectId, "finalist"])
+        .count(),
+      this.database.candidateDecisions
+        .where("[projectId+stage]")
+        .equals([projectId, "comparison"])
+        .count(),
+      Promise.all(
+        ["basic_shortlist", "folklore_review", "favorite"].map((stage) =>
+          this.database.candidateDecisions
+            .where("[projectId+stage]")
+            .equals([projectId, stage])
+            .count(),
+        ),
+      ).then((counts) => counts.reduce((sum, count) => sum + count, 0)),
+    ]);
+    await this.database.projects.put({
+      ...project,
+      stage:
+        finalistCount > 0
+          ? "finalization"
+          : comparisonCount > 0
+            ? "comparison"
+            : funnelCount > 0
+              ? "funnel"
+              : "generation",
+      status: "active",
+      updatedAt: changedAt,
+    });
   }
 }

@@ -73,23 +73,23 @@
       "sourceId": "wikidata-person-usage",
       "sourceUrl": "https://www.wikidata.org/wiki/Wikidata:Licensing",
       "license": "CC0",
-      "upstreamVersion": "query-to-be-pinned",
-      "sourceLocation": "raw-cache/wikidata-person-usage",
-      "retrievedAt": "pending",
-      "contentHash": "pending",
-      "reviewStatus": "draft",
-      "reviewNotes": "Candidate source for historical person usage evidence. Does not create meaning or identity-based score boosts."
+      "upstreamVersion": "bounded-qid-snapshot-2026-09-30",
+      "sourceLocation": "data/sources/personal/person-usages-wikidata.snapshot.json",
+      "retrievedAt": "2026-09-30",
+      "contentHash": "e69f003be83e76fa93a1350755302a5f813d902385e37f4059edb004af8ba11b",
+      "reviewStatus": "source_checked",
+      "reviewNotes": "Fixed CC0 snapshot for five deceased historical people. Exact-name evidence only; never contributes to meaning or score."
     },
     {
-      "sourceId": "manual-zhuangyuan-curation",
-      "sourceUrl": "manual-public-domain-references",
-      "license": "source-specific",
-      "upstreamVersion": "manual",
-      "sourceLocation": "src/data/curated/person-usage.json",
-      "retrievedAt": "pending",
-      "contentHash": "pending",
-      "reviewStatus": "draft",
-      "reviewNotes": "Small manually reviewed set only. Jinshi records must not be labeled as zhuangyuan without rank evidence."
+      "sourceId": "manual-imperial-exam-curation",
+      "sourceUrl": "per-record-evidence-urls",
+      "license": "CC0-project-curation",
+      "upstreamVersion": "2026-09-30",
+      "sourceLocation": "data/sources/personal/person-usages.json",
+      "retrievedAt": "2026-09-30",
+      "contentHash": "15d68f39da54c886a6d539e46e2744f2a93024043e2cd99ea6b4da0db000d2e1",
+      "reviewStatus": "source_checked",
+      "reviewNotes": "Factual curation with explicit ranks; pinned Wikipedia evidence is governed by its executable YAML contract. No rank is inferred from a generic jinshi record."
     },
     {
       "sourceId": "cbdb-research-only",

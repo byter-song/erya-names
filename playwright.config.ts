@@ -4,10 +4,22 @@ const projects: Project[] = [
   {
     name: "chromium",
     use: { ...devices["Desktop Chrome"] },
+    testIgnore: /mobile-ux\.spec\.ts/,
   },
   {
     name: "webkit",
     use: { ...devices["Desktop Safari"] },
+    testIgnore: /mobile-ux\.spec\.ts/,
+  },
+  {
+    name: "mobile-chrome",
+    testMatch: /mobile-ux\.spec\.ts/,
+    use: { ...devices["Pixel 7"] },
+  },
+  {
+    name: "mobile-webkit",
+    testMatch: /mobile-ux\.spec\.ts/,
+    use: { ...devices["iPhone 13"] },
   },
 ];
 

@@ -27,16 +27,29 @@ export class DexieGenerationRepository implements GenerationRepository {
     return this.database.generationBatches.where("projectId").equals(projectId).count();
   }
 
-  async listCandidates(projectId: string) {
-    const candidates = await this.database.candidates
-      .where("projectId")
-      .equals(projectId)
-      .toArray();
-    const candidateIds = candidates.map((candidate) => candidate.id);
-    const [decisions, ruleResults] = await Promise.all([
-      this.database.candidateDecisions.bulkGet(candidateIds),
+  async listCandidates(projectId: string, stages?: CandidateDecision["stage"][]) {
+    const selectedDecisions = stages?.length
+      ? (
+          await Promise.all(
+            stages.map((stage) =>
+              this.database.candidateDecisions
+                .where("[projectId+stage]")
+                .equals([projectId, stage])
+                .toArray(),
+            ),
+          )
+        ).flat()
+      : await this.database.candidateDecisions.where("projectId").equals(projectId).toArray();
+    const candidateIds = selectedDecisions.map((decision) => decision.candidateId);
+    if (candidateIds.length === 0) return [];
+    const [candidateRows, ruleResults] = await Promise.all([
+      this.database.candidates.bulkGet(candidateIds),
       this.database.ruleResults.where("candidateId").anyOf(candidateIds).toArray(),
     ]);
+    const candidates = candidateRows.filter(
+      (candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate),
+    );
+    const decisions = selectedDecisions;
     const decisionsById = new Map(
       decisions
         .filter((decision): decision is NonNullable<typeof decision> => Boolean(decision))

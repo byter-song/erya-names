@@ -52,6 +52,11 @@ const pinnedSnapshotFileSchema = z
     }
   });
 
+const curatedFileSchema = z.object({
+  path: safeRelativePathSchema,
+  sha256: checksumSchema,
+});
+
 const snapshotSourceManifestSchema = z.object({
   ...commonSourceFields,
   sourceType: z.literal("snapshot"),
@@ -61,8 +66,21 @@ const snapshotSourceManifestSchema = z.object({
   files: z.array(pinnedSnapshotFileSchema).min(1),
 });
 
+const curatedSourceManifestSchema = z.object({
+  ...commonSourceFields,
+  sourceType: z.literal("curated"),
+  sourceUrl: z.url(),
+  repository: z.never().optional(),
+  commit: z.never().optional(),
+  files: z.array(curatedFileSchema).min(1),
+});
+
 const typedSourceManifestSchema = z
-  .discriminatedUnion("sourceType", [gitSourceManifestSchema, snapshotSourceManifestSchema])
+  .discriminatedUnion("sourceType", [
+    gitSourceManifestSchema,
+    snapshotSourceManifestSchema,
+    curatedSourceManifestSchema,
+  ])
   .superRefine((source, context) => {
     if (
       source.releaseEligible &&

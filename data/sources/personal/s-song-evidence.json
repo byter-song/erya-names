@@ -1,0 +1,506 @@
+[
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "湘春夜月",
+    "location": "湘春夜月",
+    "quote": "可惜一片清歌，都付与黄昏。",
+    "normalizedQuote": "可惜一片清歌，都付与黄昏。",
+    "sourceRecordId": "chinese-poetry:song-300:2ba13a67ba6a1319"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "瑞鹤仙",
+    "location": "瑞鹤仙",
+    "quote": "盟鸾心在，跨鹤程高，後期无准。",
+    "normalizedQuote": "盟鸾心在，跨鹤程高，后期无准。",
+    "sourceRecordId": "chinese-poetry:song-300:7021a97dd73c4113"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "齐天乐",
+    "location": "齐天乐",
+    "quote": "渺烟碛飞帆，暮山横翠。",
+    "normalizedQuote": "渺烟碛飞帆，暮山横翠。",
+    "sourceRecordId": "chinese-poetry:song-300:1209c4a005032240"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "风入松",
+    "location": "风入松",
+    "quote": "依旧赏新晴。",
+    "normalizedQuote": "依旧赏新晴。",
+    "sourceRecordId": "chinese-poetry:song-300:b91997ac02ad9562"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "莺啼序",
+    "location": "莺啼序",
+    "quote": "长波妒盼，遥山羞黛，渔灯分影春江宿，记当时、短楫桃根渡。",
+    "normalizedQuote": "长波妒盼，遥山羞黛，渔灯分影春江宿，记当时、短楫桃根渡。",
+    "sourceRecordId": "chinese-poetry:song-300:67a711368a666553"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "惜黄花慢",
+    "location": "惜黄花慢",
+    "quote": "素秋不解随船去，败红趁、一叶寒涛。",
+    "normalizedQuote": "素秋不解随船去，败红趁、一叶寒涛。",
+    "sourceRecordId": "chinese-poetry:song-300:1daf2d40f9229df3"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "瑞鹤仙",
+    "location": "瑞鹤仙",
+    "quote": "见败叶零乱，风定犹舞。",
+    "normalizedQuote": "见败叶零乱，风定犹舞。",
+    "sourceRecordId": "chinese-poetry:song-300:552532794f384d48"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "桂枝香",
+    "location": "桂枝香",
+    "quote": "千里澄江似练，翠峰如簇。",
+    "normalizedQuote": "千里澄江似练，翠峰如簇。",
+    "sourceRecordId": "chinese-poetry:song-300:77e34bb35b43ee4a"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "清平乐",
+    "location": "清平乐",
+    "quote": "不肯画堂朱户，春风自在杨花。",
+    "normalizedQuote": "不肯画堂朱户，春风自在杨花。",
+    "sourceRecordId": "chinese-poetry:song-300:b71e098fda8dad7e"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "临江仙",
+    "location": "临江仙",
+    "quote": "记得小苹初见，两重心字罗衣。",
+    "normalizedQuote": "记得小苹初见，两重心字罗衣。",
+    "sourceRecordId": "chinese-poetry:song-300:4f9029474955f162"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "临江仙",
+    "location": "临江仙",
+    "quote": "当时明月在，曾照彩云归。",
+    "normalizedQuote": "当时明月在，曾照彩云归。",
+    "sourceRecordId": "chinese-poetry:song-300:d9b3df41dc406f7d"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "蝶恋花",
+    "location": "蝶恋花",
+    "quote": "春梦秋云，聚散真容易。",
+    "normalizedQuote": "春梦秋云，聚散真容易。",
+    "sourceRecordId": "chinese-poetry:song-300:7bc14fad24b7e8f5"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "阮郎归",
+    "location": "阮郎归",
+    "quote": "兰佩紫，菊簪黄。",
+    "normalizedQuote": "兰佩紫，菊簪黄。",
+    "sourceRecordId": "chinese-poetry:song-300:84e5d2d8f1eb541b"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "六么令",
+    "location": "六么令",
+    "quote": "晚来翠眉宫样，巧把远山学。",
+    "normalizedQuote": "晚来翠眉宫样，巧把远山学。",
+    "sourceRecordId": "chinese-poetry:song-300:dfcec02e0315f4cb"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "人南渡・感皇恩",
+    "location": "人南渡・感皇恩",
+    "quote": "兰芷满芳洲，游思横路。",
+    "normalizedQuote": "兰芷满芳洲，游思横路。",
+    "sourceRecordId": "chinese-poetry:song-300:4f53a816db9be439"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "思远人",
+    "location": "思远人",
+    "quote": "红叶黄花秋意晚，千里念行客。",
+    "normalizedQuote": "红叶黄花秋意晚，千里念行客。",
+    "sourceRecordId": "chinese-poetry:song-300:948f1c9e4fd17db3"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "洞仙歌",
+    "location": "洞仙歌",
+    "quote": "更风流多处，一点梅心、相映远。",
+    "normalizedQuote": "更风流多处，一点梅心、相映远。",
+    "sourceRecordId": "chinese-poetry:song-300:3d9c4f98256c20fc"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "水调歌头",
+    "location": "水调歌头",
+    "quote": "我欲乘风归去，又恐琼楼玉宇，高处不胜寒。",
+    "normalizedQuote": "我欲乘风归去，又恐琼楼玉宇，高处不胜寒。",
+    "sourceRecordId": "chinese-poetry:song-300:0cffa8b5ba111744"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "临江仙",
+    "location": "临江仙",
+    "quote": "夜阑风静縠纹平。",
+    "normalizedQuote": "夜阑风静縠纹平。",
+    "sourceRecordId": "chinese-poetry:song-300:d2b1d2bc70c0f373"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "卜算子",
+    "location": "卜算子",
+    "quote": "缺月挂疏桐，漏断人初静。",
+    "normalizedQuote": "缺月挂疏桐，漏断人初静。",
+    "sourceRecordId": "chinese-poetry:song-300:ce8a5834400ecbfe"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "贺新郎",
+    "location": "贺新郎",
+    "quote": "艳一枝细看取，芳心千重似束。",
+    "normalizedQuote": "艳一枝细看取，芳心千重似束。",
+    "sourceRecordId": "chinese-poetry:song-300:3b198d9eaa61fc04"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "洞仙歌",
+    "location": "洞仙歌",
+    "quote": "雪云散尽，放晓晴池院。",
+    "normalizedQuote": "雪云散尽，放晓晴池院。",
+    "sourceRecordId": "chinese-poetry:song-300:725bc7d5a5b77604"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "贺新郎",
+    "location": "贺新郎",
+    "quote": "画帘开、衣纨扇，午风清暑。",
+    "normalizedQuote": "画帘开、衣纨扇，午风清暑。",
+    "sourceRecordId": "chinese-poetry:song-300:040aadb69c930429"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "贺新郎",
+    "location": "贺新郎",
+    "quote": "常恨世人新意少，爱说南朝狂客。",
+    "normalizedQuote": "常恨世人新意少，爱说南朝狂客。",
+    "sourceRecordId": "chinese-poetry:song-300:2abe7293887d911a"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "大有",
+    "location": "大有",
+    "quote": "恰归来、南山翠色依旧。",
+    "normalizedQuote": "恰归来、南山翠色依旧。",
+    "sourceRecordId": "chinese-poetry:song-300:72dc3cda54c151ab"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "永遇乐",
+    "location": "永遇乐",
+    "quote": "璧月初晴，黛云远澹，春事谁主。",
+    "normalizedQuote": "璧月初晴，黛云远澹，春事谁主。",
+    "sourceRecordId": "chinese-poetry:song-300:f2cafb4ee48fd935"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "绣鸾凤花犯・花犯",
+    "location": "绣鸾凤花犯・花犯",
+    "quote": "淡然春意。",
+    "normalizedQuote": "淡然春意。",
+    "sourceRecordId": "chinese-poetry:song-300:1684a97649f1089e"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "瑶花慢",
+    "location": "瑶花慢",
+    "quote": "天上飞琼，比人间春别。",
+    "normalizedQuote": "天上飞琼，比人间春别。",
+    "sourceRecordId": "chinese-poetry:song-300:548a3942fdd584ae"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "瑶花慢",
+    "location": "瑶花慢",
+    "quote": "韶华正好，应自喜、初识长安蜂蝶。",
+    "normalizedQuote": "韶华正好，应自喜、初识长安蜂蝶。",
+    "sourceRecordId": "chinese-poetry:song-300:7a6c70c54a7ecabc"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "高阳台",
+    "location": "高阳台",
+    "quote": "秦关汴水经行地，想登临、都付新诗。",
+    "normalizedQuote": "秦关汴水经行地，想登临、都付新诗。",
+    "sourceRecordId": "chinese-poetry:song-300:38794ed490341c24"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "解佩环・疏影",
+    "location": "解佩环・疏影",
+    "quote": "有白鸥淡月，微波寄语，逍遥容与。",
+    "normalizedQuote": "有白鸥淡月，微波寄语，逍遥容与。",
+    "sourceRecordId": "chinese-poetry:song-300:59775faaf1f460a0"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "石州引・石州慢",
+    "location": "石州引・石州慢",
+    "quote": "薄雨初寒，斜照弄晴，春意空阔。",
+    "normalizedQuote": "薄雨初寒，斜照弄晴，春意空阔。",
+    "sourceRecordId": "chinese-poetry:song-300:8a7c0b47d6e88d5c"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "石州引・石州慢",
+    "location": "石州引・石州慢",
+    "quote": "枉望断天涯，两厌厌风月。",
+    "normalizedQuote": "枉望断天涯，两厌厌风月。",
+    "sourceRecordId": "chinese-poetry:song-300:31cbf084f12621d0"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "汉宫春",
+    "location": "汉宫春",
+    "quote": "潇洒江梅，向竹梢疏处，横两三枝。",
+    "normalizedQuote": "潇洒江梅，向竹梢疏处，横两三枝。",
+    "sourceRecordId": "chinese-poetry:song-300:a9c21962a3fad38e"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "高阳台",
+    "location": "高阳台",
+    "quote": "修竹凝妆，垂杨驻马，凭阑浅画成图。",
+    "normalizedQuote": "修竹凝妆，垂杨驻马，凭阑浅画成图。",
+    "sourceRecordId": "chinese-poetry:song-300:9bed824727a15f46"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "鹧鸪天",
+    "location": "鹧鸪天",
+    "quote": "小窗愁黛澹秋山。",
+    "normalizedQuote": "小窗愁黛澹秋山。",
+    "sourceRecordId": "chinese-poetry:song-300:8fa583cf07c9819b"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "金缕歌・贺新郎",
+    "location": "金缕歌・贺新郎",
+    "quote": "步苍苔、寻幽别坞，问梅开未。",
+    "normalizedQuote": "步苍苔、寻幽别坞，问梅开未。",
+    "sourceRecordId": "chinese-poetry:song-300:3e43f3f8c6a39539"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "扬州慢",
+    "location": "扬州慢",
+    "quote": "淮左名都，竹西佳处，解鞍少驻初程。",
+    "normalizedQuote": "淮左名都，竹西佳处，解鞍少驻初程。",
+    "sourceRecordId": "chinese-poetry:song-300:f5018f62d8ee8d23"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "淡黄柳",
+    "location": "淡黄柳",
+    "quote": "空城晓月。",
+    "normalizedQuote": "空城晓月。",
+    "sourceRecordId": "chinese-poetry:song-300:475a2e24c9121a1b"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "翠楼吟",
+    "location": "翠楼吟",
+    "quote": "宜有词仙，拥素云黄鹤，与君游戏。",
+    "normalizedQuote": "宜有词仙，拥素云黄鹤，与君游戏。",
+    "sourceRecordId": "chinese-poetry:song-300:9106b5811e236933"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "诉衷情",
+    "location": "诉衷情",
+    "quote": "清晨帘幕卷轻霜。",
+    "normalizedQuote": "清晨帘幕卷轻霜。",
+    "sourceRecordId": "chinese-poetry:song-300:a679f8ac559f8e4f"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "玉楼春",
+    "location": "玉楼春",
+    "quote": "夜深风竹敲秋韵。",
+    "normalizedQuote": "夜深风竹敲秋韵。",
+    "sourceRecordId": "chinese-poetry:song-300:1f3781c24824c7fb"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "东风第一枝",
+    "location": "东风第一枝",
+    "quote": "巧沁兰心，偷黏草甲，东风欲障新暖。",
+    "normalizedQuote": "巧沁兰心，偷黏草甲，东风欲障新暖。",
+    "sourceRecordId": "chinese-poetry:song-300:fa2c76acc1a6a787"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "八归",
+    "location": "八归",
+    "quote": "秋江带雨，寒沙萦水，人瞰画阁愁独。",
+    "normalizedQuote": "秋江带雨，寒沙萦水，人瞰画阁愁独。",
+    "sourceRecordId": "chinese-poetry:song-300:b3dbf84b2ee746f6"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "念奴娇",
+    "location": "念奴娇",
+    "quote": "清露晨流，新桐初引，多少游春意。",
+    "normalizedQuote": "清露晨流，新桐初引，多少游春意。",
+    "sourceRecordId": "chinese-poetry:song-300:0dc69b7543b6f844"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "菩萨蛮",
+    "location": "菩萨蛮",
+    "quote": "郁孤台下清江水。",
+    "normalizedQuote": "郁孤台下清江水。",
+    "sourceRecordId": "chinese-poetry:song-300:462c48a12ffeb53f"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "霜天晓角",
+    "location": "霜天晓角",
+    "quote": "晚晴风歇。",
+    "normalizedQuote": "晚晴风歇。",
+    "sourceRecordId": "chinese-poetry:song-300:9a91073e7a5f7e61"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "过秦楼",
+    "location": "过秦楼",
+    "quote": "但明河影下，还看稀星数点。",
+    "normalizedQuote": "但明河影下，还看稀星数点。",
+    "sourceRecordId": "chinese-poetry:song-300:198a31af78bd1286"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "贺新郎",
+    "location": "贺新郎",
+    "quote": "万里云帆何时到，送孤鸿、目断千山阻。",
+    "normalizedQuote": "万里云帆何时到，送孤鸿、目断千山阻。",
+    "sourceRecordId": "chinese-poetry:song-300:d20e53b0c405b07d"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "念奴娇",
+    "location": "念奴娇",
+    "quote": "素月分辉，明河共影，表里俱澄澈。",
+    "normalizedQuote": "素月分辉，明河共影，表里俱澄澈。",
+    "sourceRecordId": "chinese-poetry:song-300:503ab71dd961bafa"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "望海潮",
+    "location": "望海潮",
+    "quote": "梅英疏淡，冰澌溶泄，东风暗换年华。",
+    "normalizedQuote": "梅英疏淡，冰澌溶泄，东风暗换年华。",
+    "sourceRecordId": "chinese-poetry:song-300:5bd52a7e0e85398f"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "伴云来・天香",
+    "location": "伴云来・天香",
+    "quote": "烛映帘栊，蛩催机杼，共苦清秋风露。",
+    "normalizedQuote": "烛映帘栊，蛩催机杼，共苦清秋风露。",
+    "sourceRecordId": "chinese-poetry:song-300:1afd4a2a5e14f103"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "夜游宫",
+    "location": "夜游宫",
+    "quote": "云澹星疏楚山晓。",
+    "normalizedQuote": "云澹星疏楚山晓。",
+    "sourceRecordId": "chinese-poetry:song-300:499e32bf6cd6dd3d"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "庆宫春・高阳台",
+    "location": "庆宫春・高阳台",
+    "quote": "双桨莼波，一蓑松雨，暮愁渐满空阔。",
+    "normalizedQuote": "双桨莼波，一蓑松雨，暮愁渐满空阔。",
+    "sourceRecordId": "chinese-poetry:song-300:ac4ce831fa689b99"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "一萼红",
+    "location": "一萼红",
+    "quote": "野老林泉，故王台榭，呼唤登临。",
+    "normalizedQuote": "野老林泉，故王台榭，呼唤登临。",
+    "sourceRecordId": "chinese-poetry:song-300:1375ff810e411024"
+  },
+  {
+    "sourceId": "chinese-poetry:song-300",
+    "work": "宋词三百首",
+    "title": "戚氏",
+    "location": "戚氏",
+    "quote": "长天净，绛河清浅，皓月婵娟。",
+    "normalizedQuote": "长天净，绛河清浅，皓月婵娟。",
+    "sourceRecordId": "chinese-poetry:song-300:b4f2b8be01eee0d7"
+  }
+]

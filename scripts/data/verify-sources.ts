@@ -14,7 +14,7 @@ for (const filename of manifests) {
   const source = sourceManifestSchema.parse(
     parse(await readFile(path.join("data/sources/sources", filename), "utf8")),
   );
-  if (source.sourceType === "snapshot") {
+  if (source.sourceType !== "git") {
     for (const file of [
       { path: source.license.file, sha256: source.license.sha256 },
       ...source.files,
@@ -24,7 +24,7 @@ for (const filename of manifests) {
       if (checksum !== file.sha256)
         throw new Error(`${source.sourceId}:${file.path}: checksum mismatch`);
     }
-    pinnedSnapshots.push(...source.files);
+    if (source.sourceType === "snapshot") pinnedSnapshots.push(...source.files);
     console.log(`verified ${source.sourceId} local pinned snapshots`);
     continue;
   }
@@ -54,6 +54,18 @@ interface PinnedSnapshotFile {
 
 async function verifyPinnedRevisions(files: PinnedSnapshotFile[]): Promise<void> {
   if (files.length === 0) return;
+  const filesByOrigin = new Map<string, PinnedSnapshotFile[]>();
+  for (const file of files) {
+    const origin = new URL(file.url).origin;
+    filesByOrigin.set(origin, [...(filesByOrigin.get(origin) ?? []), file]);
+  }
+  for (const filesForOrigin of filesByOrigin.values()) {
+    await verifyPinnedRevisionsForOrigin(filesForOrigin);
+  }
+  console.log(`verified ${files.length} excerpts against pinned remote revisions`);
+}
+
+async function verifyPinnedRevisionsForOrigin(files: PinnedSnapshotFile[]): Promise<void> {
   const endpoint = new URL("/w/api.php", new URL(files[0].url).origin);
   endpoint.search = new URLSearchParams({
     action: "query",
@@ -93,7 +105,6 @@ async function verifyPinnedRevisions(files: PinnedSnapshotFile[]): Promise<void>
         );
     }
   }
-  console.log(`verified ${files.length} excerpts against pinned remote revisions`);
 }
 
 interface RevisionPayload {

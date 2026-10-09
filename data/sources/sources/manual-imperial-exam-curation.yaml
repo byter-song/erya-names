@@ -1,0 +1,15 @@
+sourceId: manual-imperial-exam-curation
+sourceType: curated
+sourceUrl: https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml
+license:
+  spdx: CC0-1.0
+  file: data/sources/personal/erya-curated-facts-CC0-1.0.txt
+  sha256: 2779783990feaa998261c11a99d64f9a8782d1ffe64f32102da4ccaf883401ba
+uses: [persons]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/personal/person-usages.json
+    sha256: 15d68f39da54c886a6d539e46e2744f2a93024043e2cd99ea6b4da0db000d2e1
+notes: Project-authored factual curation, including one retained legacy jinshi record; other imperial-exam records cite the separate pinned Wikipedia snapshot source.

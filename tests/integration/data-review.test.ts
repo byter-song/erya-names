@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { reviewDecisionSchema } from "../../scripts/data/reviewSchema";
-import { applyReviewDecisions } from "../../scripts/data/apply-review";
+import {
+  applyCharacterReviewDecisions,
+  applyReviewDecisions,
+} from "../../scripts/data/apply-review";
 import { appendDecision, loadAllDecisions } from "../../scripts/data/reviewStore";
 import os from "node:os";
 import path from "node:path";
@@ -125,5 +128,37 @@ describe("human review workflow", () => {
     await expect(appendDecision(secondary, directory)).resolves.toMatchObject({
       reviewStage: "secondary",
     });
+  });
+
+  it("projects approved character decisions into production-ready character records", () => {
+    const character = {
+      id: "character:6e05",
+      char: "清",
+      pinyinSuggestions: ["qīng"],
+      frequency: 12,
+      reviewStatus: "unreviewed" as const,
+      machineSuggestion: { namingSuitability: "unknown" as const, risks: [] },
+    };
+    const decision = {
+      ...approvedDecision(),
+      candidateId: character.id,
+      edits: {
+        interpretation: "清澈、明朗",
+        pinyin: ["qīng"],
+        styleTags: ["清朗自然"],
+        risks: [],
+      },
+    };
+
+    expect(applyCharacterReviewDecisions([character], [decision]).approved).toEqual([
+      expect.objectContaining({
+        id: character.id,
+        char: "清",
+        pinyin: ["qīng"],
+        meanings: ["清澈、明朗"],
+        reviewStatus: "verified",
+        primaryReview: expect.objectContaining({ reviewer: "owner@" }),
+      }),
+    ]);
   });
 });

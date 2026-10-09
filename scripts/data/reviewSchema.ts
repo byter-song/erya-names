@@ -18,6 +18,7 @@ export const reviewDecisionSchema = z
     edits: z
       .object({
         selectedText: z.string().min(1).max(2).optional(),
+        pinyin: z.array(z.string().min(1)).min(1).optional(),
         interpretation: z.string().min(1).optional(),
         styleTags: z.array(z.string().min(1)).min(1).optional(),
         risks: z.array(z.string()),

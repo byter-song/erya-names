@@ -1,22 +1,28 @@
+import { lazy, Suspense } from "react";
 import type { CandidateFunnelItem } from "../../application/models/CandidateFunnelItem";
 import type { NamingProfile } from "../../domain/project/profile";
 import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
 import writingStrokes from "../../data/curated/writing-strokes.json";
 import { sourceCatalog } from "../../data/sourceCatalog";
 import { nameSoundNotes, readSurname } from "../../domain/candidate/nameReading";
-import { elementLabels } from "../../domain/folklore/calendarAdapter";
+import { elementLabels } from "../../domain/folklore/fiveElements";
+import { calculateSystemScore } from "../../domain/rules/scoring/systemScore";
 import { matchPersonUsages } from "../../domain/person/matchPersonUsages";
-import { FolklorePanel } from "./FolklorePanel";
 import { FiveGridsPanel } from "./FiveGridsPanel";
 import "./insights.css";
 const entries = new Map(activeRuntimeBundle.characters.map((entry) => [entry.char, entry]));
 const strokes: Record<string, number> = writingStrokes;
+const FolklorePanel = lazy(() =>
+  import("./FolklorePanel").then((module) => ({ default: module.FolklorePanel })),
+);
 export function NameExplanation({
   candidate,
   profile,
+  showFolklore = false,
 }: {
   candidate: CandidateFunnelItem;
   profile?: NamingProfile | undefined;
+  showFolklore?: boolean;
 }) {
   const givenName =
     candidate.givenName ?? candidate.fullName.slice(profile?.surname.length ?? 1);
@@ -37,6 +43,12 @@ export function NameExplanation({
     (source) => source.sourceId === "erya-modern-20260927",
   )?.excerpt;
   const quotes = (candidate.sourceEvidence ?? []).filter((source) => source.quote);
+  const systemScore =
+    candidate.systemScore ?? calculateSystemScore(candidate.ruleEvidence ?? []);
+  const scoreDeductions = (candidate.scoreEvidence ?? []).filter((rule) => rule.scoreDelta < 0);
+  const visibleRuleEvidence = (candidate.ruleEvidence ?? []).filter(
+    (rule) => showFolklore || rule.evidenceLevel !== "L4",
+  );
   const personUsages = matchPersonUsages(candidate.fullName, activeRuntimeBundle.personUsages);
   const identityLabels = {
     historical_person: "历史人物",
@@ -76,6 +88,7 @@ export function NameExplanation({
       {quotes.length ? (
         quotes.map((source, i) => {
           const info = sourceCatalog[source.sourceId];
+          const sourceUrl = source.url ?? info?.url;
           return (
             <blockquote key={`${source.sourceId}:${i}`}>
               <p>「{source.quote}」</p>
@@ -88,8 +101,8 @@ export function NameExplanation({
                   : "由同一原句依次取字；不是原句中的连续词语"}
                 。现代取名寓意是在原文基础上的引申。
               </p>
-              {info ? (
-                <a href={info.url} target="_blank" rel="noreferrer">
+              {sourceUrl ? (
+                <a href={sourceUrl} target="_blank" rel="noreferrer">
                   核对古籍原文 ↗
                 </a>
               ) : (
@@ -163,7 +176,23 @@ export function NameExplanation({
       </ul>
       <details>
         <summary>为什么推荐 · 查看匹配依据</summary>
-        <p>分数只表示当前家庭偏好，不表示名字的客观优劣；历史候选保留生成时的条件与评分。</p>
+        <p>
+          系统匹配 {systemScore}
+          /100。分数只表示当前家庭偏好，不表示名字的客观优劣；历史候选保留生成时的条件与评分。
+        </p>
+        <h4>扣分明细</h4>
+        {scoreDeductions.length ? (
+          <ul>
+            {scoreDeductions.map((rule) => (
+              <li key={`deduction:${rule.ruleId}`}>
+                {rule.explanation}（{rule.scoreDelta}）
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>当前评分没有扣分项。</p>
+        )}
+        <h4>全部评分依据</h4>
         <ul>
           {candidate.scoreEvidence?.map((rule) => (
             <li key={rule.ruleId}>
@@ -173,7 +202,7 @@ export function NameExplanation({
           ))}
         </ul>
       </details>
-      {profile?.folklore.enabled ? (
+      {showFolklore && profile?.folklore.enabled ? (
         <>
           <h3>这个名字的民俗解释</h3>
           <p className="insight-note">
@@ -200,18 +229,20 @@ export function NameExplanation({
             {profile.folklore.usefulElements.map((e) => elementLabels[e]).join("、") ||
               "暂不采用"}
             。
-            {profile.folklore.includeInRanking ? "生成时作为软偏好参与排序。" : "不参与排序。"}
+            {profile.folklore.includeInRanking
+              ? "在民俗候选中作为排序参考。"
+              : "不参与民俗候选排序。"}
           </p>
-          <FolklorePanel profile={profile} />
+          <Suspense fallback={<p role="status">正在载入民俗参考…</p>}>
+            <FolklorePanel profile={profile} />
+          </Suspense>
           <FiveGridsPanel surname={surname} givenName={givenName} strokes={strokes} />
         </>
-      ) : (
-        <p className="insight-note">民俗解释默认关闭，可在起名条件中选择开启。</p>
-      )}
+      ) : null}
       <details>
         <summary>核对历史规则记录</summary>
         <ul>
-          {(candidate.ruleEvidence ?? []).map((rule, i) => (
+          {visibleRuleEvidence.map((rule, i) => (
             <li key={i}>
               {rule.explanation}
               <small>

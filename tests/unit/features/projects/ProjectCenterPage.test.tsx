@@ -40,8 +40,8 @@ describe("ProjectCenterPage", () => {
     expect(screen.getByRole("heading", { name: "继续最近方案" })).toBeVisible();
     expect(screen.getByText("宋姓宝宝起名")).toBeVisible();
     expect(screen.getByText("候选 24")).toBeVisible();
-    expect(screen.getByText("收藏 5")).toBeVisible();
-    expect(screen.getByText("最终 2 / 5")).toBeVisible();
+    expect(screen.getByText("初选 5")).toBeVisible();
+    expect(screen.getByText("定稿 2 / 5")).toBeVisible();
     expect(screen.getByRole("link", { name: "继续方案" })).toHaveAttribute(
       "href",
       "/projects/project-1/generate",

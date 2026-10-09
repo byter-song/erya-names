@@ -4,7 +4,14 @@ const read = (path) =>
   JSON.parse(readFileSync(new URL(`../../${path}`, import.meta.url), "utf8"));
 const bundle = read("src/data/curated/personal-bundle.json");
 const standard = new Set(read("src/data/curated/standard-characters.json").characters);
-const { characters, allusions, modernCombinations, personUsages = [] } = bundle;
+const {
+  characters,
+  allusions,
+  modernCombinations,
+  standardCharacterPinyin = {},
+  traditionalToSimplified = {},
+  personUsages = [],
+} = bundle;
 const failures = [];
 const hash = createHash("sha256")
   .update(
@@ -12,6 +19,8 @@ const hash = createHash("sha256")
       characters,
       allusions,
       ...(modernCombinations ? { modernCombinations } : {}),
+      ...(Object.keys(standardCharacterPinyin).length ? { standardCharacterPinyin } : {}),
+      ...(Object.keys(traditionalToSimplified).length ? { traditionalToSimplified } : {}),
       ...(personUsages.length ? { personUsages } : {}),
     }),
   )
@@ -20,20 +29,32 @@ if (hash !== bundle.manifest.contentHash) failures.push("Personal bundle hash mi
 if (bundle.manifest.status !== "personal") failures.push("Personal bundle status mismatch");
 if (new Set(characters.map((x) => x.char)).size !== characters.length)
   failures.push("Duplicate characters");
+if (
+  Object.keys(standardCharacterPinyin).length !== 8105 ||
+  characters.some((entry) => !standardCharacterPinyin[entry.char]?.length)
+)
+  failures.push("Standard-character pinyin index is incomplete");
 for (const char of characters) {
   if (
     !standard.has(char.char) ||
     !char.sourceRefs.some((x) => x.sourceId === "standard-hanzi-2013") ||
     !char.pinyin.length ||
     !char.meanings.length ||
-    !char.strokes
+    !char.strokes ||
+    !char.element ||
+    !char.elementReason ||
+    !char.elementEvidence ||
+    char.elementEvidence.reviewStatus !== "source_checked" ||
+    !char.elementEvidence.sourceRefs?.length
   )
     failures.push(`Incomplete character ${char.char}`);
   if (char.reviewStatus !== "source_checked" || !char.checkedAt)
     failures.push(`Review provenance missing ${char.char}`);
+  for (const value of [char.char, ...char.meanings, ...char.risks])
+    if (simplify(value) !== value)
+      failures.push(`Traditional character-card display text ${char.char}: ${value}`);
 }
 if (modernCombinations) {
-  const names = new Set(allusions.map((item) => item.selectedText));
   const chars = new Set(characters.map((item) => item.char));
   if (
     modernCombinations.length !== 500 ||
@@ -44,11 +65,14 @@ if (modernCombinations) {
     if (
       [...item.givenName].length !== 2 ||
       [...item.givenName].some((char) => !chars.has(char)) ||
-      names.has(item.givenName) ||
       !item.meaning ||
       !item.usageNote
     )
       failures.push(`Invalid combination ${item.givenName}`);
+    else
+      for (const value of [item.givenName, item.meaning, item.usageNote])
+        if (simplify(value) !== value)
+          failures.push(`Traditional modern-combination display text ${item.givenName}`);
 }
 for (const item of allusions) {
   let position = -1;
@@ -74,6 +98,17 @@ for (const item of allusions) {
     )
   )
     failures.push(`Invalid corpus deduction ${item.id}`);
+  for (const value of [
+    item.title,
+    item.work,
+    item.quote,
+    item.selectedText,
+    item.interpretation,
+    ...item.risks,
+    ...item.sourceRefs.flatMap((source) => [source.location, source.excerpt ?? ""]),
+  ])
+    if (simplify(value) !== value)
+      failures.push(`Traditional display text ${item.id}: ${value}`);
 }
 for (const usage of personUsages) {
   if (
@@ -90,6 +125,15 @@ for (const usage of personUsages) {
     (!usage.rankEvidence || !usage.rankEvidence.trim())
   )
     failures.push(`Imperial-exam usage lacks rank evidence ${usage.id}`);
+  for (const value of [
+    usage.name,
+    usage.period,
+    usage.description,
+    usage.rankEvidence ?? "",
+    ...usage.sourceRefs.map((source) => source.location),
+  ])
+    if (simplify(value) !== value)
+      failures.push(`Traditional person-usage display text ${usage.id}: ${value}`);
 }
 for (const [file, expected] of [
   [
@@ -110,3 +154,9 @@ if (failures.length) {
   console.log(
     `Personal data audit passed: ${characters.length} characters, ${allusions.length} allusions, ${modernCombinations?.length ?? 0} modern combinations, ${personUsages.length} person usages. Source checked by machine; not a human-reviewed production corpus.`,
   );
+
+function simplify(value) {
+  return [...value.normalize("NFC")]
+    .map((char) => traditionalToSimplified[char] ?? char)
+    .join("");
+}

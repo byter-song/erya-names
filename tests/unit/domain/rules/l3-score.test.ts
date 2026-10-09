@@ -33,4 +33,21 @@ describe("L3 explainable scoring", () => {
     expect(result.total).toBeGreaterThanOrEqual(60);
     expect(result.total).toBeLessThanOrEqual(100);
   });
+
+  it("uses visible soft deductions for unmatched style and repeated syllables", () => {
+    const result = scoreCandidatePreferences({
+      pinyin: ["níng", "níng"],
+      sourceType: "modern_combination",
+      characterStyleTags: ["沉稳端正"],
+      preferredStyleTags: ["清朗自然"],
+      pinyinFriendly: true,
+    });
+
+    expect(result.dimensions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: "style-match", scoreDelta: -4 }),
+        expect.objectContaining({ id: "pinyin-friendly", scoreDelta: -4 }),
+      ]),
+    );
+  });
 });

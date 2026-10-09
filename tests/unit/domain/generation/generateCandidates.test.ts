@@ -82,6 +82,32 @@ describe("generateCandidates", () => {
     expect(result.statistics.historicalRejected).toBeGreaterThan(0);
   });
 
+  it("uses baby gender only as a default soft-ranking reference", () => {
+    const result = generateCandidates({
+      profile: namingProfileSchema.parse({
+        ...profile,
+        childGender: "male",
+        genderExpression: "unrestricted",
+      }),
+      bundle,
+      seed: "song-gender-reference",
+      requestedCount: 10,
+      allusionRatio: 0.5,
+      historicalFingerprints: new Set(),
+    });
+
+    expect(
+      result.candidates.some((candidate) =>
+        candidate.ruleResults.some(
+          (rule) =>
+            rule.ruleId === "l3-expression" &&
+            rule.explanation.includes("宝宝性别提供默认文字表达软排序"),
+        ),
+      ),
+    ).toBe(true);
+    expect(result.candidates).toHaveLength(10);
+  });
+
   it("counts hard rejects and never returns a rejected candidate", () => {
     const result = generateCandidates({
       profile: namingProfileSchema.parse({
@@ -137,5 +163,43 @@ describe("generateCandidates", () => {
     expect(result.candidates.every((candidate) => !candidate.givenName.includes("安"))).toBe(
       true,
     );
+  });
+
+  it("converts a traditional source name before character-card filtering and display", () => {
+    const source = bundle.allusions.find((item) => item.selectedText === "清扬");
+    if (!source) throw new Error("Expected the 清扬 fixture");
+    const result = generateCandidates({
+      profile: namingProfileSchema.parse({
+        ...profile,
+        requiredCharacters: [
+          { char: "清", position: 1 },
+          { char: "扬", position: 2 },
+        ],
+      }),
+      bundle: {
+        ...bundle,
+        traditionalToSimplified: { 扬: "扬", 揚: "扬" },
+        allusions: [
+          {
+            ...source,
+            selectedText: "清揚",
+            title: "清揚",
+            quote: "有美一人，清揚婉兮。",
+            interpretation: "清秀明朗，文雅舒展。",
+          },
+        ],
+      },
+      seed: "traditional-source",
+      requestedCount: 1,
+      allusionRatio: 1,
+      historicalFingerprints: new Set(),
+    });
+
+    expect(result.candidates[0]).toMatchObject({
+      fullName: "宋清扬",
+      givenName: "清扬",
+      summary: "清秀明朗，文雅舒展。",
+    });
+    expect(result.candidates[0]?.sourceEvidence[0]?.quote).toBe("有美一人，清扬婉兮。");
   });
 });

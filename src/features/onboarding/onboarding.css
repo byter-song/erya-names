@@ -140,6 +140,12 @@
   background: transparent;
   cursor: pointer;
 }
+.onboarding__actions-primary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
 .onboarding__error {
   color: var(--danger);
   font-weight: 700;

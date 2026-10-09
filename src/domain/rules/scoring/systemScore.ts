@@ -29,6 +29,8 @@ export function getSystemScoreEvidence(
   let hasFullNameHomophoneRule = false;
 
   for (const rule of ruleResults) {
+    if (rule.evidenceLevel === "L4") continue;
+
     if (rule.ruleId === SYSTEM_SCORE_BASE_RULE_ID) {
       if (hasBaseRule) continue;
       hasBaseRule = true;
@@ -43,7 +45,6 @@ export function getSystemScoreEvidence(
     if (
       rule.ruleId !== SYSTEM_SCORE_BASE_RULE_ID &&
       rule.evidenceLevel !== "L3" &&
-      rule.evidenceLevel !== "L4" &&
       scoreDelta === 0
     )
       continue;

@@ -14,6 +14,7 @@ const candidates = [
     warnings: [],
     rating: 5,
     note: "喜欢",
+    folkloreReviewed: true,
     sourceEvidence: [{ sourceId: "shijing", work: "诗经", quote: "有美一人" }],
     ruleEvidence: [
       {
@@ -58,24 +59,34 @@ const candidates = [
 ];
 
 describe("ComparisonPage", () => {
+  it("offers a direct way back when no names have entered comparison", async () => {
+    const back = vi.fn();
+    const user = userEvent.setup();
+    render(<ComparisonPage candidates={[]} onBackToCandidates={back} onPromote={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "返回我的候选" }));
+    expect(back).toHaveBeenCalledOnce();
+  });
+
   it("compares candidates and promotes one to finalist", async () => {
     const promote = vi.fn().mockResolvedValue(undefined);
     const user = userEvent.setup();
     render(<ComparisonPage candidates={candidates} onPromote={promote} />);
 
-    expect(screen.getByRole("heading", { name: "候选对比" })).toBeVisible();
-    expect(screen.getByText("宋清扬")).toBeVisible();
+    expect(screen.getByRole("heading", { name: "重点候选" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "宋清扬" })).toBeVisible();
     expect(screen.getByText("5 分")).toBeVisible();
     expect(screen.getByText("喜欢")).toBeVisible();
-    expect(screen.getByText("诗经 · 有美一人")).toBeVisible();
-    expect(screen.getAllByText("读音").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("字形").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("L3 偏好").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("L4 民俗参考").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("诗经 · 有美一人")).toHaveLength(2);
+    expect(screen.getAllByText("读音与叫名").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("书写难度").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("传统民俗参考").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("已复筛")).toHaveLength(2);
+    await user.click(screen.getByText("查看评分与技术依据"));
     expect(screen.getByText("字形结构舒展")).toBeVisible();
     expect(screen.getByText("包含用户指定喜用五行")).toBeVisible();
 
-    await user.click(screen.getByRole("button", { name: "将宋清扬列为最终候选" }));
+    await user.click(screen.getByRole("button", { name: "将宋清扬加入定稿名单" }));
     expect(promote).toHaveBeenCalledWith("c1");
   });
 
@@ -84,10 +95,14 @@ describe("ComparisonPage", () => {
     const user = userEvent.setup();
     render(<ComparisonPage candidates={candidates} onPromote={promote} />);
 
-    await user.click(screen.getByRole("button", { name: "将宋清扬列为最终候选" }));
+    await user.click(screen.getByRole("button", { name: "将宋清扬加入定稿名单" }));
 
-    expect(screen.getByRole("button", { name: "宋清扬已列为最终候选" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "将宋知远列为最终候选" })).toBeEnabled();
+    expect(screen.getAllByRole("button", { name: "宋清扬已加入定稿名单" })).toHaveLength(2);
+    for (const button of screen.getAllByRole("button", {
+      name: "宋清扬已加入定稿名单",
+    }))
+      expect(button).toBeDisabled();
+    expect(screen.getByRole("button", { name: "将宋知远加入定稿名单" })).toBeEnabled();
     expect(screen.getByRole("heading", { name: "宋清扬" })).toBeVisible();
   });
 
@@ -146,13 +161,13 @@ describe("ComparisonPage", () => {
     expect(screen.getByRole("dialog", { name: "第一轮" })).toHaveTextContent("2 分");
   });
 
-  it("lets the user enter finalization after selecting three to five finalists", async () => {
+  it("lets the user open a final list with one or more names", async () => {
     const openFinalization = vi.fn();
     const user = userEvent.setup();
-    const { rerender } = render(
+    render(
       <ComparisonPage
         candidates={[candidates[0]!]}
-        finalists={candidates.slice(1).map((candidate) => ({
+        finalists={[candidates[1]!].map((candidate) => ({
           ...candidate,
           stage: "finalist" as const,
         }))}
@@ -161,20 +176,7 @@ describe("ComparisonPage", () => {
       />,
     );
 
-    expect(screen.queryByRole("button", { name: "进入最终定稿" })).not.toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "将宋清扬列为最终候选" }));
-    rerender(
-      <ComparisonPage
-        candidates={[]}
-        finalists={candidates.map((candidate) => ({
-          ...candidate,
-          stage: "finalist" as const,
-        }))}
-        onOpenFinalization={openFinalization}
-        onPromote={vi.fn().mockResolvedValue(undefined)}
-      />,
-    );
-    await user.click(screen.getByRole("button", { name: "进入最终定稿" }));
+    await user.click(screen.getByRole("button", { name: "查看定稿名单" }));
     expect(openFinalization).toHaveBeenCalledOnce();
   });
 
@@ -188,7 +190,7 @@ describe("ComparisonPage", () => {
         onUndo={undo}
       />,
     );
-    await user.click(screen.getByRole("button", { name: "将宋清扬列为最终候选" }));
+    await user.click(screen.getByRole("button", { name: "将宋清扬加入定稿名单" }));
     await user.click(screen.getByRole("button", { name: "撤销上一步" }));
     expect(undo).toHaveBeenCalledOnce();
   });
@@ -210,17 +212,15 @@ describe("ComparisonPage", () => {
       />,
     );
 
-    expect(screen.getByRole("region", { name: "已选最终候选" })).toHaveTextContent(
-      "已选最终候选 3 / 5",
+    expect(screen.getByRole("region", { name: "定稿名单" })).toHaveTextContent(
+      "定稿名单 3 / 5",
     );
     expect(
-      screen.getByText(
-        "待比较列表已处理完。上方最终候选仍然完整保存，可以继续定稿或移回对比。",
-      ),
+      screen.getByText("重点候选已处理完。上方定稿名单仍然完整保存，可继续调整。"),
     ).toBeVisible();
-    await user.click(screen.getByRole("button", { name: "进入最终定稿" }));
+    await user.click(screen.getByRole("button", { name: "查看定稿名单" }));
     expect(openFinalization).toHaveBeenCalledOnce();
-    await user.click(screen.getAllByRole("button", { name: "移回对比" })[0]!);
+    await user.click(screen.getAllByRole("button", { name: "移除到重点候选" })[0]!);
     expect(returnToComparison).toHaveBeenCalledWith("c1");
   });
 });

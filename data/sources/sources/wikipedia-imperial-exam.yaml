@@ -1,0 +1,73 @@
+sourceId: wikipedia-imperial-exam
+sourceType: snapshot
+sourceUrl: https://zh.wikipedia.org/wiki/清朝進士列表
+license:
+  spdx: CC-BY-SA-4.0
+  file: data/sources/personal/wikipedia-CC-BY-SA-4.0.txt
+  sha256: a34aff90b3016b2da268b8850e56f2ce0c367b8d59f25b90171a42492cb17118
+uses: [persons]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/snapshots/b/imperial-exam-1871-93466717.txt
+    sha256: 0dc327dcb30c7cfc898fde4f24e3f5307e3130d0fe6eb75a57096fb0c8e2d922
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E5%B9%B4%E8%BE%9B%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=93466717"
+    revision: "93466717"
+  - path: data/sources/snapshots/b/imperial-exam-1874-88665585.txt
+    sha256: 9d422962be61f2109b6174eec0de0370512729e8541a32bd68eb14af73b565fa
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E4%B8%89%E5%B9%B4%E7%94%B2%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88665585"
+    revision: "88665585"
+  - path: data/sources/snapshots/b/imperial-exam-1876-88282184.txt
+    sha256: c418ae463849535614a0a34dedda801a0f93e9b0df909e703e4616399d66e6fd
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%B9%B4%E4%B8%99%E5%AD%90%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88282184"
+    revision: "88282184"
+  - path: data/sources/snapshots/b/imperial-exam-1877-88957111.txt
+    sha256: 26f1d4db610affb170b41de9c2939be4807325352477c22e5770cf58510b2009
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%B9%B4%E4%B8%81%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88957111"
+    revision: "88957111"
+  - path: data/sources/snapshots/b/imperial-exam-1880-94477425.txt
+    sha256: 82fcc6677131b49552b51ef4c4b079c9f97589482c78900f53e685279bd02390
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%85%AD%E5%B9%B4%E5%BA%9A%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94477425"
+    revision: "94477425"
+  - path: data/sources/snapshots/b/imperial-exam-1883-88766949.txt
+    sha256: cd1782e3fccd219bcc3ff5a20aa44393c7a2b10f5e2e5a78cf97d1babe85d229
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B9%9D%E5%B9%B4%E7%99%B8%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766949"
+    revision: "88766949"
+  - path: data/sources/snapshots/b/imperial-exam-1886-89360204.txt
+    sha256: bc99fe07d66cf2ec2478bd0c544c00be3d0de3bbed7103d38d8cc0e4470ec1a8
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%8C%E5%B9%B4%E4%B8%99%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89360204"
+    revision: "89360204"
+  - path: data/sources/snapshots/b/imperial-exam-1889-88766945.txt
+    sha256: 86c7fd89b203f372f937da7f37d3d7d815e7ab382a3713cdfcb02a20ce4508c8
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%94%E5%B9%B4%E5%B7%B1%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766945"
+    revision: "88766945"
+  - path: data/sources/snapshots/b/imperial-exam-1890-94487547.txt
+    sha256: 57c0aca9f3a4f5a8ba83a257ee7834f0fab116bc1a91b275d87997a1420d07d9
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AD%E5%B9%B4%E5%BA%9A%E5%AF%85%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94487547"
+    revision: "94487547"
+  - path: data/sources/snapshots/b/imperial-exam-1892-94008094.txt
+    sha256: aabf98d6ebdeff560dc2fe11034cbc4938ed8bd8056f55cded1ae9385ae1296d
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AB%E5%B9%B4%E5%A3%AC%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94008094"
+    revision: "94008094"
+  - path: data/sources/snapshots/b/imperial-exam-1894-94228906.txt
+    sha256: be55bf3fe71e9b53999fdca33bdc7665c1b22db79188653f08c2b16b66da0a3d
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%94%B2%E5%8D%88%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94228906"
+    revision: "94228906"
+  - path: data/sources/snapshots/b/imperial-exam-1895-92773710.txt
+    sha256: f8744e6f0362537665d3cddfcdf640d9fed36caf566fb05fffb79cc62b3f2dc1
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B8%80%E5%B9%B4%E4%B9%99%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=92773710"
+    revision: "92773710"
+  - path: data/sources/snapshots/b/imperial-exam-1898-89045580.txt
+    sha256: 453ac4488b4fb6f7be6bfea5c0728f098c9a7e0db20beae4481b1020a3cbc8ae
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B9%B4%E6%88%8A%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89045580"
+    revision: "89045580"
+  - path: data/sources/snapshots/b/imperial-exam-1903-89311739.txt
+    sha256: 1d532e62dfcbd9c6135e6f305344ba9c6961a140f3ec7564b5093ca8f421cf95
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B9%9D%E5%B9%B4%E7%99%B8%E5%8D%AF%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89311739"
+    revision: "89311739"
+  - path: data/sources/snapshots/b/imperial-exam-1904-91058281.txt
+    sha256: be7b5b8ff8bb67ce12305eda7a7e557eba47c98b4d94fc501ba3203bdf653f68
+    url: "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%8D%81%E5%B9%B4%E7%94%B2%E8%BE%B0%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=91058281"
+    revision: "91058281"
+notes: Pinned Chinese Wikipedia palace-exam list excerpts for exact year, examination and rank evidence; personal source_checked use only.

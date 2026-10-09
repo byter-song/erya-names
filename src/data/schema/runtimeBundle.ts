@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+const singleNfcCharacterSchema = z
+  .string()
+  .refine(
+    (value) => [...value].length === 1 && value === value.normalize("NFC"),
+    "Expected one NFC-normalized character",
+  );
+
 const sourceRefSchema = z.object({
   sourceId: z.string().min(1),
   location: z.string().min(1),
@@ -34,6 +41,14 @@ export const runtimeCharacterSchema = z.object({
   genderExpression: z.enum(["neutral", "masculine", "feminine"]).optional(),
   element: z.enum(["wood", "fire", "earth", "metal", "water"]).optional(),
   elementReason: z.string().optional(),
+  elementEvidence: z
+    .object({
+      methodVersion: z.string().min(1),
+      reviewStatus: z.enum(["source_checked", "verified"]),
+      checkedAt: z.iso.date(),
+      sourceRefs: z.array(z.string().min(1)).min(1),
+    })
+    .optional(),
   checkedAt: z.string().optional(),
   sourceRefs: z.array(sourceRefSchema).min(1),
 });
@@ -127,6 +142,12 @@ export const runtimeBundleSchema = z.object({
   characters: z.array(runtimeCharacterSchema),
   allusions: z.array(runtimeAllusionSchema),
   modernCombinations: z.array(modernCombinationSchema).optional(),
+  standardCharacterPinyin: z
+    .record(singleNfcCharacterSchema, z.array(z.string().min(1)).min(1))
+    .default({}),
+  traditionalToSimplified: z
+    .record(singleNfcCharacterSchema, singleNfcCharacterSchema)
+    .default({}),
   personUsages: z.array(personUsageSchema).default([]),
 });
 

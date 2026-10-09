@@ -17,7 +17,7 @@ export const DEFAULT_BUNDLE_BUDGET: Partial<Record<Category, Limit>> = {
   javascript: { raw: 1_050_000, gzip: 350_000 },
   css: { raw: 140_000, gzip: 50_000 },
   fonts: { raw: 30_000, gzip: 30_000 },
-  data: { raw: 500_000, gzip: 180_000 },
+  data: { raw: 1_300_000, gzip: 220_000 },
 };
 
 function category(asset: string): Category {

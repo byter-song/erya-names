@@ -5,4 +5,6 @@ export interface CandidateSourceEvidence {
   quote?: string;
   location?: string;
   excerpt?: string;
+  url?: string;
+  revision?: string;
 }

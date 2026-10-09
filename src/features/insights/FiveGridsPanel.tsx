@@ -1,7 +1,7 @@
 import { Button } from "../../design-system/primitives/Button";
 import { useState } from "react";
 import { calculateFiveGrids } from "../../domain/folklore/fiveGrids";
-import { elementLabels } from "../../domain/folklore/calendarAdapter";
+import { elementLabels } from "../../domain/folklore/fiveElements";
 export function FiveGridsPanel({
   surname,
   givenName,

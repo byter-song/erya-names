@@ -11,13 +11,14 @@ async function expectNoSeriousViolations(page: import("@playwright/test").Page) 
 async function createGeneratedProject(page: import("@playwright/test").Page) {
   await page.goto("/");
   await page.getByRole("button", { name: "新建起名方案" }).click();
+  await page.getByLabel("姓氏", { exact: true }).fill("宋");
   await page.getByRole("button", { name: "下一步" }).click();
+  await page.getByLabel("没有", { exact: true }).check();
   await page.getByRole("button", { name: "下一步" }).click();
   await page.getByLabel("清朗自然").check();
-  await page.getByRole("button", { name: "下一步" }).click();
-  await page.getByRole("button", { name: "完成建档并生成姓名" }).click();
+  await page.getByRole("button", { name: "完成建档，开始选名" }).click();
   await expectNoSeriousViolations(page);
-  await page.getByRole("button", { name: "生成 48 个名字" }).focus();
+  await page.getByRole("button", { name: "生成一批" }).focus();
   await page.keyboard.press("Enter");
   await expect(page.locator(".candidate-card").first()).toBeVisible();
 }
@@ -128,19 +129,20 @@ test(
 
     const names = await page.locator(".candidate-card h2").allTextContents();
     for (const name of names.slice(0, 2))
-      await page.getByRole("button", { name: `收入候选${name}`, exact: true }).click();
-    await page.getByRole("button", { name: /我的候选/ }).click();
+      await page.getByRole("button", { name: `保留到基础候选${name}`, exact: true }).click();
+    await page.getByRole("button", { name: /^基础候选/ }).click();
     for (const name of names.slice(0, 2)) {
       const add = page
         .locator(".candidate-card")
         .filter({ hasText: name })
-        .getByRole("button", { name: "加入对比" });
+        .getByRole("button", { name: "跳过民俗，加入重点候选" });
       await add.focus();
       await page.keyboard.press("Enter");
+      await expect(add).toBeHidden();
     }
-    await page.getByRole("button", { name: "打开候选对比" }).focus();
+    await page.getByRole("button", { name: "打开重点候选" }).focus();
     await page.keyboard.press("Enter");
-    await expect(page.getByRole("heading", { name: "候选对比" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "重点候选" })).toBeVisible();
     await expectNoSeriousViolations(page);
   },
 );

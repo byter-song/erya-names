@@ -1,0 +1,7 @@
+Erya Names manually curated factual records are dedicated under CC0 1.0 Universal.
+
+This dedication covers only the project-authored record structure, neutral summaries, and factual
+selection. It does not relicense any linked third-party page or its expressive content. Each record
+keeps its external evidence URL for independent verification.
+
+CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/

@@ -43,6 +43,13 @@
   padding: 26px 30px;
   border-top: 2px solid var(--gold-500);
 }
+.generation-plan--inline {
+  margin: 18px 0 22px;
+  padding: 20px 24px;
+}
+.generation-plan--inline .generation-controls {
+  margin-bottom: 12px;
+}
 .studio-section-heading {
   display: flex;
   align-items: center;
@@ -99,7 +106,6 @@
   line-height: 1.7;
 }
 .profile-editor,
-.studio-folklore-summary,
 .studio-library {
   padding: 20px 26px;
   margin-top: 20px;
@@ -193,6 +199,9 @@
   }
   .generation-plan {
     padding: 20px;
+  }
+  .generation-plan--inline {
+    margin-bottom: 18px;
   }
   .generation-controls {
     gap: 12px;

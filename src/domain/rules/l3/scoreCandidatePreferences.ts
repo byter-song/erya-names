@@ -30,10 +30,17 @@ export function scoreCandidatePreferences(input: {
     {
       id: "style-match",
       outcome: "score",
-      scoreDelta: Math.min(styleMatches.length * 3, 6),
+      scoreDelta:
+        input.preferredStyleTags.length === 0
+          ? 0
+          : styleMatches.length === 0
+            ? -4
+            : Math.min(styleMatches.length * 3, 6),
       evidence: styleMatches.length
         ? `匹配偏好：${styleMatches.join("、")}`
-        : "未匹配已选择风格",
+        : input.preferredStyleTags.length
+          ? `未匹配已选择风格：${input.preferredStyleTags.join("、")}，作为软偏好扣分。`
+          : "当前方案未选择风格偏好",
     },
     {
       id: "source-quality",
@@ -54,11 +61,11 @@ export function scoreCandidatePreferences(input: {
     {
       id: "pinyin-friendly",
       outcome: "score",
-      scoreDelta: input.pinyinFriendly && !repeatedSyllables ? 2 : 0,
+      scoreDelta: input.pinyinFriendly ? (repeatedSyllables ? -4 : 2) : 0,
       evidence: !input.pinyinFriendly
         ? "当前方案未启用拼音友好偏好"
         : repeatedSyllables
-          ? "存在重复音节，保持中性"
+          ? "存在重复音节，日常呼叫辨识度可能下降，作为软偏好扣分"
           : "拼音音节无重复",
     },
     {

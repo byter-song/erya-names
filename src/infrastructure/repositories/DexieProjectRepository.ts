@@ -1,4 +1,5 @@
 import type {
+  FolkloreReviewUpdate,
   ProjectRepository,
   ProjectWorkspace,
 } from "../../application/ports/ProjectRepository";
@@ -97,6 +98,83 @@ export class DexieProjectRepository implements ProjectRepository {
       async () => {
         await this.database.projects.put(input.project);
         await this.database.profiles.put(input.profile);
+      },
+    );
+  }
+
+  async updateFolkloreReview(input: FolkloreReviewUpdate) {
+    await this.database.transaction(
+      "rw",
+      [
+        this.database.projects,
+        this.database.profiles,
+        this.database.candidates,
+        this.database.ruleResults,
+        this.database.candidateDecisions,
+      ],
+      async () => {
+        const currentProject = await this.database.projects.get(input.workspace.project.id);
+        if (!currentProject || currentProject.updatedAt !== input.expectedProjectUpdatedAt)
+          throw new Error("方案设置已在其他窗口更新，请刷新后重试。");
+
+        const candidateIds = input.candidateResults.map((item) => item.candidateId);
+        const decisions = candidateIds.length
+          ? await this.database.candidateDecisions.bulkGet(candidateIds)
+          : [];
+        if (decisions.some((decision) => !decision || decision.stage !== "folklore_review"))
+          throw new Error("民俗候选已在其他窗口变化，请刷新后重新评估。");
+        const existingL4 = candidateIds.length
+          ? await this.database.ruleResults
+              .where("candidateId")
+              .anyOf(candidateIds)
+              .filter((record) => record.evidenceLevel === "L4")
+              .primaryKeys()
+          : [];
+        if (existingL4.length) await this.database.ruleResults.bulkDelete(existingL4);
+
+        const nextResults = input.candidateResults.flatMap(({ candidateId, result }) =>
+          result
+            ? [
+                {
+                  id: `${candidateId}:${result.ruleId}:folklore-review`,
+                  projectId: input.workspace.project.id,
+                  candidateId,
+                  evidenceLevel: result.evidenceLevel,
+                  outcome: result.outcome,
+                  ruleId: result.ruleId,
+                  ruleVersion: result.ruleVersion,
+                  explanation: result.explanation,
+                  sourceRefs: result.sourceRefs,
+                  ...(result.scoreDelta !== undefined ? { scoreDelta: result.scoreDelta } : {}),
+                },
+              ]
+            : [],
+        );
+        if (nextResults.length) await this.database.ruleResults.bulkPut(nextResults);
+
+        const candidates = candidateIds.length
+          ? await this.database.candidates.bulkGet(candidateIds)
+          : [];
+        const resultsByCandidate = new Map(
+          input.candidateResults.map((item) => [item.candidateId, item.result]),
+        );
+        const updatedCandidates = candidates.flatMap((candidate) => {
+          if (!candidate) return [];
+          const result = resultsByCandidate.get(candidate.id);
+          return [
+            {
+              ...candidate,
+              ruleResults: [
+                ...candidate.ruleResults.filter((rule) => rule.evidenceLevel !== "L4"),
+                ...(result ? [result] : []),
+              ],
+            },
+          ];
+        });
+        if (updatedCandidates.length) await this.database.candidates.bulkPut(updatedCandidates);
+
+        await this.database.projects.put(input.workspace.project);
+        await this.database.profiles.put(input.workspace.profile);
       },
     );
   }

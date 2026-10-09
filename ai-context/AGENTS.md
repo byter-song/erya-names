@@ -37,7 +37,7 @@
 - 默认不接入统计、埋点、第三方分析或大模型接口。
 - 个人版生成采用来源已核对的语料；无可靠古籍出处的名字标注为“现代组合命名”。
 - 默认 personal 包可使用 source_checked（机器核对与 AI 整理）；公共 production 仍只接收真实人审 verified 记录。
-- L1/L2 是硬约束，L3/L4 只能作为软评分或展示信息；L4 民俗模块默认关闭。
+- L1/L2 是硬约束，L3 用于基础系统分；L4 只在民俗候选阶段设置、重评和排序，不混入基础系统分。
 - 传统民俗输出必须标注“传统民俗参考，非科学结论”；健康相关内容必须标注不构成医疗建议。
 
 ## 模块地图
@@ -52,7 +52,7 @@
 | 生成与规则 | `src/domain/generation/`, `src/domain/rules/`                        | 候选生成、L1/L2/L3/L4 分层规则和不变量           |
 | 民俗历法   | `src/domain/folklore/`                                               | `lunar-typescript` 封装、四柱和五行分布          |
 | 数据       | `src/data/`, `data/`, `scripts/data/`                                | 运行时语料、来源与中间产物、数据管线脚本         |
-| 存储       | `src/infrastructure/database/`, `src/infrastructure/repositories/`   | Dexie schema v3、迁移和仓储                      |
+| 存储       | `src/infrastructure/database/`, `src/infrastructure/repositories/`   | Dexie schema v4、迁移和仓储                      |
 | 测试       | `tests/unit/`, `tests/integration/`, `tests/security/`, `tests/e2e/` | 领域、存储、UI、安全、可访问性、性能和浏览器旅程 |
 
 ## 构建与验证
@@ -77,13 +77,16 @@
 ## 当前发布事实
 
 - 0.3 个人版规格：workspace `specs/20260927-naming-studio/`；使用说明见 `docs/personal-guide.md`。
-- 默认 `personal-2026.09.27` 内容包：303 个字、62 条典故来源、500 个现代组合；source_checked 与生产人审 verified 分开。构建生成同源、带内容哈希的 JSON 语料资产。
+- 默认 `personal-2026.09.30` 内容包：303 个字、396 条经过 `corpus-score-1` 准入的双字典故、500 个现代组合和 66 条历史用名参考；source_checked 与生产人审 verified 分开。精选 TSV/JSON 是持久输入，构建不从原始大语料重新抽取名字。
+- `data/sources/personal/standard-character-pinyin.json` 是覆盖 8,105 个通用规范汉字的持久拼音 SSOT；303 张 `characters` 仍是独立的自动生成白名单。
+- `data/sources/personal/traditional-to-simplified.json` 是固定 OpenCC 来源生成的持久映射；繁体底本在精选构建和候选生成时先转换为简体，再进入字卡门禁与页面展示。
+- `data/sources/personal/character-elements.json` 为全部 303 张生成字卡提供 `semantic-imagery-1` 五行文化意象与逐字理由；它是 source_checked 项目分类，不是唯一权威字表。
 - 民俗报告和名字解释在 `src/features/insights/`；日柱支持午夜/晚子时口径，时辰不详只展示三柱。
 - 生成与筛选合并到 `/generate`；旧 `/candidates` 保留重定向兼容。
 - 方案中心的“继续方案”按持久化阶段进入 `/generate`、`/compare` 或 `/finalize`；旧 `/projects/:id` 地址会读取方案后跳转，不再停留在占位页。删除方案需二次确认，并在单个 Dexie 事务中清理全部项目从属记录。
 
-- 应用版本 `0.3.0`，Dexie schema v3，项目备份 schema v2。
-- `public/_headers` 定义 Cloudflare Pages 安全头，`public/_redirects` 提供 SPA 深链 fallback。
+- 应用版本 `0.3.0`，Dexie schema v4，项目备份 schema v3。
+- `public/_headers` 记录静态托管期望的安全头，`public/_redirects` 提供 SPA 深链 fallback；当前部署平台是 ESA Functions & Pages，远端验收需确认平台实际应用这些规则。
 - `npm run release:prepare` 生成一次 `dist/` 和 `output/release/release-manifest.json`；`npm run release:verify` 验证该目录未发生改变。
 - `npm run release:prepare:production` 是唯一生产数据构建入口：只有真实人审通过后才会生成 `releases/current.json` 并注入 production artifact。
 - Chromium/WebKit 可在本机验证；Edge 通过 `npm run test:e2e:edge` 在安装 Microsoft Edge 的环境或 Windows CI 验证。

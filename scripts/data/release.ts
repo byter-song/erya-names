@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { canonicalStringify } from "../../src/infrastructure/backup/checksum";
+import { canonicalStringify } from "../../src/application/backup/checksum";
 
 interface HumanReview {
   decision: "approve" | "edit-and-approve" | "dispute" | "retire" | "request-source";
@@ -188,6 +188,16 @@ function toRuntimeCharacter(record: Record<string, unknown>) {
     riskSignals: record.riskSignals,
     reviewStatus: record.reviewStatus,
     sourceRefs: record.sourceRefs,
+    ...(record.strokes !== undefined ? { strokes: record.strokes } : {}),
+    ...(record.genderExpression !== undefined
+      ? { genderExpression: record.genderExpression }
+      : {}),
+    ...(record.element !== undefined ? { element: record.element } : {}),
+    ...(record.elementReason !== undefined ? { elementReason: record.elementReason } : {}),
+    ...(record.elementEvidence !== undefined
+      ? { elementEvidence: record.elementEvidence }
+      : {}),
+    ...(record.checkedAt !== undefined ? { checkedAt: record.checkedAt } : {}),
   };
 }
 function toRuntimeAllusion(record: Record<string, unknown>) {

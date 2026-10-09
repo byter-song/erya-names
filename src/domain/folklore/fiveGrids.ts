@@ -1,4 +1,4 @@
-import type { FiveElement } from "./calendarAdapter";
+import type { FiveElement } from "./fiveElements";
 export function calculateFiveGrids(surname: number[], given: number[]) {
   if (
     ![1, 2].includes(surname.length) ||

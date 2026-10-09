@@ -57,11 +57,7 @@ export function scoreAllusionRecord(input) {
     "单字取名可组合信息较少，需要结合姓氏单独判断。",
   );
 
-  const total = clamp(
-    100 - deductions.reduce((sum, item) => sum + item.points, 0),
-    0,
-    100,
-  );
+  const total = clamp(100 - deductions.reduce((sum, item) => sum + item.points, 0), 0, 100);
   return {
     total,
     threshold: CORPUS_ACCEPTANCE_THRESHOLD,

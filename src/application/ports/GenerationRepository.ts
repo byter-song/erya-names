@@ -11,7 +11,10 @@ export interface PersistedGeneratedCandidate extends GeneratedCandidate {
 export interface GenerationRepository {
   findHistoricalFingerprints(projectId: string): Promise<Set<string>>;
   countBatches(projectId: string): Promise<number>;
-  listCandidates(projectId: string): Promise<
+  listCandidates(
+    projectId: string,
+    stages?: CandidateDecision["stage"][],
+  ): Promise<
     Array<{
       candidate: PersistedGeneratedCandidate;
       decision: CandidateDecision;

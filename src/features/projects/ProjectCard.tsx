@@ -1,26 +1,13 @@
 import { Status } from "../../design-system/primitives/Status";
-
-export interface ProjectSummary {
-  id: string;
-  title: string;
-  surname: string;
-  stage: "onboarding" | "generation" | "funnel" | "comparison" | "finalization";
-  status: "draft" | "active" | "archived" | "completed";
-  candidateCount: number;
-  favoriteCount: number;
-  finalistCount: number;
-  updatedAt: string;
-}
+import type { ProjectSummary, ResumableProject } from "../../application/models/ProjectSummary";
 
 const STAGE_LABELS: Record<ProjectSummary["stage"], string> = {
   onboarding: "完善条件",
-  generation: "生成候选",
-  funnel: "筛选候选",
-  comparison: "候选对比",
-  finalization: "最终定稿",
+  generation: "灵感池",
+  funnel: "基础 / 民俗候选",
+  comparison: "重点候选",
+  finalization: "定稿名单",
 };
-
-type ResumableProject = Pick<ProjectSummary, "id" | "stage" | "status">;
 
 export function getProjectResumeHref(project: ResumableProject): string {
   if (project.status === "completed" || project.stage === "finalization")
@@ -53,8 +40,8 @@ export function ProjectCard({
       </header>
       <div className="project-card__metrics">
         <span>候选 {project.candidateCount}</span>
-        <span>收藏 {project.favoriteCount}</span>
-        <span>最终 {project.finalistCount} / 5</span>
+        <span>初选 {project.favoriteCount}</span>
+        <span>定稿 {project.finalistCount} / 5</span>
       </div>
       <footer className="project-card__footer">
         <span>更新于 {new Date(project.updatedAt).toLocaleDateString("zh-CN")}</span>

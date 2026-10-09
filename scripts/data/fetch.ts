@@ -16,7 +16,7 @@ if (requested.some((sourceId) => !selected.some((source) => source.sourceId === 
 for (const source of selected) {
   if (!source.releaseEligible && !source.personalEligible)
     throw new Error(`${source.sourceId}: source is not eligible for a data bundle`);
-  if (source.sourceType === "snapshot") {
+  if (source.sourceType !== "git") {
     if (!(await verifyLocalSnapshot(source)))
       throw new Error(`${source.sourceId}: committed snapshot failed verification`);
     console.log(`verified local snapshot ${source.sourceId}`);
@@ -85,7 +85,7 @@ async function verifyCache(directory: string, source: SourceManifest): Promise<b
 }
 
 async function verifyLocalSnapshot(source: SourceManifest): Promise<boolean> {
-  if (source.sourceType !== "snapshot") return false;
+  if (source.sourceType === "git") return false;
   try {
     for (const file of [
       { path: source.license.file, sha256: source.license.sha256 },

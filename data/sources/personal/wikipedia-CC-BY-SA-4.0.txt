@@ -1,0 +1,14 @@
+Chinese Wikipedia imperial-exam excerpt snapshots
+
+Source: https://zh.wikipedia.org/
+License: Creative Commons Attribution-ShareAlike 4.0 International
+License URL: https://creativecommons.org/licenses/by-sa/4.0/
+
+The page revisions and short excerpts redistributed by Erya Names are attributed
+to Chinese Wikipedia contributors. Each evidence record retains its exact page
+revision URL. Adaptations and normalized Simplified Chinese transcriptions are
+distributed under the same CC BY-SA 4.0 terms.
+
+The pinned imperial-exam list excerpts are used as factual evidence only. Chinese
+Wikipedia page metadata and contributor history remain available at each pinned
+revision URL.

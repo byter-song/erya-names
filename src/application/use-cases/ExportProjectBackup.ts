@@ -1,6 +1,6 @@
 import type { BackupRepository } from "../ports/BackupRepository";
-import type { BackupEnvelope } from "../../infrastructure/backup/backupSchema";
-import { createBackupEnvelope } from "../../infrastructure/backup/backupSchema";
+import type { BackupEnvelope } from "../backup/backupSchema";
+import { createBackupEnvelope } from "../backup/backupSchema";
 import { err, ok, type Result } from "../../domain/shared/result";
 
 export class ExportProjectBackup {

@@ -4,6 +4,7 @@ import { namingProjectSchema } from "../../domain/project/project";
 import { generationBatchSchema } from "../../domain/generation/batch";
 import { candidateSchema } from "../../domain/candidate/candidate";
 import { candidateDecisionSchema } from "../../domain/candidate/decision";
+import { candidateStageSchema } from "../../domain/candidate/decision";
 import { candidateEvaluationSchema } from "../../domain/candidate/evaluation";
 import { finalDecisionSchema } from "../../domain/candidate/finalDecision";
 import { reviewedRiskSignalSchema } from "../../data/schema/runtimeBundle";
@@ -11,7 +12,7 @@ import { comparisonSnapshotSchema } from "../../domain/candidate/comparisonSnaps
 import { sha256 } from "./checksum";
 
 export const BACKUP_FORMAT = "erya-names-project-backup";
-export const BACKUP_SCHEMA_VERSION = 2;
+export const BACKUP_SCHEMA_VERSION = 3;
 
 const sourceEvidenceSchema = z
   .object({
@@ -21,6 +22,8 @@ const sourceEvidenceSchema = z
     quote: z.string().optional(),
     location: z.string().optional(),
     excerpt: z.string().optional(),
+    url: z.url().optional(),
+    revision: z.string().min(1).optional(),
   })
   .strict();
 const candidateRuleResultSchema = z
@@ -73,6 +76,8 @@ const candidateSourceRecordSchema = z
     quote: z.string().optional(),
     location: z.string().optional(),
     excerpt: z.string().optional(),
+    url: z.url().optional(),
+    revision: z.string().min(1).optional(),
   })
   .strict();
 const ruleResultRecordSchema = z
@@ -94,8 +99,10 @@ const decisionHistoryRecordSchema = z
     id: z.number().int().positive().optional(),
     projectId: z.string().min(1),
     candidateId: z.string().min(1),
-    from: z.enum(["inbox", "favorite", "comparison", "finalist", "rejected"]),
-    to: z.enum(["inbox", "favorite", "comparison", "finalist", "rejected"]),
+    from: candidateStageSchema,
+    to: candidateStageSchema,
+    action: z.enum(["manual", "auto_filter_confirmed"]).optional(),
+    batchId: z.string().min(1).optional(),
     changedAt: z.iso.datetime(),
   })
   .strict();
@@ -219,7 +226,7 @@ export async function validateBackupEnvelope(input: unknown): Promise<BackupEnve
   const rawEnvelope = z
     .object({
       format: z.literal(BACKUP_FORMAT),
-      schemaVersion: z.union([z.literal(1), z.literal(BACKUP_SCHEMA_VERSION)]),
+      schemaVersion: z.union([z.literal(1), z.literal(2), z.literal(BACKUP_SCHEMA_VERSION)]),
       appVersion: z.string().min(1),
       datasetVersion: z.string().min(1),
       rulePackVersion: z.string().min(1),

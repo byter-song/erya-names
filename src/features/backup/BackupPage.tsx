@@ -12,15 +12,32 @@ export function BackupPage({
 }) {
   const [encrypted, setEncrypted] = useState(false);
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+  const [exporting, setExporting] = useState(false);
 
   async function exportBackup() {
+    setStatus("");
+    setError("");
     if (encrypted && password.length < 8) {
-      setStatus("备份密码至少需要 8 个字符。");
+      setError("备份密码至少需要 8 个字符。");
       return;
     }
-    await onExport(encrypted ? password : undefined);
-    setStatus(encrypted ? "加密备份已下载。" : "JSON 备份已下载。");
+    if (encrypted && password !== passwordConfirmation) {
+      setError("两次输入的备份密码不一致。");
+      return;
+    }
+    setExporting(true);
+    try {
+      await onExport(encrypted ? password : undefined);
+      setStatus(encrypted ? "加密备份已下载。" : "JSON 备份已下载。");
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "备份导出失败，请重试。");
+    } finally {
+      setExporting(false);
+    }
   }
 
   return (
@@ -43,21 +60,47 @@ export function BackupPage({
           使用密码加密
         </label>
         {encrypted ? (
-          <label className="ui-field">
-            <span>备份密码</span>
+          <>
+            <label className="ui-field">
+              <span>备份密码</span>
+              <input
+                aria-label="备份密码"
+                autoComplete="new-password"
+                disabled={exporting}
+                onChange={(event) => setPassword(event.target.value)}
+                type={showPassword ? "text" : "password"}
+                value={password}
+              />
+            </label>
+            <label className="ui-field">
+              <span>确认备份密码</span>
+              <input
+                aria-label="确认备份密码"
+                autoComplete="new-password"
+                disabled={exporting}
+                onChange={(event) => setPasswordConfirmation(event.target.value)}
+                type={showPassword ? "text" : "password"}
+                value={passwordConfirmation}
+              />
+            </label>
+          </>
+        ) : null}
+        {encrypted ? (
+          <label className="backup-page__choice">
             <input
-              aria-label="备份密码"
-              autoComplete="new-password"
-              onChange={(event) => setPassword(event.target.value)}
-              type="password"
-              value={password}
+              checked={showPassword}
+              disabled={exporting}
+              onChange={(event) => setShowPassword(event.target.checked)}
+              type="checkbox"
             />
+            显示密码
           </label>
         ) : null}
-        <Button onClick={() => void exportBackup()} type="button">
-          {encrypted ? "下载加密备份" : "下载 JSON 备份"}
+        <Button disabled={exporting} onClick={() => void exportBackup()} type="button">
+          {exporting ? "正在导出…" : encrypted ? "下载加密备份" : "下载 JSON 备份"}
         </Button>
         {status ? <p role="status">{status}</p> : null}
+        {error ? <p role="alert">{error}</p> : null}
       </Card>
       <a href="/recovery">从备份恢复数据</a>
     </main>

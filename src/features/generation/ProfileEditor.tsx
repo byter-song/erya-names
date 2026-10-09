@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import type { NamingProfile } from "../../domain/project/profile";
 import { Button } from "../../design-system/primitives/Button";
-import { elementLabels, type FiveElement } from "../../domain/folklore/calendarAdapter";
-import { FolklorePanel } from "../insights/FolklorePanel";
 const split = (value: string) => [...new Set(value.split(/[，,、\s]+/u).filter(Boolean))];
 export function ProfileEditor({
   profile,
@@ -36,8 +34,6 @@ export function ProfileEditor({
     setDraft((current) => ({ ...current, [key]: value }));
     setSaved(false);
   };
-  const folklore = (patch: Partial<NamingProfile["folklore"]>) =>
-    field("folklore", { ...draft.folklore, ...patch });
   const save = async () => {
     setBusy(true);
     setError("");
@@ -67,7 +63,7 @@ export function ProfileEditor({
   return (
     <details ref={detailsRef} className="profile-editor paper-card" id="conditions">
       <summary>
-        起名条件与民俗设置 <span>姓氏 · 字辈 · 避讳 · 风格 · 出生信息</span>
+        起名条件 <span>姓氏 · 字辈 · 避讳 · 风格</span>
       </summary>
       <p>保存后用于下一批生成；已收入的名字和历史评分保留，方便比较不同方案。</p>
       <div className="studio-fields">
@@ -108,6 +104,35 @@ export function ProfileEditor({
           >
             <option value={1}>一字名</option>
             <option value={2}>二字名</option>
+          </select>
+        </label>
+        <label>
+          宝宝性别
+          <select
+            value={draft.childGender ?? "unknown"}
+            onChange={(e) =>
+              field("childGender", e.target.value as NonNullable<NamingProfile["childGender"]>)
+            }
+          >
+            <option value="male">男孩</option>
+            <option value="female">女孩</option>
+            <option value="unknown">暂未确定</option>
+          </select>
+        </label>
+        <label>
+          必须遵守的字辈或避讳
+          <select
+            value={draft.constraintKnowledge ?? "unknown"}
+            onChange={(e) =>
+              field(
+                "constraintKnowledge",
+                e.target.value as NonNullable<NamingProfile["constraintKnowledge"]>,
+              )
+            }
+          >
+            <option value="present">有</option>
+            <option value="none">没有</option>
+            <option value="unknown">不确定</option>
           </select>
         </label>
         <label>
@@ -206,83 +231,6 @@ export function ProfileEditor({
           />
           重视拼音辨识
         </label>
-        <label className="inline-choice">
-          <input
-            type="checkbox"
-            checked={draft.folklore.enabled}
-            onChange={(e) => folklore({ enabled: e.target.checked })}
-          />
-          开启传统民俗参考
-        </label>
-        {draft.folklore.enabled ? (
-          <>
-            <label>
-              出生日期{draft.folklore.timeKnown !== false ? "与时间" : ""}
-              <input
-                aria-label="民俗出生时间"
-                type={draft.folklore.timeKnown === false ? "date" : "datetime-local"}
-                value={draft.folklore.birthLocalDateTime ?? ""}
-                onChange={(e) =>
-                  folklore({ birthLocalDateTime: e.target.value, timeZone: "Asia/Shanghai" })
-                }
-              />
-            </label>
-            <label>
-              四柱换日口径
-              <select
-                value={draft.folklore.dayBoundary ?? "midnight"}
-                onChange={(e) => folklore({ dayBoundary: e.target.value as "midnight" | "zi" })}
-              >
-                <option value="midnight">00:00 午夜换日</option>
-                <option value="zi">23:00 晚子时换日</option>
-              </select>
-            </label>
-            <label className="inline-choice">
-              <input
-                type="checkbox"
-                checked={draft.folklore.timeKnown === false}
-                onChange={(e) =>
-                  folklore({
-                    timeKnown: !e.target.checked,
-                    birthLocalDateTime: e.target.checked
-                      ? (draft.folklore.birthLocalDateTime ?? "").slice(0, 10)
-                      : "",
-                  })
-                }
-              />
-              时辰不详，只看三柱
-            </label>
-            <fieldset className="wide-field">
-              <legend>家人指定的五行意象（不是系统推断的喜用神）</legend>
-              {(Object.entries(elementLabels) as [FiveElement, string][]).map(
-                ([key, label]) => (
-                  <label className="inline-choice" key={key}>
-                    <input
-                      type="checkbox"
-                      checked={draft.folklore.usefulElements.includes(key)}
-                      onChange={(e) =>
-                        folklore({
-                          usefulElements: e.target.checked
-                            ? [...draft.folklore.usefulElements, key]
-                            : draft.folklore.usefulElements.filter((x) => x !== key),
-                        })
-                      }
-                    />
-                    {label}
-                  </label>
-                ),
-              )}
-            </fieldset>
-            <label className="inline-choice">
-              <input
-                type="checkbox"
-                checked={draft.folklore.includeInRanking}
-                onChange={(e) => folklore({ includeInRanking: e.target.checked })}
-              />
-              让指定五行参与软排序
-            </label>
-          </>
-        ) : null}
       </div>
       <div className="studio-actions">
         <Button disabled={busy} onClick={() => void save()} type="button">
@@ -295,7 +243,6 @@ export function ProfileEditor({
           {error}
         </p>
       ) : null}
-      <FolklorePanel profile={draft} />
     </details>
   );
 }

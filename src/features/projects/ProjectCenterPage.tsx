@@ -3,7 +3,8 @@ import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
 import { Button } from "../../design-system/primitives/Button";
 import { Card } from "../../design-system/primitives/Card";
 import { Dialog } from "../../design-system/primitives/Dialog";
-import { ProjectCard, type ProjectSummary } from "./ProjectCard";
+import type { ProjectSummary } from "../../application/models/ProjectSummary";
+import { ProjectCard } from "./ProjectCard";
 import "./project-center.css";
 
 export interface ProjectCenterPageProps {

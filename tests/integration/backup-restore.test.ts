@@ -2,7 +2,7 @@ import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { ImportProjectBackup } from "../../src/application/use-cases/ImportProjectBackup";
 import { PreviewBackupImport } from "../../src/application/use-cases/PreviewBackupImport";
-import { createBackupEnvelope } from "../../src/infrastructure/backup/backupSchema";
+import { createBackupEnvelope } from "../../src/application/backup/backupSchema";
 import { EryaDatabase } from "../../src/infrastructure/database/EryaDatabase";
 import { DexieBackupRepository } from "../../src/infrastructure/repositories/DexieBackupRepository";
 import { namingProfileFixture } from "../fixtures/namingProfile";

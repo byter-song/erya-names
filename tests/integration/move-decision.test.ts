@@ -29,12 +29,91 @@ describe("MoveCandidateDecision", () => {
 
     const result = await new MoveCandidateDecision(new DexieDecisionRepository(database), {
       now: () => "2026-09-18T00:10:00.000Z",
+      canProgress: async () => true,
     }).execute({ projectId: "p1", candidateId: "c1", to: "favorite" });
 
     expect(result).toMatchObject({ ok: true, value: { stage: "favorite" } });
     await expect(database.decisionHistory.toArray()).resolves.toEqual([
       expect.objectContaining({ candidateId: "c1", from: "inbox", to: "favorite" }),
     ]);
+    database.close();
+  });
+
+  it("moves one name through basic, folklore and important stages with recoverable exclusion", async () => {
+    const database = createDatabase();
+    await database.projects.add({
+      id: "p1",
+      title: "宋姓宝宝起名",
+      stage: "generation",
+      status: "active",
+      createdAt: "2026-09-18T00:00:00.000Z",
+      updatedAt: "2026-09-18T00:00:00.000Z",
+    });
+    await database.candidateDecisions.add({
+      projectId: "p1",
+      candidateId: "c1",
+      stage: "inbox",
+      updatedAt: "2026-09-18T00:00:00.000Z",
+    });
+    let tick = 0;
+    const useCase = new MoveCandidateDecision(new DexieDecisionRepository(database), {
+      now: () => `2026-09-18T00:${String(++tick).padStart(2, "0")}:00.000Z`,
+      canProgress: async () => true,
+    });
+
+    await expect(
+      useCase.execute({ projectId: "p1", candidateId: "c1", to: "basic_shortlist" }),
+    ).resolves.toMatchObject({ ok: true, value: { stage: "basic_shortlist" } });
+    await expect(database.projects.get("p1")).resolves.toMatchObject({ stage: "funnel" });
+    await expect(
+      useCase.execute({ projectId: "p1", candidateId: "c1", to: "folklore_review" }),
+    ).resolves.toMatchObject({ ok: true, value: { stage: "folklore_review" } });
+    await expect(
+      useCase.execute({ projectId: "p1", candidateId: "c1", to: "comparison" }),
+    ).resolves.toMatchObject({
+      ok: true,
+      value: { stage: "comparison", folkloreReviewed: true },
+    });
+    await expect(database.projects.get("p1")).resolves.toMatchObject({ stage: "comparison" });
+    await expect(
+      useCase.execute({
+        projectId: "p1",
+        candidateId: "c1",
+        to: "excluded",
+        rejectionReason: "暂不考虑",
+      }),
+    ).resolves.toMatchObject({
+      ok: true,
+      value: { stage: "excluded", lastActiveStage: "comparison" },
+    });
+    await expect(database.projects.get("p1")).resolves.toMatchObject({ stage: "generation" });
+    await expect(
+      useCase.execute({ projectId: "p1", candidateId: "c1", to: "comparison" }),
+    ).resolves.toMatchObject({ ok: true, value: { stage: "comparison" } });
+    await expect(database.projects.get("p1")).resolves.toMatchObject({ stage: "comparison" });
+
+    await expect(database.decisionHistory.count()).resolves.toBe(5);
+    database.close();
+  });
+
+  it("enforces pending family rules inside the application use case", async () => {
+    const database = createDatabase();
+    await database.candidateDecisions.add({
+      projectId: "p1",
+      candidateId: "c1",
+      stage: "basic_shortlist",
+      updatedAt: "2026-09-18T00:00:00.000Z",
+    });
+
+    const result = await new MoveCandidateDecision(new DexieDecisionRepository(database), {
+      now: () => "2026-09-18T00:10:00.000Z",
+      canProgress: async () => false,
+    }).execute({ projectId: "p1", candidateId: "c1", to: "comparison" });
+
+    expect(result).toEqual({ ok: false, error: "family-rules-pending" });
+    await expect(database.candidateDecisions.get("c1")).resolves.toMatchObject({
+      stage: "basic_shortlist",
+    });
     database.close();
   });
 
@@ -57,6 +136,7 @@ describe("MoveCandidateDecision", () => {
 
     const result = await new MoveCandidateDecision(new DexieDecisionRepository(database), {
       now: () => "2026-09-18T00:10:00.000Z",
+      canProgress: async () => true,
     }).execute({ projectId: "p1", candidateId: "c6", to: "finalist" });
 
     expect(result).toEqual({ ok: false, error: "finalist-pool-full" });
@@ -74,6 +154,7 @@ describe("MoveCandidateDecision", () => {
 
     const result = await new MoveCandidateDecision(new DexieDecisionRepository(database), {
       now: () => "2026-09-18T00:10:00.000Z",
+      canProgress: async () => true,
     }).execute({
       projectId: "p1",
       candidateId: "c1",
@@ -103,6 +184,7 @@ describe("MoveCandidateDecision", () => {
     ]);
     const useCase = new MoveCandidateDecision(new DexieDecisionRepository(database), {
       now: () => "2026-09-18T00:10:00.000Z",
+      canProgress: async () => true,
     });
 
     const results = await Promise.all(
@@ -146,6 +228,7 @@ describe("MoveCandidateDecision", () => {
 
     const result = await new MoveCandidateDecision(new DexieDecisionRepository(database), {
       now: () => "2026-09-18T00:20:00.000Z",
+      canProgress: async () => true,
     }).execute({ projectId: "p1", candidateId: "c1", to: "comparison" });
 
     expect(result.ok).toBe(true);

@@ -1,3 +1,5 @@
+import type { ActiveCandidateStage, CandidateStage } from "../../domain/candidate/decision";
+
 export interface CandidateWarningEvidence {
   ruleId: string;
   ruleVersion: string;
@@ -25,6 +27,7 @@ export interface CandidateRuleEvidence {
 export interface CandidateFunnelItem {
   id: string;
   batchId?: string | undefined;
+  createdAt?: string | undefined;
   givenName?: string | undefined;
   fullName: string;
   pinyin: string[];
@@ -44,8 +47,14 @@ export interface CandidateFunnelItem {
     quote?: string | undefined;
     location?: string | undefined;
     excerpt?: string | undefined;
+    url?: string | undefined;
+    revision?: string | undefined;
   }>;
-  stage: "inbox" | "favorite" | "comparison" | "finalist" | "rejected";
+  usageNotes?: string[];
+  stage: CandidateStage;
+  lastActiveStage?: ActiveCandidateStage | undefined;
+  decisionUpdatedAt?: string | undefined;
+  folkloreReviewed?: boolean | undefined;
   rejectionReason?: string | undefined;
   warnings: CandidateWarningEvidence[];
   systemScore?: number;

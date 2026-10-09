@@ -137,4 +137,25 @@ describe("source manifests", () => {
       }),
     ).toThrow(/production release eligible|Release-eligible/);
   });
+
+  it("supports committed curated snapshots without pretending they are Git sources", () => {
+    expect(() =>
+      sourceManifestSchema.parse({
+        sourceId: "wikidata-person-usage",
+        sourceType: "curated",
+        sourceUrl: "https://www.wikidata.org/wiki/Wikidata:Licensing",
+        license: {
+          spdx: "CC0-1.0",
+          file: "data/source-meta.json",
+          sha256: "b".repeat(64),
+        },
+        uses: ["persons"],
+        reviewStatus: "source_checked",
+        releaseEligible: false,
+        personalEligible: true,
+        files: [{ path: "data/person-snapshot.json", sha256: "c".repeat(64) }],
+        notes: "fixture",
+      }),
+    ).not.toThrow();
+  });
 });

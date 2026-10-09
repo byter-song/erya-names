@@ -44,6 +44,7 @@ export class AddManualCandidate {
 
     const bundle = this.dependencies.loadBundle();
     const bundleCharacters = new Map(bundle.characters.map((entry) => [entry.char, entry]));
+    const pinyinIndex = bundle.standardCharacterPinyin;
     const missingEvidence = [...givenName].filter((char) => !bundleCharacters.has(char));
     const reviewedRisks = evaluateReviewedRisks({
       givenName,
@@ -62,7 +63,9 @@ export class AddManualCandidate {
       normalizedFingerprint: fullName,
       summary: input.meaning.trim(),
       userSource: input.userSource.trim(),
-      pinyin: [...givenName].flatMap((char) => bundleCharacters.get(char)?.pinyin[0] ?? []),
+      pinyin: [...givenName].flatMap(
+        (char) => bundleCharacters.get(char)?.pinyin[0] ?? pinyinIndex[char]?.[0] ?? [],
+      ),
       riskSignals: [...givenName].flatMap(
         (char) => bundleCharacters.get(char)?.riskSignals ?? [],
       ),
@@ -70,9 +73,12 @@ export class AddManualCandidate {
         const entry = bundleCharacters.get(char);
         return {
           char,
-          pinyin: entry?.pinyin ?? [],
+          pinyin: entry?.pinyin ?? pinyinIndex[char] ?? [],
           meanings: entry?.meanings ?? [],
-          sourceRefs: entry?.sourceRefs.map((source) => source.sourceId) ?? [],
+          sourceRefs: entry?.sourceRefs.map((source) => source.sourceId) ?? [
+            "standard-hanzi-2013",
+            "pinyin-data",
+          ],
         };
       }),
       createdAt: this.dependencies.now(),
@@ -95,8 +101,8 @@ export class AddManualCandidate {
                 outcome: "unknown" as const,
                 ruleId: "l2-manual-unreviewed-character",
                 ruleVersion: "manual-candidate-1",
-                explanation: `用户录入字缺少精选字卡证据：${missingEvidence.join("、")}；读音、字义和谐音需人工确认`,
-                sourceRefs: [],
+                explanation: `用户录入字缺少精选字卡证据：${missingEvidence.join("、")}；拼音来自通用规范字索引，字义、具体取音和谐音仍需人工确认`,
+                sourceRefs: ["standard-hanzi-2013", "pinyin-data"],
                 scoreDelta: 0,
               },
             ]

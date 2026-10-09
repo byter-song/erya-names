@@ -6,6 +6,14 @@ Unicode 17 Unihan 用于笔画。chinese-poetry 与 pinyin-data 采用下列许�
 新增 A 级典籍摘录来自中文维基文库固定页面版本，按 CC BY-SA 4.0 使用并署名中文维基文库贡献者。简体规范化文本与本项目释义属于改编内容，沿用 CC BY-SA 4.0；每条记录保留 oldid 固定链接。
 https://creativecommons.org/licenses/by-sa/4.0/
 
+历史人物用名快照来自 Wikidata 固定 QID 白名单，按 CC0 1.0 使用。科举人物仅保存项目整理的事实字段和外部核对链接；相关身份不参与名字评分或排序。
+https://creativecommons.org/publicdomain/zero/1.0/
+
+303 张字卡的五行属性为本项目按字义意象优先、字形辅助整理的传统民俗分类，不采用读音或笔画一刀切，也不声称是唯一权威属性。
+
+清代科举用名及名次证据来自中文维基百科固定页面版本，按 CC BY-SA 4.0 使用并署名中文维基百科贡献者。每条记录保留 oldid 固定链接；科举身份不参与名字评分或排序。
+https://creativecommons.org/licenses/by-sa/4.0/
+
 
 chinese-poetry-LICENSE.txt
 The MIT License (MIT)

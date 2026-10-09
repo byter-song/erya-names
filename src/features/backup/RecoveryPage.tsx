@@ -22,16 +22,38 @@ export function RecoveryPage({
   const [preview, setPreview] = useState<BackupImportPreview>();
   const [strategy, setStrategy] = useState<ConflictStrategy | "">("");
   const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+  const [activity, setActivity] = useState<"preview" | "restore">();
 
   async function previewFile(selected: File) {
     setFile(selected);
-    setPreview(await onPreview(selected, password || undefined));
+    setPreview(undefined);
+    setStrategy("");
+    setStatus("");
+    setError("");
+    setActivity("preview");
+    try {
+      setPreview(await onPreview(selected, password || undefined));
+    } catch (reason) {
+      setError(toRecoveryMessage(reason, "preview"));
+    } finally {
+      setActivity(undefined);
+    }
   }
 
   async function restore() {
     if (!file || !strategy) return;
-    const result = await onRestore(file, strategy, password || undefined);
-    setStatus(`恢复完成：${result.projectId}`);
+    setError("");
+    setStatus("");
+    setActivity("restore");
+    try {
+      const result = await onRestore(file, strategy, password || undefined);
+      setStatus(`恢复完成：${result.projectId}`);
+    } catch (reason) {
+      setError(toRecoveryMessage(reason, "restore"));
+    } finally {
+      setActivity(undefined);
+    }
   }
 
   return (
@@ -46,6 +68,7 @@ export function RecoveryPage({
           <span>备份密码（仅加密文件需要）</span>
           <input
             aria-label="备份密码"
+            disabled={Boolean(activity)}
             onChange={(event) => setPassword(event.target.value)}
             type="password"
             value={password}
@@ -56,6 +79,7 @@ export function RecoveryPage({
           <input
             aria-label="选择备份文件"
             accept="application/json,.json"
+            disabled={Boolean(activity)}
             onChange={(event) => {
               const selected = event.target.files?.[0];
               if (selected) void previewFile(selected);
@@ -63,6 +87,12 @@ export function RecoveryPage({
             type="file"
           />
         </label>
+        {activity === "preview" ? <p role="status">正在校验备份文件…</p> : null}
+        {file && !preview && activity !== "preview" ? (
+          <Button onClick={() => void previewFile(file)} type="button">
+            重新预览备份
+          </Button>
+        ) : null}
         {preview ? (
           <section aria-label="恢复预览">
             <h2>{preview.projectTitle}</h2>
@@ -82,13 +112,30 @@ export function RecoveryPage({
                 <option value="import-copy">另存为副本</option>
               </select>
             </label>
-            <Button disabled={!strategy} onClick={() => void restore()} type="button">
-              确认恢复
+            <Button
+              disabled={!strategy || Boolean(activity)}
+              onClick={() => void restore()}
+              type="button"
+            >
+              {activity === "restore" ? "正在恢复…" : "确认恢复"}
             </Button>
           </section>
         ) : null}
         {status ? <p role="status">{status}</p> : null}
+        {error ? <p role="alert">{error}</p> : null}
       </Card>
     </main>
   );
+}
+
+function toRecoveryMessage(reason: unknown, phase: "preview" | "restore"): string {
+  const message = reason instanceof Error ? reason.message : "";
+  if (/password|required|decrypt|operationerror/i.test(message))
+    return "无法解密备份，请确认密码正确后重试。";
+  if (/schemaVersion|version|版本/i.test(message))
+    return "备份版本不受支持，请使用当前版本导出的备份文件。";
+  if (/checksum|校验/i.test(message)) return "备份完整性校验失败，文件可能已损坏。";
+  if (/json|invalid|unrecognized|format|parse|格式/i.test(message))
+    return "备份文件格式无效，请确认选择了完整的尔雅 JSON 备份。";
+  return phase === "preview" ? "无法读取备份文件，请重试。" : "恢复失败，请重试。";
 }

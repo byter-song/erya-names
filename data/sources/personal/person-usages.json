@@ -80,17 +80,969 @@
     "checkedAt": "2026-09-30"
   },
   {
-    "id": "person:imperial-exam:1904:1",
-    "name": "刘春霖",
-    "period": "清·光绪三十年（1904）",
+    "id": "person:imperial-exam:1871:1",
+    "name": "梁耀枢",
+    "period": "清·同治十年辛未科（1871）",
     "identityType": "zhuangyuan",
-    "description": "光绪三十年甲辰恩科进士。",
-    "rankEvidence": "甲辰恩科殿试一甲第一名。",
+    "description": "同治十年辛未科进士。",
+    "rankEvidence": "同治十年辛未科殿试一甲第一名。",
     "sourceRefs": [
       {
-        "sourceId": "manual-imperial-exam-curation",
-        "location": "光绪三十年甲辰恩科殿试金榜第一甲第一名",
-        "url": "https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml"
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十年辛未科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E5%B9%B4%E8%BE%9B%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=93466717"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1871:2",
+    "name": "高岳崧",
+    "period": "清·同治十年辛未科（1871）",
+    "identityType": "bangyan",
+    "description": "同治十年辛未科进士。",
+    "rankEvidence": "同治十年辛未科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十年辛未科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E5%B9%B4%E8%BE%9B%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=93466717"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1871:2-1",
+    "name": "恽彦彬",
+    "period": "清·同治十年辛未科（1871）",
+    "identityType": "jinshi",
+    "description": "同治十年辛未科进士。",
+    "rankEvidence": "同治十年辛未科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十年辛未科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E5%B9%B4%E8%BE%9B%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=93466717"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1871:3",
+    "name": "郁昆",
+    "period": "清·同治十年辛未科（1871）",
+    "identityType": "tanhua",
+    "description": "同治十年辛未科进士。",
+    "rankEvidence": "同治十年辛未科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十年辛未科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E5%B9%B4%E8%BE%9B%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=93466717"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1874:1",
+    "name": "陆润庠",
+    "period": "清·同治十三年甲戌科（1874）",
+    "identityType": "zhuangyuan",
+    "description": "同治十三年甲戌科进士。",
+    "rankEvidence": "同治十三年甲戌科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十三年甲戌科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E4%B8%89%E5%B9%B4%E7%94%B2%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88665585"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1874:2",
+    "name": "谭宗浚",
+    "period": "清·同治十三年甲戌科（1874）",
+    "identityType": "bangyan",
+    "description": "同治十三年甲戌科进士。",
+    "rankEvidence": "同治十三年甲戌科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十三年甲戌科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E4%B8%89%E5%B9%B4%E7%94%B2%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88665585"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1874:2-1",
+    "name": "华金寿",
+    "period": "清·同治十三年甲戌科（1874）",
+    "identityType": "jinshi",
+    "description": "同治十三年甲戌科进士。",
+    "rankEvidence": "同治十三年甲戌科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十三年甲戌科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E4%B8%89%E5%B9%B4%E7%94%B2%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88665585"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1874:3",
+    "name": "黄贻楫",
+    "period": "清·同治十三年甲戌科（1874）",
+    "identityType": "tanhua",
+    "description": "同治十三年甲戌科进士。",
+    "rankEvidence": "同治十三年甲戌科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“同治十三年甲戌科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%90%8C%E6%B2%BB%E5%8D%81%E4%B8%89%E5%B9%B4%E7%94%B2%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88665585"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1876:1",
+    "name": "曹鸿勋",
+    "period": "清·光绪二年丙子恩科（1876）",
+    "identityType": "zhuangyuan",
+    "description": "光绪二年丙子恩科进士。",
+    "rankEvidence": "光绪二年丙子恩科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二年丙子恩科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%B9%B4%E4%B8%99%E5%AD%90%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88282184"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1876:2",
+    "name": "王赓荣",
+    "period": "清·光绪二年丙子恩科（1876）",
+    "identityType": "bangyan",
+    "description": "光绪二年丙子恩科进士。",
+    "rankEvidence": "光绪二年丙子恩科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二年丙子恩科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%B9%B4%E4%B8%99%E5%AD%90%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88282184"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1876:2-1",
+    "name": "吴树梅",
+    "period": "清·光绪二年丙子恩科（1876）",
+    "identityType": "jinshi",
+    "description": "光绪二年丙子恩科进士。",
+    "rankEvidence": "光绪二年丙子恩科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二年丙子恩科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%B9%B4%E4%B8%99%E5%AD%90%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88282184"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1876:3",
+    "name": "冯文蔚",
+    "period": "清·光绪二年丙子恩科（1876）",
+    "identityType": "tanhua",
+    "description": "光绪二年丙子恩科进士。",
+    "rankEvidence": "光绪二年丙子恩科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二年丙子恩科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%B9%B4%E4%B8%99%E5%AD%90%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88282184"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1877:1",
+    "name": "王仁堪",
+    "period": "清·光绪三年丁丑科（1877）",
+    "identityType": "zhuangyuan",
+    "description": "光绪三年丁丑科进士。",
+    "rankEvidence": "光绪三年丁丑科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三年丁丑科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%B9%B4%E4%B8%81%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88957111"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1877:2",
+    "name": "余联沅",
+    "period": "清·光绪三年丁丑科（1877）",
+    "identityType": "bangyan",
+    "description": "光绪三年丁丑科进士。",
+    "rankEvidence": "光绪三年丁丑科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三年丁丑科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%B9%B4%E4%B8%81%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88957111"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1877:2-1",
+    "name": "孙宗锡",
+    "period": "清·光绪三年丁丑科（1877）",
+    "identityType": "jinshi",
+    "description": "光绪三年丁丑科进士。",
+    "rankEvidence": "光绪三年丁丑科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三年丁丑科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%B9%B4%E4%B8%81%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88957111"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1877:3",
+    "name": "朱赓飏",
+    "period": "清·光绪三年丁丑科（1877）",
+    "identityType": "tanhua",
+    "description": "光绪三年丁丑科进士。",
+    "rankEvidence": "光绪三年丁丑科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三年丁丑科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%B9%B4%E4%B8%81%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88957111"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1880:1",
+    "name": "黄思永",
+    "period": "清·光绪六年庚辰科（1880）",
+    "identityType": "zhuangyuan",
+    "description": "光绪六年庚辰科进士。",
+    "rankEvidence": "光绪六年庚辰科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪六年庚辰科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%85%AD%E5%B9%B4%E5%BA%9A%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94477425"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1880:2",
+    "name": "曹诒孙",
+    "period": "清·光绪六年庚辰科（1880）",
+    "identityType": "bangyan",
+    "description": "光绪六年庚辰科进士。",
+    "rankEvidence": "光绪六年庚辰科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪六年庚辰科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%85%AD%E5%B9%B4%E5%BA%9A%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94477425"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1880:2-1",
+    "name": "戴彬元",
+    "period": "清·光绪六年庚辰科（1880）",
+    "identityType": "jinshi",
+    "description": "光绪六年庚辰科进士。",
+    "rankEvidence": "光绪六年庚辰科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪六年庚辰科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%85%AD%E5%B9%B4%E5%BA%9A%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94477425"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1880:3",
+    "name": "谭鑫振",
+    "period": "清·光绪六年庚辰科（1880）",
+    "identityType": "tanhua",
+    "description": "光绪六年庚辰科进士。",
+    "rankEvidence": "光绪六年庚辰科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪六年庚辰科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%85%AD%E5%B9%B4%E5%BA%9A%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94477425"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1883:1",
+    "name": "陈冕",
+    "period": "清·光绪九年癸未科（1883）",
+    "identityType": "zhuangyuan",
+    "description": "光绪九年癸未科进士。",
+    "rankEvidence": "光绪九年癸未科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪九年癸未科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B9%9D%E5%B9%B4%E7%99%B8%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766949"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1883:2",
+    "name": "寿耆",
+    "period": "清·光绪九年癸未科（1883）",
+    "identityType": "bangyan",
+    "description": "光绪九年癸未科进士。",
+    "rankEvidence": "光绪九年癸未科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪九年癸未科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B9%9D%E5%B9%B4%E7%99%B8%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766949"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1883:2-1",
+    "name": "朱祖谋",
+    "period": "清·光绪九年癸未科（1883）",
+    "identityType": "jinshi",
+    "description": "光绪九年癸未科进士。",
+    "rankEvidence": "光绪九年癸未科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪九年癸未科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B9%9D%E5%B9%B4%E7%99%B8%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766949"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1883:3",
+    "name": "管廷献",
+    "period": "清·光绪九年癸未科（1883）",
+    "identityType": "tanhua",
+    "description": "光绪九年癸未科进士。",
+    "rankEvidence": "光绪九年癸未科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪九年癸未科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B9%9D%E5%B9%B4%E7%99%B8%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766949"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1886:1",
+    "name": "赵以炯",
+    "period": "清·光绪十二年丙戌科（1886）",
+    "identityType": "zhuangyuan",
+    "description": "光绪十二年丙戌科进士。",
+    "rankEvidence": "光绪十二年丙戌科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十二年丙戌科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%8C%E5%B9%B4%E4%B8%99%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89360204"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1886:2",
+    "name": "邹福保",
+    "period": "清·光绪十二年丙戌科（1886）",
+    "identityType": "bangyan",
+    "description": "光绪十二年丙戌科进士。",
+    "rankEvidence": "光绪十二年丙戌科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十二年丙戌科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%8C%E5%B9%B4%E4%B8%99%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89360204"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1886:2-1",
+    "name": "彭述",
+    "period": "清·光绪十二年丙戌科（1886）",
+    "identityType": "jinshi",
+    "description": "光绪十二年丙戌科进士。",
+    "rankEvidence": "光绪十二年丙戌科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十二年丙戌科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%8C%E5%B9%B4%E4%B8%99%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89360204"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1886:3",
+    "name": "冯煦",
+    "period": "清·光绪十二年丙戌科（1886）",
+    "identityType": "tanhua",
+    "description": "光绪十二年丙戌科进士。",
+    "rankEvidence": "光绪十二年丙戌科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十二年丙戌科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%8C%E5%B9%B4%E4%B8%99%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89360204"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1889:1",
+    "name": "张建勋",
+    "period": "清·光绪十五年己丑科（1889）",
+    "identityType": "zhuangyuan",
+    "description": "光绪十五年己丑科进士。",
+    "rankEvidence": "光绪十五年己丑科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十五年己丑科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%94%E5%B9%B4%E5%B7%B1%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766945"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1889:2",
+    "name": "李盛铎",
+    "period": "清·光绪十五年己丑科（1889）",
+    "identityType": "bangyan",
+    "description": "光绪十五年己丑科进士。",
+    "rankEvidence": "光绪十五年己丑科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十五年己丑科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%94%E5%B9%B4%E5%B7%B1%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766945"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1889:2-1",
+    "name": "杜本崇",
+    "period": "清·光绪十五年己丑科（1889）",
+    "identityType": "jinshi",
+    "description": "光绪十五年己丑科进士。",
+    "rankEvidence": "光绪十五年己丑科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十五年己丑科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%94%E5%B9%B4%E5%B7%B1%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766945"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1889:3",
+    "name": "刘世安",
+    "period": "清·光绪十五年己丑科（1889）",
+    "identityType": "tanhua",
+    "description": "光绪十五年己丑科进士。",
+    "rankEvidence": "光绪十五年己丑科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十五年己丑科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E4%BA%94%E5%B9%B4%E5%B7%B1%E4%B8%91%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=88766945"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1890:1",
+    "name": "吴鲁",
+    "period": "清·光绪十六年庚寅恩科（1890）",
+    "identityType": "zhuangyuan",
+    "description": "光绪十六年庚寅恩科进士。",
+    "rankEvidence": "光绪十六年庚寅恩科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十六年庚寅恩科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AD%E5%B9%B4%E5%BA%9A%E5%AF%85%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94487547"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1890:2",
+    "name": "文廷式",
+    "period": "清·光绪十六年庚寅恩科（1890）",
+    "identityType": "bangyan",
+    "description": "光绪十六年庚寅恩科进士。",
+    "rankEvidence": "光绪十六年庚寅恩科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十六年庚寅恩科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AD%E5%B9%B4%E5%BA%9A%E5%AF%85%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94487547"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1890:2-1",
+    "name": "萧大猷",
+    "period": "清·光绪十六年庚寅恩科（1890）",
+    "identityType": "jinshi",
+    "description": "光绪十六年庚寅恩科进士。",
+    "rankEvidence": "光绪十六年庚寅恩科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十六年庚寅恩科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AD%E5%B9%B4%E5%BA%9A%E5%AF%85%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94487547"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1890:3",
+    "name": "吴荫培",
+    "period": "清·光绪十六年庚寅恩科（1890）",
+    "identityType": "tanhua",
+    "description": "光绪十六年庚寅恩科进士。",
+    "rankEvidence": "光绪十六年庚寅恩科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十六年庚寅恩科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AD%E5%B9%B4%E5%BA%9A%E5%AF%85%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94487547"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1892:1",
+    "name": "刘福姚",
+    "period": "清·光绪十八年壬辰科（1892）",
+    "identityType": "zhuangyuan",
+    "description": "光绪十八年壬辰科进士。",
+    "rankEvidence": "光绪十八年壬辰科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十八年壬辰科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AB%E5%B9%B4%E5%A3%AC%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94008094"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1892:2",
+    "name": "吴士鉴",
+    "period": "清·光绪十八年壬辰科（1892）",
+    "identityType": "bangyan",
+    "description": "光绪十八年壬辰科进士。",
+    "rankEvidence": "光绪十八年壬辰科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十八年壬辰科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AB%E5%B9%B4%E5%A3%AC%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94008094"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1892:2-1",
+    "name": "恽毓嘉",
+    "period": "清·光绪十八年壬辰科（1892）",
+    "identityType": "jinshi",
+    "description": "光绪十八年壬辰科进士。",
+    "rankEvidence": "光绪十八年壬辰科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十八年壬辰科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AB%E5%B9%B4%E5%A3%AC%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94008094"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1892:3",
+    "name": "陈伯陶",
+    "period": "清·光绪十八年壬辰科（1892）",
+    "identityType": "tanhua",
+    "description": "光绪十八年壬辰科进士。",
+    "rankEvidence": "光绪十八年壬辰科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪十八年壬辰科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E5%8D%81%E5%85%AB%E5%B9%B4%E5%A3%AC%E8%BE%B0%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94008094"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1894:1",
+    "name": "张謇",
+    "period": "清·光绪二十年甲午恩科（1894）",
+    "identityType": "zhuangyuan",
+    "description": "光绪二十年甲午恩科进士。",
+    "rankEvidence": "光绪二十年甲午恩科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十年甲午恩科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%94%B2%E5%8D%88%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94228906"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1894:2",
+    "name": "尹铭绶",
+    "period": "清·光绪二十年甲午恩科（1894）",
+    "identityType": "bangyan",
+    "description": "光绪二十年甲午恩科进士。",
+    "rankEvidence": "光绪二十年甲午恩科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十年甲午恩科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%94%B2%E5%8D%88%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94228906"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1894:2-1",
+    "name": "吴筠孙",
+    "period": "清·光绪二十年甲午恩科（1894）",
+    "identityType": "jinshi",
+    "description": "光绪二十年甲午恩科进士。",
+    "rankEvidence": "光绪二十年甲午恩科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十年甲午恩科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%94%B2%E5%8D%88%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94228906"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1894:3",
+    "name": "郑沅",
+    "period": "清·光绪二十年甲午恩科（1894）",
+    "identityType": "tanhua",
+    "description": "光绪二十年甲午恩科进士。",
+    "rankEvidence": "光绪二十年甲午恩科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十年甲午恩科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%B9%B4%E7%94%B2%E5%8D%88%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=94228906"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1895:1",
+    "name": "骆成骧",
+    "period": "清·光绪二十一年乙未科（1895）",
+    "identityType": "zhuangyuan",
+    "description": "光绪二十一年乙未科进士。",
+    "rankEvidence": "光绪二十一年乙未科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十一年乙未科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B8%80%E5%B9%B4%E4%B9%99%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=92773710"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1895:2",
+    "name": "喻长霖",
+    "period": "清·光绪二十一年乙未科（1895）",
+    "identityType": "bangyan",
+    "description": "光绪二十一年乙未科进士。",
+    "rankEvidence": "光绪二十一年乙未科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十一年乙未科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B8%80%E5%B9%B4%E4%B9%99%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=92773710"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1895:2-1",
+    "name": "萧荣爵",
+    "period": "清·光绪二十一年乙未科（1895）",
+    "identityType": "jinshi",
+    "description": "光绪二十一年乙未科进士。",
+    "rankEvidence": "光绪二十一年乙未科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十一年乙未科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B8%80%E5%B9%B4%E4%B9%99%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=92773710"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1895:3",
+    "name": "王龙文",
+    "period": "清·光绪二十一年乙未科（1895）",
+    "identityType": "tanhua",
+    "description": "光绪二十一年乙未科进士。",
+    "rankEvidence": "光绪二十一年乙未科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十一年乙未科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B8%80%E5%B9%B4%E4%B9%99%E6%9C%AA%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=92773710"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1898:1",
+    "name": "夏同龢",
+    "period": "清·光绪二十四年戊戌科（1898）",
+    "identityType": "zhuangyuan",
+    "description": "光绪二十四年戊戌科进士。",
+    "rankEvidence": "光绪二十四年戊戌科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十四年戊戌科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B9%B4%E6%88%8A%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89045580"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1898:2",
+    "name": "夏寿田",
+    "period": "清·光绪二十四年戊戌科（1898）",
+    "identityType": "bangyan",
+    "description": "光绪二十四年戊戌科进士。",
+    "rankEvidence": "光绪二十四年戊戌科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十四年戊戌科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B9%B4%E6%88%8A%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89045580"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1898:2-1",
+    "name": "李稷勋",
+    "period": "清·光绪二十四年戊戌科（1898）",
+    "identityType": "jinshi",
+    "description": "光绪二十四年戊戌科进士。",
+    "rankEvidence": "光绪二十四年戊戌科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十四年戊戌科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B9%B4%E6%88%8A%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89045580"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1898:3",
+    "name": "俞陛云",
+    "period": "清·光绪二十四年戊戌科（1898）",
+    "identityType": "tanhua",
+    "description": "光绪二十四年戊戌科进士。",
+    "rankEvidence": "光绪二十四年戊戌科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十四年戊戌科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B9%B4%E6%88%8A%E6%88%8C%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89045580"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1903:1",
+    "name": "王寿彭",
+    "period": "清·光绪二十九年癸卯科（1903）",
+    "identityType": "zhuangyuan",
+    "description": "光绪二十九年癸卯科进士。",
+    "rankEvidence": "光绪二十九年癸卯科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十九年癸卯科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B9%9D%E5%B9%B4%E7%99%B8%E5%8D%AF%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89311739"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1903:2",
+    "name": "左霈",
+    "period": "清·光绪二十九年癸卯科（1903）",
+    "identityType": "bangyan",
+    "description": "光绪二十九年癸卯科进士。",
+    "rankEvidence": "光绪二十九年癸卯科殿试一甲第二名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十九年癸卯科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B9%9D%E5%B9%B4%E7%99%B8%E5%8D%AF%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89311739"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1903:2-1",
+    "name": "黎湛枝",
+    "period": "清·光绪二十九年癸卯科（1903）",
+    "identityType": "jinshi",
+    "description": "光绪二十九年癸卯科进士。",
+    "rankEvidence": "光绪二十九年癸卯科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十九年癸卯科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B9%9D%E5%B9%B4%E7%99%B8%E5%8D%AF%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89311739"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1903:3",
+    "name": "杨兆麟",
+    "period": "清·光绪二十九年癸卯科（1903）",
+    "identityType": "tanhua",
+    "description": "光绪二十九年癸卯科进士。",
+    "rankEvidence": "光绪二十九年癸卯科殿试一甲第三名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪二十九年癸卯科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%BA%8C%E5%8D%81%E4%B9%9D%E5%B9%B4%E7%99%B8%E5%8D%AF%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=89311739"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1904:1",
+    "name": "刘春霖",
+    "period": "清·光绪三十年甲辰恩科（1904）",
+    "identityType": "zhuangyuan",
+    "description": "光绪三十年甲辰恩科进士。",
+    "rankEvidence": "光绪三十年甲辰恩科殿试一甲第一名。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三十年甲辰恩科殿试金榜”固定修订版，一甲第一名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%8D%81%E5%B9%B4%E7%94%B2%E8%BE%B0%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=91058281"
       }
     ],
     "reviewStatus": "source_checked",
@@ -99,15 +1051,32 @@
   {
     "id": "person:imperial-exam:1904:2",
     "name": "朱汝珍",
-    "period": "清·光绪三十年（1904）",
+    "period": "清·光绪三十年甲辰恩科（1904）",
     "identityType": "bangyan",
     "description": "光绪三十年甲辰恩科进士。",
-    "rankEvidence": "甲辰恩科殿试一甲第二名。",
+    "rankEvidence": "光绪三十年甲辰恩科殿试一甲第二名。",
     "sourceRefs": [
       {
-        "sourceId": "manual-imperial-exam-curation",
-        "location": "光绪三十年甲辰恩科殿试金榜第一甲第二名",
-        "url": "https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml"
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三十年甲辰恩科殿试金榜”固定修订版，一甲第二名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%8D%81%E5%B9%B4%E7%94%B2%E8%BE%B0%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=91058281"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-09-30"
+  },
+  {
+    "id": "person:imperial-exam:1904:2-1",
+    "name": "张启后",
+    "period": "清·光绪三十年甲辰恩科（1904）",
+    "identityType": "jinshi",
+    "description": "光绪三十年甲辰恩科进士。",
+    "rankEvidence": "光绪三十年甲辰恩科殿试二甲第一名，赐进士出身。",
+    "sourceRefs": [
+      {
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三十年甲辰恩科殿试金榜”固定修订版，二甲第一名，赐进士出身",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%8D%81%E5%B9%B4%E7%94%B2%E8%BE%B0%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=91058281"
       }
     ],
     "reviewStatus": "source_checked",
@@ -116,15 +1085,15 @@
   {
     "id": "person:imperial-exam:1904:3",
     "name": "商衍鎏",
-    "period": "清·光绪三十年（1904）",
+    "period": "清·光绪三十年甲辰恩科（1904）",
     "identityType": "tanhua",
     "description": "光绪三十年甲辰恩科进士。",
-    "rankEvidence": "甲辰恩科殿试一甲第三名。",
+    "rankEvidence": "光绪三十年甲辰恩科殿试一甲第三名。",
     "sourceRefs": [
       {
-        "sourceId": "manual-imperial-exam-curation",
-        "location": "光绪三十年甲辰恩科殿试金榜第一甲第三名",
-        "url": "https://www.chinanews.com.cn/hb/2011/11-15/3462227.shtml"
+        "sourceId": "wikipedia-imperial-exam",
+        "location": "中文维基百科“光绪三十年甲辰恩科殿试金榜”固定修订版，一甲第三名",
+        "url": "https://zh.wikipedia.org/w/index.php?title=Template%3A%E5%85%89%E7%B7%92%E4%B8%89%E5%8D%81%E5%B9%B4%E7%94%B2%E8%BE%B0%E6%81%A9%E7%A7%91%E6%AE%BF%E8%A9%A6%E9%87%91%E6%A6%9C&oldid=91058281"
       }
     ],
     "reviewStatus": "source_checked",

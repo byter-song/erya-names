@@ -38,13 +38,30 @@ const generate = (patch: Partial<typeof profile> = {}, history = new Set<string>
 describe("personal corpus and naming invariants", () => {
   it("has 300+ independently documented characters and traceable quotations", () => {
     expect(bundle.characters.length).toBeGreaterThanOrEqual(300);
-    expect(bundle.allusions.length).toBeGreaterThanOrEqual(60);
+    expect(bundle.allusions.length).toBeGreaterThanOrEqual(350);
+    expect(bundle.allusions.length).toBeLessThanOrEqual(450);
+    expect(bundle.personUsages.length).toBeGreaterThanOrEqual(60);
+    expect(Object.keys(bundle.standardCharacterPinyin)).toHaveLength(8105);
+    expect(Object.keys(bundle.traditionalToSimplified)).toHaveLength(4148);
     for (const entry of bundle.characters) {
       expect(entry.meanings[0]!.length).toBeGreaterThan(5);
       expect(entry.strokes).toBeGreaterThan(0);
       expect(entry.reviewStatus).toBe("source_checked");
+      expect(entry.element).toMatch(/^(wood|fire|earth|metal|water)$/);
+      expect(entry.elementReason).toContain(`“${entry.char}”`);
+      expect(entry.elementEvidence).toMatchObject({
+        methodVersion: "semantic-imagery-1",
+        reviewStatus: "source_checked",
+      });
     }
     for (const entry of bundle.allusions) {
+      expect([...entry.selectedText]).toHaveLength(2);
+      expect(entry.corpusScore).toMatchObject({
+        accepted: true,
+        threshold: 70,
+        modelVersion: "corpus-score-1",
+      });
+      expect(entry.corpusScore?.total).toBeGreaterThanOrEqual(70);
       let index = -1;
       for (const char of entry.selectedText) {
         index = entry.quote.indexOf(char, index + 1);
@@ -64,8 +81,18 @@ describe("personal corpus and naming invariants", () => {
       first.candidates.filter((x) => x.sourceType === "verified_allusion").length,
     ).toBeGreaterThan(20);
     expect(
+      first.candidates
+        .filter((x) => x.sourceType === "verified_allusion")
+        .every((x) =>
+          x.ruleResults.some(
+            (rule) => rule.ruleId === "l3-corpus-quality" && (rule.scoreDelta ?? 0) <= 0,
+          ),
+        ),
+    ).toBe(true);
+    expect(
       first.candidates.every((x) => x.ruleResults.every((r) => r.outcome !== "reject")),
     ).toBe(true);
+    expect(first.candidates.every((x) => x.characterElements.length === 2)).toBe(true);
   });
   it("enforces fixed position, avoid characters and family exclusions", () => {
     const result = generate({
@@ -82,23 +109,41 @@ describe("personal corpus and naming invariants", () => {
       expect(candidate.givenName).not.toBe("知安");
     }
   });
-  it("never allows a folklore preference to override a family constraint", () => {
+  it("keeps folklore out of generation and never lets it override a family constraint", () => {
     const result = generate({
       avoidCharacters: ["清"],
       folklore: { enabled: true, usefulElements: ["water"], includeInRanking: true },
     });
     expect(result.candidates.every((x) => !x.givenName.includes("清"))).toBe(true);
     expect(
-      result.candidates.some((x) =>
-        x.ruleResults.some((r) => r.evidenceLevel === "L4" && (r.scoreDelta ?? 0) > 0),
-      ),
+      result.candidates.every((x) => x.ruleResults.every((r) => r.evidenceLevel !== "L4")),
     ).toBe(true);
     const off = generate({
+      avoidCharacters: ["清"],
       folklore: { enabled: false, usefulElements: ["water"], includeInRanking: true },
     });
     expect(
       off.candidates.every((x) => x.ruleResults.every((r) => r.evidenceLevel !== "L4")),
     ).toBe(true);
+    expect(result.candidates.map((item) => item.fullName)).toEqual(
+      off.candidates.map((item) => item.fullName),
+    );
+  });
+  it("keeps historical and imperial-exam usage outside generation scores and ordering", () => {
+    const input = {
+      profile,
+      seed: "person-usage-neutrality",
+      requestedCount: 48,
+      allusionRatio: 0.5,
+      historicalFingerprints: new Set<string>(),
+    };
+    const withUsages = generateCandidates({ ...input, bundle });
+    const withoutUsages = generateCandidates({
+      ...input,
+      bundle: { ...bundle, personUsages: [] },
+    });
+
+    expect(withUsages.candidates).toEqual(withoutUsages.candidates);
   });
   it("rejects invalid batch inputs and impossible family profiles", () => {
     expect(() =>

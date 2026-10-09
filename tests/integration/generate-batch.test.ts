@@ -6,6 +6,8 @@ import { CreateNamingProject } from "../../src/application/use-cases/CreateNamin
 import { GenerateCandidateBatch } from "../../src/application/use-cases/GenerateCandidateBatch";
 import { MoveCandidateDecision } from "../../src/application/use-cases/MoveCandidateDecision";
 import { UpdateNamingProfile } from "../../src/application/use-cases/UpdateNamingProfile";
+import { UpdateFolkloreReviewSettings } from "../../src/application/use-cases/UpdateFolkloreReviewSettings";
+import { GetCandidateFunnel } from "../../src/application/use-cases/GetCandidateFunnel";
 import { EryaDatabase } from "../../src/infrastructure/database/EryaDatabase";
 import { DexieDecisionRepository } from "../../src/infrastructure/repositories/DexieDecisionRepository";
 import { DexieGenerationRepository } from "../../src/infrastructure/repositories/DexieGenerationRepository";
@@ -107,7 +109,7 @@ describe("GenerateCandidateBatch", () => {
     database.close();
   });
 
-  it("keeps L4 as a zero-score soft result when reviewed character elements are absent", async () => {
+  it("calculates L4 only after names enter folklore review and keeps the base score stable", async () => {
     const database = createDatabase();
     await createSongProject(database);
     const updated = await new UpdateNamingProfile(new DexieProjectRepository(database), {
@@ -126,9 +128,10 @@ describe("GenerateCandidateBatch", () => {
       completeOnboarding: true,
     });
     expect(updated.ok).toBe(true);
-    await new GenerateCandidateBatch(
+    const generations = new DexieGenerationRepository(database);
+    const generated = await new GenerateCandidateBatch(
       new DexieProjectRepository(database),
-      new DexieGenerationRepository(database),
+      generations,
       {
         loadBundle: () => bundle,
         createBatchId: () => "batch-folklore",
@@ -141,12 +144,51 @@ describe("GenerateCandidateBatch", () => {
       allusionRatio: 0.5,
       seed: "folklore",
     });
+    if (!generated.ok) throw new Error(generated.error);
+
+    expect(
+      (await database.ruleResults.toArray()).filter((result) => result.evidenceLevel === "L4"),
+    ).toHaveLength(0);
+    const before = await new GetCandidateFunnel(generations).execute("project-song");
+    const decisions = new DexieDecisionRepository(database);
+    const move = new MoveCandidateDecision(decisions, {
+      now: () => "2026-09-17T01:10:00.000Z",
+      canProgress: async () => true,
+    });
+    for (const candidateId of generated.value.candidateIds.slice(0, 2)) {
+      await move.execute({ projectId: "project-song", candidateId, to: "basic_shortlist" });
+      await move.execute({ projectId: "project-song", candidateId, to: "folklore_review" });
+    }
+
+    const reviewed = await new UpdateFolkloreReviewSettings(
+      new DexieProjectRepository(database),
+      generations,
+      { now: () => "2026-09-17T01:20:00.000Z" },
+    ).execute({
+      projectId: "project-song",
+      folklore: {
+        enabled: true,
+        birthLocalDateTime: "2024-02-10T12:00",
+        timeZone: "Asia/Shanghai",
+        usefulElements: ["water"],
+        includeInRanking: true,
+      },
+    });
+    expect(reviewed.ok).toBe(true);
 
     const l4 = (await database.ruleResults.toArray()).filter(
       (result) => result.evidenceLevel === "L4",
     );
-    expect(l4).toHaveLength(3);
-    expect(l4.every((result) => result.scoreDelta === 0)).toBe(true);
+    expect(l4).toHaveLength(2);
+    expect(
+      (await database.candidates.toArray()).filter((candidate) =>
+        candidate.ruleResults.some((result) => result.evidenceLevel === "L4"),
+      ),
+    ).toHaveLength(2);
+    const after = await new GetCandidateFunnel(generations).execute("project-song");
+    expect(after.map((candidate) => candidate.systemScore)).toEqual(
+      before.map((candidate) => candidate.systemScore),
+    );
     database.close();
   });
 
@@ -174,6 +216,7 @@ describe("GenerateCandidateBatch", () => {
 
     await new MoveCandidateDecision(new DexieDecisionRepository(database), {
       now: () => "2026-09-17T01:10:00.000Z",
+      canProgress: async () => true,
     }).execute({ projectId: "project-song", candidateId, to: "favorite" });
     const name = database.name;
     database.close();

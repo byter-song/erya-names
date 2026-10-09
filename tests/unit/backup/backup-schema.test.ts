@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
   createBackupEnvelope,
   validateBackupEnvelope,
-} from "../../../src/infrastructure/backup/backupSchema";
+} from "../../../src/application/backup/backupSchema";
 import { namingProfileFixture } from "../../fixtures/namingProfile";
 import { namingProjectFixture } from "../../fixtures/namingProject";
-import { sha256 } from "../../../src/infrastructure/backup/checksum";
+import { sha256 } from "../../../src/application/backup/checksum";
 
 const payload = {
   projectId: "project-song",
@@ -34,6 +34,24 @@ describe("project backup envelope", () => {
 
     await expect(validateBackupEnvelope(envelope)).resolves.toEqual(envelope);
     expect(envelope.checksum).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("upgrades a valid schema v2 envelope to schema v3", async () => {
+    const legacy = {
+      format: "erya-names-project-backup",
+      schemaVersion: 2,
+      appVersion: "0.3.0",
+      datasetVersion: "personal",
+      rulePackVersion: "rules",
+      exportedAt: "2026-10-08T00:00:00.000Z",
+      checksum: await sha256(payload),
+      payload,
+    };
+
+    await expect(validateBackupEnvelope(legacy)).resolves.toMatchObject({
+      schemaVersion: 3,
+      payload,
+    });
   });
 
   it("rejects missing fields, unsupported versions and changed payloads", async () => {
@@ -209,7 +227,7 @@ describe("project backup envelope", () => {
     };
 
     await expect(validateBackupEnvelope(envelope)).resolves.toMatchObject({
-      schemaVersion: 2,
+      schemaVersion: 3,
       payload: { comparisonSnapshots: [] },
     });
   });

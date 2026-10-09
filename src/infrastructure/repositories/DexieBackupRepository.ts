@@ -1,5 +1,5 @@
 import type { BackupRepository } from "../../application/ports/BackupRepository";
-import { backupPayloadSchema, type BackupPayload } from "../backup/backupSchema";
+import { backupPayloadSchema, type BackupPayload } from "../../application/backup/backupSchema";
 import type { EryaDatabase } from "../database/EryaDatabase";
 
 export class DexieBackupRepository implements BackupRepository {
@@ -113,13 +113,15 @@ export class DexieBackupRepository implements BackupRepository {
       await this.database.candidates.bulkPut(restored.candidates);
       await this.database.candidateSources.bulkPut(
         restored.candidateSources.map(
-          ({ title, work, quote, location, excerpt, ...source }) => ({
+          ({ title, work, quote, location, excerpt, url, revision, ...source }) => ({
             ...source,
             ...(title !== undefined ? { title } : {}),
             ...(work !== undefined ? { work } : {}),
             ...(quote !== undefined ? { quote } : {}),
             ...(location !== undefined ? { location } : {}),
             ...(excerpt !== undefined ? { excerpt } : {}),
+            ...(url !== undefined ? { url } : {}),
+            ...(revision !== undefined ? { revision } : {}),
           }),
         ),
       );

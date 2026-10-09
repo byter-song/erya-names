@@ -26,7 +26,11 @@ describe("AddManualCandidate", () => {
       new DexieProjectRepository(database),
       new DexieManualCandidateRepository(database),
       {
-        loadBundle: () => runtimeBundleSchema.parse(devBundle),
+        loadBundle: () =>
+          runtimeBundleSchema.parse({
+            ...devBundle,
+            standardCharacterPinyin: { 泽: ["zé"], 谦: ["qiān"] },
+          }),
         createId: () => "manual-1",
         now: () => "2026-09-18T00:00:00.000Z",
       },
@@ -42,9 +46,10 @@ describe("AddManualCandidate", () => {
       fullName: "宋泽谦",
       sourceType: "user_input",
       batchId: null,
+      pinyin: ["zé", "qiān"],
       characterEvidence: [
-        expect.objectContaining({ char: "泽", meanings: expect.any(Array) }),
-        expect.objectContaining({ char: "谦", meanings: expect.any(Array) }),
+        expect.objectContaining({ char: "泽", pinyin: ["zé"], meanings: [] }),
+        expect.objectContaining({ char: "谦", pinyin: ["qiān"], meanings: [] }),
       ],
     });
     const rules = await database.ruleResults.where("candidateId").equals("manual-1").toArray();

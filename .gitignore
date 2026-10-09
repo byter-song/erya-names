@@ -24,7 +24,9 @@ Thumbs.db
 node_modules/
 .cache/
 .vite/
+.eslintcache
 tmp/
+*.tmp
 *.tsbuildinfo
 
 # Build, test, and generated reports
@@ -33,6 +35,7 @@ coverage/
 test-results/
 playwright-report/
 output/
+dependency-audit.json
 
 # Logs
 *.log
@@ -44,8 +47,8 @@ yarn-error.log*
 # Local workbench specifications
 specs
 
-# Data pipeline intermediates. Source contracts and human review decisions under
-# data/sources/ and data/review/decisions/ remain version-controlled.
+# Data pipeline intermediates. Durable source contracts, pinned snapshots, curated
+# personal TSV/JSON inputs, and human review decisions remain version-controlled.
 data/cache/
 data/normalized/
 data/audit/

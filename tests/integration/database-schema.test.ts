@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import Dexie from "dexie";
 import { EryaDatabase, ERYA_TABLES } from "../../src/infrastructure/database/EryaDatabase";
 import { V1_STORES } from "../../src/infrastructure/database/migrations/v1";
+import { V3_STORES } from "../../src/infrastructure/database/migrations/v3";
 import { openDatabase } from "../../src/infrastructure/database/openDatabase";
 
 const databases = new Set<string>();
@@ -122,6 +123,27 @@ describe("EryaDatabase schema", () => {
     const upgraded = await openDatabase({ name });
     await expect(upgraded.candidates.get("legacy-candidate")).resolves.toMatchObject({
       characterEvidence: [],
+    });
+    upgraded.close();
+  });
+
+  it("opens legacy v3 decisions behind the v4 compatibility boundary without rewriting them", async () => {
+    const name = testDatabaseName();
+    const legacy = new Dexie(name);
+    legacy.version(3).stores(V3_STORES);
+    await legacy.open();
+    await legacy.table("candidateDecisions").add({
+      candidateId: "c1",
+      projectId: "p1",
+      stage: "favorite",
+      updatedAt: "2026-10-08T00:00:00.000Z",
+    });
+    legacy.close();
+
+    const upgraded = await openDatabase({ name });
+    expect(upgraded.verno).toBe(4);
+    await expect(upgraded.candidateDecisions.get("c1")).resolves.toMatchObject({
+      stage: "favorite",
     });
     upgraded.close();
   });

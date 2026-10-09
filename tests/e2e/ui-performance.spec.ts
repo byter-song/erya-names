@@ -8,16 +8,17 @@ test(
     const generationSamples: number[] = [];
     await page.goto("/");
     await page.getByRole("button", { name: "新建起名方案" }).click();
+    await page.getByLabel("姓氏", { exact: true }).fill("宋");
     await page.getByRole("button", { name: "下一步" }).click();
+    await page.getByLabel("没有", { exact: true }).check();
     await page.getByRole("button", { name: "下一步" }).click();
     await page.getByLabel("清朗自然").check();
-    await page.getByRole("button", { name: "下一步" }).click();
-    await page.getByRole("button", { name: "完成建档并生成姓名" }).click();
+    await page.getByRole("button", { name: "完成建档，开始选名" }).click();
 
     for (let sample = 0; sample < 5; sample += 1) {
       const generationStart = performance.now();
-      await page.getByRole("button", { name: "生成 48 个名字" }).click();
-      await expect(page.getByText(`已保存 ${(sample + 1) * 48} 个名字`)).toBeVisible();
+      await page.getByRole("button", { name: "生成一批", exact: true }).click();
+      await expect(page.getByText(`已保存 ${(sample + 1) * 9} 个名字`)).toBeVisible();
       generationSamples.push(performance.now() - generationStart);
     }
     const projectId = page.url().match(/projects\/([^/]+)/)?.[1];
@@ -80,7 +81,7 @@ test(
     for (let sample = 0; sample < 5; sample += 1) {
       const projectOpenStart = performance.now();
       await page.goto(`/projects/${projectId}/candidates`);
-      const summary = page.getByText(/筛选结果 \d+ 条，当前显示 48 条/);
+      const summary = page.getByText(/筛选结果 \d+ 条，当前显示 9 条/);
       await expect(summary).toBeVisible();
       expect(
         Number((await summary.textContent())?.match(/筛选结果 (\d+) 条/)?.[1]),
@@ -88,7 +89,7 @@ test(
       projectOpenSamples.push(performance.now() - projectOpenStart);
       const filterStart = performance.now();
       await page.getByLabel("筛选风格").selectOption("清朗自然");
-      await expect(page.getByText(/筛选结果 \d+ 条，当前显示 48 条/)).toBeVisible();
+      await expect(page.getByText(/筛选结果 \d+ 条，当前显示 9 条/)).toBeVisible();
       filterSamples.push(performance.now() - filterStart);
       await page.getByLabel("筛选风格").selectOption("all");
       await expect(summary).toContainText(/筛选结果 1\d{3} 条/);

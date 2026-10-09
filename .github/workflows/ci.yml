@@ -35,6 +35,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: make preflight
+      - run: npm run test:coverage
       - run: mkdir -p output/test && npm run test:report
       - run: npm run quality:security
       - run: npm run quality:bundle
@@ -129,13 +130,32 @@ jobs:
           node-version: 22.12.0
           cache: npm
       - run: npm ci
+      - id: review-input
+        run: |
+          if find data/review/decisions -type f -name '*.json' -print -quit 2>/dev/null | grep -q .; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Production content remains gated until human review decisions are committed."
+          fi
+      - run: npm run data:fetch
+        if: steps.review-input.outputs.ready == 'true'
+      - run: npm run data:build-review-queue
+        if: steps.review-input.outputs.ready == 'true'
+      - run: npm run data:review -- apply
+        if: steps.review-input.outputs.ready == 'true'
       - run: npm run data:release:audit
+        if: steps.review-input.outputs.ready == 'true'
       - run: npm run data:build-runtime -- data/sources/release-metadata.json
+        if: steps.review-input.outputs.ready == 'true'
       - run: npm run quality:generation
-        if: always()
+        if: steps.review-input.outputs.ready == 'true'
       - run: npm run build:production
+        if: steps.review-input.outputs.ready == 'true'
       - run: npx cross-env ERYA_DATASET_MODE=production npm run quality:manifest
+        if: steps.review-input.outputs.ready == 'true'
       - run: npm run release:verify
+        if: steps.review-input.outputs.ready == 'true'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -33,6 +33,10 @@ import { LocalDraftWriter } from "./persistence/LocalDraftWriter";
 import { DexieComparisonRepository } from "./repositories/DexieComparisonRepository";
 import { DexieManualCandidateRepository } from "./repositories/DexieManualCandidateRepository";
 import { SessionUndoStack } from "../domain/candidate/sessionUndo";
+import { familyRulesArePending } from "../domain/project/profile";
+import { ApplyCandidateAutoFilter } from "../application/use-cases/ApplyCandidateAutoFilter";
+import { GetProjectJourneyView } from "../application/use-cases/GetProjectJourneyView";
+import { UpdateFolkloreReviewSettings } from "../application/use-cases/UpdateFolkloreReviewSettings";
 
 export interface ApplicationContainer {
   readonly database: ApplicationDatabase;
@@ -55,6 +59,9 @@ export interface ApplicationContainer {
   readonly undoCandidateDecision?: UndoCandidateDecision;
   readonly createComparisonSnapshot?: CreateComparisonSnapshot;
   readonly addManualCandidate?: AddManualCandidate;
+  readonly applyCandidateAutoFilter?: ApplyCandidateAutoFilter;
+  readonly getProjectJourneyView?: GetProjectJourneyView;
+  readonly updateFolkloreReviewSettings?: UpdateFolkloreReviewSettings;
 }
 
 export function createApplicationContainer(dependencies: {
@@ -79,6 +86,10 @@ export function createApplicationContainer(dependencies: {
   const createId = dependencies.createId ?? (() => crypto.randomUUID());
   const now = dependencies.now ?? (() => new Date().toISOString());
   const undoStack = new SessionUndoStack();
+  const canProgress = async (projectId: string) => {
+    const workspace = await repository.getWorkspace(projectId);
+    return Boolean(workspace && !familyRulesArePending(workspace.profile));
+  };
 
   return {
     database,
@@ -93,7 +104,11 @@ export function createApplicationContainer(dependencies: {
       now,
     }),
     getCandidateFunnel: new GetCandidateFunnel(generationRepository, evaluationRepository),
-    moveCandidateDecision: new MoveCandidateDecision(decisionRepository, { now, undoStack }),
+    moveCandidateDecision: new MoveCandidateDecision(decisionRepository, {
+      now,
+      canProgress,
+      undoStack,
+    }),
     recordCandidateEvaluation: new RecordCandidateEvaluation(evaluationRepository, { now }),
     finalizeNamingDecision: new FinalizeNamingDecision(finalDecisionRepository, { now }),
     listProjectSummaries: new ListProjectSummaries(repository, generationRepository),
@@ -113,7 +128,11 @@ export function createApplicationContainer(dependencies: {
       new LocalDraftWriter(),
       new DexieDurableWriter(database),
     ]),
-    undoCandidateDecision: new UndoCandidateDecision(decisionRepository, { now, undoStack }),
+    undoCandidateDecision: new UndoCandidateDecision(decisionRepository, {
+      now,
+      canProgress,
+      undoStack,
+    }),
     createComparisonSnapshot: new CreateComparisonSnapshot(comparisonRepository, {
       createId,
       now,
@@ -123,5 +142,15 @@ export function createApplicationContainer(dependencies: {
       createId,
       now,
     }),
+    applyCandidateAutoFilter: new ApplyCandidateAutoFilter(decisionRepository, {
+      createBatchId: createId,
+      now,
+    }),
+    getProjectJourneyView: new GetProjectJourneyView(repository, generationRepository),
+    updateFolkloreReviewSettings: new UpdateFolkloreReviewSettings(
+      repository,
+      generationRepository,
+      { now },
+    ),
   };
 }

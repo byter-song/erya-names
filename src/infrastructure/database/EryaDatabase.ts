@@ -2,6 +2,7 @@ import Dexie, { type EntityTable, type Table } from "dexie";
 import { V1_STORES } from "./migrations/v1";
 import { upgradeToV2, V2_STORES } from "./migrations/v2";
 import { upgradeToV3, V3_STORES } from "./migrations/v3";
+import { upgradeToV4, V4_STORES } from "./migrations/v4";
 import type {
   AppMetadataRecord,
   CandidateDecisionRecord,
@@ -18,7 +19,7 @@ import type { NamingProfile } from "../../domain/project/profile";
 import type { ComparisonSnapshot } from "../../domain/candidate/comparisonSnapshot";
 
 export const ERYA_DATABASE_NAME = "erya-names";
-export const ERYA_DATABASE_VERSION = 3;
+export const ERYA_DATABASE_VERSION = 4;
 export const ERYA_TABLES = Object.freeze(Object.keys(V1_STORES));
 
 export class EryaDatabase extends Dexie {
@@ -40,5 +41,6 @@ export class EryaDatabase extends Dexie {
     this.version(1).stores(V1_STORES);
     this.version(2).stores(V2_STORES).upgrade(upgradeToV2);
     this.version(3).stores(V3_STORES).upgrade(upgradeToV3);
+    this.version(4).stores(V4_STORES).upgrade(upgradeToV4);
   }
 }

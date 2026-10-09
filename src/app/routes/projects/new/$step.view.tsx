@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { onboardingRoute } from "./$step";
 import { useApplicationContainer } from "../../../providers";
 import { OnboardingWizard } from "../../../../features/onboarding/OnboardingWizard";
 import type { CompleteOnboardingInput } from "../../../../features/onboarding/projectFormSchema";
@@ -6,6 +8,17 @@ import type { CompleteOnboardingInput } from "../../../../features/onboarding/pr
 export function OnboardingPlaceholder() {
   const container = useApplicationContainer();
   const navigate = useNavigate();
+  const { step } = onboardingRoute.useParams();
+  const currentStep = wizardSteps.indexOf(step as (typeof wizardSteps)[number]) + 1;
+
+  useEffect(() => {
+    if (currentStep === 0)
+      void navigate({
+        to: "/projects/new/$step",
+        params: { step: wizardSteps[0] },
+        replace: true,
+      });
+  }, [currentStep, navigate]);
 
   const complete = async (input: CompleteOnboardingInput) => {
     if (!container.createNamingProject || !container.updateNamingProfile) {
@@ -20,6 +33,8 @@ export function OnboardingPlaceholder() {
       completeOnboarding: true,
       profile: {
         requiredCharacters: input.requiredCharacters.map((char) => ({ char, position: "any" })),
+        childGender: input.childGender,
+        constraintKnowledge: input.constraintKnowledge,
         avoidCharacters: input.avoidCharacters,
         relativeNames: input.relativeNames,
         styleTags: input.styleTags,
@@ -37,5 +52,18 @@ export function OnboardingPlaceholder() {
     });
   };
 
-  return <OnboardingWizard onComplete={complete} />;
+  return (
+    <OnboardingWizard
+      currentStep={currentStep || 1}
+      onComplete={complete}
+      onStepChange={(nextStep) =>
+        void navigate({
+          to: "/projects/new/$step",
+          params: { step: wizardSteps[nextStep - 1] ?? wizardSteps[0] },
+        })
+      }
+    />
+  );
 }
+
+const wizardSteps = ["basic", "constraints", "preferences"] as const;

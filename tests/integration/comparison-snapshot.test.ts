@@ -97,7 +97,7 @@ describe("CreateComparisonSnapshot", () => {
       new (
         await import("../../src/infrastructure/repositories/DexieDecisionRepository")
       ).DexieDecisionRepository(database),
-      { now: () => "2026-09-18T00:10:00.000Z" },
+      { now: () => "2026-09-18T00:10:00.000Z", canProgress: async () => true },
     ).execute({ projectId: "p1", candidateId: "c6", to: "comparison" });
     expect(result).toEqual({ ok: false, error: "comparison-pool-full" });
     database.close();

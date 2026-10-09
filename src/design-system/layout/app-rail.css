@@ -174,6 +174,12 @@
   background: rgb(235 193 96 / 7%);
 }
 
+.app-rail__item[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.42;
+  pointer-events: none;
+}
+
 .app-rail__item[aria-current="page"] {
   border-color: rgb(226 182 83 / 38%);
   color: #fff5d8;
@@ -206,7 +212,7 @@
   font-size: 0.56rem;
 }
 
-.app-rail__item[data-stage="complete"] .app-rail__step,
+.app-rail__item[data-stage="completed"] .app-rail__step,
 .app-rail__item[data-stage="current"] .app-rail__step {
   border-color: var(--gold-400);
   color: var(--gold-300);
@@ -224,6 +230,38 @@
   font-size: 0.84rem;
   letter-spacing: 0.04em;
   text-overflow: ellipsis;
+}
+.app-rail__state {
+  grid-column: 2;
+  padding-left: 6px;
+  color: var(--rail-muted);
+  font-size: 0.58rem;
+}
+.app-rail__item[data-stage="blocked"] {
+  opacity: 0.58;
+}
+.app-rail__item[data-stage="optional"] {
+  border-style: dashed;
+  border-color: rgb(226 182 83 / 22%);
+}
+
+.app-rail__utilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 6px 0;
+  border-top: 1px solid rgb(226 182 83 / 16%);
+}
+
+.app-rail__utilities a {
+  padding: 5px 7px;
+  color: var(--rail-muted);
+  font-size: 0.68rem;
+  text-decoration: none;
+}
+
+.app-rail__utilities a[aria-current="page"] {
+  color: var(--gold-300);
 }
 
 @media (max-width: 760px) {
@@ -249,9 +287,29 @@
     width: calc(100% - 45px);
     padding: 0;
     overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12px,
+      #000 calc(100% - 12px),
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12px,
+      #000 calc(100% - 12px),
+      transparent
+    );
     border: 0;
     background: transparent;
     box-shadow: none;
+  }
+  .app-rail__overlay::-webkit-scrollbar {
+    display: none;
   }
   .app-rail__theme {
     top: 14px;
@@ -261,6 +319,9 @@
     display: flex;
     min-width: max-content;
   }
+  .app-rail__utilities {
+    display: none;
+  }
   .app-rail__journey::before {
     display: none;
   }
@@ -269,11 +330,15 @@
     grid-template-columns: minmax(0, 1fr);
     min-width: 86px;
     padding: 6px 10px;
+    scroll-snap-align: center;
   }
   .app-rail__label {
     display: block;
     padding: 0;
     font-size: 0.8rem;
+  }
+  .app-rail__state {
+    display: none;
   }
 }
 

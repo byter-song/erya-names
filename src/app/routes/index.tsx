@@ -1,7 +1,7 @@
 import { createRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ProjectCenterPage } from "../../features/projects/ProjectCenterPage";
-import type { ProjectSummary } from "../../features/projects/ProjectCard";
+import type { ProjectSummary } from "../../application/models/ProjectSummary";
 import { useApplicationContainer } from "../providers";
 import { rootRoute } from "./__root";
 

@@ -1,6 +1,6 @@
 import type { GenerationRepository } from "../ports/GenerationRepository";
 import type { ProjectRepository } from "../ports/ProjectRepository";
-import type { ProjectSummary } from "../../features/projects/ProjectCard";
+import type { ProjectSummary } from "../models/ProjectSummary";
 
 export class ListProjectSummaries {
   constructor(
@@ -21,10 +21,17 @@ export class ListProjectSummaries {
           stage: project.stage,
           status: project.status,
           candidateCount: candidates.filter(({ decision }) =>
-            ["favorite", "comparison", "finalist"].includes(decision.stage),
+            [
+              "favorite",
+              "basic_shortlist",
+              "folklore_review",
+              "comparison",
+              "finalist",
+            ].includes(decision.stage),
           ).length,
-          favoriteCount: candidates.filter(({ decision }) => decision.stage === "favorite")
-            .length,
+          favoriteCount: candidates.filter(({ decision }) =>
+            ["favorite", "basic_shortlist", "folklore_review"].includes(decision.stage),
+          ).length,
           finalistCount: candidates.filter(({ decision }) => decision.stage === "finalist")
             .length,
           updatedAt: project.updatedAt,

@@ -2,6 +2,7 @@ import type { FinalDecisionRepository } from "../ports/FinalDecisionRepository";
 import { finalDecisionSchema, type FinalDecision } from "../../domain/candidate/finalDecision";
 import { err, ok, type Result } from "../../domain/shared/result";
 
+/** @deprecated V4 keeps this use case for legacy read/report compatibility only. */
 export class FinalizeNamingDecision {
   constructor(
     private readonly repository: FinalDecisionRepository,

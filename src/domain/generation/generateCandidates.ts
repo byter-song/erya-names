@@ -12,8 +12,8 @@ import type { NamingProfile } from "../project/profile";
 import { evaluateCandidateRules } from "../rules/rulePack";
 import type { CandidateRuleResult } from "../rules/types";
 import { scoreCandidatePreferences } from "../rules/l3/scoreCandidatePreferences";
-import { scoreBasicFiveElements } from "../rules/l4/basicFiveElements";
 import { calculateSystemScore } from "../rules/scoring/systemScore";
+import { toSimplifiedText } from "../candidate/toSimplifiedText";
 
 export interface GeneratedCandidate extends Candidate {
   sourceIds: string[];
@@ -66,9 +66,12 @@ export function generateCandidates(input: {
   const allusionDrafts = input.bundle.allusions
     .filter(
       (entry) =>
-        entry.reviewStatus === "verified" || input.bundle.manifest.status === "personal",
+        (entry.reviewStatus === "verified" || input.bundle.manifest.status === "personal") &&
+        entry.corpusScore?.accepted !== false,
     )
-    .map((allusion) => fromAllusion(allusion, input.profile, characters));
+    .map((allusion) =>
+      fromAllusion(allusion, input.profile, characters, input.bundle.traditionalToSimplified),
+    );
   const eligibleCharacters = input.bundle.characters.filter(
     (entry) => entry.reviewStatus === "verified" || input.bundle.manifest.status === "personal",
   );
@@ -167,7 +170,15 @@ export function generateCandidates(input: {
               : 0,
       });
     const expression = modernByName.get(candidate.givenName)?.genderExpression;
-    if (input.profile.genderExpression !== "unrestricted")
+    const preferredExpression =
+      input.profile.genderExpression !== "unrestricted"
+        ? input.profile.genderExpression
+        : input.profile.childGender === "male"
+          ? "masculine"
+          : input.profile.childGender === "female"
+            ? "feminine"
+            : undefined;
+    if (preferredExpression)
       l3Results.push({
         evidenceLevel: "L3",
         outcome: "pass",
@@ -175,39 +186,23 @@ export function generateCandidates(input: {
         ruleVersion: "preference-score-3",
         sourceRefs: ["erya-original-20260927"],
         explanation:
-          "按所选阳刚、柔美或中性的文字表达偏好排序；仅为编辑风格标签，不限制任何性别使用。",
+          input.profile.genderExpression === "unrestricted"
+            ? "按宝宝性别提供默认文字表达软排序；仅作起名参照，不限制跨性别使用。"
+            : "按所选阳刚、柔美或中性的文字表达偏好排序；仅为编辑风格标签，不限制任何性别使用。",
         scoreDelta: expression
-          ? expression === input.profile.genderExpression
+          ? expression === preferredExpression
             ? 4
             : 0
-          : cards.filter((card) => card?.genderExpression === input.profile.genderExpression)
-              .length * 2,
+          : cards.filter((card) => card?.genderExpression === preferredExpression).length * 2,
       });
-    const l4 = scoreBasicFiveElements({
-      enabled: input.profile.folklore.enabled,
-      usefulElements: input.profile.folklore.usefulElements,
-      includeInRanking: input.profile.folklore.includeInRanking,
-      characterElements: candidate.characterElements,
-    });
-    const l4Results: CandidateRuleResult[] = l4
-      ? [
-          {
-            evidenceLevel: "L4",
-            outcome: "pass",
-            ruleId: l4.ruleId,
-            ruleVersion: l4.ruleVersion,
-            sourceRefs: [],
-            explanation:
-              candidate.characterElements.length === 0
-                ? "当前字卡没有已复核五行证据，L4 保持 0 分。传统民俗参考，非科学结论。"
-                : l4.explanation,
-            scoreDelta: candidate.characterElements.length === 0 ? 0 : l4.scoreDelta,
-          },
-        ]
-      : [];
     return {
       ...candidate,
-      ruleResults: [...evaluation.results, ...fullNameWarnings, ...l3Results, ...l4Results],
+      ruleResults: [
+        ...candidate.ruleResults,
+        ...evaluation.results,
+        ...fullNameWarnings,
+        ...l3Results,
+      ],
     };
   };
   const acceptedAllusions = allusionDrafts
@@ -289,29 +284,36 @@ function fromAllusion(
   allusion: RuntimeAllusion,
   profile: NamingProfile,
   characters: Map<string, RuntimeCharacter>,
+  traditionalToSimplified: Readonly<Record<string, string>>,
 ): GeneratedCandidate {
-  const givenName = allusion.selectedText;
+  const simplify = (value: string) => toSimplifiedText(value, traditionalToSimplified);
+  const givenName = simplify(allusion.selectedText);
   const entries = [...givenName].map((char) => characters.get(char));
 
   return createCandidate({
     profile,
     givenName,
     sourceType: "verified_allusion",
-    summary: allusion.interpretation,
+    summary: simplify(allusion.interpretation),
     sourceIds: allusion.sourceRefs.map((source) => source.sourceId),
     sourceEvidence: allusion.sourceRefs.map((source) => ({
       sourceId: source.sourceId,
-      title: allusion.title,
-      work: allusion.work,
-      quote: allusion.quote,
-      location: source.location,
-      ...(source.excerpt ? { excerpt: source.excerpt } : {}),
+      title: simplify(allusion.title),
+      work: simplify(allusion.work),
+      quote: simplify(allusion.quote),
+      location: simplify(source.location),
+      ...(source.excerpt ? { excerpt: simplify(source.excerpt) } : {}),
+      ...(source.url ? { url: source.url } : {}),
+      ...(source.revision ? { revision: source.revision } : {}),
     })),
-    warnings: [...allusion.risks, ...entries.flatMap((entry) => entry?.risks ?? [])],
+    warnings: [
+      ...allusion.risks.map(simplify),
+      ...entries.flatMap((entry) => entry?.risks.map(simplify) ?? []),
+    ],
     riskSignals: [
       ...allusion.riskSignals,
       ...entries.flatMap((entry) => entry?.riskSignals ?? []),
-    ],
+    ].map((signal) => ({ ...signal, explanation: simplify(signal.explanation) })),
     styleTags: allusion.styleTags,
     characterElements: entries.flatMap((entry) => (entry?.element ? [entry.element] : [])),
     characterEvidence: entries.flatMap((entry) =>
@@ -327,6 +329,19 @@ function fromAllusion(
         : [],
     ),
     pinyin: entries.flatMap((entry) => entry?.pinyin[0] ?? []),
+    initialRuleResults: allusion.corpusScore
+      ? [
+          {
+            evidenceLevel: "L3",
+            outcome: "pass",
+            ruleId: "l3-corpus-quality",
+            ruleVersion: allusion.corpusScore.modelVersion,
+            explanation: `精选语料准入 ${allusion.corpusScore.total}/100；${allusion.corpusScore.deductions.map((item) => `${item.explanation}（-${item.points}）`).join("；") || "没有语料扣分项"}`,
+            sourceRefs: allusion.sourceRefs.map((source) => source.sourceId),
+            scoreDelta: -Math.ceil((100 - allusion.corpusScore.total) / 5),
+          },
+        ]
+      : [],
   });
 }
 
@@ -479,6 +494,7 @@ function createCandidate(input: {
   characterElements: Array<"wood" | "fire" | "earth" | "metal" | "water">;
   characterEvidence: GeneratedCandidate["characterEvidence"];
   pinyin: string[];
+  initialRuleResults?: CandidateRuleResult[];
 }): GeneratedCandidate {
   const fullName = `${input.profile.surname}${input.givenName}`;
   return {
@@ -499,7 +515,7 @@ function createCandidate(input: {
     styleTags: input.styleTags,
     characterElements: input.characterElements,
     characterEvidence: input.characterEvidence,
-    ruleResults: [],
+    ruleResults: input.initialRuleResults ?? [],
     createdAt: "1970-01-01T00:00:00.000Z",
   };
 }

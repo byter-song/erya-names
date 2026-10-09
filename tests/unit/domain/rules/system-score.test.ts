@@ -64,4 +64,18 @@ describe("system match score", () => {
       }),
     ]);
   });
+
+  it("keeps L4 folklore deltas outside the base system score", () => {
+    const folklore = scoreRule(20, {
+      evidenceLevel: "L4",
+      ruleId: "l4-user-specified-five-elements",
+    });
+
+    expect(calculateSystemScore([createSystemScoreBaseRule(), scoreRule(5), folklore])).toBe(
+      65,
+    );
+    expect(getSystemScoreEvidence([folklore])).not.toContainEqual(
+      expect.objectContaining({ evidenceLevel: "L4" }),
+    );
+  });
 });

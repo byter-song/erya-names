@@ -38,6 +38,8 @@ export class CreateNamingProject {
         surname: input.surname,
         surnameType: input.surnameType,
         givenNameLength: input.givenNameLength,
+        childGender: "unknown",
+        constraintKnowledge: "unknown",
         requiredCharacters: [],
         generationCharacters: [],
         avoidCharacters: [],

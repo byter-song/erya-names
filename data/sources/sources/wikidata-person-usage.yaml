@@ -1,0 +1,17 @@
+sourceId: wikidata-person-usage
+sourceType: curated
+sourceUrl: https://www.wikidata.org/wiki/Wikidata:Licensing
+license:
+  spdx: CC0-1.0
+  file: data/sources/personal/person-usages-wikidata.meta.json
+  sha256: 20da3e784f67170ffa8005133a246e0a11d914fe7056b341c502a699d5ae7965
+uses: [persons]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/queries/person-usages-wikidata.rq
+    sha256: f4ea4cba30bbaa9001cf33db32490b004635fbb90ab247b66b6962209953869f
+  - path: data/sources/personal/person-usages-wikidata.snapshot.json
+    sha256: e69f003be83e76fa93a1350755302a5f813d902385e37f4059edb004af8ba11b
+notes: Bounded QID allowlist and fixed CC0 snapshot; personal source_checked use only.

@@ -1,0 +1,479 @@
+[
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "关雎",
+    "location": "国风·周南",
+    "quote": "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+    "normalizedQuote": "关关雎鸠，在河之洲。窈窕淑女，君子好逑。",
+    "sourceRecordId": "chinese-poetry:shijing:56b6e03b78551b31"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "君子偕老",
+    "location": "国风·鄘风",
+    "quote": "君子偕老，副笄六珈。委委佗佗，如山如河，象服是宜。子之不淑，云如之何？",
+    "normalizedQuote": "君子偕老，副笄六珈。委委佗佗，如山如河，象服是宜。子之不淑，云如之何？",
+    "sourceRecordId": "chinese-poetry:shijing:57d69334a6e1fdc1"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "定之方中",
+    "location": "国风·鄘风",
+    "quote": "灵雨既零，命彼倌人，星言夙驾，说于桑田。匪直也人，秉心塞渊，騋牝三千。",
+    "normalizedQuote": "灵雨既零，命彼倌人，星言夙驾，说于桑田。匪直也人，秉心塞渊，騋牝三千。",
+    "sourceRecordId": "chinese-poetry:shijing:7dccdb71023dc3a7"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "定之方中",
+    "location": "国风·鄘风",
+    "quote": "灵雨既零，命彼倌人，星言夙驾，说于桑田。匪直也人，秉心塞渊，騋牝三千。",
+    "normalizedQuote": "灵雨既零，命彼倌人，星言夙驾，说于桑田。匪直也人，秉心塞渊，騋牝三千。",
+    "sourceRecordId": "chinese-poetry:shijing:7dccdb71023dc3a7"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "竹竿",
+    "location": "国风·卫风",
+    "quote": "淇水在右，泉源在左。巧笑之瑳，佩玉之傩。",
+    "normalizedQuote": "淇水在右，泉源在左。巧笑之瑳，佩玉之傩。",
+    "sourceRecordId": "chinese-poetry:shijing:a32fa28cc70d20df"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "羔裘",
+    "location": "国风·郑风",
+    "quote": "羔裘晏兮，三英粲兮。彼其之子，邦之彦兮。",
+    "normalizedQuote": "羔裘晏兮，三英粲兮。彼其之子，邦之彦兮。",
+    "sourceRecordId": "chinese-poetry:shijing:e6dd1737e81917fc"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "有女同车",
+    "location": "国风·郑风",
+    "quote": "有女同车，颜如舜华。将翱将翔，佩玉琼琚。彼美孟姜，洵美且都。",
+    "normalizedQuote": "有女同车，颜如舜华。将翱将翔，佩玉琼琚。彼美孟姜，洵美且都。",
+    "sourceRecordId": "chinese-poetry:shijing:483282dd14c9494b"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "有女同车",
+    "location": "国风·郑风",
+    "quote": "有女同行，颜如舜英。将翱将翔，佩玉将将。彼美孟姜，德音不忘。",
+    "normalizedQuote": "有女同行，颜如舜英。将翱将翔，佩玉将将。彼美孟姜，德音不忘。",
+    "sourceRecordId": "chinese-poetry:shijing:4508372af80f5ca1"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鹿鸣",
+    "location": "小雅·鹿鸣之什",
+    "quote": "呦呦鹿鸣，食野之蒿。我有嘉宾，德音孔昭。视民不恌，君子是则是效。我有旨酒，嘉宾式燕以敖。",
+    "normalizedQuote": "呦呦鹿鸣，食野之蒿。我有嘉宾，德音孔昭。视民不恌，君子是则是效。我有旨酒，嘉宾式燕以敖。",
+    "sourceRecordId": "chinese-poetry:shijing:e114a08a918d984c"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "着",
+    "location": "国风·齐风",
+    "quote": "俟我于着乎而，充耳以素乎而，尚之以琼华乎而。",
+    "normalizedQuote": "俟我于着乎而，充耳以素乎而，尚之以琼华乎而。",
+    "sourceRecordId": "chinese-poetry:shijing:e88b16232ac6f568"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "着",
+    "location": "国风·齐风",
+    "quote": "俟我于堂乎而，充耳以黄乎而，尚之以琼英乎而。",
+    "normalizedQuote": "俟我于堂乎而，充耳以黄乎而，尚之以琼英乎而。",
+    "sourceRecordId": "chinese-poetry:shijing:ca807c537dd4249b"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "小戎",
+    "location": "国风·秦风",
+    "quote": "言念君子，温其如玉。在其板屋，乱我心曲。",
+    "normalizedQuote": "言念君子，温其如玉。在其板屋，乱我心曲。",
+    "sourceRecordId": "chinese-poetry:shijing:8d1c3cc72f706027"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "简兮",
+    "location": "国风·邶风",
+    "quote": "山有榛，隰有苓。云谁之思？西方美人。彼美人兮，西方之人兮。",
+    "normalizedQuote": "山有榛，隰有苓。云谁之思？西方美人。彼美人兮，西方之人兮。",
+    "sourceRecordId": "chinese-poetry:shijing:0440a07aeb09d3d2"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "月出",
+    "location": "国风·陈风",
+    "quote": "月出皎兮。佼人僚兮。舒窈纠兮。劳心悄兮。",
+    "normalizedQuote": "月出皎兮。佼人僚兮。舒窈纠兮。劳心悄兮。",
+    "sourceRecordId": "chinese-poetry:shijing:7b99dba137581005"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "风雨",
+    "location": "国风·郑风",
+    "quote": "风雨如晦，鸡鸣不已。既见君子，云胡不喜？",
+    "normalizedQuote": "风雨如晦，鸡鸣不已。既见君子，云胡不喜？",
+    "sourceRecordId": "chinese-poetry:shijing:4154484226429b56"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鹿鸣",
+    "location": "小雅·鹿鸣之什",
+    "quote": "呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙。吹笙鼓簧，承筐是将。人之好我，示我周行。",
+    "normalizedQuote": "呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙。吹笙鼓簧，承筐是将。人之好我，示我周行。",
+    "sourceRecordId": "chinese-poetry:shijing:b60cc49c0c5f593b"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "采薇",
+    "location": "小雅·鹿鸣之什",
+    "quote": "采薇采薇，薇亦作止。曰归曰归，岁亦莫止。靡室靡家，玁狁之故。不遑启居，玁狁之故。",
+    "normalizedQuote": "采薇采薇，薇亦作止。曰归曰归，岁亦莫止。靡室靡家，玁狁之故。不遑启居，玁狁之故。",
+    "sourceRecordId": "chinese-poetry:shijing:30c0cd5a3f8baa46"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "天保",
+    "location": "小雅·鹿鸣之什",
+    "quote": "如月之恒，如日之升。如南山之寿，不骞不崩。如松柏之茂，无不尔或承。",
+    "normalizedQuote": "如月之恒，如日之升。如南山之寿，不骞不崩。如松柏之茂，无不尔或承。",
+    "sourceRecordId": "chinese-poetry:shijing:29745c6821504a86"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "天保",
+    "location": "小雅·鹿鸣之什",
+    "quote": "如月之恒，如日之升。如南山之寿，不骞不崩。如松柏之茂，无不尔或承。",
+    "normalizedQuote": "如月之恒，如日之升。如南山之寿，不骞不崩。如松柏之茂，无不尔或承。",
+    "sourceRecordId": "chinese-poetry:shijing:29745c6821504a86"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "南有嘉鱼",
+    "location": "小雅·南有嘉鱼之什",
+    "quote": "南有嘉鱼，烝然罩罩。君子有酒，嘉宾式燕以乐。",
+    "normalizedQuote": "南有嘉鱼，烝然罩罩。君子有酒，嘉宾式燕以乐。",
+    "sourceRecordId": "chinese-poetry:shijing:f513fb47ade049bd"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "菁菁者莪",
+    "location": "小雅·南有嘉鱼之什",
+    "quote": "菁菁者莪，在彼中阿。既见君子，乐且有仪。",
+    "normalizedQuote": "菁菁者莪，在彼中阿。既见君子，乐且有仪。",
+    "sourceRecordId": "chinese-poetry:shijing:00fac4ed04bcf54e"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鸿雁",
+    "location": "小雅·鸿雁之什",
+    "quote": "鸿雁于飞，肃肃其羽。之子于征，劬劳于野。爰及矜人，哀此鳏寡。",
+    "normalizedQuote": "鸿雁于飞，肃肃其羽。之子于征，劬劳于野。爰及矜人，哀此鳏寡。",
+    "sourceRecordId": "chinese-poetry:shijing:de3b182e8abaaf76"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鹤鸣",
+    "location": "小雅·鸿雁之什",
+    "quote": "鹤鸣于九皋，声闻于野。鱼潜在渊，或在于渚。乐彼之园，爰有树檀，其下维萚。他山之石，可以为错。",
+    "normalizedQuote": "鹤鸣于九皋，声闻于野。鱼潜在渊，或在于渚。乐彼之园，爰有树檀，其下维萚。他山之石，可以为错。",
+    "sourceRecordId": "chinese-poetry:shijing:4ad1f013046a7bd6"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鼓钟",
+    "location": "小雅·谷风之什",
+    "quote": "鼓钟将将，淮水汤汤，忧心且伤。淑人君子，怀允不忘。",
+    "normalizedQuote": "鼓钟将将，淮水汤汤，忧心且伤。淑人君子，怀允不忘。",
+    "sourceRecordId": "chinese-poetry:shijing:acca9e453edbb036"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "黍苗",
+    "location": "小雅·鱼藻之什",
+    "quote": "原隰既平，泉流既清。召伯有成，王心则宁。",
+    "normalizedQuote": "原隰既平，泉流既清。召伯有成，王心则宁。",
+    "sourceRecordId": "chinese-poetry:shijing:0ded904d078c62af"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "既醉",
+    "location": "大雅·生民之什",
+    "quote": "昭明有融，高朗令终，令终有俶。公尸嘉告。",
+    "normalizedQuote": "昭明有融，高朗令终，令终有俶。公尸嘉告。",
+    "sourceRecordId": "chinese-poetry:shijing:9da898cf56e4e43b"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "卷阿",
+    "location": "大雅·生民之什",
+    "quote": "颙颙卬卬，如圭如璋，令闻令望。岂弟君子，四方为纲。",
+    "normalizedQuote": "颙颙卬卬，如圭如璋，令闻令望。岂弟君子，四方为纲。",
+    "sourceRecordId": "chinese-poetry:shijing:200e17b4be1f62ed"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "卷阿",
+    "location": "大雅·生民之什",
+    "quote": "颙颙卬卬，如圭如璋，令闻令望。岂弟君子，四方为纲。",
+    "normalizedQuote": "颙颙卬卬，如圭如璋，令闻令望。岂弟君子，四方为纲。",
+    "sourceRecordId": "chinese-poetry:shijing:200e17b4be1f62ed"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "卷阿",
+    "location": "大雅·生民之什",
+    "quote": "凤凰鸣矣，于彼高冈。梧桐生矣，于彼朝阳。菶菶萋萋，雍雍喈喈。",
+    "normalizedQuote": "凤凰鸣矣，于彼高冈。梧桐生矣，于彼朝阳。菶菶萋萋，雍雍喈喈。",
+    "sourceRecordId": "chinese-poetry:shijing:dce03e909407ea61"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "文王",
+    "location": "大雅·文王之什",
+    "quote": "文王在上，于昭于天。周虽旧邦，其命维新。有周不显，帝命不时。文王陟降，在帝左右。",
+    "normalizedQuote": "文王在上，于昭于天。周虽旧邦，其命维新。有周不显，帝命不时。文王陟降，在帝左右。",
+    "sourceRecordId": "chinese-poetry:shijing:ca2550ef27dbfe91"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "江汉",
+    "location": "大雅·荡之什",
+    "quote": "王命召虎：来旬来宣。文武受命，召公维翰。无曰予小子，召公是似。肇敏戎公，用锡尔祉。",
+    "normalizedQuote": "王命召虎：来旬来宣。文武受命，召公维翰。无曰予小子，召公是似。肇敏戎公，用锡尔祉。",
+    "sourceRecordId": "chinese-poetry:shijing:57c651eac1ae25ed"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "江汉",
+    "location": "大雅·荡之什",
+    "quote": "虎拜稽首，对扬王休。作召公考：天子万寿！明明天子，令闻不已，矢其文德，洽此四国。",
+    "normalizedQuote": "虎拜稽首，对扬王休。作召公考：天子万寿！明明天子，令闻不已，矢其文德，洽此四国。",
+    "sourceRecordId": "chinese-poetry:shijing:f72d5bf4c928f342"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "清庙",
+    "location": "周颂·清庙之什",
+    "quote": "于穆清庙，肃雍显相。济济多士，秉文之德。对越在天，骏奔走在庙。不显不承，无射于人斯。",
+    "normalizedQuote": "于穆清庙，肃雍显相。济济多士，秉文之德。对越在天，骏奔走在庙。不显不承，无射于人斯。",
+    "sourceRecordId": "chinese-poetry:shijing:20ca8e6311ee2012"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "有瞽",
+    "location": "周颂·臣工之什",
+    "quote": "乃奏，箫管备举。喤喤厥声，肃雍和鸣，先祖是听。我客戾止，永观厥成。",
+    "normalizedQuote": "乃奏，箫管备举。喤喤厥声，肃雍和鸣，先祖是听。我客戾止，永观厥成。",
+    "sourceRecordId": "chinese-poetry:shijing:c0db0bc8315da087"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "樛木",
+    "location": "国风·周南",
+    "quote": "南有樛木，葛藟萦之。乐只君子，福履成之。",
+    "normalizedQuote": "南有樛木，葛藟萦之。乐只君子，福履成之。",
+    "sourceRecordId": "chinese-poetry:shijing:1b96d1817f82be33"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "天保",
+    "location": "小雅·鹿鸣之什",
+    "quote": "如月之恒，如日之升。如南山之寿，不骞不崩。如松柏之茂，无不尔或承。",
+    "normalizedQuote": "如月之恒，如日之升。如南山之寿，不骞不崩。如松柏之茂，无不尔或承。",
+    "sourceRecordId": "chinese-poetry:shijing:29745c6821504a86"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "时迈",
+    "location": "周颂·清庙之什",
+    "quote": "明昭有周，式序在位。载戢干戈，载橐弓矢。我求懿德，四于时夏，允王保之。",
+    "normalizedQuote": "明昭有周，式序在位。载戢干戈，载橐弓矢。我求懿德，四于时夏，允王保之。",
+    "sourceRecordId": "chinese-poetry:shijing:51e6e53fdf5f235c"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "大东",
+    "location": "小雅·谷风之什",
+    "quote": "虽则七襄，不成报章。睆彼牵牛，不以服箱。东有启明，西有长庚。有捄天毕，载施之行。",
+    "normalizedQuote": "虽则七襄，不成报章。睆彼牵牛，不以服箱。东有启明，西有长庚。有捄天毕，载施之行。",
+    "sourceRecordId": "chinese-poetry:shijing:b071c71cbe1e2132"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鹿鸣",
+    "location": "小雅·鹿鸣之什",
+    "quote": "呦呦鹿鸣，食野之芩。我有嘉宾，鼓瑟鼓琴。鼓瑟鼓琴，和乐且湛。我有旨酒，以燕乐嘉宾之心。",
+    "normalizedQuote": "呦呦鹿鸣，食野之芩。我有嘉宾，鼓瑟鼓琴。鼓瑟鼓琴，和乐且湛。我有旨酒，以燕乐嘉宾之心。",
+    "sourceRecordId": "chinese-poetry:shijing:82db2a85a2b6e3bc"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "棠棣",
+    "location": "小雅·鹿鸣之什",
+    "quote": "棠棣之华，鄂不韡韡。凡今之人，莫如兄弟。",
+    "normalizedQuote": "棠棣之华，鄂不韡韡。凡今之人，莫如兄弟。",
+    "sourceRecordId": "chinese-poetry:shijing:356b3466b5cbbe81"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "斯干",
+    "location": "小雅·鸿雁之什",
+    "quote": "殖殖其庭，有觉其楹。哙哙其正，哕哕其冥。君子攸宁。",
+    "normalizedQuote": "殖殖其庭，有觉其楹。哙哙其正，哕哕其冥。君子攸宁。",
+    "sourceRecordId": "chinese-poetry:shijing:a9d946893fdcbfc9"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "女曰鸡鸣",
+    "location": "国风·郑风",
+    "quote": "弋言加之，与子宜之。宜言饮酒，与子偕老。琴瑟在御，莫不静好。",
+    "normalizedQuote": "弋言加之，与子宜之。宜言饮酒，与子偕老。琴瑟在御，莫不静好。",
+    "sourceRecordId": "chinese-poetry:shijing:ee3b863b4e9c5950"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "武",
+    "location": "周颂·臣工之什",
+    "quote": "于皇武王！无竞维烈。允文文王，克开厥后。嗣武受之，胜殷遏刘，耆定尔功。",
+    "normalizedQuote": "于皇武王！无竞维烈。允文文王，克开厥后。嗣武受之，胜殷遏刘，耆定尔功。",
+    "sourceRecordId": "chinese-poetry:shijing:a22a78a5d3501319"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "兔罝",
+    "location": "国风·周南",
+    "quote": "肃肃免罝，施于中林。赳赳武夫，公侯腹心。",
+    "normalizedQuote": "肃肃免罝，施于中林。赳赳武夫，公侯腹心。",
+    "sourceRecordId": "chinese-poetry:shijing:5b21c5e2572512d8"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "宾之初筵",
+    "location": "小雅·甫田之什",
+    "quote": "饮酒孔嘉，维其令仪。",
+    "normalizedQuote": "饮酒孔嘉，维其令仪。",
+    "sourceRecordId": "chinese-poetry:shijing:af5a3943323aeace"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "敬之",
+    "location": "周颂·闵予小子之什",
+    "quote": "维予小子，不聪敬止。日就月将，学有缉熙于光明。佛时仔肩，示我显德行。",
+    "normalizedQuote": "维予小子，不聪敬止。日就月将，学有缉熙于光明。佛时仔肩，示我显德行。",
+    "sourceRecordId": "chinese-poetry:shijing:9f622bf5be93cb31"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "定之方中",
+    "location": "国风·鄘风",
+    "quote": "升彼虚矣，以望楚矣。望楚与堂，景山与京。降观于桑，卜云其吉，终然允臧。",
+    "normalizedQuote": "升彼虚矣，以望楚矣。望楚与堂，景山与京。降观于桑，卜云其吉，终然允臧。",
+    "sourceRecordId": "chinese-poetry:shijing:474c203806f422e9"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "黍苗",
+    "location": "小雅·鱼藻之什",
+    "quote": "原隰既平，泉流既清。召伯有成，王心则宁。",
+    "normalizedQuote": "原隰既平，泉流既清。召伯有成，王心则宁。",
+    "sourceRecordId": "chinese-poetry:shijing:0ded904d078c62af"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "时迈",
+    "location": "周颂·清庙之什",
+    "quote": "明昭有周，式序在位。载戢干戈，载橐弓矢。我求懿德，四于时夏，允王保之。",
+    "normalizedQuote": "明昭有周，式序在位。载戢干戈，载橐弓矢。我求懿德，四于时夏，允王保之。",
+    "sourceRecordId": "chinese-poetry:shijing:51e6e53fdf5f235c"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "柏舟",
+    "location": "国风·邶风",
+    "quote": "忧心悄悄，愠于群小。觏闵既多，受侮不少。静言思之，寤辟有摽。",
+    "normalizedQuote": "忧心悄悄，愠于群小。觏闵既多，受侮不少。静言思之，寤辟有摽。",
+    "sourceRecordId": "chinese-poetry:shijing:718fc6349d2e774e"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "鹿鸣",
+    "location": "小雅·鹿鸣之什",
+    "quote": "呦呦鹿鸣，食野之蒿。我有嘉宾，德音孔昭。视民不恌，君子是则是效。我有旨酒，嘉宾式燕以敖。",
+    "normalizedQuote": "呦呦鹿鸣，食野之蒿。我有嘉宾，德音孔昭。视民不恌，君子是则是效。我有旨酒，嘉宾式燕以敖。",
+    "sourceRecordId": "chinese-poetry:shijing:e114a08a918d984c"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "简兮",
+    "location": "国风·邶风",
+    "quote": "山有榛，隰有苓。云谁之思？西方美人。彼美人兮，西方之人兮。",
+    "normalizedQuote": "山有榛，隰有苓。云谁之思？西方美人。彼美人兮，西方之人兮。",
+    "sourceRecordId": "chinese-poetry:shijing:0440a07aeb09d3d2"
+  },
+  {
+    "sourceId": "chinese-poetry:shijing",
+    "work": "诗经",
+    "title": "常武",
+    "location": "大雅·荡之什",
+    "quote": "王旅啴啴，如飞如翰。如江如汉，如山之苞。如川之流，绵绵翼翼。不测不克，濯征徐国。",
+    "normalizedQuote": "王旅啴啴，如飞如翰。如江如汉，如山之苞。如川之流，绵绵翼翼。不测不克，濯征徐国。",
+    "sourceRecordId": "chinese-poetry:shijing:d8078a65458cb311"
+  }
+]

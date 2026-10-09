@@ -1,6 +1,10 @@
 import type { GenerationRepository } from "../ports/GenerationRepository";
 import type { EvaluationRepository } from "../ports/EvaluationRepository";
 import type { CandidateFunnelItem } from "../models/CandidateFunnelItem";
+import {
+  normalizeCandidateStage,
+  type CandidateDecision,
+} from "../../domain/candidate/decision";
 
 export class GetCandidateFunnel {
   constructor(
@@ -8,9 +12,12 @@ export class GetCandidateFunnel {
     private readonly evaluations?: EvaluationRepository,
   ) {}
 
-  async execute(projectId: string): Promise<CandidateFunnelItem[]> {
+  async execute(
+    projectId: string,
+    stages?: CandidateDecision["stage"][],
+  ): Promise<CandidateFunnelItem[]> {
     const [records, evaluations] = await Promise.all([
-      this.repository.listCandidates(projectId),
+      this.repository.listCandidates(projectId, stages),
       this.evaluations?.list(projectId) ?? Promise.resolve([]),
     ]);
     const evaluationsByCandidate = new Map(
@@ -22,6 +29,7 @@ export class GetCandidateFunnel {
         return {
           id: candidate.id,
           ...(candidate.batchId ? { batchId: candidate.batchId } : {}),
+          createdAt: candidate.createdAt,
           givenName: candidate.givenName,
           fullName: candidate.fullName,
           pinyin: candidate.pinyin,
@@ -30,7 +38,13 @@ export class GetCandidateFunnel {
           styleTags: candidate.styleTags,
           characterEvidence: candidate.characterEvidence ?? [],
           sourceEvidence: candidate.sourceEvidence,
-          stage: decision.stage,
+          usageNotes: candidate.sourceEvidence
+            .filter((source) => source.sourceId === "erya-modern-20260927")
+            .flatMap((source) => (source.excerpt ? [source.excerpt] : [])),
+          stage: normalizeCandidateStage(decision.stage),
+          ...(decision.lastActiveStage ? { lastActiveStage: decision.lastActiveStage } : {}),
+          decisionUpdatedAt: decision.updatedAt,
+          ...(decision.folkloreReviewed ? { folkloreReviewed: true } : {}),
           ...(decision.rejectionReason ? { rejectionReason: decision.rejectionReason } : {}),
           warnings,
           systemScore,

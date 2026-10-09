@@ -19,6 +19,11 @@ export const sourceCatalog: Record<string, { title: string; url: string; note: s
     url: "",
     note: "AI 按字义、名字搭配与日常使用独立编辑；不宣称古籍出处或专家人审。",
   },
+  "erya-character-elements-20260930": {
+    title: "尔雅字义五行意象整理 · 2026-09-30",
+    url: "",
+    note: "传统民俗参考，按字义意象优先、字形辅助的项目口径整理，不代表唯一权威属性。",
+  },
   "unihan-17": {
     title: "Unicode 17 · Unihan",
     url: "https://www.unicode.org/reports/tr38/",

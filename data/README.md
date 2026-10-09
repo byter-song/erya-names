@@ -5,7 +5,10 @@ This directory contains the build-time corpus workspace. Application runtime dat
 
 ## Directory roles
 
-- `sources/`: version-controlled source contracts, licenses, checksums, and curated personal inputs.
+- `sources/`: version-controlled source contracts, licenses, checksums, pinned evidence snapshots,
+  and curated personal inputs. `sources/personal/*-allusions.tsv` and matching evidence JSON are
+  durable selected-name inputs; normal builds read them directly and do not re-extract names from
+  the upstream corpus.
 - `cache/`: ignored upstream snapshots produced by `npm run data:fetch`.
 - `normalized/`: ignored normalized corpus produced by `npm run data:build-review-queue`.
 - `review/`: review schemas and human decisions; generated `queue/` and `output/` are ignored.

@@ -1,5 +1,5 @@
 import type { BackupRepository } from "../ports/BackupRepository";
-import { validateBackupEnvelope } from "../../infrastructure/backup/backupSchema";
+import { validateBackupEnvelope } from "../backup/backupSchema";
 import { err, ok, type Result } from "../../domain/shared/result";
 
 export interface BackupImportPreview {

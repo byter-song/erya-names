@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadSelectedRuntimeBundle } from "../data/runtimeBundleSelection.ts";
 import { ERYA_DATABASE_VERSION } from "../../src/infrastructure/database/EryaDatabase";
-import { BACKUP_SCHEMA_VERSION } from "../../src/infrastructure/backup/backupSchema";
+import { BACKUP_SCHEMA_VERSION } from "../../src/application/backup/backupSchema";
 import { RULE_PACK_VERSION } from "../../src/domain/rules/rulePack";
 
 interface ReleaseFile {

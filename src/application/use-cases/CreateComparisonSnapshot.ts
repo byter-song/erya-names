@@ -39,6 +39,7 @@ export class CreateComparisonSnapshot {
         sourceType: candidate.sourceType,
         summary: candidate.summary,
         sourceEvidence: candidate.sourceEvidence ?? [],
+        usageNotes: candidate.usageNotes ?? [],
         warnings: candidate.warnings,
         ruleEvidence: candidate.ruleEvidence ?? [],
         ...(candidate.rating !== undefined ? { rating: candidate.rating } : {}),

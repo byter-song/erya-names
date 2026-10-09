@@ -1,0 +1,15 @@
+sourceId: erya-character-elements-20260930
+sourceType: curated
+sourceUrl: https://creativecommons.org/publicdomain/zero/1.0/
+license:
+  spdx: CC0-1.0
+  file: data/sources/personal/erya-curated-facts-CC0-1.0.txt
+  sha256: 2779783990feaa998261c11a99d64f9a8782d1ffe64f32102da4ccaf883401ba
+uses: [characters]
+reviewStatus: source_checked
+releaseEligible: false
+personalEligible: true
+files:
+  - path: data/sources/personal/character-elements.json
+    sha256: bdaacc542f55066c25e457f250790ba73e087f8b4ff0dcf6194c17f2d9d1bb3c
+notes: Project-authored semantic-imagery five-element classification; traditional folklore reference and personal use only.

@@ -1,3 +1,5 @@
+import type { ActiveCandidateStage, CandidateStage } from "../../domain/candidate/decision";
+
 export interface ProjectRecord {
   id: string;
   title: string;
@@ -31,6 +33,8 @@ export interface CandidateRecord extends EntityRecord {
     quote?: string | undefined;
     location?: string | undefined;
     excerpt?: string | undefined;
+    url?: string | undefined;
+    revision?: string | undefined;
   }>;
   warnings: string[];
   riskSignals: Array<{
@@ -69,6 +73,8 @@ export interface CandidateSourceRecord extends EntityRecord {
   quote?: string;
   location?: string;
   excerpt?: string;
+  url?: string;
+  revision?: string;
 }
 
 export interface RuleResultRecord extends ProjectOwnedRecord {
@@ -85,7 +91,10 @@ export interface RuleResultRecord extends ProjectOwnedRecord {
 
 export interface CandidateDecisionRecord extends ProjectOwnedRecord {
   candidateId: string;
-  stage: "inbox" | "favorite" | "comparison" | "finalist" | "rejected";
+  stage: CandidateStage;
+  rejectionReason?: string | undefined;
+  lastActiveStage?: ActiveCandidateStage | undefined;
+  folkloreReviewed?: boolean | undefined;
   updatedAt: string;
 }
 
@@ -94,6 +103,8 @@ export interface DecisionHistoryRecord extends ProjectOwnedRecord {
   candidateId: string;
   from: CandidateDecisionRecord["stage"];
   to: CandidateDecisionRecord["stage"];
+  action?: "manual" | "auto_filter_confirmed" | undefined;
+  batchId?: string | undefined;
   changedAt: string;
 }
 

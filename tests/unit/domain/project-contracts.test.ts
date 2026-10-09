@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { createProjectId } from "../../../src/domain/shared/ids";
-import { namingProfileSchema } from "../../../src/domain/project/profile";
+import {
+  familyRulesArePending,
+  namingProfileSchema,
+} from "../../../src/domain/project/profile";
 import { namingProjectSchema } from "../../../src/domain/project/project";
 import { generationBatchSchema } from "../../../src/domain/generation/batch";
 import { candidateSchema } from "../../../src/domain/candidate/candidate";
@@ -28,6 +31,7 @@ describe("production domain contracts", () => {
 
     expect(profile.surname).toBe("宋");
     expect(profile.givenNameLength).toBe(2);
+    expect(familyRulesArePending(profile)).toBe(true);
   });
 
   it("rejects conflicting required positions for a one-character given name", () => {
@@ -51,7 +55,7 @@ describe("production domain contracts", () => {
     ).toThrow("一字名不能把指定字固定在第二位");
   });
 
-  it("models project, immutable batch, candidate, and single decision stage", () => {
+  it("models project, immutable batch, candidate, and compatible decision stages", () => {
     expect(
       namingProjectSchema.parse({
         id: "project-song",
@@ -109,5 +113,13 @@ describe("production domain contracts", () => {
         updatedAt: "2026-09-17T00:00:00.000Z",
       }).stage,
     ).toBe("favorite");
+    expect(
+      candidateDecisionSchema.parse({
+        candidateId: "candidate-2",
+        projectId: "project-song",
+        stage: "folklore_review",
+        updatedAt: "2026-09-17T00:00:00.000Z",
+      }).stage,
+    ).toBe("folklore_review");
   });
 });

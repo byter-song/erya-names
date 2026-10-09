@@ -1,7 +1,7 @@
 ESA_ROUTINE ?= erya-names
 ESA_SKILL_DIR ?= $(HOME)/.trae/skills/alibabacloud-esa-pages-deploy
 
-.PHONY: install dev preview build typecheck lint format format-check test test-unit test-e2e data-audit security accessibility performance preflight release-prepare release-verify release-check publish publish-esa check-esa-publisher clean
+.PHONY: install dev preview build typecheck lint format format-check test test-unit test-coverage test-e2e data-audit security accessibility performance preflight release-prepare release-verify release-check publish publish-esa check-esa-publisher clean clean-reports clean-data
 
 install:
 	npm install
@@ -31,7 +31,10 @@ test:
 	npm test -- --run
 
 test-unit:
-	npm test -- --run
+	npm test -- --run tests/unit
+
+test-coverage:
+	npm run test:coverage
 
 test-e2e:
 	npm run test:e2e
@@ -73,4 +76,11 @@ publish-esa: release-prepare check-esa-publisher
 publish: publish-esa
 
 clean:
-	rm -rf dist coverage test-results playwright-report .vite
+	rm -rf dist coverage test-results playwright-report .vite tmp
+
+clean-reports:
+	rm -rf output .playwright-cli
+
+# Removes only reproducible data intermediates. Sources and human decisions remain intact.
+clean-data:
+	rm -rf data/cache data/normalized data/audit data/review/queue data/review/output src/data/curated/releases

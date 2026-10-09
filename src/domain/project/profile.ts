@@ -11,6 +11,8 @@ export const namingProfileSchema = z
     surnamePinyin: z.string().trim().max(80).optional(),
     surnameType: z.enum(["single", "compound", "combined_parental"]),
     givenNameLength: z.union([z.literal(1), z.literal(2)]),
+    childGender: z.enum(["male", "female", "unknown"]).optional(),
+    constraintKnowledge: z.enum(["present", "none", "unknown"]).optional(),
     requiredCharacters: z.array(
       z.object({
         char: singleCharacter,
@@ -81,6 +83,17 @@ export const namingProfileSchema = z
         path: ["requiredCharacters"],
       });
     if (
+      profile.constraintKnowledge === "present" &&
+      profile.requiredCharacters.length === 0 &&
+      profile.avoidCharacters.length === 0 &&
+      profile.relativeNames.length === 0
+    )
+      context.addIssue({
+        code: "custom",
+        message: "请至少填写一项必须遵守的字辈或避讳",
+        path: ["constraintKnowledge"],
+      });
+    if (
       new Set(profile.requiredCharacters.map((item) => item.char)).size >
       profile.givenNameLength
     )
@@ -102,3 +115,9 @@ export const namingProfileSchema = z
   });
 
 export type NamingProfile = z.infer<typeof namingProfileSchema>;
+
+export function familyRulesArePending(
+  profile: Pick<NamingProfile, "constraintKnowledge">,
+): boolean {
+  return profile.constraintKnowledge !== "present" && profile.constraintKnowledge !== "none";
+}

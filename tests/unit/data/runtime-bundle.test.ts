@@ -56,7 +56,10 @@ describe("runtime curated bundle", () => {
   });
 
   it("keeps old bundles compatible by defaulting person usages to an empty list", () => {
-    expect(runtimeBundleSchema.parse(devBundle).personUsages).toEqual([]);
+    const parsed = runtimeBundleSchema.parse(devBundle);
+    expect(parsed.personUsages).toEqual([]);
+    expect(parsed.standardCharacterPinyin).toEqual({});
+    expect(parsed.traditionalToSimplified).toEqual({});
   });
 
   it("requires explicit rank evidence for every imperial-exam identity", () => {

@@ -60,6 +60,9 @@
   gap: 15px;
   margin-top: 22px;
 }
+.comparison-page__mobile-table {
+  display: none;
+}
 .comparison-column,
 .finalization-card {
   overflow: hidden;
@@ -223,6 +226,52 @@
   }
   .comparison-page__finalists {
     grid-template-columns: 1fr;
+  }
+  .comparison-page__grid {
+    display: none;
+  }
+  .comparison-page__mobile-table {
+    display: block;
+    max-width: 100%;
+    margin-top: 18px;
+    overflow: auto;
+    border: 1px solid var(--paper-300);
+    border-radius: var(--radius-sm);
+    background: var(--paper-50);
+  }
+  .comparison-page__mobile-table table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .comparison-page__mobile-table th,
+  .comparison-page__mobile-table td {
+    min-width: 176px;
+    padding: 10px;
+    border-right: 1px solid var(--paper-200);
+    border-bottom: 1px solid var(--paper-200);
+    text-align: left;
+    vertical-align: top;
+    background: var(--paper-50);
+  }
+  .comparison-page__mobile-table thead th {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    background: var(--surface-highlight);
+  }
+  .comparison-page__mobile-table th[scope="row"] {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+    min-width: 104px;
+    color: var(--gold-700);
+    background: var(--surface-band);
+  }
+  .comparison-page__mobile-table thead th:first-child {
+    z-index: 3;
+    left: 0;
   }
   .comparison-page__finalist-list article {
     grid-template-columns: 1fr auto;

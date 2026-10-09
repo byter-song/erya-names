@@ -1,0 +1,2752 @@
+{
+  "schemaVersion": 1,
+  "manifest": {
+    "version": "character-elements-2026.09.30",
+    "checkedAt": "2026-09-30",
+    "methodVersion": "semantic-imagery-1",
+    "reviewStatus": "source_checked",
+    "counts": {
+      "total": 303,
+      "wood": 74,
+      "fire": 56,
+      "earth": 78,
+      "metal": 34,
+      "water": 61
+    },
+    "classificationBasis": "传统民俗参考下的项目编辑分类：先看当前字卡字义和可解释的自然、材质、时序或品格意象，字形只作辅助；不采用读音五行或笔画数理一刀切。为满足个人包全覆盖，直接意象较弱的字采用克制的编辑性归类并在理由中说明。",
+    "disclaimer": "传统民俗参考，非科学结论；不同资料和流派可能有不同分类，本数据不声称是唯一权威属性。",
+    "sourceCatalog": {
+      "character-meaning": "data/sources/personal/characters.tsv 中对应字的项目原创释义",
+      "semantic-imagery-1": "docs/references/naming-research-20260927.md#民俗解释的边界 与 Obsidian 产品基线中的字义优先口径"
+    }
+  },
+  "records": [
+    {
+      "char": "清",
+      "element": "water",
+      "reason": "“清”以清澈为直接字义，水的澄明流动意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:清", "semantic-imagery-1"]
+    },
+    {
+      "char": "扬",
+      "element": "wood",
+      "reason": "“扬”强调向上扬起与舒展传播，取木向上生发的文化意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:扬", "semantic-imagery-1"]
+    },
+    {
+      "char": "景",
+      "element": "fire",
+      "reason": "“景”的字义核心包含日光与明亮景象，取火的光明照耀意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:景", "semantic-imagery-1"]
+    },
+    {
+      "char": "行",
+      "element": "wood",
+      "reason": "“行”取行动与践行，强调持续向前的生发之势，项目据此归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:行", "semantic-imagery-1"]
+    },
+    {
+      "char": "知",
+      "element": "water",
+      "reason": "“知”取明辨与通达，以思维通达、善于变通的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:知", "semantic-imagery-1"]
+    },
+    {
+      "char": "远",
+      "element": "water",
+      "reason": "“远”强调延伸不绝与开阔眼界，取水流绵延、行远的意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:远", "semantic-imagery-1"]
+    },
+    {
+      "char": "安",
+      "element": "earth",
+      "reason": "“安”取安定安稳，重在承载与稳定感，项目按土的安定意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:安", "semantic-imagery-1"]
+    },
+    {
+      "char": "宁",
+      "element": "earth",
+      "reason": "“宁”取安宁与内心安定，以沉稳、安顿的意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宁", "semantic-imagery-1"]
+    },
+    {
+      "char": "明",
+      "element": "fire",
+      "reason": "“明”以明亮为直接字义，光照意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:明", "semantic-imagery-1"]
+    },
+    {
+      "char": "德",
+      "element": "earth",
+      "reason": "“德”强调品德积累与厚重承载，取土厚德载物的文化意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:德", "semantic-imagery-1"]
+    },
+    {
+      "char": "怀",
+      "element": "earth",
+      "reason": "“怀”有怀抱、包容之义，取土承载和包容万物的意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:怀", "semantic-imagery-1"]
+    },
+    {
+      "char": "瑾",
+      "element": "earth",
+      "reason": "“瑾”本义为美玉，按玉石这一自然材质归土，并非因偏旁机械判定。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:瑾", "semantic-imagery-1"]
+    },
+    {
+      "char": "瑜",
+      "element": "earth",
+      "reason": "“瑜”指美玉及玉的光彩，以玉石材质为主意象归土，不按笔画判定。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:瑜", "semantic-imagery-1"]
+    },
+    {
+      "char": "乐",
+      "element": "fire",
+      "reason": "“乐”取快乐与喜悦，强调温暖明快、向外感染的意象，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:乐", "semantic-imagery-1"]
+    },
+    {
+      "char": "修",
+      "element": "wood",
+      "reason": "“修”取修养与持续精进，重在逐步成长，项目按木的生长意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:修", "semantic-imagery-1"]
+    },
+    {
+      "char": "文",
+      "element": "fire",
+      "reason": "“文”取文采与文明之光，以才思彰显、照亮见识的意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:文", "semantic-imagery-1"]
+    },
+    {
+      "char": "思",
+      "element": "water",
+      "reason": "“思”取思考与思念，以思绪深远、流转不息的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:思", "semantic-imagery-1"]
+    },
+    {
+      "char": "齐",
+      "element": "metal",
+      "reason": "“齐”强调整齐、看齐与秩序，取金的整饬和规整意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:齐", "semantic-imagery-1"]
+    },
+    {
+      "char": "令",
+      "element": "metal",
+      "reason": "“令”包含命令、规范之义，取金的规则与决断意象；名字中仍以美善义为主。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:令", "semantic-imagery-1"]
+    },
+    {
+      "char": "仪",
+      "element": "metal",
+      "reason": "“仪”取礼仪与仪度，强调规范、尺度和端正，项目据此归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:仪", "semantic-imagery-1"]
+    },
+    {
+      "char": "徽",
+      "element": "metal",
+      "reason": "“徽”有标识与美好声誉之义，取标识清楚、品格有准绳的金意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:徽", "semantic-imagery-1"]
+    },
+    {
+      "char": "音",
+      "element": "metal",
+      "reason": "“音”取清晰声响与音韵，借金石相击、声律分明的文化意象归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:音", "semantic-imagery-1"]
+    },
+    {
+      "char": "静",
+      "element": "water",
+      "reason": "“静”强调安静沉着，取静水深流、澄定不扰的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:静", "semantic-imagery-1"]
+    },
+    {
+      "char": "姝",
+      "element": "fire",
+      "reason": "“姝”取美好明丽，重在明艳可见的气质，项目按火的明丽意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:姝", "semantic-imagery-1"]
+    },
+    {
+      "char": "好",
+      "element": "earth",
+      "reason": "“好”取友好与亲和，强调人与人之间的接纳和扶持，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:好", "semantic-imagery-1"]
+    },
+    {
+      "char": "柔",
+      "element": "wood",
+      "reason": "“柔”取柔和而有韧性，贴合枝条可曲而不断的木性意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:柔", "semantic-imagery-1"]
+    },
+    {
+      "char": "嘉",
+      "element": "fire",
+      "reason": "“嘉”有赞许、欣悦之义，取喜悦明朗、温暖相庆的火意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:嘉", "semantic-imagery-1"]
+    },
+    {
+      "char": "淑",
+      "element": "water",
+      "reason": "“淑”取善良温厚，并保留清润柔和的字义联想；沿水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:淑", "semantic-imagery-1"]
+    },
+    {
+      "char": "慎",
+      "element": "metal",
+      "reason": "“慎”强调谨慎、自我约束与边界感，取金的收敛守则意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:慎", "semantic-imagery-1"]
+    },
+    {
+      "char": "卉",
+      "element": "wood",
+      "reason": "“卉”直接指花草，草木生机意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:卉", "semantic-imagery-1"]
+    },
+    {
+      "char": "采",
+      "element": "wood",
+      "reason": "“采”取采集与文采，联想到采撷草木和收获生长，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:采", "semantic-imagery-1"]
+    },
+    {
+      "char": "薇",
+      "element": "wood",
+      "reason": "“薇”为古籍植物名，草木意象直接明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:薇", "semantic-imagery-1"]
+    },
+    {
+      "char": "苓",
+      "element": "wood",
+      "reason": "“苓”为植物名，取草木生长的直接意象；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:苓", "semantic-imagery-1"]
+    },
+    {
+      "char": "芃",
+      "element": "wood",
+      "reason": "“芃”直接描写草木茂盛，生发繁茂意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:芃", "semantic-imagery-1"]
+    },
+    {
+      "char": "蓁",
+      "element": "wood",
+      "reason": "“蓁”直接描写草木茂盛，繁盛生长意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:蓁", "semantic-imagery-1"]
+    },
+    {
+      "char": "琼",
+      "element": "earth",
+      "reason": "“琼”本义为美玉，按玉石这一自然材质归土，不因玉旁一刀切。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琼", "semantic-imagery-1"]
+    },
+    {
+      "char": "瑶",
+      "element": "earth",
+      "reason": "“瑶”指美玉，以温润玉石的材质意象归土，而非采用笔画数理。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:瑶", "semantic-imagery-1"]
+    },
+    {
+      "char": "华",
+      "element": "fire",
+      "reason": "“华”取光彩与明丽，光辉显发的意象更直接，项目据此归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:华", "semantic-imagery-1"]
+    },
+    {
+      "char": "子",
+      "element": "wood",
+      "reason": "“子”在字卡中取子女与成长，生命萌发、向上成长的意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:子", "semantic-imagery-1"]
+    },
+    {
+      "char": "佩",
+      "element": "earth",
+      "reason": "“佩”在当前释义中以玉佩为核心物象，按玉石材质与珍重之意归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:佩", "semantic-imagery-1"]
+    },
+    {
+      "char": "衿",
+      "element": "wood",
+      "reason": "“衿”指衣领，并借青衿寄托文雅成长，取衣物纤维与生发意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:衿", "semantic-imagery-1"]
+    },
+    {
+      "char": "悠",
+      "element": "water",
+      "reason": "“悠”取悠远从容，强调绵长流动和不迫的节奏，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:悠", "semantic-imagery-1"]
+    },
+    {
+      "char": "依",
+      "element": "earth",
+      "reason": "“依”取依靠与亲近，以有所依托、安稳承接的意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:依", "semantic-imagery-1"]
+    },
+    {
+      "char": "雨",
+      "element": "water",
+      "reason": "“雨”直接指降水与润泽，水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:雨", "semantic-imagery-1"]
+    },
+    {
+      "char": "霏",
+      "element": "water",
+      "reason": "“霏”描写雨雪纷飞，以降水和湿润的自然意象归水；沿用既有值。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:霏", "semantic-imagery-1"]
+    },
+    {
+      "char": "维",
+      "element": "wood",
+      "reason": "“维”取维系与连结，联想到经纬纤维相连、关系生长，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:维", "semantic-imagery-1"]
+    },
+    {
+      "char": "桢",
+      "element": "wood",
+      "reason": "“桢”直接指坚木、支柱，木材意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:桢", "semantic-imagery-1"]
+    },
+    {
+      "char": "翰",
+      "element": "wood",
+      "reason": "“翰”取羽毛与文笔，强调才思舒展、向上开展，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:翰", "semantic-imagery-1"]
+    },
+    {
+      "char": "邦",
+      "element": "earth",
+      "reason": "“邦”取邦国与家园，核心是疆土、家园和承载，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:邦", "semantic-imagery-1"]
+    },
+    {
+      "char": "彦",
+      "element": "fire",
+      "reason": "“彦”指才德出众之人，取才华显达、光彩外现的意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:彦", "semantic-imagery-1"]
+    },
+    {
+      "char": "如",
+      "element": "water",
+      "reason": "“如”取顺合、如同，强调随顺与适应变化的意象，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:如", "semantic-imagery-1"]
+    },
+    {
+      "char": "云",
+      "element": "water",
+      "reason": "“云”直接指云气，与水汽聚散相连；沿用字表既有水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:云", "semantic-imagery-1"]
+    },
+    {
+      "char": "英",
+      "element": "wood",
+      "reason": "“英”本义包含花，草木开花和才华生发的意象使其归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:英", "semantic-imagery-1"]
+    },
+    {
+      "char": "玉",
+      "element": "earth",
+      "reason": "“玉”直接指天然玉石，以温润矿石材质归土；不是因字形偏旁机械判定。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:玉", "semantic-imagery-1"]
+    },
+    {
+      "char": "正",
+      "element": "metal",
+      "reason": "“正”取端正、公正，强调准绳、边界和裁断，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:正", "semantic-imagery-1"]
+    },
+    {
+      "char": "则",
+      "element": "metal",
+      "reason": "“则”直接指准则与榜样，规则、尺度和约束意象对应金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:则", "semantic-imagery-1"]
+    },
+    {
+      "char": "灵",
+      "element": "fire",
+      "reason": "“灵”取灵动聪慧，强调敏锐、活泼和灵光显现，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:灵", "semantic-imagery-1"]
+    },
+    {
+      "char": "均",
+      "element": "earth",
+      "reason": "“均”强调均衡与平和，取土地平正、稳定调和的意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:均", "semantic-imagery-1"]
+    },
+    {
+      "char": "杜",
+      "element": "wood",
+      "reason": "“杜”直接指杜树，树木生长意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:杜", "semantic-imagery-1"]
+    },
+    {
+      "char": "若",
+      "element": "wood",
+      "reason": "“若”在当前字卡中与香草词汇相连，取草木清雅、柔韧生发的意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:若", "semantic-imagery-1"]
+    },
+    {
+      "char": "芷",
+      "element": "wood",
+      "reason": "“芷”直接指芳香植物白芷，草木意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:芷", "semantic-imagery-1"]
+    },
+    {
+      "char": "兰",
+      "element": "wood",
+      "reason": "“兰”直接指兰草、兰花，草木清雅意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:兰", "semantic-imagery-1"]
+    },
+    {
+      "char": "秋",
+      "element": "metal",
+      "reason": "“秋”直接指收获时节，采用传统时序中秋季的收敛肃成意象归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:秋", "semantic-imagery-1"]
+    },
+    {
+      "char": "江",
+      "element": "water",
+      "reason": "“江”直接指大河，流动开阔的水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:江", "semantic-imagery-1"]
+    },
+    {
+      "char": "离",
+      "element": "wood",
+      "reason": "“离”在当前字卡中特别关联香草江离，按这一植物意象归木，并保留离别风险。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:离", "semantic-imagery-1"]
+    },
+    {
+      "char": "承",
+      "element": "earth",
+      "reason": "“承”取承接与担当，强调托住、承担和延续，项目按土的承载意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:承", "semantic-imagery-1"]
+    },
+    {
+      "char": "宇",
+      "element": "earth",
+      "reason": "“宇”取屋宇和空间，房屋落地、庇护承载的意象使其归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宇", "semantic-imagery-1"]
+    },
+    {
+      "char": "旗",
+      "element": "fire",
+      "reason": "“旗”取旗帜与昂扬方向，强调高举、鲜明和鼓舞，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:旗", "semantic-imagery-1"]
+    },
+    {
+      "char": "辰",
+      "element": "fire",
+      "reason": "“辰”在字卡中取日月星辰与光景，明亮天象是主意象，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:辰", "semantic-imagery-1"]
+    },
+    {
+      "char": "良",
+      "element": "earth",
+      "reason": "“良”取良善、温厚与可信，强调厚实可靠的人格意象，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:良", "semantic-imagery-1"]
+    },
+    {
+      "char": "歌",
+      "element": "fire",
+      "reason": "“歌”取歌唱、欢欣与表达，声音外扬、情绪明快的意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:歌", "semantic-imagery-1"]
+    },
+    {
+      "char": "浩",
+      "element": "water",
+      "reason": "“浩”直接描写盛大水势，宽广充沛的水意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:浩", "semantic-imagery-1"]
+    },
+    {
+      "char": "容",
+      "element": "earth",
+      "reason": "“容”取容纳与包容，像土地承载万物，项目按土的包容意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:容", "semantic-imagery-1"]
+    },
+    {
+      "char": "与",
+      "element": "earth",
+      "reason": "“与”取给予、相与和陪伴，强调支持与承接关系，项目暂归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:与", "semantic-imagery-1"]
+    },
+    {
+      "char": "宜",
+      "element": "earth",
+      "reason": "“宜”取适宜、和宜，强调安顿得当与平衡适配，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宜", "semantic-imagery-1"]
+    },
+    {
+      "char": "树",
+      "element": "wood",
+      "reason": "“树”直接指树木并有树立之义，生长自立意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:树", "semantic-imagery-1"]
+    },
+    {
+      "char": "秉",
+      "element": "wood",
+      "reason": "“秉”取持守与秉承，联想到握持禾束、延续原则，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:秉", "semantic-imagery-1"]
+    },
+    {
+      "char": "望",
+      "element": "fire",
+      "reason": "“望”取远望与希望，强调目光所向和前景明亮，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:望", "semantic-imagery-1"]
+    },
+    {
+      "char": "舒",
+      "element": "wood",
+      "reason": "“舒”取舒展从容，像枝叶展开、生机伸展，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:舒", "semantic-imagery-1"]
+    },
+    {
+      "char": "飞",
+      "element": "wood",
+      "reason": "“飞”取轻盈向上，强调上升、开展和生发之势，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:飞", "semantic-imagery-1"]
+    },
+    {
+      "char": "昭",
+      "element": "fire",
+      "reason": "“昭”直接指明亮显明，光照意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:昭", "semantic-imagery-1"]
+    },
+    {
+      "char": "和",
+      "element": "earth",
+      "reason": "“和”取和谐和悦，强调居中调和与稳定关系，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:和", "semantic-imagery-1"]
+    },
+    {
+      "char": "信",
+      "element": "earth",
+      "reason": "“信”取诚信可靠，重在稳固承诺与可信根基，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:信", "semantic-imagery-1"]
+    },
+    {
+      "char": "芳",
+      "element": "wood",
+      "reason": "“芳”以草木芳香为直接意象，清雅生发特征明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:芳", "semantic-imagery-1"]
+    },
+    {
+      "char": "皋",
+      "element": "earth",
+      "reason": "“皋”直接指水边高地，取高地土壤与开阔地貌意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:皋", "semantic-imagery-1"]
+    },
+    {
+      "char": "沐",
+      "element": "water",
+      "reason": "“沐”取润泽与洗濯，水的清洗滋润意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:沐", "semantic-imagery-1"]
+    },
+    {
+      "char": "既",
+      "element": "fire",
+      "reason": "“既”在当前字卡中与“明”组合取天光初明，按晨光显现意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:既", "semantic-imagery-1"]
+    },
+    {
+      "char": "博",
+      "element": "water",
+      "reason": "“博”取广博与丰富，强调汇流众长、宽广通达，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:博", "semantic-imagery-1"]
+    },
+    {
+      "char": "衍",
+      "element": "wood",
+      "reason": "“衍”取延展与丰富，重在不断展开、生长增益，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:衍", "semantic-imagery-1"]
+    },
+    {
+      "char": "康",
+      "element": "earth",
+      "reason": "“康”取安宁安定的祝愿，强调安稳、踏实的生活状态，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:康", "semantic-imagery-1"]
+    },
+    {
+      "char": "琬",
+      "element": "earth",
+      "reason": "“琬”指温润美玉，按玉石材质与圆融触感归土，不因玉旁直接判定。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琬", "semantic-imagery-1"]
+    },
+    {
+      "char": "琰",
+      "element": "fire",
+      "reason": "“琰”的当前字义突出美玉光泽，以明洁发光而非材质作为主意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琰", "semantic-imagery-1"]
+    },
+    {
+      "char": "晏",
+      "element": "fire",
+      "reason": "“晏”包含天色晴朗之义，取晴光温和、明朗不迫的火意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:晏", "semantic-imagery-1"]
+    },
+    {
+      "char": "攸",
+      "element": "water",
+      "reason": "“攸”在字卡中取安适舒缓，强调从容流转、不滞不迫，项目暂归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:攸", "semantic-imagery-1"]
+    },
+    {
+      "char": "窈",
+      "element": "water",
+      "reason": "“窈”取幽深与雅致，以深邃、含蓄和静谧的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:窈", "semantic-imagery-1"]
+    },
+    {
+      "char": "猗",
+      "element": "wood",
+      "reason": "“猗”在当前释义中取美好盛大，强调丰茂舒展的气象，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:猗", "semantic-imagery-1"]
+    },
+    {
+      "char": "舜",
+      "element": "wood",
+      "reason": "“舜”在字卡中特别关联指木槿花的“舜华”，按这一植物意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:舜", "semantic-imagery-1"]
+    },
+    {
+      "char": "成",
+      "element": "earth",
+      "reason": "“成”取完成与成就，强调成果落定、根基稳固，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:成", "semantic-imagery-1"]
+    },
+    {
+      "char": "至",
+      "element": "wood",
+      "reason": "“至”取到达与不断进取，强调朝目标生长、持续前行，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:至", "semantic-imagery-1"]
+    },
+    {
+      "char": "善",
+      "element": "earth",
+      "reason": "“善”取善意与善行，强调厚待他人、滋养关系，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:善", "semantic-imagery-1"]
+    },
+    {
+      "char": "止",
+      "element": "metal",
+      "reason": "“止”取止步、知分寸与守原则，边界和收敛意象使其归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:止", "semantic-imagery-1"]
+    },
+    {
+      "char": "定",
+      "element": "earth",
+      "reason": "“定”取安定与坚定，强调稳固不移、内心有根，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:定", "semantic-imagery-1"]
+    },
+    {
+      "char": "格",
+      "element": "wood",
+      "reason": "“格”在当前字卡中取格物求知，强调知识逐层生长与推究，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:格", "semantic-imagery-1"]
+    },
+    {
+      "char": "物",
+      "element": "earth",
+      "reason": "“物”直接指事物、万物，取大地承载具体万物的意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:物", "semantic-imagery-1"]
+    },
+    {
+      "char": "致",
+      "element": "wood",
+      "reason": "“致”取达到与专注，强调向目标推进并有所生长，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:致", "semantic-imagery-1"]
+    },
+    {
+      "char": "诚",
+      "element": "earth",
+      "reason": "“诚”取真诚诚信，重在可靠、厚实和可托付，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:诚", "semantic-imagery-1"]
+    },
+    {
+      "char": "意",
+      "element": "fire",
+      "reason": "“意”取心意与意愿，强调内在意志和情感驱动力，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:意", "semantic-imagery-1"]
+    },
+    {
+      "char": "心",
+      "element": "fire",
+      "reason": "“心”直接指内心与心意，取情感温度和内在活力的意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:心", "semantic-imagery-1"]
+    },
+    {
+      "char": "身",
+      "element": "earth",
+      "reason": "“身”取自身、亲身，强调立身有基与现实承载，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:身", "semantic-imagery-1"]
+    },
+    {
+      "char": "独",
+      "element": "metal",
+      "reason": "“独”取独立自持，强调清楚界限和不随意动摇，项目暂归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:独", "semantic-imagery-1"]
+    },
+    {
+      "char": "中",
+      "element": "earth",
+      "reason": "“中”取适中中正，居中、平衡和稳定的意象直接对应土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:中", "semantic-imagery-1"]
+    },
+    {
+      "char": "笃",
+      "element": "earth",
+      "reason": "“笃”取笃实专一，强调踏实、厚重和守信不移，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:笃", "semantic-imagery-1"]
+    },
+    {
+      "char": "学",
+      "element": "wood",
+      "reason": "“学”取持续求知，强调积累、成长和不断开展，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:学", "semantic-imagery-1"]
+    },
+    {
+      "char": "审",
+      "element": "water",
+      "reason": "“审”取详察与深思明辨，强调沉潜思考、周流考量，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:审", "semantic-imagery-1"]
+    },
+    {
+      "char": "问",
+      "element": "water",
+      "reason": "“问”取询问与探求，强调追索、通达和思想流动，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:问", "semantic-imagery-1"]
+    },
+    {
+      "char": "辨",
+      "element": "metal",
+      "reason": "“辨”取分辨与辨明，强调清晰划分、判断取舍，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:辨", "semantic-imagery-1"]
+    },
+    {
+      "char": "约",
+      "element": "metal",
+      "reason": "“约”取约束与简约，重在收敛、界限和规则，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:约", "semantic-imagery-1"]
+    },
+    {
+      "char": "礼",
+      "element": "metal",
+      "reason": "“礼”取礼节与分寸，强调行为规范和清晰尺度，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:礼", "semantic-imagery-1"]
+    },
+    {
+      "char": "弘",
+      "element": "wood",
+      "reason": "“弘”取广大与弘扬，强调向外扩展、不断生发，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:弘", "semantic-imagery-1"]
+    },
+    {
+      "char": "毅",
+      "element": "metal",
+      "reason": "“毅”取坚毅果断，强调刚健、决断和不屈，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:毅", "semantic-imagery-1"]
+    },
+    {
+      "char": "仁",
+      "element": "earth",
+      "reason": "“仁”取仁爱体恤，强调包容、厚待和滋养他人，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:仁", "semantic-imagery-1"]
+    },
+    {
+      "char": "志",
+      "element": "wood",
+      "reason": "“志”取志向与坚持，强调朝目标向上成长，项目按木的生发意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:志", "semantic-imagery-1"]
+    },
+    {
+      "char": "新",
+      "element": "wood",
+      "reason": "“新”取更新与生长，新生萌发的字义意象明确，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:新", "semantic-imagery-1"]
+    },
+    {
+      "char": "温",
+      "element": "fire",
+      "reason": "“温”取温和温厚，温暖感是当前字义的直接感受，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:温", "semantic-imagery-1"]
+    },
+    {
+      "char": "故",
+      "element": "earth",
+      "reason": "“故”在温故语境中取旧知与积累，强调沉淀、根基和回顾，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:故", "semantic-imagery-1"]
+    },
+    {
+      "char": "质",
+      "element": "earth",
+      "reason": "“质”取本质与质朴，强调真实、朴素和厚实基础，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:质", "semantic-imagery-1"]
+    },
+    {
+      "char": "彬",
+      "element": "earth",
+      "reason": "“彬”取文质兼备，强调文采与质朴之间的平衡，项目按土的调和意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:彬", "semantic-imagery-1"]
+    },
+    {
+      "char": "敏",
+      "element": "metal",
+      "reason": "“敏”取敏锐与勤勉，突出反应利落、判断明快，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:敏", "semantic-imagery-1"]
+    },
+    {
+      "char": "言",
+      "element": "fire",
+      "reason": "“言”取言语与表达，强调思想向外传达和被看见，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:言", "semantic-imagery-1"]
+    },
+    {
+      "char": "见",
+      "element": "fire",
+      "reason": "“见”取看见与见识，以视觉、显现和明察的意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:见", "semantic-imagery-1"]
+    },
+    {
+      "char": "贤",
+      "element": "metal",
+      "reason": "“贤”取才德与向贤，强调品格准绳和可效法标准，项目暂归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:贤", "semantic-imagery-1"]
+    },
+    {
+      "char": "星",
+      "element": "fire",
+      "reason": "“星”直接指明亮星辰，发光天象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:星", "semantic-imagery-1"]
+    },
+    {
+      "char": "河",
+      "element": "water",
+      "reason": "“河”直接指河流，流动开阔的水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:河", "semantic-imagery-1"]
+    },
+    {
+      "char": "帆",
+      "element": "water",
+      "reason": "“帆”取船帆、启程与探索，其主要使用场景依水而行，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:帆", "semantic-imagery-1"]
+    },
+    {
+      "char": "月",
+      "element": "water",
+      "reason": "“月”取清朗圆融的月亮，强调清凉、静夜与潮汐联想，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:月", "semantic-imagery-1"]
+    },
+    {
+      "char": "泉",
+      "element": "water",
+      "reason": "“泉”直接指泉水，清新丰沛的水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:泉", "semantic-imagery-1"]
+    },
+    {
+      "char": "松",
+      "element": "wood",
+      "reason": "“松”直接指松树，以长青坚韧的树木意象归木；沿用既有值。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:松", "semantic-imagery-1"]
+    },
+    {
+      "char": "风",
+      "element": "wood",
+      "reason": "“风”取舒展清朗，借风推动万物生发、枝叶舒展的意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:风", "semantic-imagery-1"]
+    },
+    {
+      "char": "竹",
+      "element": "wood",
+      "reason": "“竹”直接指竹子，草木中空有节的意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:竹", "semantic-imagery-1"]
+    },
+    {
+      "char": "朗",
+      "element": "fire",
+      "reason": "“朗”直接指明亮爽朗，光明开阔意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:朗", "semantic-imagery-1"]
+    },
+    {
+      "char": "初",
+      "element": "wood",
+      "reason": "“初”取开始与新生，萌发起步的意象直接对应木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:初", "semantic-imagery-1"]
+    },
+    {
+      "char": "予",
+      "element": "earth",
+      "reason": "“予”取给予与分享，强调承接需求、厚待他人，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:予", "semantic-imagery-1"]
+    },
+    {
+      "char": "亦",
+      "element": "water",
+      "reason": "“亦”作为含蓄连接用字，语意随上下文流转，项目作编辑性水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:亦", "semantic-imagery-1"]
+    },
+    {
+      "char": "一",
+      "element": "metal",
+      "reason": "“一”取纯粹专一，强调凝练、统一和清楚边界，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:一", "semantic-imagery-1"]
+    },
+    {
+      "char": "之",
+      "element": "water",
+      "reason": "“之”作为连接语意的文言助词，取承接转折、使语意流动的水意象。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:之", "semantic-imagery-1"]
+    },
+    {
+      "char": "书",
+      "element": "wood",
+      "reason": "“书”取书籍、书写与求知，联想到纸木载文和学识成长，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:书", "semantic-imagery-1"]
+    },
+    {
+      "char": "墨",
+      "element": "water",
+      "reason": "“墨”直接指书画用墨，以液态墨色和沉静流布的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:墨", "semantic-imagery-1"]
+    },
+    {
+      "char": "禾",
+      "element": "wood",
+      "reason": "“禾”直接指禾苗，生长与丰收意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:禾", "semantic-imagery-1"]
+    },
+    {
+      "char": "棠",
+      "element": "wood",
+      "reason": "“棠”直接指海棠、棠梨，草木繁盛意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:棠", "semantic-imagery-1"]
+    },
+    {
+      "char": "林",
+      "element": "wood",
+      "reason": "“林”直接指树木成林，生长繁茂意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:林", "semantic-imagery-1"]
+    },
+    {
+      "char": "森",
+      "element": "wood",
+      "reason": "“森”直接指树木繁密，蓬勃自然意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:森", "semantic-imagery-1"]
+    },
+    {
+      "char": "柏",
+      "element": "wood",
+      "reason": "“柏”直接指柏树，坚韧长青的树木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:柏", "semantic-imagery-1"]
+    },
+    {
+      "char": "桐",
+      "element": "wood",
+      "reason": "“桐”直接指桐树，舒展雅致的草木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:桐", "semantic-imagery-1"]
+    },
+    {
+      "char": "楠",
+      "element": "wood",
+      "reason": "“楠”直接指楠木，稳重坚实的树木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:楠", "semantic-imagery-1"]
+    },
+    {
+      "char": "榆",
+      "element": "wood",
+      "reason": "“榆”直接指榆树，朴实坚韧的树木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:榆", "semantic-imagery-1"]
+    },
+    {
+      "char": "榕",
+      "element": "wood",
+      "reason": "“榕”直接指榕树，繁盛庇护的树木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:榕", "semantic-imagery-1"]
+    },
+    {
+      "char": "梧",
+      "element": "wood",
+      "reason": "“梧”直接指梧桐，舒展清雅的树木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:梧", "semantic-imagery-1"]
+    },
+    {
+      "char": "柳",
+      "element": "wood",
+      "reason": "“柳”直接指柳树，柔韧轻盈的草木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:柳", "semantic-imagery-1"]
+    },
+    {
+      "char": "枫",
+      "element": "wood",
+      "reason": "“枫”直接指枫树，草木与时序色彩意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:枫", "semantic-imagery-1"]
+    },
+    {
+      "char": "梅",
+      "element": "wood",
+      "reason": "“梅”直接指梅花、梅树，坚韧清雅的草木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:梅", "semantic-imagery-1"]
+    },
+    {
+      "char": "棣",
+      "element": "wood",
+      "reason": "“棣”直接指棣棠、常棣，草木与手足情意相连；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:棣", "semantic-imagery-1"]
+    },
+    {
+      "char": "朴",
+      "element": "wood",
+      "reason": "“朴”当前取质朴，又与未经雕饰的木材意象相通；沿用既有木归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:朴", "semantic-imagery-1"]
+    },
+    {
+      "char": "榛",
+      "element": "wood",
+      "reason": "“榛”直接指榛树，蓬勃朴实的草木意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:榛", "semantic-imagery-1"]
+    },
+    {
+      "char": "溪",
+      "element": "water",
+      "reason": "“溪”直接指溪流，清澈灵动的水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:溪", "semantic-imagery-1"]
+    },
+    {
+      "char": "澄",
+      "element": "water",
+      "reason": "“澄”直接描写水清澈澄明，水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:澄", "semantic-imagery-1"]
+    },
+    {
+      "char": "澈",
+      "element": "water",
+      "reason": "“澈”直接指清澈通透，水的澄净意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:澈", "semantic-imagery-1"]
+    },
+    {
+      "char": "润",
+      "element": "water",
+      "reason": "“润”直接指润泽，水的滋养与温润意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:润", "semantic-imagery-1"]
+    },
+    {
+      "char": "涵",
+      "element": "water",
+      "reason": "“涵”取包容涵养，并有水中包容之意；沿用字表既有水归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:涵", "semantic-imagery-1"]
+    },
+    {
+      "char": "汐",
+      "element": "water",
+      "reason": "“汐”直接指晚潮，潮汐水流意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:汐", "semantic-imagery-1"]
+    },
+    {
+      "char": "汀",
+      "element": "water",
+      "reason": "“汀”指水边平地，以临水地貌和清静水岸意象归水；沿用既有值。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:汀", "semantic-imagery-1"]
+    },
+    {
+      "char": "洲",
+      "element": "water",
+      "reason": "“洲”指水中陆地，核心场景由水环绕；沿用字表既有水归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:洲", "semantic-imagery-1"]
+    },
+    {
+      "char": "沅",
+      "element": "water",
+      "reason": "“沅”直接指沅水，水名意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:沅", "semantic-imagery-1"]
+    },
+    {
+      "char": "洛",
+      "element": "water",
+      "reason": "“洛”在当前字卡中取洛水，山川水名意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:洛", "semantic-imagery-1"]
+    },
+    {
+      "char": "泓",
+      "element": "water",
+      "reason": "“泓”直接指水深而清，深广澄澈的水意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:泓", "semantic-imagery-1"]
+    },
+    {
+      "char": "泽",
+      "element": "water",
+      "reason": "“泽”直接指水泽、润泽，水的滋养意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:泽", "semantic-imagery-1"]
+    },
+    {
+      "char": "潇",
+      "element": "water",
+      "reason": "“潇”字义包含水清深，清水与自在流动意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:潇", "semantic-imagery-1"]
+    },
+    {
+      "char": "淮",
+      "element": "water",
+      "reason": "“淮”直接指淮河，山川河流意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:淮", "semantic-imagery-1"]
+    },
+    {
+      "char": "沂",
+      "element": "water",
+      "reason": "“沂”直接指沂水，自然水名意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:沂", "semantic-imagery-1"]
+    },
+    {
+      "char": "渝",
+      "element": "water",
+      "reason": "“渝”虽取改变、不渝之义，仍保留流变语感；沿用字表既有水归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:渝", "semantic-imagery-1"]
+    },
+    {
+      "char": "澜",
+      "element": "water",
+      "reason": "“澜”直接指大波浪，开阔有力的水意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:澜", "semantic-imagery-1"]
+    },
+    {
+      "char": "映",
+      "element": "fire",
+      "reason": "“映”取映照相映，光线照见的意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:映", "semantic-imagery-1"]
+    },
+    {
+      "char": "昕",
+      "element": "fire",
+      "reason": "“昕”直接指太阳将出，晨光初起意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:昕", "semantic-imagery-1"]
+    },
+    {
+      "char": "晨",
+      "element": "fire",
+      "reason": "“晨”直接指早晨，朝阳与新日光明意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:晨", "semantic-imagery-1"]
+    },
+    {
+      "char": "晗",
+      "element": "fire",
+      "reason": "“晗”直接指天将明，晨光欲现的意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:晗", "semantic-imagery-1"]
+    },
+    {
+      "char": "昱",
+      "element": "fire",
+      "reason": "“昱”直接指日光、明亮，照耀意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:昱", "semantic-imagery-1"]
+    },
+    {
+      "char": "昀",
+      "element": "fire",
+      "reason": "“昀”直接指日光，温暖明亮的光照意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:昀", "semantic-imagery-1"]
+    },
+    {
+      "char": "煦",
+      "element": "fire",
+      "reason": "“煦”直接指和暖，温热明亮的感受明确；沿用字表既有火归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:煦", "semantic-imagery-1"]
+    },
+    {
+      "char": "晖",
+      "element": "fire",
+      "reason": "“晖”直接指日光，温暖光明意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:晖", "semantic-imagery-1"]
+    },
+    {
+      "char": "晴",
+      "element": "fire",
+      "reason": "“晴”取晴朗明净，阳光显露的自然意象明确；沿用既有火归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:晴", "semantic-imagery-1"]
+    },
+    {
+      "char": "晓",
+      "element": "fire",
+      "reason": "“晓”包含天明、知晓之义，晨光与明理意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:晓", "semantic-imagery-1"]
+    },
+    {
+      "char": "暖",
+      "element": "fire",
+      "reason": "“暖”直接指温暖，热度与亲和感明确；沿用字表既有火归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:暖", "semantic-imagery-1"]
+    },
+    {
+      "char": "煜",
+      "element": "fire",
+      "reason": "“煜”直接指照耀，明亮有生机的光热意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:煜", "semantic-imagery-1"]
+    },
+    {
+      "char": "灿",
+      "element": "fire",
+      "reason": "“灿”直接指灿烂，明丽耀眼的光照意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:灿", "semantic-imagery-1"]
+    },
+    {
+      "char": "岳",
+      "element": "earth",
+      "reason": "“岳”直接指高山，稳重高远的山岳意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:岳", "semantic-imagery-1"]
+    },
+    {
+      "char": "山",
+      "element": "earth",
+      "reason": "“山”直接指山岳，稳健笃实的地貌意象明确；沿用字表既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:山", "semantic-imagery-1"]
+    },
+    {
+      "char": "岚",
+      "element": "earth",
+      "reason": "“岚”指山间雾气，当前字义以山地环境为核心；沿用既有土归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:岚", "semantic-imagery-1"]
+    },
+    {
+      "char": "岑",
+      "element": "earth",
+      "reason": "“岑”直接指小而高的山，沉静高远的山地意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:岑", "semantic-imagery-1"]
+    },
+    {
+      "char": "岩",
+      "element": "earth",
+      "reason": "“岩”直接指岩石山岩，坚定可靠的石土意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:岩", "semantic-imagery-1"]
+    },
+    {
+      "char": "屿",
+      "element": "earth",
+      "reason": "“屿”直接指水中小岛，以安定独立的陆地意象归土；沿用既有值。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:屿", "semantic-imagery-1"]
+    },
+    {
+      "char": "锦",
+      "element": "fire",
+      "reason": "“锦”指有纹彩的丝织品，当前释义突出鲜明纹彩与文采，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:锦", "semantic-imagery-1"]
+    },
+    {
+      "char": "钧",
+      "element": "metal",
+      "reason": "“钧”是古代重量单位并可作敬称，取金属衡器和尺度意象；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:钧", "semantic-imagery-1"]
+    },
+    {
+      "char": "铭",
+      "element": "metal",
+      "reason": "“铭”取刻写与铭记，刻于金石的坚固留存意象明确；沿用既有金归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:铭", "semantic-imagery-1"]
+    },
+    {
+      "char": "铮",
+      "element": "metal",
+      "reason": "“铮”直接指金属撞击声，清越坚实的金属意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:铮", "semantic-imagery-1"]
+    },
+    {
+      "char": "钰",
+      "element": "metal",
+      "reason": "“钰”在当前字义中指珍宝、坚金，金属材质意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:钰", "semantic-imagery-1"]
+    },
+    {
+      "char": "锐",
+      "element": "metal",
+      "reason": "“锐”取锋利与敏锐，锋芒和决断的金属意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:锐", "semantic-imagery-1"]
+    },
+    {
+      "char": "南",
+      "element": "fire",
+      "reason": "“南”取温暖与方向感，采用传统方位中南方对应温热明盛的意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:南", "semantic-imagery-1"]
+    },
+    {
+      "char": "北",
+      "element": "water",
+      "reason": "“北”取清朗坚定的北方空间，采用传统方位中北方寒凉幽静的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:北", "semantic-imagery-1"]
+    },
+    {
+      "char": "东",
+      "element": "wood",
+      "reason": "“东”取朝阳与启程，采用传统方位中东方生发、万物启始的意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:东", "semantic-imagery-1"]
+    },
+    {
+      "char": "西",
+      "element": "metal",
+      "reason": "“西”取开阔空间，采用传统方位中西方收敛、肃成的意象归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:西", "semantic-imagery-1"]
+    },
+    {
+      "char": "夏",
+      "element": "fire",
+      "reason": "“夏”直接指夏季，热烈明盛的时序意象明确，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:夏", "semantic-imagery-1"]
+    },
+    {
+      "char": "冬",
+      "element": "water",
+      "reason": "“冬”直接指冬季，寒凉收藏的时序意象明确，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:冬", "semantic-imagery-1"]
+    },
+    {
+      "char": "春",
+      "element": "wood",
+      "reason": "“春”直接指春季，新生萌发与万物生长的时序意象明确，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:春", "semantic-imagery-1"]
+    },
+    {
+      "char": "时",
+      "element": "fire",
+      "reason": "“时”取时间与时机，强调时光流转中把握当下、积极显发，项目暂归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:时", "semantic-imagery-1"]
+    },
+    {
+      "char": "岁",
+      "element": "earth",
+      "reason": "“岁”取年岁与成长，强调岁月积累、沉淀成实，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:岁", "semantic-imagery-1"]
+    },
+    {
+      "char": "序",
+      "element": "metal",
+      "reason": "“序”直接取次序与秩序，规则、条理和分寸意象对应金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:序", "semantic-imagery-1"]
+    },
+    {
+      "char": "庭",
+      "element": "earth",
+      "reason": "“庭”直接指庭院，居所落地、安宁承载的意象使其归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:庭", "semantic-imagery-1"]
+    },
+    {
+      "char": "轩",
+      "element": "wood",
+      "reason": "“轩”取车舆、轩窗与高敞明朗，强调向上舒展的空间感，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:轩", "semantic-imagery-1"]
+    },
+    {
+      "char": "宸",
+      "element": "earth",
+      "reason": "“宸”本义为深屋，核心是居所、庇护与承载，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宸", "semantic-imagery-1"]
+    },
+    {
+      "char": "宥",
+      "element": "earth",
+      "reason": "“宥”取宽宥与包容，强调容纳过失、厚待他人，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宥", "semantic-imagery-1"]
+    },
+    {
+      "char": "宛",
+      "element": "water",
+      "reason": "“宛”取宛转柔和，强调曲折流转、柔顺不迫，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宛", "semantic-imagery-1"]
+    },
+    {
+      "char": "宵",
+      "element": "water",
+      "reason": "“宵”直接指夜晚，清凉静谧、幽深收静的时序意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:宵", "semantic-imagery-1"]
+    },
+    {
+      "char": "悦",
+      "element": "fire",
+      "reason": "“悦”直接指喜悦和悦，明快温暖、感染他人的情绪意象归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:悦", "semantic-imagery-1"]
+    },
+    {
+      "char": "怡",
+      "element": "earth",
+      "reason": "“怡”取和悦安适，强调安顿身心、平和稳定，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:怡", "semantic-imagery-1"]
+    },
+    {
+      "char": "恬",
+      "element": "water",
+      "reason": "“恬”取安静恬淡，强调平静无扰、如静水般从容，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:恬", "semantic-imagery-1"]
+    },
+    {
+      "char": "恺",
+      "element": "fire",
+      "reason": "“恺”取和乐友善，强调温暖喜悦、亲和明快，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:恺", "semantic-imagery-1"]
+    },
+    {
+      "char": "恩",
+      "element": "earth",
+      "reason": "“恩”取恩惠与情谊，强调滋养、回馈和厚重联结，项目归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:恩", "semantic-imagery-1"]
+    },
+    {
+      "char": "念",
+      "element": "fire",
+      "reason": "“念”取思念与记挂，强调持续的内在情感和心意温度，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:念", "semantic-imagery-1"]
+    },
+    {
+      "char": "惜",
+      "element": "earth",
+      "reason": "“惜”取珍惜爱惜，强调珍重、保存和稳固关系，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:惜", "semantic-imagery-1"]
+    },
+    {
+      "char": "慕",
+      "element": "wood",
+      "reason": "“慕”取向往与向善好学，强调目标牵引和持续成长，项目归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:慕", "semantic-imagery-1"]
+    },
+    {
+      "char": "谦",
+      "element": "metal",
+      "reason": "“谦”取谦逊自省，强调克制锋芒、守住分寸，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:谦", "semantic-imagery-1"]
+    },
+    {
+      "char": "谨",
+      "element": "metal",
+      "reason": "“谨”取谨慎郑重，强调边界、规则和认真约束，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:谨", "semantic-imagery-1"]
+    },
+    {
+      "char": "诺",
+      "element": "metal",
+      "reason": "“诺”取应诺与守信，强调承诺清楚、言出有准，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:诺", "semantic-imagery-1"]
+    },
+    {
+      "char": "谕",
+      "element": "fire",
+      "reason": "“谕”取告知与明白，强调表达清楚、使道理显明，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:谕", "semantic-imagery-1"]
+    },
+    {
+      "char": "诗",
+      "element": "fire",
+      "reason": "“诗”取诗歌与表达，强调情意外现、文采焕发，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:诗", "semantic-imagery-1"]
+    },
+    {
+      "char": "语",
+      "element": "fire",
+      "reason": "“语”取语言与沟通，强调思想传达、使彼此明白，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:语", "semantic-imagery-1"]
+    },
+    {
+      "char": "韵",
+      "element": "metal",
+      "reason": "“韵”取和谐音韵，强调声律有节、音节有度，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:韵", "semantic-imagery-1"]
+    },
+    {
+      "char": "韶",
+      "element": "fire",
+      "reason": "“韶”取美好乐曲，强调乐声明快、和美彰显，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:韶", "semantic-imagery-1"]
+    },
+    {
+      "char": "雅",
+      "element": "metal",
+      "reason": "“雅”取雅正与涵养，重在端正标准、审美有度，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:雅", "semantic-imagery-1"]
+    },
+    {
+      "char": "颂",
+      "element": "fire",
+      "reason": "“颂”取赞颂与表达，强调声音外扬、赞美显发，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:颂", "semantic-imagery-1"]
+    },
+    {
+      "char": "婉",
+      "element": "water",
+      "reason": "“婉”取婉转柔和，强调语气曲折流畅、柔而不滞，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:婉", "semantic-imagery-1"]
+    },
+    {
+      "char": "妍",
+      "element": "fire",
+      "reason": "“妍”取美好明丽，突出明艳可见、光彩外现，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:妍", "semantic-imagery-1"]
+    },
+    {
+      "char": "妤",
+      "element": "metal",
+      "reason": "“妤”在当前字卡中取古代女官称谓的端雅感，按礼序与仪范暂归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:妤", "semantic-imagery-1"]
+    },
+    {
+      "char": "姗",
+      "element": "wood",
+      "reason": "“姗”取从容缓步与舒展，动作轻缓开展的意象使其暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:姗", "semantic-imagery-1"]
+    },
+    {
+      "char": "姮",
+      "element": "water",
+      "reason": "“姮”在当前字卡中关联月中仙子，以月夜清凉幽静的意象归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:姮", "semantic-imagery-1"]
+    },
+    {
+      "char": "嫣",
+      "element": "fire",
+      "reason": "“嫣”取明丽亲和，突出鲜明笑意与温暖光彩，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:嫣", "semantic-imagery-1"]
+    },
+    {
+      "char": "娴",
+      "element": "water",
+      "reason": "“娴”取文雅熟练与从容，强调沉静柔和、举止流畅，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:娴", "semantic-imagery-1"]
+    },
+    {
+      "char": "婧",
+      "element": "fire",
+      "reason": "“婧”取才华与秀雅，突出才华显现、明秀有光，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:婧", "semantic-imagery-1"]
+    },
+    {
+      "char": "曼",
+      "element": "water",
+      "reason": "“曼”取柔美绵长与舒展，线条绵延流动的意象使其归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:曼", "semantic-imagery-1"]
+    },
+    {
+      "char": "绮",
+      "element": "fire",
+      "reason": "“绮”指有纹彩的丝织品，当前释义突出明丽文采，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:绮", "semantic-imagery-1"]
+    },
+    {
+      "char": "纾",
+      "element": "water",
+      "reason": "“纾”取舒缓与解除，强调化解阻滞、恢复流畅，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:纾", "semantic-imagery-1"]
+    },
+    {
+      "char": "素",
+      "element": "earth",
+      "reason": "“素”取本色与质朴，强调未经修饰、朴实有本，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:素", "semantic-imagery-1"]
+    },
+    {
+      "char": "絮",
+      "element": "wood",
+      "reason": "“絮”在当前字卡中关联柳絮，取植物轻盈舒展的意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:絮", "semantic-imagery-1"]
+    },
+    {
+      "char": "绎",
+      "element": "wood",
+      "reason": "“绎”取连续寻绎与延展，强调线索不断展开、生长，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:绎", "semantic-imagery-1"]
+    },
+    {
+      "char": "纬",
+      "element": "metal",
+      "reason": "“纬”取织物横线和地理纬度，强调网格、尺度与条理，项目归金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:纬", "semantic-imagery-1"]
+    },
+    {
+      "char": "衡",
+      "element": "earth",
+      "reason": "“衡”取衡量与平衡，强调持中、稳定和权衡承载，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:衡", "semantic-imagery-1"]
+    },
+    {
+      "char": "律",
+      "element": "metal",
+      "reason": "“律”直接指规则与音律，规范、节度和秩序意象对应金。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:律", "semantic-imagery-1"]
+    },
+    {
+      "char": "卓",
+      "element": "fire",
+      "reason": "“卓”取卓然高明，强调突出、显著和向上明亮，项目按火意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:卓", "semantic-imagery-1"]
+    },
+    {
+      "char": "越",
+      "element": "wood",
+      "reason": "“越”取跨越超越，强调不断向前、突破生长，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:越", "semantic-imagery-1"]
+    },
+    {
+      "char": "砚",
+      "element": "earth",
+      "reason": "“砚”直接指石质砚台，以石材和沉静承墨的意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:砚", "semantic-imagery-1"]
+    },
+    {
+      "char": "研",
+      "element": "earth",
+      "reason": "“研”本义包含研磨，当前又取研究深思，以砥石研磨和沉潜积累归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:研", "semantic-imagery-1"]
+    },
+    {
+      "char": "砺",
+      "element": "earth",
+      "reason": "“砺”直接指磨刀石并有磨砺之义，石土材质明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:砺", "semantic-imagery-1"]
+    },
+    {
+      "char": "珂",
+      "element": "earth",
+      "reason": "“珂”指似玉美石，以天然石材与温润质感归土，不因偏旁机械判定。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:珂", "semantic-imagery-1"]
+    },
+    {
+      "char": "珩",
+      "element": "earth",
+      "reason": "“珩”指古代佩玉，按玉石材质和端方稳重的物象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:珩", "semantic-imagery-1"]
+    },
+    {
+      "char": "珺",
+      "element": "earth",
+      "reason": "“珺”直接指美玉，以天然玉石的温润材质意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:珺", "semantic-imagery-1"]
+    },
+    {
+      "char": "璟",
+      "element": "earth",
+      "reason": "“璟”指玉的光彩，当前仍以玉石为核心物象，按材质归土而非按笔画。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:璟", "semantic-imagery-1"]
+    },
+    {
+      "char": "璇",
+      "element": "earth",
+      "reason": "“璇”直接指美玉，以珍贵玉石的天然材质意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:璇", "semantic-imagery-1"]
+    },
+    {
+      "char": "琳",
+      "element": "earth",
+      "reason": "“琳”直接指美玉，以温润清雅的玉石材质意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琳", "semantic-imagery-1"]
+    },
+    {
+      "char": "琪",
+      "element": "earth",
+      "reason": "“琪”直接指美玉，以珍贵美好的玉石材质意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琪", "semantic-imagery-1"]
+    },
+    {
+      "char": "瑗",
+      "element": "earth",
+      "reason": "“瑗”指有大孔的璧玉，以具体玉器材质和圆融形态归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:瑗", "semantic-imagery-1"]
+    },
+    {
+      "char": "瑞",
+      "element": "earth",
+      "reason": "“瑞”取祥瑞信物，强调可持守的吉祥凭信与安定祝愿，项目暂归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:瑞", "semantic-imagery-1"]
+    },
+    {
+      "char": "璐",
+      "element": "earth",
+      "reason": "“璐”直接指美玉，以珍贵洁美的天然玉石材质归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:璐", "semantic-imagery-1"]
+    },
+    {
+      "char": "璋",
+      "element": "earth",
+      "reason": "“璋”直接指古代玉器，以具体玉石材质和礼器承载意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:璋", "semantic-imagery-1"]
+    },
+    {
+      "char": "琛",
+      "element": "earth",
+      "reason": "“琛”直接指珍宝，取珍物厚藏、安稳承载的意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琛", "semantic-imagery-1"]
+    },
+    {
+      "char": "琦",
+      "element": "earth",
+      "reason": "“琦”直接指美玉，以珍贵独特的天然玉石材质归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:琦", "semantic-imagery-1"]
+    },
+    {
+      "char": "瑄",
+      "element": "earth",
+      "reason": "“瑄”指祭祀所用大璧，以玉石礼器这一具体物象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:瑄", "semantic-imagery-1"]
+    },
+    {
+      "char": "珞",
+      "element": "earth",
+      "reason": "“珞”在当前字卡中取璎珞玉饰，以珠玉材质与珍重意象归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:珞", "semantic-imagery-1"]
+    },
+    {
+      "char": "呈",
+      "element": "fire",
+      "reason": "“呈”取呈现与显露，强调使事物清楚可见、坦诚表达，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:呈", "semantic-imagery-1"]
+    },
+    {
+      "char": "佑",
+      "element": "earth",
+      "reason": "“佑”取帮助与护佑，强调扶持、庇护和可靠承接，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:佑", "semantic-imagery-1"]
+    },
+    {
+      "char": "启",
+      "element": "wood",
+      "reason": "“启”取开启与启发，强调打开新程、知识萌发，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:启", "semantic-imagery-1"]
+    },
+    {
+      "char": "佟",
+      "element": "earth",
+      "reason": "“佟”在字卡中仅作姓氏用字，本项目以家族承续和稳定身份暂归土，直接自然意象较弱。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:佟", "semantic-imagery-1"]
+    },
+    {
+      "char": "可",
+      "element": "earth",
+      "reason": "“可”取可以与认可，强调接纳、相宜和稳妥回应，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:可", "semantic-imagery-1"]
+    },
+    {
+      "char": "允",
+      "element": "metal",
+      "reason": "“允”取诚信允当，强调公允尺度与言行有准，项目按金意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:允", "semantic-imagery-1"]
+    },
+    {
+      "char": "以",
+      "element": "water",
+      "reason": "“以”作为凭借、连接语意之字，取灵活承接上下文的流动意象，项目暂归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:以", "semantic-imagery-1"]
+    },
+    {
+      "char": "惟",
+      "element": "water",
+      "reason": "“惟”取思考与专一，强调沉潜思虑、思绪深流，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:惟", "semantic-imagery-1"]
+    },
+    {
+      "char": "懿",
+      "element": "earth",
+      "reason": "“懿”取美好品德，强调德行厚重、沉稳可承，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:懿", "semantic-imagery-1"]
+    },
+    {
+      "char": "鸿",
+      "element": "water",
+      "reason": "“鸿”取鸿雁与广大，并常见于水泽天空的开阔场景，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:鸿", "semantic-imagery-1"]
+    },
+    {
+      "char": "鹏",
+      "element": "wood",
+      "reason": "“鹏”取大鸟高飞与高远志向，强调向上生长和舒展，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:鹏", "semantic-imagery-1"]
+    },
+    {
+      "char": "鸣",
+      "element": "fire",
+      "reason": "“鸣”取鸣叫与表达，声音向外传递、生命活力显发，项目归火。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:鸣", "semantic-imagery-1"]
+    },
+    {
+      "char": "鹤",
+      "element": "wood",
+      "reason": "“鹤”取清雅舒展的鸟类意象，强调生命、向上和自然生机，项目暂归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:鹤", "semantic-imagery-1"]
+    },
+    {
+      "char": "鹿",
+      "element": "wood",
+      "reason": "“鹿”直接指灵动动物，取自然生命、生机活跃的意象归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:鹿", "semantic-imagery-1"]
+    },
+    {
+      "char": "遥",
+      "element": "water",
+      "reason": "“遥”取遥远与开阔悠远，强调绵延无际、行远流长，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:遥", "semantic-imagery-1"]
+    },
+    {
+      "char": "逍",
+      "element": "water",
+      "reason": "“逍”取逍遥自在，强调行动流畅、不受滞碍，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:逍", "semantic-imagery-1"]
+    },
+    {
+      "char": "逸",
+      "element": "water",
+      "reason": "“逸”取安逸超逸，强调自在流动、舒缓无碍，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:逸", "semantic-imagery-1"]
+    },
+    {
+      "char": "达",
+      "element": "water",
+      "reason": "“达”取到达与通达，强调道路贯通、思想无阻，项目按水意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:达", "semantic-imagery-1"]
+    },
+    {
+      "char": "适",
+      "element": "earth",
+      "reason": "“适”取适宜自在，强调处境相合、安顿得当，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:适", "semantic-imagery-1"]
+    },
+    {
+      "char": "遇",
+      "element": "earth",
+      "reason": "“遇”取相遇与珍惜际遇，强调人与事汇合、关系落定，项目暂归土。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:遇", "semantic-imagery-1"]
+    },
+    {
+      "char": "程",
+      "element": "wood",
+      "reason": "“程”取路程与成长过程，强调循序向前、持续发展，项目按木意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:程", "semantic-imagery-1"]
+    },
+    {
+      "char": "稚",
+      "element": "wood",
+      "reason": "“稚”取幼小稚真，生命初长、尚待成熟的意象直接对应木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:稚", "semantic-imagery-1"]
+    },
+    {
+      "char": "穗",
+      "element": "wood",
+      "reason": "“穗”直接指谷物花实聚生部分，生长丰收意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:穗", "semantic-imagery-1"]
+    },
+    {
+      "char": "稷",
+      "element": "wood",
+      "reason": "“稷”直接指古代谷物，庄稼生长与丰实意象明确；沿用既有归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:稷", "semantic-imagery-1"]
+    },
+    {
+      "char": "穆",
+      "element": "earth",
+      "reason": "“穆”取温和恭敬与沉静端正，强调庄重安定，项目按土意象归类。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:穆", "semantic-imagery-1"]
+    },
+    {
+      "char": "颖",
+      "element": "wood",
+      "reason": "“颖”本义为禾穗尖，并引申聪颖，谷物生长和崭露意象使其归木。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:颖", "semantic-imagery-1"]
+    },
+    {
+      "char": "融",
+      "element": "water",
+      "reason": "“融”取融和融通，强调边界化开、彼此贯通和顺畅流动，项目归水。",
+      "methodVersion": "semantic-imagery-1",
+      "reviewStatus": "source_checked",
+      "checkedAt": "2026-09-30",
+      "sourceRefs": ["character-meaning:融", "semantic-imagery-1"]
+    }
+  ]
+}

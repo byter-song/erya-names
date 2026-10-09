@@ -192,22 +192,6 @@
     "sourceRecordId": "chinese-poetry:shijing:b82a1f1a7b1133e7"
   },
   {
-    "sourceId": "chinese-poetry:chuci",
-    "title": "谬谏",
-    "location": "七谏",
-    "quote": "虎啸而谷风至兮，龙举而景云往。",
-    "normalizedQuote": "虎啸而谷风至兮，龙举而景云往。",
-    "sourceRecordId": "chinese-poetry:chuci:f272225656dc0cda"
-  },
-  {
-    "sourceId": "chinese-poetry:chuci",
-    "title": "离骚",
-    "location": "离骚",
-    "quote": "芳与泽其杂糅兮，唯昭质其犹未亏。",
-    "normalizedQuote": "芳与泽其杂糅兮，唯昭质其犹未亏。",
-    "sourceRecordId": "chinese-poetry:chuci:65d475df12b0a7d9"
-  },
-  {
     "sourceId": "chinese-poetry:lunyu",
     "title": "公冶长篇",
     "location": "公冶长篇",

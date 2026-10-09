@@ -42,4 +42,15 @@ describe("architecture boundaries", () => {
       expect(await readFile(file, "utf8")).not.toMatch(forbiddenImports);
     }
   });
+
+  it("keeps application modules independent from UI and infrastructure implementations", async () => {
+    const applicationRoot = path.resolve("src/application");
+    const files = await listTypeScriptFiles(applicationRoot);
+    const forbiddenImports = /from ["'][^"']*(?:\/app\/|\/features\/|\/infrastructure\/)/;
+
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) {
+      expect(await readFile(file, "utf8"), file).not.toMatch(forbiddenImports);
+    }
+  });
 });

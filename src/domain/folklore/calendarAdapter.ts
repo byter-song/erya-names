@@ -1,15 +1,9 @@
 import { validateBirthDateTime } from "./birthDate";
 export { validateBirthDateTime } from "./birthDate";
 import { Solar } from "lunar-typescript";
-
-export type FiveElement = "wood" | "fire" | "earth" | "metal" | "water";
-export const elementLabels: Record<FiveElement, string> = {
-  wood: "木",
-  fire: "火",
-  earth: "土",
-  metal: "金",
-  water: "水",
-};
+import type { FiveElement } from "./fiveElements";
+export { elementLabels } from "./fiveElements";
+export type { FiveElement } from "./fiveElements";
 const elementMap: Record<string, FiveElement> = {
   木: "wood",
   火: "fire",

@@ -1,6 +1,7 @@
 import type { DecisionRepository } from "../ports/DecisionRepository";
 import {
   candidateStageSchema,
+  candidateRestoreStage,
   type CandidateDecision,
   type CandidateStage,
 } from "../../domain/candidate/decision";
@@ -11,7 +12,11 @@ import type { SessionUndoStack } from "../../domain/candidate/sessionUndo";
 export class MoveCandidateDecision {
   constructor(
     private readonly repository: DecisionRepository,
-    private readonly dependencies: { now: () => string; undoStack?: SessionUndoStack },
+    private readonly dependencies: {
+      now: () => string;
+      canProgress: (projectId: string) => Promise<boolean>;
+      undoStack?: SessionUndoStack;
+    },
   ) {}
 
   async execute(input: {
@@ -26,7 +31,13 @@ export class MoveCandidateDecision {
     if (!canMoveCandidate(current.stage, input.to)) {
       return err(`invalid-transition:${current.stage}->${input.to}`);
     }
-    if (input.to === "rejected" && !input.rejectionReason?.trim()) {
+    if (
+      ["comparison", "finalist"].includes(input.to) &&
+      !(await this.dependencies.canProgress(input.projectId))
+    ) {
+      return err("family-rules-pending");
+    }
+    if (["excluded", "rejected"].includes(input.to) && !input.rejectionReason?.trim()) {
       return err("rejection-reason-required");
     }
     if (input.rejectionReason && input.rejectionReason.trim().length > 500) {
@@ -39,6 +50,13 @@ export class MoveCandidateDecision {
         from: current.stage,
         to: input.to,
         ...(input.rejectionReason ? { rejectionReason: input.rejectionReason } : {}),
+        ...(["excluded", "rejected"].includes(input.to)
+          ? { lastActiveStage: candidateRestoreStage(current.stage) }
+          : {}),
+        ...(["comparison", "finalist", "excluded", "rejected"].includes(input.to) &&
+        (current.folkloreReviewed || current.stage === "folklore_review")
+          ? { folkloreReviewed: true }
+          : {}),
         ...((input.to === "comparison" || input.to === "finalist") && current.stage !== input.to
           ? { maximumTargetCount: 5 }
           : {}),

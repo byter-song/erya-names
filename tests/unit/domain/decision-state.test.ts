@@ -22,6 +22,24 @@ describe("candidate decision state", () => {
     }
   });
 
+  it("supports the five-stage funnel and recoverable exclusion", () => {
+    for (const [from, to] of [
+      ["inbox", "basic_shortlist"],
+      ["basic_shortlist", "folklore_review"],
+      ["basic_shortlist", "comparison"],
+      ["folklore_review", "basic_shortlist"],
+      ["folklore_review", "comparison"],
+      ["comparison", "finalist"],
+      ["finalist", "comparison"],
+      ["basic_shortlist", "excluded"],
+      ["folklore_review", "excluded"],
+      ["excluded", "basic_shortlist"],
+      ["excluded", "folklore_review"],
+    ] as const) {
+      expect(canMoveCandidate(from, to), `${from} -> ${to}`).toBe(true);
+    }
+  });
+
   it("rejects unsupported shortcuts", () => {
     const stages = ["inbox", "favorite", "comparison", "finalist", "rejected"] as const;
     const allowed = new Set([

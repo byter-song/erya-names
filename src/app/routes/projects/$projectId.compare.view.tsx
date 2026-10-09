@@ -4,8 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useApplicationContainer } from "../../providers";
 import { ComparisonPage } from "../../../features/comparison/ComparisonPage";
 import { Button } from "../../../design-system/primitives/Button";
-import type { FunnelCandidate } from "../../../features/funnel/CandidateFunnelPage";
+import type { CandidateFunnelItem as FunnelCandidate } from "../../../application/models/CandidateFunnelItem";
 import type { ComparisonSnapshot } from "../../../domain/candidate/comparisonSnapshot";
+import { familyRulesArePending } from "../../../domain/project/profile";
 
 export function ComparisonRoute() {
   const { projectId } = comparisonRoute.useParams();
@@ -16,15 +17,23 @@ export function ComparisonRoute() {
   const [snapshots, setSnapshots] = useState<ComparisonSnapshot[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+  const [eligibilityBlocked, setEligibilityBlocked] = useState(false);
 
   const reload = useCallback(async () => {
     setLoadError("");
     try {
-      const items = await container.getCandidateFunnel?.execute(projectId);
+      const [items, workspace] = await Promise.all([
+        container.getCandidateFunnel?.execute(projectId, ["comparison", "finalist"]),
+        container.getProjectWorkspace?.execute(projectId),
+      ]);
       const allItems = items ?? [];
+      setEligibilityBlocked(
+        Boolean(workspace?.ok && familyRulesArePending(workspace.value.profile)),
+      );
       setCandidates(allItems.filter((item) => item.stage === "comparison"));
       setFinalists(allItems.filter((item) => item.stage === "finalist"));
       setSnapshots((await container.createComparisonSnapshot?.list(projectId)) ?? []);
+      window.dispatchEvent(new Event("erya:journey-changed"));
     } catch (reason) {
       setLoadError(reason instanceof Error ? reason.message : "候选读取失败，请重试");
     } finally {
@@ -54,12 +63,35 @@ export function ComparisonRoute() {
       </main>
     );
 
+  if (eligibilityBlocked)
+    return (
+      <main className="comparison-page">
+        <h1>重点候选暂时锁定</h1>
+        <p>家庭规则仍不确定。请先核对是否有必须遵守的字辈或避讳。</p>
+        <Button
+          onClick={() =>
+            void navigate({
+              to: "/projects/$projectId/generate",
+              params: { projectId },
+              hash: "conditions",
+            })
+          }
+          type="button"
+        >
+          核对家庭规则
+        </Button>
+      </main>
+    );
+
   return (
     <ComparisonPage
       candidates={candidates}
       finalists={finalists}
       initialCanUndo={Boolean(container.undoCandidateDecision?.hasCommands(projectId))}
       snapshots={snapshots}
+      onBackToCandidates={() =>
+        void navigate({ to: "/projects/$projectId/generate", params: { projectId } })
+      }
       onOpenFinalization={() =>
         void navigate({ to: "/projects/$projectId/finalize", params: { projectId } })
       }

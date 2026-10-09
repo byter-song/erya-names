@@ -7,6 +7,8 @@ const snapshotSourceSchema = z.object({
   quote: z.string().optional(),
   location: z.string().optional(),
   excerpt: z.string().optional(),
+  url: z.url().optional(),
+  revision: z.string().min(1).optional(),
 });
 
 const snapshotRuleSchema = z.object({
@@ -33,6 +35,7 @@ export const comparisonSnapshotCandidateSchema = z.object({
   sourceType: z.enum(["verified_allusion", "modern_combination", "user_input"]),
   summary: z.string(),
   sourceEvidence: z.array(snapshotSourceSchema).default([]),
+  usageNotes: z.array(z.string()).default([]),
   warnings: z.array(snapshotWarningSchema).default([]),
   ruleEvidence: z.array(snapshotRuleSchema).default([]),
   rating: z.number().int().min(1).max(5).optional(),
