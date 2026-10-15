@@ -1,297 +1,707 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Erya Names - Magnetic Link Prototypes</title>
-  <style>
-    /* =========================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Erya Names - Magnetic Link Prototypes</title>
+    <style>
+      /* =========================================
        Global Setup & Variables
        ========================================= */
-    :root {
-      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-      --font-serif: "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif;
-      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-      --ease-slow: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-sans); min-height: 100vh; overflow: hidden; transition: background 0.5s; }
-    
-    /* 顶部切换栏 */
-    .switcher { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; gap: 12px; z-index: 9999; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
-    .concept-btn { background: transparent; border: 1px solid #CBD5E1; color: #475569; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
-    .concept-btn.active, .concept-btn:hover { background: #0F172A; color: #fff; border-color: #0F172A; }
-    
-    /* 主容器 */
-    #app-root { margin-top: 60px; width: 100vw; height: calc(100vh - 60px); position: relative; display: flex; justify-content: center; align-items: center; }
+      :root {
+        --font-sans:
+          -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        --font-serif: "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif;
+        --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        --ease-slow: cubic-bezier(0.22, 1, 0.36, 1);
+      }
 
-    /* =========================================
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        overflow: hidden;
+        transition: background 0.5s;
+      }
+
+      /* 顶部切换栏 */
+      .switcher {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .concept-btn {
+        background: transparent;
+        border: 1px solid #cbd5e1;
+        color: #475569;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+      .concept-btn.active,
+      .concept-btn:hover {
+        background: #0f172a;
+        color: #fff;
+        border-color: #0f172a;
+      }
+
+      /* 主容器 */
+      #app-root {
+        margin-top: 60px;
+        width: 100vw;
+        height: calc(100vh - 60px);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* =========================================
        核心交互结构：网格视图 (Grid) vs 详情视图 (Detail)
        ========================================= */
-    .view-container { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; padding: 40px; transition: all 0.6s var(--ease-slow); }
-    
-    /* ---- Grid 视图 (引力磁场) ---- */
-    .grid-view { z-index: 10; opacity: 1; transform: scale(1); }
-    .grid-view.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
-    
-    .masonry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; max-width: 900px; }
-    
-    /* 引力磁场核心逻辑：Hover 时非目标变暗 */
-    .masonry:hover .name-card:not(:hover) { opacity: 0.3; filter: blur(4px); transform: scale(0.95); }
-    
-    .name-card { background: #FFF; border-radius: 16px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.4s var(--ease-slow); border: 1px solid transparent; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; }
-    .name-card:hover { transform: scale(1.08) translateY(-5px); z-index: 2; }
-    .card-title { font-family: var(--font-serif); font-size: 40px; margin-bottom: 12px; }
-    .card-badge { display: inline-block; padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: bold; }
+      .view-container {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px;
+        transition: all 0.6s var(--ease-slow);
+      }
 
-    /* ---- Detail 视图 (左名-连线-右详情) ---- */
-    .detail-view { z-index: 5; opacity: 0; transform: translateX(40px); pointer-events: none; display: flex; width: 100%; max-width: 1100px; height: 500px; }
-    .detail-view.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 20; transition-delay: 0.2s; }
-    
-    /* 返回按钮 */
-    .btn-back { position: absolute; top: -20px; left: 0; background: transparent; border: none; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 500; transition: opacity 0.2s; opacity: 0.6; }
-    .btn-back:hover { opacity: 1; }
+      /* ---- Grid 视图 (引力磁场) ---- */
+      .grid-view {
+        z-index: 10;
+        opacity: 1;
+        transform: scale(1);
+      }
+      .grid-view.hidden {
+        opacity: 0;
+        transform: scale(0.9);
+        pointer-events: none;
+      }
 
-    /* 左侧：名字 */
-    .detail-left { flex: 0 0 300px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; padding-right: 20px; position: relative; }
-    .detail-left h1 { font-family: var(--font-serif); font-size: 80px; line-height: 1.1; margin-bottom: 16px; text-align: right; }
-    
-    /* 中间：连线 (SVG 容器) */
-    .detail-center { flex: 1; position: relative; display: flex; align-items: center; }
-    .svg-connector { width: 100%; height: 200px; overflow: visible; }
-    .path-line { fill: none; stroke-width: 2px; stroke-linecap: round; }
-    
-    /* 右侧：详情 */
-    .detail-right { flex: 0 0 400px; display: flex; flex-direction: column; justify-content: center; gap: 20px; padding-left: 20px; }
-    .info-box { background: #FFF; border-radius: 12px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); opacity: 0; transform: translateX(20px); border: 1px solid #E2E8F0; }
-    
-    /* 级联动画触发类 */
-    .detail-view.active .info-box:nth-child(1) { animation: slideIn 0.6s var(--ease-spring) 0.4s forwards; }
-    .detail-view.active .info-box:nth-child(2) { animation: slideIn 0.6s var(--ease-spring) 0.5s forwards; }
-    @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+      .masonry {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        width: 100%;
+        max-width: 900px;
+      }
 
-    /* =========================================
+      /* 引力磁场核心逻辑：Hover 时非目标变暗 */
+      .masonry:hover .name-card:not(:hover) {
+        opacity: 0.3;
+        filter: blur(4px);
+        transform: scale(0.95);
+      }
+
+      .name-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s var(--ease-slow);
+        border: 1px solid transparent;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+      .name-card:hover {
+        transform: scale(1.08) translateY(-5px);
+        z-index: 2;
+      }
+      .card-title {
+        font-family: var(--font-serif);
+        font-size: 40px;
+        margin-bottom: 12px;
+      }
+      .card-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      /* ---- Detail 视图 (左名-连线-右详情) ---- */
+      .detail-view {
+        z-index: 5;
+        opacity: 0;
+        transform: translateX(40px);
+        pointer-events: none;
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
+        height: 500px;
+      }
+      .detail-view.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+        z-index: 20;
+        transition-delay: 0.2s;
+      }
+
+      /* 返回按钮 */
+      .btn-back {
+        position: absolute;
+        top: -20px;
+        left: 0;
+        background: transparent;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        transition: opacity 0.2s;
+        opacity: 0.6;
+      }
+      .btn-back:hover {
+        opacity: 1;
+      }
+
+      /* 左侧：名字 */
+      .detail-left {
+        flex: 0 0 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+        padding-right: 20px;
+        position: relative;
+      }
+      .detail-left h1 {
+        font-family: var(--font-serif);
+        font-size: 80px;
+        line-height: 1.1;
+        margin-bottom: 16px;
+        text-align: right;
+      }
+
+      /* 中间：连线 (SVG 容器) */
+      .detail-center {
+        flex: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .svg-connector {
+        width: 100%;
+        height: 200px;
+        overflow: visible;
+      }
+      .path-line {
+        fill: none;
+        stroke-width: 2px;
+        stroke-linecap: round;
+      }
+
+      /* 右侧：详情 */
+      .detail-right {
+        flex: 0 0 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        padding-left: 20px;
+      }
+      .info-box {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        opacity: 0;
+        transform: translateX(20px);
+        border: 1px solid #e2e8f0;
+      }
+
+      /* 级联动画触发类 */
+      .detail-view.active .info-box:nth-child(1) {
+        animation: slideIn 0.6s var(--ease-spring) 0.4s forwards;
+      }
+      .detail-view.active .info-box:nth-child(2) {
+        animation: slideIn 0.6s var(--ease-spring) 0.5s forwards;
+      }
+      @keyframes slideIn {
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* =========================================
        主题风格定义 (Theme Styles)
        ========================================= */
 
-    /* Theme 1: 星宿连线 (Constellation) */
-    body.theme-1 { background: #F8FAFC; color: #0F172A; }
-    .theme-1 .name-card:hover { border-color: #3B82F6; box-shadow: 0 20px 40px rgba(59,130,246,0.15); }
-    .theme-1 .card-badge { background: #DBEAFE; color: #2563EB; }
-    .theme-1 .path-line { stroke: #3B82F6; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
-    .theme-1 .detail-view.active .path-line { animation: drawLine 1s var(--ease-slow) 0.2s forwards; }
-    .theme-1 .node-dot { fill: #3B82F6; opacity: 0; }
-    .theme-1 .detail-view.active .node-dot { animation: fadeIn 0.3s ease 1s forwards; }
+      /* Theme 1: 星宿连线 (Constellation) */
+      body.theme-1 {
+        background: #f8fafc;
+        color: #0f172a;
+      }
+      .theme-1 .name-card:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+      }
+      .theme-1 .card-badge {
+        background: #dbeafe;
+        color: #2563eb;
+      }
+      .theme-1 .path-line {
+        stroke: #3b82f6;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+      }
+      .theme-1 .detail-view.active .path-line {
+        animation: drawLine 1s var(--ease-slow) 0.2s forwards;
+      }
+      .theme-1 .node-dot {
+        fill: #3b82f6;
+        opacity: 0;
+      }
+      .theme-1 .detail-view.active .node-dot {
+        animation: fadeIn 0.3s ease 1s forwards;
+      }
 
-    /* Theme 2: 量子光纤 (Quantum Fiber) */
-    body.theme-2 { background: #0F172A; color: #F8FAFC; }
-    .theme-2 .name-card { background: #1E293B; border-color: #334155; color: #FFF; }
-    .theme-2 .name-card:hover { border-color: #10B981; box-shadow: 0 0 40px rgba(16,185,129,0.2); }
-    .theme-2 .card-badge { background: rgba(16,185,129,0.2); color: #34D399; }
-    .theme-2 .info-box { background: #1E293B; border-color: #334155; }
-    .theme-2 .btn-back { color: #FFF; }
-    .theme-2 .path-line { stroke: rgba(16,185,129,0.3); }
-    .theme-2 .path-glow { fill: none; stroke: #10B981; stroke-width: 4px; stroke-dasharray: 50 1000; stroke-dashoffset: 1050; filter: drop-shadow(0 0 6px #10B981); }
-    .theme-2 .detail-view.active .path-glow { animation: shootLaser 0.6s ease-out 0.2s forwards; }
+      /* Theme 2: 量子光纤 (Quantum Fiber) */
+      body.theme-2 {
+        background: #0f172a;
+        color: #f8fafc;
+      }
+      .theme-2 .name-card {
+        background: #1e293b;
+        border-color: #334155;
+        color: #fff;
+      }
+      .theme-2 .name-card:hover {
+        border-color: #10b981;
+        box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+      }
+      .theme-2 .card-badge {
+        background: rgba(16, 185, 129, 0.2);
+        color: #34d399;
+      }
+      .theme-2 .info-box {
+        background: #1e293b;
+        border-color: #334155;
+      }
+      .theme-2 .btn-back {
+        color: #fff;
+      }
+      .theme-2 .path-line {
+        stroke: rgba(16, 185, 129, 0.3);
+      }
+      .theme-2 .path-glow {
+        fill: none;
+        stroke: #10b981;
+        stroke-width: 4px;
+        stroke-dasharray: 50 1000;
+        stroke-dashoffset: 1050;
+        filter: drop-shadow(0 0 6px #10b981);
+      }
+      .theme-2 .detail-view.active .path-glow {
+        animation: shootLaser 0.6s ease-out 0.2s forwards;
+      }
 
-    /* Theme 3: 水墨气韵 (Ink Flow) */
-    body.theme-3 { background: #F5F3ED; color: #2C2C2C; }
-    .theme-3 .name-card { background: #FFF; border-radius: 4px; }
-    .theme-3 .name-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-    .theme-3 .card-badge { background: #EAE6DD; color: #555; border-radius: 2px; }
-    .theme-3 .info-box { background: transparent; border: none; border-left: 2px solid #2C2C2C; border-radius: 0; box-shadow: none; }
-    .theme-3 .path-line { stroke: #2C2C2C; stroke-width: 4px; stroke-dasharray: 1000; stroke-dashoffset: 1000; /* 模拟笔锋粗细变化 */ vector-effect: non-scaling-stroke; }
-    .theme-3 .detail-view.active .path-line { animation: drawLine 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards; }
+      /* Theme 3: 水墨气韵 (Ink Flow) */
+      body.theme-3 {
+        background: #f5f3ed;
+        color: #2c2c2c;
+      }
+      .theme-3 .name-card {
+        background: #fff;
+        border-radius: 4px;
+      }
+      .theme-3 .name-card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      }
+      .theme-3 .card-badge {
+        background: #eae6dd;
+        color: #555;
+        border-radius: 2px;
+      }
+      .theme-3 .info-box {
+        background: transparent;
+        border: none;
+        border-left: 2px solid #2c2c2c;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .theme-3 .path-line {
+        stroke: #2c2c2c;
+        stroke-width: 4px;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000; /* 模拟笔锋粗细变化 */
+        vector-effect: non-scaling-stroke;
+      }
+      .theme-3 .detail-view.active .path-line {
+        animation: drawLine 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+      }
 
-    /* Theme 4: 空间折叠 (Spatial Circuit) */
-    body.theme-4 { background: #E2E8F0; color: #1E293B; perspective: 1200px; }
-    .theme-4 .name-card { border-radius: 0; border: 1px solid #CBD5E1; }
-    .theme-4 .name-card:hover { transform: scale(1.05) translateZ(50px); box-shadow: -20px 20px 30px rgba(0,0,0,0.1); }
-    .theme-4 .card-badge { background: #1E293B; color: #FFF; border-radius: 0; }
-    .theme-4 .info-box { border-radius: 0; border: 2px solid #1E293B; }
-    .theme-4 .grid-view.hidden { transform: rotateY(90deg) scale(0.8); opacity: 0; }
-    .theme-4 .detail-view { transform: rotateY(-90deg) translateX(100px); }
-    .theme-4 .detail-view.active { transform: rotateY(0) translateX(0); }
-    .theme-4 .path-line { stroke: #1E293B; stroke-width: 2px; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
-    .theme-4 .detail-view.active .path-line { animation: drawLine 0.5s linear 0.3s forwards; }
+      /* Theme 4: 空间折叠 (Spatial Circuit) */
+      body.theme-4 {
+        background: #e2e8f0;
+        color: #1e293b;
+        perspective: 1200px;
+      }
+      .theme-4 .name-card {
+        border-radius: 0;
+        border: 1px solid #cbd5e1;
+      }
+      .theme-4 .name-card:hover {
+        transform: scale(1.05) translateZ(50px);
+        box-shadow: -20px 20px 30px rgba(0, 0, 0, 0.1);
+      }
+      .theme-4 .card-badge {
+        background: #1e293b;
+        color: #fff;
+        border-radius: 0;
+      }
+      .theme-4 .info-box {
+        border-radius: 0;
+        border: 2px solid #1e293b;
+      }
+      .theme-4 .grid-view.hidden {
+        transform: rotateY(90deg) scale(0.8);
+        opacity: 0;
+      }
+      .theme-4 .detail-view {
+        transform: rotateY(-90deg) translateX(100px);
+      }
+      .theme-4 .detail-view.active {
+        transform: rotateY(0) translateX(0);
+      }
+      .theme-4 .path-line {
+        stroke: #1e293b;
+        stroke-width: 2px;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+      }
+      .theme-4 .detail-view.active .path-line {
+        animation: drawLine 0.5s linear 0.3s forwards;
+      }
 
-    /* Theme 5: 鎏金引线 (Golden Thread) 🏆 */
-    body.theme-5 { background: #F8FAFC; color: #0F172A; }
-    .theme-5::before { content:''; position:fixed; inset:0; background: radial-gradient(circle at 80% 20%, rgba(217,119,6,0.05), transparent 40%), radial-gradient(circle at 20% 80%, rgba(5,150,105,0.05), transparent 40%); z-index:-1;}
-    .theme-5 .name-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,1); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
-    .theme-5 .name-card:hover { border-color: rgba(217,119,6,0.3); box-shadow: 0 20px 50px rgba(217,119,6,0.1), inset 0 0 0 1px rgba(217,119,6,0.1); }
-    .theme-5 .card-badge { background: #FFFBEB; color: #D97706; border: 1px solid rgba(217,119,6,0.2); }
-    .theme-5 .info-box { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,1); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-    .theme-5 .path-line { stroke: url(#gold-grad); stroke-width: 3px; stroke-dasharray: 1500; stroke-dashoffset: 1500; filter: drop-shadow(0 4px 6px rgba(217,119,6,0.2)); }
-    .theme-5 .detail-view.active .path-line { animation: drawLine 1.2s var(--ease-slow) 0.2s forwards; }
+      /* Theme 5: 鎏金引线 (Golden Thread) 🏆 */
+      body.theme-5 {
+        background: #f8fafc;
+        color: #0f172a;
+      }
+      .theme-5::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at 80% 20%, rgba(217, 119, 6, 0.05), transparent 40%),
+          radial-gradient(circle at 20% 80%, rgba(5, 150, 105, 0.05), transparent 40%);
+        z-index: -1;
+      }
+      .theme-5 .name-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 1);
+        border-radius: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      }
+      .theme-5 .name-card:hover {
+        border-color: rgba(217, 119, 6, 0.3);
+        box-shadow:
+          0 20px 50px rgba(217, 119, 6, 0.1),
+          inset 0 0 0 1px rgba(217, 119, 6, 0.1);
+      }
+      .theme-5 .card-badge {
+        background: #fffbeb;
+        color: #d97706;
+        border: 1px solid rgba(217, 119, 6, 0.2);
+      }
+      .theme-5 .info-box {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 1);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      }
+      .theme-5 .path-line {
+        stroke: url(#gold-grad);
+        stroke-width: 3px;
+        stroke-dasharray: 1500;
+        stroke-dashoffset: 1500;
+        filter: drop-shadow(0 4px 6px rgba(217, 119, 6, 0.2));
+      }
+      .theme-5 .detail-view.active .path-line {
+        animation: drawLine 1.2s var(--ease-slow) 0.2s forwards;
+      }
 
-    /* SVG 动画 Keyframes */
-    @keyframes drawLine { to { stroke-dashoffset: 0; } }
-    @keyframes shootLaser { 0% { stroke-dashoffset: 1050; } 100% { stroke-dashoffset: -50; } }
-    @keyframes fadeIn { to { opacity: 1; } }
-
-  </style>
-</head>
-<body>
-
-  <div class="switcher">
-    <button class="concept-btn" onclick="setTheme(1)">1. 星宿连线 (Constellation)</button>
-    <button class="concept-btn" onclick="setTheme(2)">2. 量子光纤 (Quantum Fiber)</button>
-    <button class="concept-btn" onclick="setTheme(3)">3. 水墨气韵 (Ink Flow)</button>
-    <button class="concept-btn" onclick="setTheme(4)">4. 空间折叠 (Spatial Circuit)</button>
-    <button class="concept-btn active" onclick="setTheme(5)">5. 鎏金引线 (Golden Thread) 🏆</button>
-  </div>
-
-  <div id="app-root">
-    
-    <!-- 状态 1：网格视图 (引力磁场) -->
-    <div class="view-container grid-view" id="gridView">
-      <div style="position: absolute; top: 0; text-align: center; width: 100%; color: #64748B; font-size: 14px;">请 Hover 感受引力磁场，然后点击任意卡片查看连接动效</div>
-      <div class="masonry">
-        <div class="name-card" onclick="openDetail('宋泽谦', '95分', '水木相生', '天格85 · 人格95 · 地格80')">
-          <div class="card-title">宋泽谦</div><div class="card-badge">95分 大吉</div>
-        </div>
-        <div class="name-card" onclick="openDetail('宋景行', '88分', '金木相克', '天格80 · 人格88 · 地格75')">
-          <div class="card-title">宋景行</div><div class="card-badge" style="background:#F1F5F9; color:#64748B; border-color:transparent;">88分 吉</div>
-        </div>
-        <div class="name-card" onclick="openDetail('宋嘉树', '92分', '木火通明', '天格90 · 人格92 · 地格85')">
-          <div class="card-title">宋嘉树</div><div class="card-badge">92分 大吉</div>
-        </div>
-        <div class="name-card" onclick="openDetail('宋知渊', '90分', '水火既济', '天格85 · 人格90 · 地格82')">
-          <div class="card-title">宋知渊</div><div class="card-badge">90分 吉</div>
-        </div>
-        <div class="name-card" onclick="openDetail('宋逾明', '85分', '火土相生', '天格82 · 人格85 · 地格80')">
-          <div class="card-title">宋逾明</div><div class="card-badge" style="background:#F1F5F9; color:#64748B; border-color:transparent;">85分 吉</div>
-        </div>
-        <div class="name-card" onclick="openDetail('宋云帆', '96分', '水木相生', '天格88 · 人格96 · 地格85')">
-          <div class="card-title">宋云帆</div><div class="card-badge">96分 大吉</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 状态 2：详情视图 (左名-连线-右详情) -->
-    <div class="view-container detail-view" id="detailView">
-      <button class="btn-back" onclick="closeDetail()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        返回候选列表
+      /* SVG 动画 Keyframes */
+      @keyframes drawLine {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes shootLaser {
+        0% {
+          stroke-dashoffset: 1050;
+        }
+        100% {
+          stroke-dashoffset: -50;
+        }
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="switcher">
+      <button class="concept-btn" onclick="setTheme(1)">1. 星宿连线 (Constellation)</button>
+      <button class="concept-btn" onclick="setTheme(2)">2. 量子光纤 (Quantum Fiber)</button>
+      <button class="concept-btn" onclick="setTheme(3)">3. 水墨气韵 (Ink Flow)</button>
+      <button class="concept-btn" onclick="setTheme(4)">4. 空间折叠 (Spatial Circuit)</button>
+      <button class="concept-btn active" onclick="setTheme(5)">
+        5. 鎏金引线 (Golden Thread) 🏆
       </button>
-      
-      <!-- 左侧：名字 -->
-      <div class="detail-left">
-        <h1 id="detName">宋泽谦</h1>
-        <div class="card-badge" id="detScore" style="font-size: 16px; padding: 6px 16px;">95分 大吉</div>
-      </div>
-      
-      <!-- 中间：动态 SVG 连线 -->
-      <div class="detail-center">
-        <svg class="svg-connector" preserveAspectRatio="none" id="dynamicSvg">
-          <!-- 渐变定义 (Theme 5 用) -->
-          <defs>
-            <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#D97706" stop-opacity="0" />
-              <stop offset="50%" stop-color="#D97706" stop-opacity="1" />
-              <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.5" />
-            </linearGradient>
-          </defs>
-          <!-- 具体的路径会通过 JS 根据不同 Theme 动态注入 -->
-        </svg>
-      </div>
-      
-      <!-- 右侧：级联详情面板 -->
-      <div class="detail-right">
-        <div class="info-box">
-          <h3 style="font-size: 18px; margin-bottom: 12px; font-family: var(--font-serif);">五格剖象</h3>
-          <p id="detWuge" style="font-size: 15px; color: var(--color-text-sub); line-height: 1.6;">天格85 · 人格95 · 地格80</p>
+    </div>
+
+    <div id="app-root">
+      <!-- 状态 1：网格视图 (引力磁场) -->
+      <div class="view-container grid-view" id="gridView">
+        <div
+          style="
+            position: absolute;
+            top: 0;
+            text-align: center;
+            width: 100%;
+            color: #64748b;
+            font-size: 14px;
+          "
+        >
+          请 Hover 感受引力磁场，然后点击任意卡片查看连接动效
         </div>
-        <div class="info-box">
-          <h3 style="font-size: 18px; margin-bottom: 12px; font-family: var(--font-serif);">八字喜用</h3>
-          <p id="detBazi" style="font-size: 15px; color: var(--color-text-sub); line-height: 1.6;">水木相生，格局顺畅。</p>
+        <div class="masonry">
+          <div
+            class="name-card"
+            onclick="openDetail('宋泽谦', '95分', '水木相生', '天格85 · 人格95 · 地格80')"
+          >
+            <div class="card-title">宋泽谦</div>
+            <div class="card-badge">95分 大吉</div>
+          </div>
+          <div
+            class="name-card"
+            onclick="openDetail('宋景行', '88分', '金木相克', '天格80 · 人格88 · 地格75')"
+          >
+            <div class="card-title">宋景行</div>
+            <div
+              class="card-badge"
+              style="background: #f1f5f9; color: #64748b; border-color: transparent"
+            >
+              88分 吉
+            </div>
+          </div>
+          <div
+            class="name-card"
+            onclick="openDetail('宋嘉树', '92分', '木火通明', '天格90 · 人格92 · 地格85')"
+          >
+            <div class="card-title">宋嘉树</div>
+            <div class="card-badge">92分 大吉</div>
+          </div>
+          <div
+            class="name-card"
+            onclick="openDetail('宋知渊', '90分', '水火既济', '天格85 · 人格90 · 地格82')"
+          >
+            <div class="card-title">宋知渊</div>
+            <div class="card-badge">90分 吉</div>
+          </div>
+          <div
+            class="name-card"
+            onclick="openDetail('宋逾明', '85分', '火土相生', '天格82 · 人格85 · 地格80')"
+          >
+            <div class="card-title">宋逾明</div>
+            <div
+              class="card-badge"
+              style="background: #f1f5f9; color: #64748b; border-color: transparent"
+            >
+              85分 吉
+            </div>
+          </div>
+          <div
+            class="name-card"
+            onclick="openDetail('宋云帆', '96分', '水木相生', '天格88 · 人格96 · 地格85')"
+          >
+            <div class="card-title">宋云帆</div>
+            <div class="card-badge">96分 大吉</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 状态 2：详情视图 (左名-连线-右详情) -->
+      <div class="view-container detail-view" id="detailView">
+        <button class="btn-back" onclick="closeDetail()">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          返回候选列表
+        </button>
+
+        <!-- 左侧：名字 -->
+        <div class="detail-left">
+          <h1 id="detName">宋泽谦</h1>
+          <div class="card-badge" id="detScore" style="font-size: 16px; padding: 6px 16px">
+            95分 大吉
+          </div>
+        </div>
+
+        <!-- 中间：动态 SVG 连线 -->
+        <div class="detail-center">
+          <svg class="svg-connector" preserveAspectRatio="none" id="dynamicSvg">
+            <!-- 渐变定义 (Theme 5 用) -->
+            <defs>
+              <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#D97706" stop-opacity="0" />
+                <stop offset="50%" stop-color="#D97706" stop-opacity="1" />
+                <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.5" />
+              </linearGradient>
+            </defs>
+            <!-- 具体的路径会通过 JS 根据不同 Theme 动态注入 -->
+          </svg>
+        </div>
+
+        <!-- 右侧：级联详情面板 -->
+        <div class="detail-right">
+          <div class="info-box">
+            <h3 style="font-size: 18px; margin-bottom: 12px; font-family: var(--font-serif)">
+              五格剖象
+            </h3>
+            <p
+              id="detWuge"
+              style="font-size: 15px; color: var(--color-text-sub); line-height: 1.6"
+            >
+              天格85 · 人格95 · 地格80
+            </p>
+          </div>
+          <div class="info-box">
+            <h3 style="font-size: 18px; margin-bottom: 12px; font-family: var(--font-serif)">
+              八字喜用
+            </h3>
+            <p
+              id="detBazi"
+              style="font-size: 15px; color: var(--color-text-sub); line-height: 1.6"
+            >
+              水木相生，格局顺畅。
+            </p>
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
+    <script>
+      let currentTheme = 5;
 
-  <script>
-    let currentTheme = 5;
-
-    // SVG 路径库 (响应式宽高的假定范围，利用 viewBox 缩放)
-    const svgPaths = {
-      1: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
+      // SVG 路径库 (响应式宽高的假定范围，利用 viewBox 缩放)
+      const svgPaths = {
+        1: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
             <polyline points="0,50 30,50 50,25 100,25" class="path-line" vector-effect="non-scaling-stroke"/>
             <polyline points="0,50 30,50 50,75 100,75" class="path-line" vector-effect="non-scaling-stroke"/>
             <circle cx="30" cy="50" r="3" class="node-dot"/>
             <circle cx="50" cy="25" r="3" class="node-dot"/>
             <circle cx="50" cy="75" r="3" class="node-dot"/>
           </svg>`,
-      2: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
+        2: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
             <line x1="0" y1="50" x2="100" y2="50" class="path-line" vector-effect="non-scaling-stroke"/>
             <line x1="0" y1="50" x2="100" y2="50" class="path-glow" vector-effect="non-scaling-stroke"/>
           </svg>`,
-      3: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
+        3: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
             <path d="M 0 50 Q 50 100 100 25" class="path-line" vector-effect="non-scaling-stroke"/>
             <path d="M 0 50 Q 50 0 100 75" class="path-line" vector-effect="non-scaling-stroke" style="animation-delay: 0.3s; opacity: 0.5;"/>
           </svg>`,
-      4: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
+        4: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
             <path d="M 0 50 L 40 50 L 40 25 L 100 25" class="path-line" vector-effect="non-scaling-stroke"/>
             <path d="M 0 50 L 40 50 L 40 75 L 100 75" class="path-line" vector-effect="non-scaling-stroke"/>
           </svg>`,
-      5: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
+        5: `<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%; height:100%;">
             <path d="M 0 50 C 40 50, 60 25, 100 25" class="path-line" vector-effect="non-scaling-stroke"/>
             <path d="M 0 50 C 40 50, 60 75, 100 75" class="path-line" vector-effect="non-scaling-stroke"/>
-          </svg>`
-    };
+          </svg>`,
+      };
 
-    function setTheme(num) {
-      currentTheme = num;
-      // 切换按钮
-      document.querySelectorAll('.concept-btn').forEach((btn, idx) => {
-        btn.classList.toggle('active', idx === num - 1);
+      function setTheme(num) {
+        currentTheme = num;
+        // 切换按钮
+        document.querySelectorAll(".concept-btn").forEach((btn, idx) => {
+          btn.classList.toggle("active", idx === num - 1);
+        });
+        // 切换 Body Class
+        document.body.className = `theme-${num}`;
+
+        // 更新 SVG 结构 (如果在详情页则直接更新，否则在打开时更新)
+        document.getElementById("dynamicSvg").innerHTML = svgPaths[num];
+      }
+
+      function openDetail(name, score, bazi, wuge) {
+        // 填充数据
+        document.getElementById("detName").innerText = name;
+        document.getElementById("detScore").innerText = score;
+        document.getElementById("detBazi").innerText = bazi;
+        document.getElementById("detWuge").innerText = wuge;
+
+        // 注入对应的 SVG
+        document.getElementById("dynamicSvg").innerHTML = svgPaths[currentTheme];
+
+        // 切换视图状态 (触发动画)
+        document.getElementById("gridView").classList.add("hidden");
+
+        // 强制重绘以重置详情页的 CSS 动画
+        const detailView = document.getElementById("detailView");
+        detailView.classList.remove("active");
+        void detailView.offsetWidth;
+        detailView.classList.add("active");
+      }
+
+      function closeDetail() {
+        document.getElementById("detailView").classList.remove("active");
+        document.getElementById("gridView").classList.remove("hidden");
+        // 清空 SVG 以便下次重播动画
+        setTimeout(() => {
+          if (!document.getElementById("detailView").classList.contains("active")) {
+            document.getElementById("dynamicSvg").innerHTML = "";
+          }
+        }, 600);
+      }
+
+      // 初始化
+      document.addEventListener("DOMContentLoaded", () => {
+        setTheme(5); // 默认方案 5 🏆
       });
-      // 切换 Body Class
-      document.body.className = `theme-${num}`;
-      
-      // 更新 SVG 结构 (如果在详情页则直接更新，否则在打开时更新)
-      document.getElementById('dynamicSvg').innerHTML = svgPaths[num];
-    }
-
-    function openDetail(name, score, bazi, wuge) {
-      // 填充数据
-      document.getElementById('detName').innerText = name;
-      document.getElementById('detScore').innerText = score;
-      document.getElementById('detBazi').innerText = bazi;
-      document.getElementById('detWuge').innerText = wuge;
-      
-      // 注入对应的 SVG
-      document.getElementById('dynamicSvg').innerHTML = svgPaths[currentTheme];
-
-      // 切换视图状态 (触发动画)
-      document.getElementById('gridView').classList.add('hidden');
-      
-      // 强制重绘以重置详情页的 CSS 动画
-      const detailView = document.getElementById('detailView');
-      detailView.classList.remove('active');
-      void detailView.offsetWidth; 
-      detailView.classList.add('active');
-    }
-
-    function closeDetail() {
-      document.getElementById('detailView').classList.remove('active');
-      document.getElementById('gridView').classList.remove('hidden');
-      // 清空 SVG 以便下次重播动画
-      setTimeout(() => {
-        if(!document.getElementById('detailView').classList.contains('active')) {
-          document.getElementById('dynamicSvg').innerHTML = '';
-        }
-      }, 600);
-    }
-
-    // 初始化
-    document.addEventListener('DOMContentLoaded', () => {
-      setTheme(5); // 默认方案 5 🏆
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

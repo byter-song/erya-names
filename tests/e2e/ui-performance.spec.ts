@@ -7,18 +7,25 @@ test(
   async ({ page }) => {
     const generationSamples: number[] = [];
     await page.goto("/");
-    await page.getByRole("button", { name: "新建起名方案" }).click();
+    await page.getByRole("button", { name: "展新卷 · 新建方案" }).first().click();
     await page.getByLabel("姓氏", { exact: true }).fill("宋");
-    await page.getByRole("button", { name: "下一步" }).click();
-    await page.getByLabel("没有", { exact: true }).check();
-    await page.getByRole("button", { name: "下一步" }).click();
-    await page.getByLabel("清朗自然").check();
+    await page.getByRole("button", { name: "下一步", exact: true }).click();
+    await page.getByRole("radio", { name: "没有", exact: true }).check();
+    await page.getByRole("button", { name: "下一步", exact: true }).click();
     await page.getByRole("button", { name: "完成建档，开始选名" }).click();
 
     for (let sample = 0; sample < 5; sample += 1) {
+      const previousCount = await candidateCount(page);
       const generationStart = performance.now();
-      await page.getByRole("button", { name: "生成一批", exact: true }).click();
-      await expect(page.getByText(`已保存 ${(sample + 1) * 9} 个名字`)).toBeVisible();
+      await page
+        .getByRole("button", {
+          name: sample === 0 ? "展卷 · 生成 9 个名字" : "续卷 · 再生成 9 个",
+          exact: true,
+        })
+        .click();
+      await expect
+        .poll(() => candidateCount(page), { message: "generation should add candidates" })
+        .toBeGreaterThan(previousCount);
       generationSamples.push(performance.now() - generationStart);
     }
     const projectId = page.url().match(/projects\/([^/]+)/)?.[1];
@@ -80,19 +87,15 @@ test(
     const filterSamples: number[] = [];
     for (let sample = 0; sample < 5; sample += 1) {
       const projectOpenStart = performance.now();
-      await page.goto(`/projects/${projectId}/candidates`);
-      const summary = page.getByText(/筛选结果 \d+ 条，当前显示 9 条/);
-      await expect(summary).toBeVisible();
-      expect(
-        Number((await summary.textContent())?.match(/筛选结果 (\d+) 条/)?.[1]),
-      ).toBeGreaterThanOrEqual(1_000);
+      await page.goto(`/projects/${projectId}/generate`);
+      await expect.poll(() => candidateCount(page)).toBeGreaterThanOrEqual(1_000);
       projectOpenSamples.push(performance.now() - projectOpenStart);
       const filterStart = performance.now();
-      await page.getByLabel("筛选风格").selectOption("清朗自然");
-      await expect(page.getByText(/筛选结果 \d+ 条，当前显示 9 条/)).toBeVisible();
+      await page.getByLabel("查找本卷").fill("测999");
+      await expect.poll(() => candidateCount(page)).toBe(1);
       filterSamples.push(performance.now() - filterStart);
-      await page.getByLabel("筛选风格").selectOption("all");
-      await expect(summary).toContainText(/筛选结果 1\d{3} 条/);
+      await page.getByLabel("查找本卷").clear();
+      await expect.poll(() => candidateCount(page)).toBeGreaterThanOrEqual(1_000);
     }
 
     const metrics = {
@@ -152,4 +155,9 @@ test(
 function percentile95(samples: number[]): number {
   const sorted = [...samples].sort((left, right) => left - right);
   return sorted[Math.ceil(sorted.length * 0.95) - 1] ?? Number.POSITIVE_INFINITY;
+}
+
+async function candidateCount(page: import("@playwright/test").Page): Promise<number> {
+  const text = await page.getByRole("heading", { name: /灵感池 \d+ 个/ }).textContent();
+  return Number(text?.match(/(\d+) 个/)?.[1] ?? 0);
 }

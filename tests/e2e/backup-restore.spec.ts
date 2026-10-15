@@ -1,16 +1,8 @@
 import { expect, test } from "@playwright/test";
+import { createProject } from "./helpers";
 
 test("exports a project and restores the validated backup as a copy", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "新建起名方案" }).click();
-  await page.getByLabel("姓氏", { exact: true }).fill("宋");
-  await page.getByRole("button", { name: "下一步" }).click();
-  await page.getByRole("button", { name: "下一步" }).click();
-  await page.getByLabel("清朗自然").check();
-  await page.getByRole("button", { name: "完成建档，开始选名" }).click();
-  await expect(page).toHaveURL(/\/projects\/([^/]+)\/generate$/);
-  const projectId = page.url().match(/\/projects\/([^/]+)\/generate$/)?.[1];
-  if (!projectId) throw new Error("Expected a project id");
+  const projectId = await createProject(page);
 
   await page.goto(`/projects/${projectId}/backup`);
   const downloadPromise = page.waitForEvent("download");

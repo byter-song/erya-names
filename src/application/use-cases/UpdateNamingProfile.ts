@@ -1,4 +1,4 @@
-import { ZodError } from "zod";
+import { ZodError } from "../../domain/shared/zod";
 import type { ProjectRepository, ProjectWorkspace } from "../ports/ProjectRepository";
 import { namingProfileSchema, type NamingProfile } from "../../domain/project/profile";
 import { namingProjectSchema } from "../../domain/project/project";

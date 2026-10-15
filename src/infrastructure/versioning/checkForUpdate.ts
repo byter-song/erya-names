@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../../domain/shared/zod";
 
 const versionManifestSchema = z.object({
   appVersion: z.string().min(1),

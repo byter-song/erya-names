@@ -1,194 +1,445 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>长卷 · 层峦视差</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
-:root{
-  --paper:#F7F5EE;--ink:#1A1916;--ink2:#5D5A51;--ink3:#A39E90;
-  --gold:#AE8B54;--cinnabar:#A84D3B;
-  --spring:cubic-bezier(.16,1,.3,1);
-  --serif:'Noto Serif SC',serif;--brush:'Ma Shan Zheng',cursive;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{height:100vh;font-family:var(--serif);background:var(--paper);color:var(--ink);overflow:hidden}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>长卷 · 层峦视差</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap");
+      :root {
+        --paper: #f7f5ee;
+        --ink: #1a1916;
+        --ink2: #5d5a51;
+        --ink3: #a39e90;
+        --gold: #ae8b54;
+        --cinnabar: #a84d3b;
+        --spring: cubic-bezier(0.16, 1, 0.3, 1);
+        --serif: "Noto Serif SC", serif;
+        --brush: "Ma Shan Zheng", cursive;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        font-family: var(--serif);
+        background: var(--paper);
+        color: var(--ink);
+        overflow: hidden;
+      }
 
-/* 视差层：fixed，水平周期平移 */
-.par{position:fixed;left:0;top:0;height:100%;width:calc(1400px + 100vw);z-index:0;pointer-events:none;will-change:transform}
-#sun{position:fixed;right:12vw;top:11vh;width:130px;height:130px;border-radius:50%;z-index:0;pointer-events:none;
-  background:radial-gradient(circle,rgba(174,139,84,.5),rgba(174,139,84,.08) 70%);filter:blur(2px)}
+      /* 视差层：fixed，水平周期平移 */
+      .par {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: calc(1400px + 100vw);
+        z-index: 0;
+        pointer-events: none;
+        will-change: transform;
+      }
+      #sun {
+        position: fixed;
+        right: 12vw;
+        top: 11vh;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          circle,
+          rgba(174, 139, 84, 0.5),
+          rgba(174, 139, 84, 0.08) 70%
+        );
+        filter: blur(2px);
+      }
 
-header{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:30px 56px}
-.logo{font-family:var(--brush);font-size:2.1rem}
-.hud{font-size:.82rem;color:var(--ink2);letter-spacing:.15em}
-.hud b{color:var(--gold);font-size:1.1rem}
+      header {
+        position: relative;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 30px 56px;
+      }
+      .logo {
+        font-family: var(--brush);
+        font-size: 2.1rem;
+      }
+      .hud {
+        font-size: 0.82rem;
+        color: var(--ink2);
+        letter-spacing: 0.15em;
+      }
+      .hud b {
+        color: var(--gold);
+        font-size: 1.1rem;
+      }
 
-.scroll{position:relative;z-index:10;height:calc(100vh - 150px);display:flex;align-items:stretch;
-  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:0 42vw}
-.scroll::-webkit-scrollbar{height:0}
+      .scroll {
+        position: relative;
+        z-index: 10;
+        height: calc(100vh - 150px);
+        display: flex;
+        align-items: stretch;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 0 42vw;
+      }
+      .scroll::-webkit-scrollbar {
+        height: 0;
+      }
 
-.panel{scroll-snap-align:center;flex:0 0 min(70vw,740px);display:flex;flex-direction:column;justify-content:center;
-  padding:0 6vw;position:relative;opacity:0;transform:scale(.92);transition:opacity .6s,transform .6s var(--spring)}
-.panel.in{opacity:1;transform:scale(1)}
-.panel::before{content:"";position:absolute;left:0;top:12%;bottom:12%;width:1px;background:linear-gradient(var(--gold),transparent);opacity:.5}
-.p-idx{font-size:.78rem;letter-spacing:.4em;color:var(--ink3);margin-bottom:12px}
-.p-py{letter-spacing:.34em;color:var(--gold);font-size:1rem;margin-bottom:4px}
-.p-name{font-family:var(--brush);font-size:clamp(4.2rem,10vw,7.2rem);line-height:1.05;cursor:pointer;transition:.3s}
-.panel.in .p-name:hover{color:var(--gold);transform:translateX(8px)}
-.p-q{margin-top:24px;font-size:1.2rem;color:var(--ink2);line-height:1.85}
-.p-src{margin-top:6px;font-size:.88rem;color:var(--gold)}
+      .panel {
+        scroll-snap-align: center;
+        flex: 0 0 min(70vw, 740px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 6vw;
+        position: relative;
+        opacity: 0;
+        transform: scale(0.92);
+        transition:
+          opacity 0.6s,
+          transform 0.6s var(--spring);
+      }
+      .panel.in {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .panel::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12%;
+        bottom: 12%;
+        width: 1px;
+        background: linear-gradient(var(--gold), transparent);
+        opacity: 0.5;
+      }
+      .p-idx {
+        font-size: 0.78rem;
+        letter-spacing: 0.4em;
+        color: var(--ink3);
+        margin-bottom: 12px;
+      }
+      .p-py {
+        letter-spacing: 0.34em;
+        color: var(--gold);
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+      .p-name {
+        font-family: var(--brush);
+        font-size: clamp(4.2rem, 10vw, 7.2rem);
+        line-height: 1.05;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .panel.in .p-name:hover {
+        color: var(--gold);
+        transform: translateX(8px);
+      }
+      .p-q {
+        margin-top: 24px;
+        font-size: 1.2rem;
+        color: var(--ink2);
+        line-height: 1.85;
+      }
+      .p-src {
+        margin-top: 6px;
+        font-size: 0.88rem;
+        color: var(--gold);
+      }
 
-.loading{scroll-snap-align:center;flex:0 0 min(70vw,740px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
-.inkdot{width:18px;height:18px;border-radius:50%;background:var(--ink);filter:blur(2px);animation:bleed 1.1s ease-in-out infinite}
-@keyframes bleed{0%,100%{transform:scale(.6);opacity:.4}50%{transform:scale(1.6);opacity:.9}}
-.loading em{font-style:normal;font-size:.9rem;letter-spacing:.4em;color:var(--ink3)}
+      .loading {
+        scroll-snap-align: center;
+        flex: 0 0 min(70vw, 740px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+      .inkdot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--ink);
+        filter: blur(2px);
+        animation: bleed 1.1s ease-in-out infinite;
+      }
+      @keyframes bleed {
+        0%,
+        100% {
+          transform: scale(0.6);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scale(1.6);
+          opacity: 0.9;
+        }
+      }
+      .loading em {
+        font-style: normal;
+        font-size: 0.9rem;
+        letter-spacing: 0.4em;
+        color: var(--ink3);
+      }
 
-.detail{position:fixed;inset:0;z-index:60;background:rgba(250,248,243,.88);backdrop-filter:blur(30px);
-  opacity:0;pointer-events:none;cursor:pointer;transition:opacity .5s}
-.detail.show{opacity:1;pointer-events:auto}
-.di{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7vh 6vw;
-  transform:translateY(38px);transition:.7s var(--spring)}
-.detail.show .di{transform:none}
-.d-seal{font-family:var(--brush);color:var(--cinnabar);border:2px solid var(--cinnabar);width:54px;height:54px;display:grid;place-items:center;
-  border-radius:8px;font-size:1.3rem;opacity:.85;margin-bottom:20px}
-.d-py{letter-spacing:.4em;color:var(--gold);margin-bottom:6px}
-.d-name{font-family:var(--brush);font-size:clamp(5rem,14vw,9rem);line-height:1.1}
-.d-src{margin-top:24px;color:var(--ink2);font-size:1.2rem;line-height:2;max-width:640px}
-.d-back{position:absolute;bottom:5vh;color:var(--ink3);font-size:.82rem;letter-spacing:.3em;animation:blink 2.2s infinite}
-@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
-</style>
-</head>
-<body>
-<div id="sun"></div>
-<!-- 视差背景层（SVG 周期平铺）-->
-<div class="par" id="l-far"></div>
-<div class="par" id="l-cloud"></div>
-<div class="par" id="l-bird"></div>
-<div class="par" id="l-near"></div>
+      .detail {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgba(250, 248, 243, 0.88);
+        backdrop-filter: blur(30px);
+        opacity: 0;
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.5s;
+      }
+      .detail.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .di {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7vh 6vw;
+        transform: translateY(38px);
+        transition: 0.7s var(--spring);
+      }
+      .detail.show .di {
+        transform: none;
+      }
+      .d-seal {
+        font-family: var(--brush);
+        color: var(--cinnabar);
+        border: 2px solid var(--cinnabar);
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        font-size: 1.3rem;
+        opacity: 0.85;
+        margin-bottom: 20px;
+      }
+      .d-py {
+        letter-spacing: 0.4em;
+        color: var(--gold);
+        margin-bottom: 6px;
+      }
+      .d-name {
+        font-family: var(--brush);
+        font-size: clamp(5rem, 14vw, 9rem);
+        line-height: 1.1;
+      }
+      .d-src {
+        margin-top: 24px;
+        color: var(--ink2);
+        font-size: 1.2rem;
+        line-height: 2;
+        max-width: 640px;
+      }
+      .d-back {
+        position: absolute;
+        bottom: 5vh;
+        color: var(--ink3);
+        font-size: 0.82rem;
+        letter-spacing: 0.3em;
+        animation: blink 2.2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sun"></div>
+    <!-- 视差背景层（SVG 周期平铺）-->
+    <div class="par" id="l-far"></div>
+    <div class="par" id="l-cloud"></div>
+    <div class="par" id="l-bird"></div>
+    <div class="par" id="l-near"></div>
 
-<header>
-  <div class="logo">尔雅</div>
-  <div class="hud">展卷而行 · 已览 <b id="hView">0</b> 名</div>
-</header>
-<main class="scroll" id="scroll"></main>
+    <header>
+      <div class="logo">尔雅</div>
+      <div class="hud">展卷而行 · 已览 <b id="hView">0</b> 名</div>
+    </header>
+    <main class="scroll" id="scroll"></main>
 
-<div class="detail" id="detail"><div class="di">
-  <div class="d-seal">尔雅</div>
-  <div class="d-py" id="dPy"></div>
-  <div class="d-name" id="dName"></div>
-  <div class="d-src" id="dSrc"></div>
-  <div class="d-back">继 续 点 击 任 意 处 返 回</div>
-</div></div>
+    <div class="detail" id="detail">
+      <div class="di">
+        <div class="d-seal">尔雅</div>
+        <div class="d-py" id="dPy"></div>
+        <div class="d-name" id="dName"></div>
+        <div class="d-src" id="dSrc"></div>
+        <div class="d-back">继 续 点 击 任 意 处 返 回</div>
+      </div>
+    </div>
 
-<script>
-// —— 无缝周期 SVG 图案 ——
-const farSVG=`data:image/svg+xml;utf8,${encodeURIComponent(
- `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='400' viewBox='0 0 1400 400'>
-  <path d='M0 400 V250 C150 210 230 150 360 205 C500 262 600 170 720 205 C860 246 940 150 1080 205 C1210 255 1300 215 1400 235 V400 Z' fill='rgba(40,48,40,.16)'/></svg>`)}`;
-const cloudSVG=`data:image/svg+xml;utf8,${encodeURIComponent(
- `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='300'>
+    <script>
+      // —— 无缝周期 SVG 图案 ——
+      const farSVG = `data:image/svg+xml;utf8,${encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='400' viewBox='0 0 1400 400'>
+  <path d='M0 400 V250 C150 210 230 150 360 205 C500 262 600 170 720 205 C860 246 940 150 1080 205 C1210 255 1300 215 1400 235 V400 Z' fill='rgba(40,48,40,.16)'/></svg>`,
+      )}`;
+      const cloudSVG = `data:image/svg+xml;utf8,${encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='300'>
   <ellipse cx='220' cy='110' rx='120' ry='26' fill='rgba(90,86,74,.1)'/>
   <ellipse cx='760' cy='70' rx='170' ry='22' fill='rgba(90,86,74,.08)'/>
-  <ellipse cx='1180' cy='150' rx='130' ry='24' fill='rgba(90,86,74,.09)'/></svg>`)}`;
-const birdSVG=`data:image/svg+xml;utf8,${encodeURIComponent(
- `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='300'>
+  <ellipse cx='1180' cy='150' rx='130' ry='24' fill='rgba(90,86,74,.09)'/></svg>`,
+      )}`;
+      const birdSVG = `data:image/svg+xml;utf8,${encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='300'>
   <g fill='none' stroke='rgba(40,40,36,.5)' stroke-width='2' stroke-linecap='round'>
   <path d='M300 120 q10 -10 20 0 q10 -10 20 0'/>
   <path d='M620 80 q8 -8 16 0 q8 -8 16 0'/>
-  <path d='M980 140 q9 -9 18 0 q9 -9 18 0'/></g></svg>`)}`;
-const nearSVG=`data:image/svg+xml;utf8,${encodeURIComponent(
- `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='420' viewBox='0 0 1400 420'>
-  <path d='M0 420 V300 C120 250 250 230 380 285 C520 345 620 250 760 300 C900 350 1010 250 1160 300 C1280 340 1340 310 1400 320 V420 Z' fill='rgba(30,36,30,.26)'/></svg>`)}`;
+  <path d='M980 140 q9 -9 18 0 q9 -9 18 0'/></g></svg>`,
+      )}`;
+      const nearSVG = `data:image/svg+xml;utf8,${encodeURIComponent(
+        `<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='420' viewBox='0 0 1400 420'>
+  <path d='M0 420 V300 C120 250 250 230 380 285 C520 345 620 250 760 300 C900 350 1010 250 1160 300 C1280 340 1340 310 1400 320 V420 Z' fill='rgba(30,36,30,.26)'/></svg>`,
+      )}`;
 
-const layers=[
- {el:document.getElementById('l-far'),bg:farSVG,pos:'bottom -6vh',factor:.18},
- {el:document.getElementById('l-cloud'),bg:cloudSVG,pos:'top 6vh',factor:.32},
- {el:document.getElementById('l-bird'),bg:birdSVG,pos:'top 12vh',factor:.42},
- {el:document.getElementById('l-near'),bg:nearSVG,pos:'bottom -10vh',factor:.55}
-];
-layers.forEach(L=>{
-  L.el.style.background=`url("${L.bg}") repeat-x`;
-  L.el.style.backgroundPosition=L.pos;
-  L.el.style.backgroundSize='1400px auto';
-});
+      const layers = [
+        { el: document.getElementById("l-far"), bg: farSVG, pos: "bottom -6vh", factor: 0.18 },
+        { el: document.getElementById("l-cloud"), bg: cloudSVG, pos: "top 6vh", factor: 0.32 },
+        { el: document.getElementById("l-bird"), bg: birdSVG, pos: "top 12vh", factor: 0.42 },
+        {
+          el: document.getElementById("l-near"),
+          bg: nearSVG,
+          pos: "bottom -10vh",
+          factor: 0.55,
+        },
+      ];
+      layers.forEach((L) => {
+        L.el.style.background = `url("${L.bg}") repeat-x`;
+        L.el.style.backgroundPosition = L.pos;
+        L.el.style.backgroundSize = "1400px auto";
+      });
 
-const NAMES=[
- {n:"林子衿",p:"LIN ZI JIN",q:"青青子衿，悠悠我心。",s:"《诗经 · 郑风 · 子衿》"},
- {n:"林若华",p:"LIN RUO HUA",q:"羲和之未扬，若华何光？",s:"《楚辞 · 天问》"},
- {n:"林望舒",p:"LIN WANG SHU",q:"前望舒使先驱兮。",s:"《楚辞 · 离骚》"},
- {n:"林清婉",p:"LIN QING WAN",q:"有美一人，清扬婉兮。",s:"《诗经 · 郑风》"},
- {n:"林嘉木",p:"LIN JIA MU",q:"南有嘉木，葛藟累之。",s:"《诗经 · 周南》"},
- {n:"林星汉",p:"LIN XING HAN",q:"星汉灿烂，若出其里。",s:"曹操《观沧海》"},
- {n:"林景行",p:"LIN JING XING",q:"高山仰止，景行行止。",s:"《诗经 · 小雅》"},
- {n:"林怀瑾",p:"LIN HUAI JIN",q:"怀瑾握瑜兮。",s:"《楚辞 · 九章》"}
-];
-const BATCH=4,PERIOD=1400;
-const scroll=document.getElementById('scroll');
-let batchNo=0,loading=false,viewed=new Set();
+      const NAMES = [
+        {
+          n: "林子衿",
+          p: "LIN ZI JIN",
+          q: "青青子衿，悠悠我心。",
+          s: "《诗经 · 郑风 · 子衿》",
+        },
+        { n: "林若华", p: "LIN RUO HUA", q: "羲和之未扬，若华何光？", s: "《楚辞 · 天问》" },
+        { n: "林望舒", p: "LIN WANG SHU", q: "前望舒使先驱兮。", s: "《楚辞 · 离骚》" },
+        { n: "林清婉", p: "LIN QING WAN", q: "有美一人，清扬婉兮。", s: "《诗经 · 郑风》" },
+        { n: "林嘉木", p: "LIN JIA MU", q: "南有嘉木，葛藟累之。", s: "《诗经 · 周南》" },
+        { n: "林星汉", p: "LIN XING HAN", q: "星汉灿烂，若出其里。", s: "曹操《观沧海》" },
+        { n: "林景行", p: "LIN JING XING", q: "高山仰止，景行行止。", s: "《诗经 · 小雅》" },
+        { n: "林怀瑾", p: "LIN HUAI JIN", q: "怀瑾握瑜兮。", s: "《楚辞 · 九章》" },
+      ];
+      const BATCH = 4,
+        PERIOD = 1400;
+      const scroll = document.getElementById("scroll");
+      let batchNo = 0,
+        loading = false,
+        viewed = new Set();
 
-function makePanel(i){
-  const d=NAMES[i%NAMES.length];
-  const el=document.createElement('section');el.className='panel';
-  el.innerHTML=`<div class="p-idx">第 ${Math.floor(i/BATCH)+1} 卷 · 第 ${(i%BATCH)+1} 帧</div>
+      function makePanel(i) {
+        const d = NAMES[i % NAMES.length];
+        const el = document.createElement("section");
+        el.className = "panel";
+        el.innerHTML = `<div class="p-idx">第 ${Math.floor(i / BATCH) + 1} 卷 · 第 ${(i % BATCH) + 1} 帧</div>
     <div class="p-py">${d.p}</div><div class="p-name">${d.n}</div>
     <div class="p-q">${d.q}</div><div class="p-src">—— ${d.s}</div>`;
-  el.querySelector('.p-name').addEventListener('click',()=>{
-    dPy.textContent=d.p;dName.textContent=d.n;
-    dSrc.innerHTML=`「${d.q}」<br>—— ${d.s}`;detail.classList.add('show');
-  });
-  return el;
-}
-function appendBatch(){
-  if(loading)return;loading=true;
-  const ph=[];
-  for(let i=0;i<BATCH;i++){
-    const p=document.createElement('div');p.className='loading';
-    p.innerHTML=`<div class="inkdot"></div><em>研 墨 中</em>`;
-    scroll.appendChild(p);ph.push(p);
-  }
-  setTimeout(()=>{
-    ph.forEach((p,j)=>{
-      const panel=makePanel(batchNo*BATCH+j);
-      p.replaceWith(panel);io.observe(panel);
-    });
-    // 哨兵：本批倒数第二帧
-    const panels=[...scroll.querySelectorAll('.panel')];
-    panels.forEach(x=>delete x.dataset.s);
-    const cur=panels.slice(-BATCH);
-    if(cur.length>=2)cur[cur.length-2].dataset.s='1';
-    loading=false;batchNo++;
-  },620);
-}
-const io=new IntersectionObserver(es=>{
-  es.forEach(e=>{
-    e.target.classList.toggle('in',e.isIntersecting&&e.intersectionRatio>.55);
-    if(e.isIntersecting&&e.intersectionRatio>.55){
-      if(!viewed.has(e.target)){viewed.add(e.target);hView.textContent=viewed.size;}
-      if(e.target.dataset.s==='1')appendBatch();
-    }
-  });
-},{root:scroll,threshold:[.55,.9]});
-appendBatch();
+        el.querySelector(".p-name").addEventListener("click", () => {
+          dPy.textContent = d.p;
+          dName.textContent = d.n;
+          dSrc.innerHTML = `「${d.q}」<br>—— ${d.s}`;
+          detail.classList.add("show");
+        });
+        return el;
+      }
+      function appendBatch() {
+        if (loading) return;
+        loading = true;
+        const ph = [];
+        for (let i = 0; i < BATCH; i++) {
+          const p = document.createElement("div");
+          p.className = "loading";
+          p.innerHTML = `<div class="inkdot"></div><em>研 墨 中</em>`;
+          scroll.appendChild(p);
+          ph.push(p);
+        }
+        setTimeout(() => {
+          ph.forEach((p, j) => {
+            const panel = makePanel(batchNo * BATCH + j);
+            p.replaceWith(panel);
+            io.observe(panel);
+          });
+          // 哨兵：本批倒数第二帧
+          const panels = [...scroll.querySelectorAll(".panel")];
+          panels.forEach((x) => delete x.dataset.s);
+          const cur = panels.slice(-BATCH);
+          if (cur.length >= 2) cur[cur.length - 2].dataset.s = "1";
+          loading = false;
+          batchNo++;
+        }, 620);
+      }
+      const io = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            e.target.classList.toggle("in", e.isIntersecting && e.intersectionRatio > 0.55);
+            if (e.isIntersecting && e.intersectionRatio > 0.55) {
+              if (!viewed.has(e.target)) {
+                viewed.add(e.target);
+                hView.textContent = viewed.size;
+              }
+              if (e.target.dataset.s === "1") appendBatch();
+            }
+          });
+        },
+        { root: scroll, threshold: [0.55, 0.9] },
+      );
+      appendBatch();
 
-// 视差
-function parallax(){
-  const x=scroll.scrollLeft;
-  layers.forEach(L=>{
-    const offset=-(x*L.factor%PERIOD);
-    L.el.style.transform=`translateX(${offset}px)`;
-  });
-}
-scroll.addEventListener('scroll',parallax,{passive:true});
+      // 视差
+      function parallax() {
+        const x = scroll.scrollLeft;
+        layers.forEach((L) => {
+          const offset = -((x * L.factor) % PERIOD);
+          L.el.style.transform = `translateX(${offset}px)`;
+        });
+      }
+      scroll.addEventListener("scroll", parallax, { passive: true });
 
-const detail=document.getElementById('detail');
-detail.addEventListener('click',()=>detail.classList.remove('show'));
-scroll.addEventListener('wheel',e=>{
-  if(e.shiftKey||Math.abs(e.deltaY)>=Math.abs(e.deltaX)){
-    e.preventDefault();scroll.scrollLeft+=e.deltaY||e.deltaX;
-  }
-},{passive:false});
-</script>
-</body>
+      const detail = document.getElementById("detail");
+      detail.addEventListener("click", () => detail.classList.remove("show"));
+      scroll.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.shiftKey || Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
+            e.preventDefault();
+            scroll.scrollLeft += e.deltaY || e.deltaX;
+          }
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
 </html>

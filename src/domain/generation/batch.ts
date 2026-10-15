@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 export const generationBatchSchema = z.object({
   id: z.string().min(1),
@@ -21,4 +21,4 @@ export const generationBatchSchema = z.object({
   createdAt: z.iso.datetime(),
 });
 
-export type GenerationBatch = z.infer<typeof generationBatchSchema>;
+export type GenerationBatch = Infer<typeof generationBatchSchema>;

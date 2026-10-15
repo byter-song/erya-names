@@ -1,335 +1,520 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Erya Names - Design Prototypes</title>
-  <style>
-    /* =========================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Erya Names - Design Prototypes</title>
+    <style>
+      /* =========================================
        Base Reset & Layout (Bento Grid)
        ========================================= */
-    :root {
-      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-      --font-serif: "Ma Shan Zheng", "Songti SC", serif;
-      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      overflow-x: hidden;
-      transition: background 0.8s var(--ease-spring), color 0.8s;
-      display: flex;
-      flex-direction: column;
-    }
+      :root {
+        --font-sans:
+          -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        --font-serif: "Ma Shan Zheng", "Songti SC", serif;
+        --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+      }
 
-    /* 顶部概念切换栏 */
-    .concept-switcher {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 0 20px;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    .concept-btn {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.6);
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.3s;
-    }
-    .concept-btn.active, .concept-btn:hover {
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      border-color: rgba(255,255,255,0.5);
-    }
+      body {
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition:
+          background 0.8s var(--ease-spring),
+          color 0.8s;
+        display: flex;
+        flex-direction: column;
+      }
 
-    /* 主体布局 */
-    .workbench {
-      margin: 100px auto 40px;
-      width: 100%;
-      max-width: 1100px;
-      padding: 0 24px;
-      display: grid;
-      grid-template-columns: 300px 1fr 1fr;
-      grid-template-rows: auto 1fr;
-      gap: 20px;
-      flex: 1;
-    }
+      /* 顶部概念切换栏 */
+      .concept-switcher {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0 20px;
+      }
 
-    .card {
-      position: relative;
-      border-radius: var(--radius, 16px);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      overflow: hidden;
-      transition: transform 0.4s var(--ease-spring), box-shadow 0.4s;
-    }
-    
-    .card-title {
-      font-size: 14px;
-      opacity: 0.6;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+      .concept-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.6);
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.3s;
+      }
+      .concept-btn.active,
+      .concept-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.5);
+      }
 
-    /* Bento Grid 定位 */
-    .bento-header { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 20px;}
-    .bento-header h1 { font-family: var(--font-serif); font-size: 42px; font-weight: normal; }
-    .bento-sidebar { grid-column: 1 / 2; grid-row: 2 / 3; }
-    .bento-main { grid-column: 2 / 4; grid-row: 2 / 3; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .bento-wide { grid-column: 1 / -1; }
-    .bento-tall { grid-row: span 2; }
+      /* 主体布局 */
+      .workbench {
+        margin: 100px auto 40px;
+        width: 100%;
+        max-width: 1100px;
+        padding: 0 24px;
+        display: grid;
+        grid-template-columns: 300px 1fr 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 20px;
+        flex: 1;
+      }
 
-    /* 内部元素占位 */
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag { padding: 6px 12px; border-radius: 6px; font-size: 13px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); cursor: pointer;}
-    .big-name { font-family: var(--font-serif); font-size: 72px; line-height: 1; margin: 20px 0; text-align: center; }
-    .btn-primary { 
-      padding: 12px 24px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer;
-      font-weight: 600; width: 100%; transition: all 0.3s;
-    }
-    .data-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); width: 100%; overflow: hidden; }
-    .data-fill { height: 100%; width: 75%; background: currentColor; }
+      .card {
+        position: relative;
+        border-radius: var(--radius, 16px);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow: hidden;
+        transition:
+          transform 0.4s var(--ease-spring),
+          box-shadow 0.4s;
+      }
 
-    /* =========================================
+      .card-title {
+        font-size: 14px;
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* Bento Grid 定位 */
+      .bento-header {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding-bottom: 20px;
+      }
+      .bento-header h1 {
+        font-family: var(--font-serif);
+        font-size: 42px;
+        font-weight: normal;
+      }
+      .bento-sidebar {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
+      .bento-main {
+        grid-column: 2 / 4;
+        grid-row: 2 / 3;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .bento-wide {
+        grid-column: 1 / -1;
+      }
+      .bento-tall {
+        grid-row: span 2;
+      }
+
+      /* 内部元素占位 */
+      .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+      }
+      .big-name {
+        font-family: var(--font-serif);
+        font-size: 72px;
+        line-height: 1;
+        margin: 20px 0;
+        text-align: center;
+      }
+      .btn-primary {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: 600;
+        width: 100%;
+        transition: all 0.3s;
+      }
+      .data-bar {
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        width: 100%;
+        overflow: hidden;
+      }
+      .data-fill {
+        height: 100%;
+        width: 75%;
+        background: currentColor;
+      }
+
+      /* =========================================
        Concept 1: 全息竹简 (Holographic Bamboo)
        ========================================= */
-    body[data-concept="1"] {
-      background: #050a0a; color: #a0d8d8;
-      --radius: 0px;
-    }
-    body[data-concept="1"] .card {
-      background: transparent;
-      border-left: 2px solid #20b2aa;
-      border-right: 1px solid rgba(32, 178, 170, 0.2);
-      box-shadow: inset 20px 0 40px -20px rgba(32, 178, 170, 0.05);
-    }
-    body[data-concept="1"] .btn-primary { background: #20b2aa; color: #000; border-radius: 0; }
-    body[data-concept="1"] .tag { border-radius: 0; border-color: #20b2aa; color: #20b2aa; }
+      body[data-concept="1"] {
+        background: #050a0a;
+        color: #a0d8d8;
+        --radius: 0px;
+      }
+      body[data-concept="1"] .card {
+        background: transparent;
+        border-left: 2px solid #20b2aa;
+        border-right: 1px solid rgba(32, 178, 170, 0.2);
+        box-shadow: inset 20px 0 40px -20px rgba(32, 178, 170, 0.05);
+      }
+      body[data-concept="1"] .btn-primary {
+        background: #20b2aa;
+        color: #000;
+        border-radius: 0;
+      }
+      body[data-concept="1"] .tag {
+        border-radius: 0;
+        border-color: #20b2aa;
+        color: #20b2aa;
+      }
 
-    /* =========================================
+      /* =========================================
        Concept 2: 流体墨玉 (Fluid Obsidian)
        ========================================= */
-    body[data-concept="2"] {
-      background: radial-gradient(circle at 50% 0%, #0d1a15, #040806); color: #e6f0eb;
-      --radius: 32px;
-    }
-    body[data-concept="2"] .card {
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(218, 165, 32, 0.2); /* 金缮线条 */
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
-    }
-    body[data-concept="2"] .btn-primary { background: linear-gradient(135deg, #1e3c31, #0d1a15); color: #daa520; border: 1px solid rgba(218, 165, 32, 0.4); border-radius: 24px;}
-    body[data-concept="2"] .tag { border-radius: 20px; background: rgba(30, 60, 49, 0.5); }
-    body[data-concept="2"] .big-name { background: -webkit-linear-gradient(#fff, #daa520); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      body[data-concept="2"] {
+        background: radial-gradient(circle at 50% 0%, #0d1a15, #040806);
+        color: #e6f0eb;
+        --radius: 32px;
+      }
+      body[data-concept="2"] .card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(218, 165, 32, 0.2); /* 金缮线条 */
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+      body[data-concept="2"] .btn-primary {
+        background: linear-gradient(135deg, #1e3c31, #0d1a15);
+        color: #daa520;
+        border: 1px solid rgba(218, 165, 32, 0.4);
+        border-radius: 24px;
+      }
+      body[data-concept="2"] .tag {
+        border-radius: 20px;
+        background: rgba(30, 60, 49, 0.5);
+      }
+      body[data-concept="2"] .big-name {
+        background: -webkit-linear-gradient(#fff, #daa520);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-    /* =========================================
+      /* =========================================
        Concept 3: 天象仪 (Celestial Astrolabe)
        ========================================= */
-    body[data-concept="3"] {
-      background: #020617; color: #bfdbfe;
-      background-image: repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 41px);
-      --radius: 12px;
-    }
-    body[data-concept="3"] .card {
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(8px);
-      border: 1px solid #1e293b;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.05);
-    }
-    body[data-concept="3"] .btn-primary { background: transparent; border: 1px solid #38bdf8; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px;}
-    body[data-concept="3"] .tag { border-radius: 4px; border: 1px dotted #38bdf8; color: #7dd3fc; }
-    
-    /* =========================================
+      body[data-concept="3"] {
+        background: #020617;
+        color: #bfdbfe;
+        background-image: repeating-radial-gradient(
+          circle at 50% 50%,
+          transparent 0,
+          transparent 40px,
+          rgba(255, 255, 255, 0.02) 40px,
+          rgba(255, 255, 255, 0.02) 41px
+        );
+        --radius: 12px;
+      }
+      body[data-concept="3"] .card {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid #1e293b;
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.05);
+      }
+      body[data-concept="3"] .btn-primary {
+        background: transparent;
+        border: 1px solid #38bdf8;
+        color: #38bdf8;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      body[data-concept="3"] .tag {
+        border-radius: 4px;
+        border: 1px dotted #38bdf8;
+        color: #7dd3fc;
+      }
+
+      /* =========================================
        Concept 4: 空灵霓虹 (Ethereal Void)
        ========================================= */
-    body[data-concept="4"] {
-      background: #000; color: #fff;
-      --radius: 0px;
-    }
-    body[data-concept="4"] .card {
-      background: transparent;
-      border: none;
-      border-top: 1px solid transparent;
-      border-image: linear-gradient(90deg, #ff00ff, #00ffff) 1;
-      padding-left: 0; padding-right: 0;
-    }
-    body[data-concept="4"] .btn-primary { background: #fff; color: #000; border-radius: 0; }
-    body[data-concept="4"] .tag { background: transparent; border: 1px solid #333; }
+      body[data-concept="4"] {
+        background: #000;
+        color: #fff;
+        --radius: 0px;
+      }
+      body[data-concept="4"] .card {
+        background: transparent;
+        border: none;
+        border-top: 1px solid transparent;
+        border-image: linear-gradient(90deg, #ff00ff, #00ffff) 1;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      body[data-concept="4"] .btn-primary {
+        background: #fff;
+        color: #000;
+        border-radius: 0;
+      }
+      body[data-concept="4"] .tag {
+        background: transparent;
+        border: 1px solid #333;
+      }
 
-    /* =========================================
+      /* =========================================
        Concept 5: 赛博禅意 (Cyber-Zen Spatial) 🏆
        ========================================= */
-    body[data-concept="5"] {
-      /* oklch 深空灰蓝底色 */
-      background: oklch(14% 0.01 250); color: oklch(95% 0.01 250);
-      --radius: 24px;
-    }
-    /* 噪点与环境极光层 */
-    body[data-concept="5"]::before {
-      content: ""; position: fixed; inset: 0; z-index: -2;
-      background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
-      opacity: 0.04; pointer-events: none;
-    }
-    body[data-concept="5"]::after {
-      content: ""; position: fixed; inset: 0; z-index: -1;
-      background: radial-gradient(circle at 15% 30%, oklch(65% 0.15 160 / 0.15), transparent 40%),
-                  radial-gradient(circle at 85% 70%, oklch(70% 0.15 70 / 0.1), transparent 40%);
-      pointer-events: none;
-    }
+      body[data-concept="5"] {
+        /* oklch 深空灰蓝底色 */
+        background: oklch(14% 0.01 250);
+        color: oklch(95% 0.01 250);
+        --radius: 24px;
+      }
+      /* 噪点与环境极光层 */
+      body[data-concept="5"]::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+        opacity: 0.04;
+        pointer-events: none;
+      }
+      body[data-concept="5"]::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 15% 30%, oklch(65% 0.15 160 / 0.15), transparent 40%),
+          radial-gradient(circle at 85% 70%, oklch(70% 0.15 70 / 0.1), transparent 40%);
+        pointer-events: none;
+      }
 
-    body[data-concept="5"] .card {
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(40px) saturate(120%);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
-    }
-    
-    /* 空间光影 Hover Spotlight */
-    body[data-concept="5"] .card::before {
-      content: ""; position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255,255,255,0.06), transparent 40%);
-      opacity: 0; transition: opacity 0.4s; pointer-events: none;
-    }
-    body[data-concept="5"] .card:hover::before { opacity: 1; }
-    body[data-concept="5"] .card > * { position: relative; z-index: 1; }
-    
-    body[data-concept="5"] .btn-primary { 
-      background: oklch(85% 0.18 160); color: #000; 
-      box-shadow: 0 0 20px oklch(85% 0.18 160 / 0.3);
-    }
-    body[data-concept="5"] .btn-primary:hover {
-      box-shadow: 0 0 30px oklch(85% 0.18 160 / 0.6);
-      transform: translateY(-2px);
-    }
-    body[data-concept="5"] .tag { 
-      background: rgba(255,255,255,0.03); 
-      border: 1px solid rgba(255,255,255,0.08); 
-      backdrop-filter: blur(10px);
-    }
-    body[data-concept="5"] .tag:hover {
-      background: rgba(255,255,255,0.1);
-    }
-    body[data-concept="5"] .big-name { text-shadow: 0 0 30px rgba(255,255,255,0.2); }
-  </style>
-</head>
-<body data-concept="5">
+      body[data-concept="5"] .card {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(40px) saturate(120%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow:
+          0 20px 40px -10px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
 
-  <div class="concept-switcher">
-    <button class="concept-btn" onclick="setConcept(1)">1. 全息竹简 (Bamboo)</button>
-    <button class="concept-btn" onclick="setConcept(2)">2. 流体墨玉 (Jade)</button>
-    <button class="concept-btn" onclick="setConcept(3)">3. 天象仪 (Astrolabe)</button>
-    <button class="concept-btn" onclick="setConcept(4)">4. 空灵霓虹 (Void)</button>
-    <button class="concept-btn active" onclick="setConcept(5)">5. 赛博禅意 (Spatial) 🏆</button>
-  </div>
+      /* 空间光影 Hover Spotlight */
+      body[data-concept="5"] .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background: radial-gradient(
+          600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+          rgba(255, 255, 255, 0.06),
+          transparent 40%
+        );
+        opacity: 0;
+        transition: opacity 0.4s;
+        pointer-events: none;
+      }
+      body[data-concept="5"] .card:hover::before {
+        opacity: 1;
+      }
+      body[data-concept="5"] .card > * {
+        position: relative;
+        z-index: 1;
+      }
 
-  <div class="workbench">
-    <div class="bento-header">
-      <div>
-        <h1>尔雅</h1>
-        <div style="opacity: 0.5; margin-top: 8px;">Neo-Oriental Futurism Prototypes</div>
-      </div>
-      <div>
-        <span class="tag">工作台状态：演算中</span>
-      </div>
+      body[data-concept="5"] .btn-primary {
+        background: oklch(85% 0.18 160);
+        color: #000;
+        box-shadow: 0 0 20px oklch(85% 0.18 160 / 0.3);
+      }
+      body[data-concept="5"] .btn-primary:hover {
+        box-shadow: 0 0 30px oklch(85% 0.18 160 / 0.6);
+        transform: translateY(-2px);
+      }
+      body[data-concept="5"] .tag {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+      }
+      body[data-concept="5"] .tag:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      body[data-concept="5"] .big-name {
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body data-concept="5">
+    <div class="concept-switcher">
+      <button class="concept-btn" onclick="setConcept(1)">1. 全息竹简 (Bamboo)</button>
+      <button class="concept-btn" onclick="setConcept(2)">2. 流体墨玉 (Jade)</button>
+      <button class="concept-btn" onclick="setConcept(3)">3. 天象仪 (Astrolabe)</button>
+      <button class="concept-btn" onclick="setConcept(4)">4. 空灵霓虹 (Void)</button>
+      <button class="concept-btn active" onclick="setConcept(5)">
+        5. 赛博禅意 (Spatial) 🏆
+      </button>
     </div>
 
-    <!-- 左侧：操作面板 -->
-    <div class="card bento-sidebar">
-      <div class="card-title">控制台 Console</div>
-      <p style="font-size: 14px; opacity: 0.8; line-height: 1.6;">
-        当前展示的是“起名工作台”的概念布局。请注意光影、材质、边框和卡片的物理质感。
-      </p>
-      <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px;">
-        <div class="data-bar"><div class="data-fill" style="width: 100%; color: var(--color-accent, #20b2aa)"></div></div>
-        <button class="btn-primary">生成一批 (Generate)</button>
-      </div>
-    </div>
-
-    <!-- 主区上：灵感池 -->
-    <div class="card bento-wide" style="min-height: 180px;">
-      <div class="card-title">灵感池 Inspiration Pool</div>
-      <div class="tag-cloud">
-        <div class="tag">清风</div><div class="tag">明月</div><div class="tag">星河</div>
-        <div class="tag">知渊</div><div class="tag">逾明</div><div class="tag">云帆</div>
-        <div class="tag">泽谦</div><div class="tag">景行</div><div class="tag">嘉树</div>
-      </div>
-    </div>
-
-    <!-- 主区下左：重点候选 -->
-    <div class="card bento-tall">
-      <div class="card-title">当前候选 Candidate</div>
-      <div class="big-name">宋泽谦</div>
-      <div style="font-size: 14px; opacity: 0.8; line-height: 1.8; text-align: justify;">
-        【泽】：水积聚的地方，引申为恩泽、仁慈。<br>
-        【谦】：谦虚、谦逊。《易经》云：“谦谦君子，卑以自牧也。”<br>
-        寓意：温润如水，谦和有礼。
-      </div>
-    </div>
-
-    <!-- 主区下右：五格八字解析 -->
-    <div class="card">
-      <div class="card-title">五格剖象 / 八字喜用</div>
-      <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px;">
+    <div class="workbench">
+      <div class="bento-header">
         <div>
-          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
-            <span>天格 (金)</span> <span>吉 (85%)</span>
-          </div>
-          <div class="data-bar"><div class="data-fill" style="width: 85%; color: #eab308"></div></div>
+          <h1>尔雅</h1>
+          <div style="opacity: 0.5; margin-top: 8px">Neo-Oriental Futurism Prototypes</div>
         </div>
         <div>
-          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
-            <span>人格 (水)</span> <span>大吉 (95%)</span>
-          </div>
-          <div class="data-bar"><div class="data-fill" style="width: 95%; color: #3b82f6"></div></div>
+          <span class="tag">工作台状态：演算中</span>
         </div>
-        <div>
-          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
-            <span>地格 (木)</span> <span>吉 (80%)</span>
+      </div>
+
+      <!-- 左侧：操作面板 -->
+      <div class="card bento-sidebar">
+        <div class="card-title">控制台 Console</div>
+        <p style="font-size: 14px; opacity: 0.8; line-height: 1.6">
+          当前展示的是“起名工作台”的概念布局。请注意光影、材质、边框和卡片的物理质感。
+        </p>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px">
+          <div class="data-bar">
+            <div
+              class="data-fill"
+              style="width: 100%; color: var(--color-accent, #20b2aa)"
+            ></div>
           </div>
-          <div class="data-bar"><div class="data-fill" style="width: 80%; color: #22c55e"></div></div>
+          <button class="btn-primary">生成一批 (Generate)</button>
+        </div>
+      </div>
+
+      <!-- 主区上：灵感池 -->
+      <div class="card bento-wide" style="min-height: 180px">
+        <div class="card-title">灵感池 Inspiration Pool</div>
+        <div class="tag-cloud">
+          <div class="tag">清风</div>
+          <div class="tag">明月</div>
+          <div class="tag">星河</div>
+          <div class="tag">知渊</div>
+          <div class="tag">逾明</div>
+          <div class="tag">云帆</div>
+          <div class="tag">泽谦</div>
+          <div class="tag">景行</div>
+          <div class="tag">嘉树</div>
+        </div>
+      </div>
+
+      <!-- 主区下左：重点候选 -->
+      <div class="card bento-tall">
+        <div class="card-title">当前候选 Candidate</div>
+        <div class="big-name">宋泽谦</div>
+        <div style="font-size: 14px; opacity: 0.8; line-height: 1.8; text-align: justify">
+          【泽】：水积聚的地方，引申为恩泽、仁慈。<br />
+          【谦】：谦虚、谦逊。《易经》云：“谦谦君子，卑以自牧也。”<br />
+          寓意：温润如水，谦和有礼。
+        </div>
+      </div>
+
+      <!-- 主区下右：五格八字解析 -->
+      <div class="card">
+        <div class="card-title">五格剖象 / 八字喜用</div>
+        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 10px">
+          <div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 13px;
+                margin-bottom: 6px;
+              "
+            >
+              <span>天格 (金)</span> <span>吉 (85%)</span>
+            </div>
+            <div class="data-bar">
+              <div class="data-fill" style="width: 85%; color: #eab308"></div>
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 13px;
+                margin-bottom: 6px;
+              "
+            >
+              <span>人格 (水)</span> <span>大吉 (95%)</span>
+            </div>
+            <div class="data-bar">
+              <div class="data-fill" style="width: 95%; color: #3b82f6"></div>
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                font-size: 13px;
+                margin-bottom: 6px;
+              "
+            >
+              <span>地格 (木)</span> <span>吉 (80%)</span>
+            </div>
+            <div class="data-bar">
+              <div class="data-fill" style="width: 80%; color: #22c55e"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // 切换概念方案
-    function setConcept(num) {
-      document.body.setAttribute('data-concept', num);
-      document.querySelectorAll('.concept-btn').forEach((btn, index) => {
-        if(index === num - 1) btn.classList.add('active');
-        else btn.classList.remove('active');
+    <script>
+      // 切换概念方案
+      function setConcept(num) {
+        document.body.setAttribute("data-concept", num);
+        document.querySelectorAll(".concept-btn").forEach((btn, index) => {
+          if (index === num - 1) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+      }
+
+      // Concept 5 的 Spotlight 光影效果跟踪
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x}px`);
+          card.style.setProperty("--mouse-y", `${y}px`);
+        });
       });
-    }
-
-    // Concept 5 的 Spotlight 光影效果跟踪
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

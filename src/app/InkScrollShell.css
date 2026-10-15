@@ -437,6 +437,10 @@
   .ink-shell__orbit-dot {
     animation: none !important;
   }
+
+  .ink-shell__chip {
+    transition: none !important;
+  }
 }
 
 /* Long-scroll content retains full viewport width; other pages share the paper layout. */

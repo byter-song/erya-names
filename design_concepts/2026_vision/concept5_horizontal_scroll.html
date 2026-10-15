@@ -1,85 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>尔雅 2026 | 长卷流觞 (Horizontal Scroll)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400&display=swap');
-        
-        body {
-            margin: 0; padding: 0; font-family: 'Noto Serif SC', serif;
-            background-color: #F8F7F2; color: #222;
-            height: 100vh; overflow: hidden;
-            display: flex; flex-direction: column;
-        }
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400&display=swap");
 
-        .top-bar {
-            padding: 40px 60px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-size: 2rem; letter-spacing: 10px; }
-        
-        /* 2026 Trend: Horizontal Scroll Snap (Modern Scroll metaphor) */
-        .scroll-container {
-            flex-grow: 1; display: flex; align-items: center;
-            overflow-x: auto; overflow-y: hidden;
-            scroll-snap-type: x mandatory; scroll-behavior: smooth;
-            padding: 0 50vw 0 60px; /* Leave space at the end */
-            gap: 100px;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Serif SC", serif;
+        background-color: #f8f7f2;
+        color: #222;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
 
-        /* Hide scrollbar completely */
-        .scroll-container::-webkit-scrollbar { display: none; }
+      .top-bar {
+        padding: 40px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 2rem;
+        letter-spacing: 10px;
+      }
 
-        .name-panel {
-            scroll-snap-align: center;
-            min-width: 400px; height: 60vh;
-            display: flex; flex-direction: column; justify-content: center;
-            border-left: 1px solid rgba(0,0,0,0.1); padding-left: 60px;
-            opacity: 0.3; transition: opacity 0.5s;
-        }
+      /* 2026 Trend: Horizontal Scroll Snap (Modern Scroll metaphor) */
+      .scroll-container {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 0 50vw 0 60px; /* Leave space at the end */
+        gap: 100px;
+      }
 
-        /* Use IntersectionObserver logic via hover/focus for CSS-only sim */
-        .name-panel:hover { opacity: 1; }
+      /* Hide scrollbar completely */
+      .scroll-container::-webkit-scrollbar {
+        display: none;
+      }
 
-        .name { font-size: 5rem; font-weight: 300; margin-bottom: 20px; white-space: nowrap; }
-        .pinyin { color: #A88F66; font-size: 1.2rem; letter-spacing: 5px; margin-bottom: 40px; }
-        .desc { font-size: 1.2rem; line-height: 2; color: #555; max-width: 300px; }
-        
-        .hint {
-            position: fixed; bottom: 40px; left: 60px; color: #999; font-family: sans-serif;
-        }
+      .name-panel {
+        scroll-snap-align: center;
+        min-width: 400px;
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+        padding-left: 60px;
+        opacity: 0.3;
+        transition: opacity 0.5s;
+      }
+
+      /* Use IntersectionObserver logic via hover/focus for CSS-only sim */
+      .name-panel:hover {
+        opacity: 1;
+      }
+
+      .name {
+        font-size: 5rem;
+        font-weight: 300;
+        margin-bottom: 20px;
+        white-space: nowrap;
+      }
+      .pinyin {
+        color: #a88f66;
+        font-size: 1.2rem;
+        letter-spacing: 5px;
+        margin-bottom: 40px;
+      }
+      .desc {
+        font-size: 1.2rem;
+        line-height: 2;
+        color: #555;
+        max-width: 300px;
+      }
+
+      .hint {
+        position: fixed;
+        bottom: 40px;
+        left: 60px;
+        color: #999;
+        font-family: sans-serif;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="top-bar">
-        <div class="logo">尔雅</div>
-        <div style="font-size: 1.2rem; color: #A88F66;">向右滑动，展卷阅名</div>
+      <div class="logo">尔雅</div>
+      <div style="font-size: 1.2rem; color: #a88f66">向右滑动，展卷阅名</div>
     </div>
 
     <div class="scroll-container">
-        <!-- Make the first one active by default for demo -->
-        <div class="name-panel" style="opacity: 1;">
-            <div class="pinyin">Lín Zǐ Jīn</div>
-            <div class="name">林子衿</div>
-            <div class="desc">青青子衿，悠悠我心。形容人才华横溢，令人倾慕。</div>
-        </div>
-        <div class="name-panel">
-            <div class="pinyin">Lín Ruò Huá</div>
-            <div class="name">林若华</div>
-            <div class="desc">羲和之未扬，若华何光。指古代神话中若木的花，象征光华与朝气。</div>
-        </div>
-        <div class="name-panel">
-            <div class="pinyin">Lín Wàng Shū</div>
-            <div class="name">林望舒</div>
-            <div class="desc">前望舒使先驱兮。神话中为月驾车之神，迎向光明。</div>
-        </div>
-        <div class="name-panel">
-            <div class="pinyin">Lín Qīng Wǎn</div>
-            <div class="name">林清婉</div>
-            <div class="desc">清扬婉兮。清雅柔和，温婉如水。</div>
-        </div>
+      <!-- Make the first one active by default for demo -->
+      <div class="name-panel" style="opacity: 1">
+        <div class="pinyin">Lín Zǐ Jīn</div>
+        <div class="name">林子衿</div>
+        <div class="desc">青青子衿，悠悠我心。形容人才华横溢，令人倾慕。</div>
+      </div>
+      <div class="name-panel">
+        <div class="pinyin">Lín Ruò Huá</div>
+        <div class="name">林若华</div>
+        <div class="desc">羲和之未扬，若华何光。指古代神话中若木的花，象征光华与朝气。</div>
+      </div>
+      <div class="name-panel">
+        <div class="pinyin">Lín Wàng Shū</div>
+        <div class="name">林望舒</div>
+        <div class="desc">前望舒使先驱兮。神话中为月驾车之神，迎向光明。</div>
+      </div>
+      <div class="name-panel">
+        <div class="pinyin">Lín Qīng Wǎn</div>
+        <div class="name">林清婉</div>
+        <div class="desc">清扬婉兮。清雅柔和，温婉如水。</div>
+      </div>
     </div>
 
     <div class="hint">Shift + 滚轮 或 触控板横向滑动</div>
-</body>
+  </body>
 </html>

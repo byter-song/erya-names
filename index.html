@@ -8,7 +8,15 @@
     <title>尔雅起名</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <section class="startup-screen" role="status" aria-live="polite">
+        <div class="startup-screen__center">
+          <strong class="startup-screen__mark brush-type">雅</strong>
+          <p>展卷寻名 · 正在读取本地资料</p>
+          <progress max="1" value="0" aria-label="资料载入进度"></progress>
+        </div>
+      </section>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

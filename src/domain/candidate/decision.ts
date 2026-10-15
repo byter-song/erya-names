@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 export const candidateStageSchema = z.enum([
   "inbox",
@@ -29,9 +29,9 @@ export const candidateDecisionSchema = z.object({
   updatedAt: z.iso.datetime(),
 });
 
-export type CandidateStage = z.infer<typeof candidateStageSchema>;
-export type ActiveCandidateStage = z.infer<typeof activeCandidateStageSchema>;
-export type CandidateDecision = z.infer<typeof candidateDecisionSchema>;
+export type CandidateStage = Infer<typeof candidateStageSchema>;
+export type ActiveCandidateStage = Infer<typeof activeCandidateStageSchema>;
+export type CandidateDecision = Infer<typeof candidateDecisionSchema>;
 
 export function normalizeCandidateStage(
   stage: CandidateStage,

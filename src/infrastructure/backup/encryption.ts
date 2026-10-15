@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../../domain/shared/zod";
 
 const encryptedBackupSchema = z.object({
   format: z.literal("erya-names-encrypted-backup"),
@@ -14,7 +14,7 @@ const encryptedBackupSchema = z.object({
   ciphertext: z.string().min(1),
 });
 
-export type EncryptedBackup = z.infer<typeof encryptedBackupSchema>;
+export type EncryptedBackup = Infer<typeof encryptedBackupSchema>;
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();

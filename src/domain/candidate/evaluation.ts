@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 export const candidateEvaluationSchema = z.object({
   projectId: z.string().min(1),
@@ -10,4 +10,4 @@ export const candidateEvaluationSchema = z.object({
   updatedAt: z.iso.datetime(),
 });
 
-export type CandidateEvaluation = z.infer<typeof candidateEvaluationSchema>;
+export type CandidateEvaluation = Infer<typeof candidateEvaluationSchema>;

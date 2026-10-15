@@ -1,208 +1,490 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>长卷 · 万卷不绝</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
-:root{
-  --paper:#FBF9F3;--ink:#1A1916;--ink2:#5D5A51;--ink3:#A39E90;
-  --gold:#AE8B54;--goldsoft:rgba(174,139,84,.13);--cinnabar:#A84D3B;
-  --spring:cubic-bezier(.16,1,.3,1);
-  --serif:'Noto Serif SC',serif;--brush:'Ma Shan Zheng',cursive;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{height:100vh;font-family:var(--serif);background:var(--paper);color:var(--ink);overflow:hidden}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>长卷 · 万卷不绝</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap");
+      :root {
+        --paper: #fbf9f3;
+        --ink: #1a1916;
+        --ink2: #5d5a51;
+        --ink3: #a39e90;
+        --gold: #ae8b54;
+        --goldsoft: rgba(174, 139, 84, 0.13);
+        --cinnabar: #a84d3b;
+        --spring: cubic-bezier(0.16, 1, 0.3, 1);
+        --serif: "Noto Serif SC", serif;
+        --brush: "Ma Shan Zheng", cursive;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        font-family: var(--serif);
+        background: var(--paper);
+        color: var(--ink);
+        overflow: hidden;
+      }
 
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(ellipse at 50% -12%,rgba(174,139,84,.14),transparent 55%)}
-.mount{position:absolute;left:0;right:0;bottom:0;height:32vh;opacity:.1;filter:blur(9px);
-  background:radial-gradient(ellipse at 18% 100%,rgba(20,24,18,.7),transparent 60%),
-             radial-gradient(ellipse at 80% 100%,rgba(20,24,18,.45),transparent 55%)}
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 50% -12%,
+          rgba(174, 139, 84, 0.14),
+          transparent 55%
+        );
+      }
+      .mount {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 32vh;
+        opacity: 0.1;
+        filter: blur(9px);
+        background:
+          radial-gradient(ellipse at 18% 100%, rgba(20, 24, 18, 0.7), transparent 60%),
+          radial-gradient(ellipse at 80% 100%, rgba(20, 24, 18, 0.45), transparent 55%);
+      }
 
-header{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:30px 56px}
-.logo{font-family:var(--brush);font-size:2.1rem}
-.hud{display:flex;gap:34px;font-size:.85rem;color:var(--ink2)}
-.hud b{display:block;color:var(--gold);font-size:1.15rem;font-weight:600;letter-spacing:.05em}
-.hud span{letter-spacing:.15em}
+      header {
+        position: relative;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 30px 56px;
+      }
+      .logo {
+        font-family: var(--brush);
+        font-size: 2.1rem;
+      }
+      .hud {
+        display: flex;
+        gap: 34px;
+        font-size: 0.85rem;
+        color: var(--ink2);
+      }
+      .hud b {
+        display: block;
+        color: var(--gold);
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+      .hud span {
+        letter-spacing: 0.15em;
+      }
 
-.scroll{position:relative;z-index:10;height:calc(100vh - 150px);display:flex;align-items:stretch;
-  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  padding:0 42vw}
-.scroll::-webkit-scrollbar{height:0}
+      .scroll {
+        position: relative;
+        z-index: 10;
+        height: calc(100vh - 150px);
+        display: flex;
+        align-items: stretch;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 0 42vw;
+      }
+      .scroll::-webkit-scrollbar {
+        height: 0;
+      }
 
-/* 名字面板 */
-.panel{scroll-snap-align:center;flex:0 0 min(72vw,760px);display:flex;flex-direction:column;justify-content:center;
-  padding:0 6vw;position:relative;opacity:0;transform:scale(.92);
-  transition:opacity .6s,transform .6s var(--spring)}
-.panel.in{opacity:1;transform:scale(1)}
-.panel::before{content:"";position:absolute;left:0;top:12%;bottom:12%;width:1px;
-  background:linear-gradient(var(--gold),transparent);opacity:.55}
-.p-idx{font-size:.78rem;letter-spacing:.4em;color:var(--ink3);margin-bottom:12px}
-.p-py{letter-spacing:.34em;color:var(--gold);font-size:1rem;margin-bottom:4px}
-.p-name{font-family:var(--brush);font-size:clamp(4.2rem,10vw,7.4rem);line-height:1.05;cursor:pointer;transition:color .3s,transform .3s}
-.panel.in .p-name:hover{color:var(--gold);transform:translateX(8px)}
-.p-q{margin-top:24px;font-size:1.2rem;color:var(--ink2);line-height:1.85}
-.p-src{margin-top:6px;font-size:.88rem;color:var(--gold)}
-.p-tags{display:flex;gap:8px;margin-top:20px}
-.p-tags i{font-style:normal;font-size:.78rem;padding:5px 14px;border:1px solid rgba(174,139,84,.45);border-radius:30px;color:var(--gold)}
+      /* 名字面板 */
+      .panel {
+        scroll-snap-align: center;
+        flex: 0 0 min(72vw, 760px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 6vw;
+        position: relative;
+        opacity: 0;
+        transform: scale(0.92);
+        transition:
+          opacity 0.6s,
+          transform 0.6s var(--spring);
+      }
+      .panel.in {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .panel::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12%;
+        bottom: 12%;
+        width: 1px;
+        background: linear-gradient(var(--gold), transparent);
+        opacity: 0.55;
+      }
+      .p-idx {
+        font-size: 0.78rem;
+        letter-spacing: 0.4em;
+        color: var(--ink3);
+        margin-bottom: 12px;
+      }
+      .p-py {
+        letter-spacing: 0.34em;
+        color: var(--gold);
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+      .p-name {
+        font-family: var(--brush);
+        font-size: clamp(4.2rem, 10vw, 7.4rem);
+        line-height: 1.05;
+        cursor: pointer;
+        transition:
+          color 0.3s,
+          transform 0.3s;
+      }
+      .panel.in .p-name:hover {
+        color: var(--gold);
+        transform: translateX(8px);
+      }
+      .p-q {
+        margin-top: 24px;
+        font-size: 1.2rem;
+        color: var(--ink2);
+        line-height: 1.85;
+      }
+      .p-src {
+        margin-top: 6px;
+        font-size: 0.88rem;
+        color: var(--gold);
+      }
+      .p-tags {
+        display: flex;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .p-tags i {
+        font-style: normal;
+        font-size: 0.78rem;
+        padding: 5px 14px;
+        border: 1px solid rgba(174, 139, 84, 0.45);
+        border-radius: 30px;
+        color: var(--gold);
+      }
 
-/* 换章轴 */
-.divider{scroll-snap-align:center;flex:0 0 min(26vw,300px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
-.divider .vline{width:1px;height:46%;background:linear-gradient(var(--ink3),transparent)}
-.divider .vol{font-family:var(--brush);font-size:2rem;color:var(--ink2);writing-mode:vertical-rl;letter-spacing:.4rem}
-.divider small{font-size:.72rem;letter-spacing:.35em;color:var(--ink3)}
+      /* 换章轴 */
+      .divider {
+        scroll-snap-align: center;
+        flex: 0 0 min(26vw, 300px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+      .divider .vline {
+        width: 1px;
+        height: 46%;
+        background: linear-gradient(var(--ink3), transparent);
+      }
+      .divider .vol {
+        font-family: var(--brush);
+        font-size: 2rem;
+        color: var(--ink2);
+        writing-mode: vertical-rl;
+        letter-spacing: 0.4rem;
+      }
+      .divider small {
+        font-size: 0.72rem;
+        letter-spacing: 0.35em;
+        color: var(--ink3);
+      }
 
-/* 预生成占位：研墨中 */
-.loading{scroll-snap-align:center;flex:0 0 min(72vw,760px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
-.inkdot{width:18px;height:18px;border-radius:50%;background:var(--ink);filter:blur(2px);
-  animation:bleed 1.1s ease-in-out infinite}
-@keyframes bleed{0%,100%{transform:scale(.6);opacity:.4}50%{transform:scale(1.6);opacity:.9}}
-.loading em{font-style:normal;font-size:.9rem;letter-spacing:.4em;color:var(--ink3)}
+      /* 预生成占位：研墨中 */
+      .loading {
+        scroll-snap-align: center;
+        flex: 0 0 min(72vw, 760px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      .inkdot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--ink);
+        filter: blur(2px);
+        animation: bleed 1.1s ease-in-out infinite;
+      }
+      @keyframes bleed {
+        0%,
+        100% {
+          transform: scale(0.6);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scale(1.6);
+          opacity: 0.9;
+        }
+      }
+      .loading em {
+        font-style: normal;
+        font-size: 0.9rem;
+        letter-spacing: 0.4em;
+        color: var(--ink3);
+      }
 
-/* 详情 */
-.detail{position:fixed;inset:0;z-index:60;background:rgba(250,248,243,.87);backdrop-filter:blur(30px);
-  opacity:0;pointer-events:none;cursor:pointer;transition:opacity .5s}
-.detail.show{opacity:1;pointer-events:auto}
-.di{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7vh 6vw;
-  transform:translateY(38px);transition:.7s var(--spring)}
-.detail.show .di{transform:none}
-.d-seal{font-family:var(--brush);color:var(--cinnabar);border:2px solid var(--cinnabar);width:54px;height:54px;display:grid;place-items:center;
-  border-radius:8px;font-size:1.3rem;opacity:.85;margin-bottom:20px}
-.d-py{letter-spacing:.4em;color:var(--gold);margin-bottom:6px}
-.d-name{font-family:var(--brush);font-size:clamp(5rem,14vw,9rem);line-height:1.1}
-.d-src{margin-top:24px;color:var(--ink2);font-size:1.2rem;line-height:2;max-width:640px}
-.d-back{position:absolute;bottom:5vh;color:var(--ink3);font-size:.82rem;letter-spacing:.3em;animation:blink 2.2s infinite}
-@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
-</style>
-</head>
-<body>
-<div class="bg"><div class="mount"></div></div>
-<header>
-  <div class="logo">尔雅</div>
-  <div class="hud">
-    <div><b id="hVol">壹</b><span>当前卷</span></div>
-    <div><b id="hViewed">0</b><span>已览名字</span></div>
-  </div>
-</header>
+      /* 详情 */
+      .detail {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgba(250, 248, 243, 0.87);
+        backdrop-filter: blur(30px);
+        opacity: 0;
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.5s;
+      }
+      .detail.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .di {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7vh 6vw;
+        transform: translateY(38px);
+        transition: 0.7s var(--spring);
+      }
+      .detail.show .di {
+        transform: none;
+      }
+      .d-seal {
+        font-family: var(--brush);
+        color: var(--cinnabar);
+        border: 2px solid var(--cinnabar);
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        font-size: 1.3rem;
+        opacity: 0.85;
+        margin-bottom: 20px;
+      }
+      .d-py {
+        letter-spacing: 0.4em;
+        color: var(--gold);
+        margin-bottom: 6px;
+      }
+      .d-name {
+        font-family: var(--brush);
+        font-size: clamp(5rem, 14vw, 9rem);
+        line-height: 1.1;
+      }
+      .d-src {
+        margin-top: 24px;
+        color: var(--ink2);
+        font-size: 1.2rem;
+        line-height: 2;
+        max-width: 640px;
+      }
+      .d-back {
+        position: absolute;
+        bottom: 5vh;
+        color: var(--ink3);
+        font-size: 0.82rem;
+        letter-spacing: 0.3em;
+        animation: blink 2.2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg"><div class="mount"></div></div>
+    <header>
+      <div class="logo">尔雅</div>
+      <div class="hud">
+        <div><b id="hVol">壹</b><span>当前卷</span></div>
+        <div><b id="hViewed">0</b><span>已览名字</span></div>
+      </div>
+    </header>
 
-<main class="scroll" id="scroll"></main>
+    <main class="scroll" id="scroll"></main>
 
-<div class="detail" id="detail"><div class="di">
-  <div class="d-seal">尔雅</div>
-  <div class="d-py" id="dPy"></div>
-  <div class="d-name" id="dName"></div>
-  <div class="d-src" id="dSrc"></div>
-  <div class="d-back">继 续 点 击 任 意 处 返 回</div>
-</div></div>
+    <div class="detail" id="detail">
+      <div class="di">
+        <div class="d-seal">尔雅</div>
+        <div class="d-py" id="dPy"></div>
+        <div class="d-name" id="dName"></div>
+        <div class="d-src" id="dSrc"></div>
+        <div class="d-back">继 续 点 击 任 意 处 返 回</div>
+      </div>
+    </div>
 
-<script>
-const NAMES=[
- {n:"林子衿",p:"LIN ZI JIN",q:"青青子衿，悠悠我心。",s:"《诗经 · 郑风 · 子衿》"},
- {n:"林若华",p:"LIN RUO HUA",q:"羲和之未扬，若华何光？",s:"《楚辞 · 天问》"},
- {n:"林望舒",p:"LIN WANG SHU",q:"前望舒使先驱兮。",s:"《楚辞 · 离骚》"},
- {n:"林清婉",p:"LIN QING WAN",q:"有美一人，清扬婉兮。",s:"《诗经 · 郑风》"},
- {n:"林嘉木",p:"LIN JIA MU",q:"南有嘉木，葛藟累之。",s:"《诗经 · 周南》"},
- {n:"林星汉",p:"LIN XING HAN",q:"星汉灿烂，若出其里。",s:"曹操《观沧海》"},
- {n:"林景行",p:"LIN JING XING",q:"高山仰止，景行行止。",s:"《诗经 · 小雅》"},
- {n:"林思齐",p:"LIN SI QI",q:"思齐大任，文王之母。",s:"《诗经 · 大雅》"},
- {n:"林维桢",p:"LIN WEI ZHEN",q:"王国克生，维周之桢。",s:"《诗经 · 大雅》"},
- {n:"林知远",p:"LIN ZHI YUAN",q:"非宁静无以致远。",s:"诸葛亮《诫子书》"},
- {n:"林怀瑾",p:"LIN HUAI JIN",q:"怀瑾握瑜兮，穷不知所示。",s:"《楚辞 · 九章》"},
- {n:"林澄怀",p:"LIN CHENG HUAI",q:"澄怀观道，卧以游之。",s:"宗炳《画山水序》"}
-];
-const CN=["壹","贰","叁","肆","伍","陆","柒","捌","玖","拾"];
-const BATCH=4;
-const scroll=document.getElementById('scroll');
-let batchNo=0, viewed=new Set(), loading=false;
+    <script>
+      const NAMES = [
+        {
+          n: "林子衿",
+          p: "LIN ZI JIN",
+          q: "青青子衿，悠悠我心。",
+          s: "《诗经 · 郑风 · 子衿》",
+        },
+        { n: "林若华", p: "LIN RUO HUA", q: "羲和之未扬，若华何光？", s: "《楚辞 · 天问》" },
+        { n: "林望舒", p: "LIN WANG SHU", q: "前望舒使先驱兮。", s: "《楚辞 · 离骚》" },
+        { n: "林清婉", p: "LIN QING WAN", q: "有美一人，清扬婉兮。", s: "《诗经 · 郑风》" },
+        { n: "林嘉木", p: "LIN JIA MU", q: "南有嘉木，葛藟累之。", s: "《诗经 · 周南》" },
+        { n: "林星汉", p: "LIN XING HAN", q: "星汉灿烂，若出其里。", s: "曹操《观沧海》" },
+        { n: "林景行", p: "LIN JING XING", q: "高山仰止，景行行止。", s: "《诗经 · 小雅》" },
+        { n: "林思齐", p: "LIN SI QI", q: "思齐大任，文王之母。", s: "《诗经 · 大雅》" },
+        { n: "林维桢", p: "LIN WEI ZHEN", q: "王国克生，维周之桢。", s: "《诗经 · 大雅》" },
+        { n: "林知远", p: "LIN ZHI YUAN", q: "非宁静无以致远。", s: "诸葛亮《诫子书》" },
+        { n: "林怀瑾", p: "LIN HUAI JIN", q: "怀瑾握瑜兮，穷不知所示。", s: "《楚辞 · 九章》" },
+        { n: "林澄怀", p: "LIN CHENG HUAI", q: "澄怀观道，卧以游之。", s: "宗炳《画山水序》" },
+      ];
+      const CN = ["壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"];
+      const BATCH = 4;
+      const scroll = document.getElementById("scroll");
+      let batchNo = 0,
+        viewed = new Set(),
+        loading = false;
 
-function nameAt(i){return NAMES[i%NAMES.length];}
+      function nameAt(i) {
+        return NAMES[i % NAMES.length];
+      }
 
-function makePanel(item,globalIdx){
-  const el=document.createElement('section');el.className='panel';
-  el.innerHTML=`
-    <div class="p-idx">卷 ${CN[batchNo]||batchNo+1} · 第 ${(globalIdx%BATCH)+1} 帧</div>
+      function makePanel(item, globalIdx) {
+        const el = document.createElement("section");
+        el.className = "panel";
+        el.innerHTML = `
+    <div class="p-idx">卷 ${CN[batchNo] || batchNo + 1} · 第 ${(globalIdx % BATCH) + 1} 帧</div>
     <div class="p-py">${item.p}</div>
     <div class="p-name">${item.n}</div>
     <div class="p-q">${item.q}</div>
     <div class="p-src">—— ${item.s}</div>`;
-  el.querySelector('.p-name').addEventListener('click',()=>{
-    dPy.textContent=item.p;dName.textContent=item.n;
-    dSrc.innerHTML=`「${item.q}」<br>—— ${item.s}`;
-    detail.classList.add('show');
-  });
-  return el;
-}
-function makeDivider(){
-  const d=document.createElement('div');d.className='divider';
-  d.innerHTML=`<div class="vline"></div><div class="vol">${CN[batchNo]||batchNo+1}卷</div>
+        el.querySelector(".p-name").addEventListener("click", () => {
+          dPy.textContent = item.p;
+          dName.textContent = item.n;
+          dSrc.innerHTML = `「${item.q}」<br>—— ${item.s}`;
+          detail.classList.add("show");
+        });
+        return el;
+      }
+      function makeDivider() {
+        const d = document.createElement("div");
+        d.className = "divider";
+        d.innerHTML = `<div class="vline"></div><div class="vol">${CN[batchNo] || batchNo + 1}卷</div>
     <small>换 卷 续 墨</small><div class="vline"></div>`;
-  return d;
-}
+        return d;
+      }
 
-// 追加一批：先放“研墨中”占位，数据到达后无缝替换
-function appendBatch(){
-  if(loading)return;loading=true;
-  if(batchNo>0)scroll.appendChild(makeDivider());
+      // 追加一批：先放“研墨中”占位，数据到达后无缝替换
+      function appendBatch() {
+        if (loading) return;
+        loading = true;
+        if (batchNo > 0) scroll.appendChild(makeDivider());
 
-  const placeholders=[];
-  for(let i=0;i<BATCH;i++){
-    const ph=document.createElement('div');ph.className='loading';
-    ph.innerHTML=`<div class="inkdot"></div><em>研 墨 中</em>`;
-    scroll.appendChild(ph);placeholders.push(ph);
-  }
-  // 模拟后台异步生成
-  setTimeout(()=>{
-    placeholders.forEach((ph,j)=>{
-      const globalIdx=batchNo*BATCH+j;
-      const panel=makePanel(nameAt(globalIdx),j);
-      ph.replaceWith(panel);
-      observePanel(panel);
-    });
-    loading=false;batchNo++;
-    hVol.textContent=CN[batchNo]||batchNo+1;
-  },650);
-}
+        const placeholders = [];
+        for (let i = 0; i < BATCH; i++) {
+          const ph = document.createElement("div");
+          ph.className = "loading";
+          ph.innerHTML = `<div class="inkdot"></div><em>研 墨 中</em>`;
+          scroll.appendChild(ph);
+          placeholders.push(ph);
+        }
+        // 模拟后台异步生成
+        setTimeout(() => {
+          placeholders.forEach((ph, j) => {
+            const globalIdx = batchNo * BATCH + j;
+            const panel = makePanel(nameAt(globalIdx), j);
+            ph.replaceWith(panel);
+            observePanel(panel);
+          });
+          loading = false;
+          batchNo++;
+          hVol.textContent = CN[batchNo] || batchNo + 1;
+        }, 650);
+      }
 
-// 关键：观察“倒数第二个”，到达即后台预取下一批
-const io=new IntersectionObserver(es=>{
-  es.forEach(e=>{
-    e.target.classList.toggle('in',e.isIntersecting&&e.intersectionRatio>.55);
-    if(e.isIntersecting&&e.intersectionRatio>.55){
-      if(!viewed.has(e.target)){viewed.add(e.target);hViewed.textContent=viewed.size;}
-      if(e.target.dataset.sentinel==='1')appendBatch();
-    }
-  });
-},{root:scroll,threshold:[.55,.9]});
+      // 关键：观察“倒数第二个”，到达即后台预取下一批
+      const io = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            e.target.classList.toggle("in", e.isIntersecting && e.intersectionRatio > 0.55);
+            if (e.isIntersecting && e.intersectionRatio > 0.55) {
+              if (!viewed.has(e.target)) {
+                viewed.add(e.target);
+                hViewed.textContent = viewed.size;
+              }
+              if (e.target.dataset.sentinel === "1") appendBatch();
+            }
+          });
+        },
+        { root: scroll, threshold: [0.55, 0.9] },
+      );
 
-function observePanel(panel){
-  io.observe(panel);
-}
-function markSentinels(){
-  // 每批渲染完成后，把该批倒数第二个标记为哨兵
-  const panels=[...scroll.querySelectorAll('.panel')];
-  panels.forEach(p=>delete p.dataset.sentinel);
-  const start=Math.max(0,panels.length-BATCH);
-  const batchPanels=panels.slice(start);
-  if(batchPanels.length>=2)batchPanels[batchPanels.length-2].dataset.sentinel='1';
-}
-// 包裹 observe：追加后重标哨兵
-const _observe=observePanel;
-observePanel=function(p){_observe(p);markSentinels();};
+      function observePanel(panel) {
+        io.observe(panel);
+      }
+      function markSentinels() {
+        // 每批渲染完成后，把该批倒数第二个标记为哨兵
+        const panels = [...scroll.querySelectorAll(".panel")];
+        panels.forEach((p) => delete p.dataset.sentinel);
+        const start = Math.max(0, panels.length - BATCH);
+        const batchPanels = panels.slice(start);
+        if (batchPanels.length >= 2) batchPanels[batchPanels.length - 2].dataset.sentinel = "1";
+      }
+      // 包裹 observe：追加后重标哨兵
+      const _observe = observePanel;
+      observePanel = function (p) {
+        _observe(p);
+        markSentinels();
+      };
 
-// 首批
-appendBatch();
+      // 首批
+      appendBatch();
 
-const detail=document.getElementById('detail');
-detail.addEventListener('click',()=>detail.classList.remove('show'));
+      const detail = document.getElementById("detail");
+      detail.addEventListener("click", () => detail.classList.remove("show"));
 
-scroll.addEventListener('wheel',e=>{
-  if(e.shiftKey||Math.abs(e.deltaY)>=Math.abs(e.deltaX)){
-    e.preventDefault();scroll.scrollLeft+=e.deltaY||e.deltaX;
-  }
-},{passive:false});
-</script>
-</body>
+      scroll.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.shiftKey || Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
+            e.preventDefault();
+            scroll.scrollLeft += e.deltaY || e.deltaX;
+          }
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
 </html>

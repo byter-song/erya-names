@@ -1,105 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>尔雅 | 枯山水禅意</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400&display=swap');
-        
-        body {
-            margin: 0;
-            height: 100vh;
-            background: #F9F8F6;
-            font-family: 'Noto Serif SC', serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400&display=swap");
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background: #f9f8f6;
+        font-family: "Noto Serif SC", serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* 枯山水波纹效果 */
+      .zen-circle {
+        position: absolute;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation: breath 10s infinite alternate ease-in-out;
+        pointer-events: none;
+      }
+
+      .zen-circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        animation-delay: 0s;
+      }
+      .zen-circle:nth-child(2) {
+        width: 500px;
+        height: 500px;
+        animation-delay: -2s;
+      }
+      .zen-circle:nth-child(3) {
+        width: 700px;
+        height: 700px;
+        animation-delay: -4s;
+      }
+      .zen-circle:nth-child(4) {
+        width: 900px;
+        height: 900px;
+        animation-delay: -6s;
+      }
+      .zen-circle:nth-child(5) {
+        width: 1100px;
+        height: 1100px;
+        animation-delay: -8s;
+      }
+
+      @keyframes breath {
+        0% {
+          transform: translate(-50%, -50%) scale(0.98);
+          border-color: rgba(0, 0, 0, 0.02);
         }
-
-        /* 枯山水波纹效果 */
-        .zen-circle {
-            position: absolute;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: breath 10s infinite alternate ease-in-out;
-            pointer-events: none;
+        100% {
+          transform: translate(-50%, -50%) scale(1.02);
+          border-color: rgba(0, 0, 0, 0.08);
         }
+      }
 
-        .zen-circle:nth-child(1) { width: 300px; height: 300px; animation-delay: 0s; }
-        .zen-circle:nth-child(2) { width: 500px; height: 500px; animation-delay: -2s; }
-        .zen-circle:nth-child(3) { width: 700px; height: 700px; animation-delay: -4s; }
-        .zen-circle:nth-child(4) { width: 900px; height: 900px; animation-delay: -6s; }
-        .zen-circle:nth-child(5) { width: 1100px; height: 1100px; animation-delay: -8s; }
+      .container {
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-        @keyframes breath {
-            0% { transform: translate(-50%, -50%) scale(0.98); border-color: rgba(0,0,0,0.02); }
-            100% { transform: translate(-50%, -50%) scale(1.02); border-color: rgba(0,0,0,0.08); }
-        }
+      .logo-text {
+        font-size: 3rem;
+        font-weight: 200;
+        color: #333;
+        letter-spacing: 2rem;
+        margin-left: 2rem;
+        margin-bottom: 3rem;
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+      }
 
-        .container {
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+      .input-wrapper {
+        position: relative;
+      }
 
-        .logo-text {
-            font-size: 3rem;
-            font-weight: 200;
-            color: #333;
-            letter-spacing: 2rem;
-            margin-left: 2rem;
-            margin-bottom: 3rem;
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-        }
+      input {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+        font-family: inherit;
+        color: #555;
+        outline: none;
+        width: 200px;
+        transition: all 0.5s;
+      }
 
-        .input-wrapper {
-            position: relative;
-        }
+      input:focus {
+        border-bottom-color: #333;
+        width: 250px;
+      }
 
-        input {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #ccc;
-            padding: 10px;
-            font-size: 1rem;
-            text-align: center;
-            font-family: inherit;
-            color: #555;
-            outline: none;
-            width: 200px;
-            transition: all 0.5s;
-        }
+      .input-line {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 1px;
+        background: #000;
+        transition: 0.5s ease;
+        transform: translateX(-50%);
+      }
 
-        input:focus {
-            border-bottom-color: #333;
-            width: 250px;
-        }
-
-        .input-line {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: #000;
-            transition: 0.5s ease;
-            transform: translateX(-50%);
-        }
-
-        input:focus + .input-line {
-            width: 100%;
-        }
-
+      input:focus + .input-line {
+        width: 100%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="zen-circle"></div>
     <div class="zen-circle"></div>
     <div class="zen-circle"></div>
@@ -107,11 +132,11 @@
     <div class="zen-circle"></div>
 
     <div class="container">
-        <div class="logo-text">尔雅</div>
-        <div class="input-wrapper">
-            <input type="text" placeholder="请输入...">
-            <div class="input-line"></div>
-        </div>
+      <div class="logo-text">尔雅</div>
+      <div class="input-wrapper">
+        <input type="text" placeholder="请输入..." />
+        <div class="input-line"></div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 import { validateBirthDateTime } from "../folklore/birthDate";
 
 const nonEmptyText = z.string().trim().min(1);
@@ -188,7 +188,7 @@ export const namingProfileSchema = z
     }
   });
 
-export type NamingProfile = z.infer<typeof namingProfileSchema>;
+export type NamingProfile = Infer<typeof namingProfileSchema>;
 
 export function familyRulesArePending(
   profile: Pick<NamingProfile, "constraintKnowledge">,

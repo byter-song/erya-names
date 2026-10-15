@@ -1,264 +1,628 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Erya Names - Oriental Motion Prototypes</title>
-  <style>
-    /* =========================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Erya Names - Oriental Motion Prototypes</title>
+    <style>
+      /* =========================================
        Global Reset & Switcher
        ========================================= */
-    :root {
-      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-      --font-serif: "Songti SC", "Times New Roman", serif;
-      --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-      --color-jade: #2BAE85;
-      --color-gold: #D2A85B;
-      --color-ink: #1C1E21;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-sans); min-height: 100vh; transition: background 0.5s; overflow-x: hidden; }
-    
-    .switcher {
-      position: fixed; top: 0; left: 0; right: 0; height: 60px;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      z-index: 9999; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    .concept-btn {
-      background: transparent; border: 1px solid rgba(0,0,0,0.1); color: #333;
-      padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 13px; transition: all 0.3s;
-    }
-    .concept-btn.active, .concept-btn:hover { background: #000; color: #fff; }
-    
-    #app-root { margin-top: 60px; min-height: calc(100vh - 60px); display: flex; width: 100%; }
+      :root {
+        --font-sans:
+          -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+        --font-serif: "Songti SC", "Times New Roman", serif;
+        --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --color-jade: #2bae85;
+        --color-gold: #d2a85b;
+        --color-ink: #1c1e21;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-sans);
+        min-height: 100vh;
+        transition: background 0.5s;
+        overflow-x: hidden;
+      }
 
-    /* =========================================
+      .switcher {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .concept-btn {
+        background: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #333;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+        transition: all 0.3s;
+      }
+      .concept-btn.active,
+      .concept-btn:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      #app-root {
+        margin-top: 60px;
+        min-height: calc(100vh - 60px);
+        display: flex;
+        width: 100%;
+      }
+
+      /* =========================================
        Concept 1: 折纸扇骨 (Origami Unfold)
        结合了玻璃态 + 3D折叠机关
        ========================================= */
-    .c1-body { background: #F7F8FA; color: #333; }
-    .c1-container { margin: 100px auto; width: 100%; max-width: 500px; perspective: 1000px; }
-    .c1-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,1); border-radius: 16px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; z-index: 2; }
-    .c1-fold { background: rgba(245,247,250,0.95); border: 1px solid rgba(0,0,0,0.05); border-radius: 0 0 16px 16px; padding: 30px 40px; transform-origin: top; transform: rotateX(-90deg); transition: transform 0.6s var(--ease-spring), box-shadow 0.6s; position: absolute; top: 100%; left: 0; right: 0; z-index: 1; box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.1); opacity: 0; pointer-events: none;}
-    .c1-container:hover .c1-fold { transform: rotateX(0); box-shadow: 0 20px 40px rgba(0,0,0,0.08); opacity: 1; pointer-events: auto;}
-    .c1-name { font-family: var(--font-serif); font-size: 64px; text-align: center; }
-    
-    /* =========================================
+      .c1-body {
+        background: #f7f8fa;
+        color: #333;
+      }
+      .c1-container {
+        margin: 100px auto;
+        width: 100%;
+        max-width: 500px;
+        perspective: 1000px;
+      }
+      .c1-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 1);
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        position: relative;
+        z-index: 2;
+      }
+      .c1-fold {
+        background: rgba(245, 247, 250, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 0 0 16px 16px;
+        padding: 30px 40px;
+        transform-origin: top;
+        transform: rotateX(-90deg);
+        transition:
+          transform 0.6s var(--ease-spring),
+          box-shadow 0.6s;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        box-shadow: inset 0 20px 20px -20px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .c1-container:hover .c1-fold {
+        transform: rotateX(0);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .c1-name {
+        font-family: var(--font-serif);
+        font-size: 64px;
+        text-align: center;
+      }
+
+      /* =========================================
        Concept 2: 晨雾透视 (Mist Parallax)
        层叠画卷 (Layered) 的进阶版，用模糊模拟景深
        ========================================= */
-    .c2-body { background: #EEF2F5; color: #2C3E50; }
-    .c2-container { margin: 120px auto; width: 100%; max-width: 800px; position: relative; height: 500px; display: flex; justify-content: center; }
-    .c2-card { position: absolute; background: rgba(255,255,255,0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.8); border-radius: 20px; padding: 40px; transition: all 0.8s var(--ease-spring); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-    .c2-front { width: 400px; z-index: 3; transform: translateZ(0) scale(1); filter: blur(0); }
-    .c2-back { width: 360px; z-index: 2; transform: translateY(-40px) scale(0.9); filter: blur(8px); opacity: 0.7; background: rgba(255,255,255,0.4); }
-    .c2-container:hover .c2-front { transform: translateY(40px) scale(0.95) translateX(-60px); filter: blur(4px); opacity: 0.8; }
-    .c2-container:hover .c2-back { transform: translateY(0) scale(1) translateX(60px); filter: blur(0); opacity: 1; z-index: 4; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-    
-    /* =========================================
+      .c2-body {
+        background: #eef2f5;
+        color: #2c3e50;
+      }
+      .c2-container {
+        margin: 120px auto;
+        width: 100%;
+        max-width: 800px;
+        position: relative;
+        height: 500px;
+        display: flex;
+        justify-content: center;
+      }
+      .c2-card {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        padding: 40px;
+        transition: all 0.8s var(--ease-spring);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      }
+      .c2-front {
+        width: 400px;
+        z-index: 3;
+        transform: translateZ(0) scale(1);
+        filter: blur(0);
+      }
+      .c2-back {
+        width: 360px;
+        z-index: 2;
+        transform: translateY(-40px) scale(0.9);
+        filter: blur(8px);
+        opacity: 0.7;
+        background: rgba(255, 255, 255, 0.4);
+      }
+      .c2-container:hover .c2-front {
+        transform: translateY(40px) scale(0.95) translateX(-60px);
+        filter: blur(4px);
+        opacity: 0.8;
+      }
+      .c2-container:hover .c2-back {
+        transform: translateY(0) scale(1) translateX(60px);
+        filter: blur(0);
+        opacity: 1;
+        z-index: 4;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+      }
+
+      /* =========================================
        Concept 3: 金石活字 (Tactile Seal)
        现代杂志 (Editorial) 的进阶版，加入物理触觉
        ========================================= */
-    .c3-body { background: #F0EBE1; color: #1A1A1A; }
-    .c3-container { margin: 100px auto; max-width: 600px; display: flex; flex-direction: column; gap: 30px; }
-    .c3-card { background: #F0EBE1; border: 2px solid #1A1A1A; padding: 40px; border-radius: 8px; box-shadow: 12px 12px 0 #1A1A1A; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
-    .c3-card:hover { transform: translate(-4px, -4px); box-shadow: 16px 16px 0 #1A1A1A; }
-    .c3-card:active { transform: translate(8px, 8px); box-shadow: 4px 4px 0 #1A1A1A; }
-    .c3-seal { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; border: 2px solid #D94F33; color: #D94F33; font-family: var(--font-serif); font-size: 18px; display: flex; align-items: center; justify-content: center; transform: rotate(15deg); }
+      .c3-body {
+        background: #f0ebe1;
+        color: #1a1a1a;
+      }
+      .c3-container {
+        margin: 100px auto;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+      .c3-card {
+        background: #f0ebe1;
+        border: 2px solid #1a1a1a;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 12px 12px 0 #1a1a1a;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+      .c3-card:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 16px 16px 0 #1a1a1a;
+      }
+      .c3-card:active {
+        transform: translate(8px, 8px);
+        box-shadow: 4px 4px 0 #1a1a1a;
+      }
+      .c3-seal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border: 2px solid #d94f33;
+        color: #d94f33;
+        font-family: var(--font-serif);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(15deg);
+      }
 
-    /* =========================================
+      /* =========================================
        Concept 4: 流光琉璃 (Flowing Glaze)
        白玉玻璃态的边缘加入了光影流动
        ========================================= */
-    .c4-body { background: #F8FAFC; color: #1E293B; }
-    .c4-container { margin: 100px auto; max-width: 500px; }
-    .c4-glaze-wrap { position: relative; padding: 2px; border-radius: 24px; overflow: hidden; }
-    .c4-glaze-wrap::before {
-      content: ''; position: absolute; inset: -50%; z-index: 0;
-      background: conic-gradient(from 0deg, transparent 70%, var(--color-jade) 80%, transparent 100%);
-      animation: c4-spin 4s linear infinite; opacity: 0; transition: opacity 0.5s;
-    }
-    .c4-glaze-wrap:hover::before { opacity: 1; }
-    @keyframes c4-spin { 100% { transform: rotate(360deg); } }
-    .c4-inner { background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-radius: 22px; padding: 40px; position: relative; z-index: 1; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+      .c4-body {
+        background: #f8fafc;
+        color: #1e293b;
+      }
+      .c4-container {
+        margin: 100px auto;
+        max-width: 500px;
+      }
+      .c4-glaze-wrap {
+        position: relative;
+        padding: 2px;
+        border-radius: 24px;
+        overflow: hidden;
+      }
+      .c4-glaze-wrap::before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        z-index: 0;
+        background: conic-gradient(
+          from 0deg,
+          transparent 70%,
+          var(--color-jade) 80%,
+          transparent 100%
+        );
+        animation: c4-spin 4s linear infinite;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      .c4-glaze-wrap:hover::before {
+        opacity: 1;
+      }
+      @keyframes c4-spin {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .c4-inner {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(20px);
+        border-radius: 22px;
+        padding: 40px;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
 
-    /* =========================================
+      /* =========================================
        Concept 5: 融合大成 - 琉璃幻境 (Spatial Hybrid) 🏆
        融合了 玻璃态 + 层叠透视 + 流光 + 极简排版
        ========================================= */
-    .c5-body { background: #F4F6F8; color: var(--color-ink); overflow: hidden; }
-    .c5-bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 10% 20%, rgba(43,174,133,0.08), transparent 40%), radial-gradient(circle at 90% 80%, rgba(210,168,91,0.08), transparent 40%); filter: blur(40px); animation: c2-breathe 8s infinite alternate ease-in-out; }
-    .c5-container { margin: 80px auto; max-width: 1100px; padding: 0 24px; position: relative; }
-    
-    /* Bento Grid 融合 Layered */
-    .c5-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto; gap: 24px; }
-    
-    /* 基础玻璃态 */
-    .c5-glass { background: rgba(255,255,255,0.6); backdrop-filter: blur(24px) saturate(120%); border: 1px solid rgba(255,255,255,0.8); border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.03), inset 0 1px 0 #FFF; transition: all 0.5s var(--ease-spring); position: relative; }
-    
-    /* 层叠透视效果 (Layered + Hover 放大) */
-    .c5-hero { grid-column: 1 / 3; grid-row: 1 / 3; padding: 60px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; }
-    .c5-hero:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 50px rgba(0,0,0,0.08), inset 0 1px 0 #FFF; }
-    
-    /* 右侧层叠卡片 (带有初始偏移) */
-    .c5-side-1 { grid-column: 3 / 4; grid-row: 1 / 2; padding: 30px; transform: translateX(-20px) translateY(20px); z-index: 1; opacity: 0.9; }
-    .c5-side-2 { grid-column: 3 / 4; grid-row: 2 / 3; padding: 30px; transform: translateX(-20px) translateY(-20px); z-index: 1; opacity: 0.9; }
-    
-    /* 交互：当容器 hover 时，侧边卡片滑出 (Mist Parallax 思路) */
-    .c5-grid:hover .c5-side-1 { transform: translateX(0) translateY(0); opacity: 1; z-index: 3; }
-    .c5-grid:hover .c5-side-2 { transform: translateX(0) translateY(0); opacity: 1; z-index: 3; }
-
-    /* 流光边缘 (Flowing Glaze 简化版) */
-    .c5-btn { background: #FFF; border: 1px solid #E2E8F0; padding: 14px 28px; border-radius: 100px; font-size: 15px; cursor: pointer; position: relative; overflow: hidden; transition: all 0.3s; color: var(--color-ink); box-shadow: 0 4px 10px rgba(0,0,0,0.02); margin-top: 30px;}
-    .c5-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(43,174,133,0.1), transparent); transform: translateX(-100%); transition: transform 0.5s ease-in-out; }
-    .c5-btn:hover { border-color: var(--color-jade); color: var(--color-jade); box-shadow: 0 10px 20px rgba(43,174,133,0.15); transform: translateY(-2px); }
-    .c5-btn:hover::before { transform: translateX(100%); }
-    
-    .c5-typography-title { font-family: var(--font-serif); font-size: 100px; letter-spacing: 4px; background: linear-gradient(135deg, var(--color-ink), #4A5568); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  </style>
-</head>
-<body>
-
-  <div class="switcher">
-    <button class="concept-btn" onclick="render(1)">1. 折纸扇骨 (Origami)</button>
-    <button class="concept-btn" onclick="render(2)">2. 晨雾透视 (Mist Layered)</button>
-    <button class="concept-btn" onclick="render(3)">3. 金石活字 (Tactile Seal)</button>
-    <button class="concept-btn" onclick="render(4)">4. 流光琉璃 (Flowing Glaze)</button>
-    <button class="concept-btn active" onclick="render(5)">5. 融合大成 (Spatial Hybrid) 🏆</button>
-  </div>
-
-  <div id="app-root"></div>
-
-  <!-- 1. 折纸扇骨 -->
-  <template id="tpl-1">
-    <div class="c1-container">
-      <div class="c1-card">
-        <div style="text-align: center; color: #999; margin-bottom: 10px; font-size: 12px;">将鼠标悬浮在卡片上展开</div>
-        <h1 class="c1-name">宋泽谦</h1>
-        <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #666;">天格吉 · 人格大吉</div>
-        
-        <div class="c1-fold">
-          <h3 style="margin-bottom: 15px; font-size: 16px;">八字解析详情</h3>
-          <p style="font-size: 14px; line-height: 1.8; color: #555;">
-            利用 CSS 3D Transform 模拟东方折纸/折扇的展开效果。<br>
-            不占用初始屏幕空间，极其优雅地呈现次级信息。
-          </p>
-        </div>
-      </div>
-    </div>
-  </template>
-
-  <!-- 2. 晨雾透视 -->
-  <template id="tpl-2">
-    <div style="text-align: center; width: 100%; position: absolute; top: 80px; color: #999; font-size: 14px;">将鼠标悬浮在后方模糊的卡片上</div>
-    <div class="c2-container">
-      <div class="c2-card c2-front">
-        <h2 style="font-family: var(--font-serif); font-size: 40px; margin-bottom: 20px;">主要候选</h2>
-        <p style="line-height: 1.8; color: #666;">这是前景层。清晰、锐利。当您关注后方信息时，它会主动退隐并变得模糊，如同融入晨雾之中。</p>
-      </div>
-      <div class="c2-card c2-back">
-        <h2 style="font-family: var(--font-serif); font-size: 32px; margin-bottom: 20px;">深度解析</h2>
-        <p style="line-height: 1.8; color: #666;">这是背景层。利用 filter: blur() 模拟大气透视（景深）。交互时平滑切换焦点，极具空间层次感。</p>
-      </div>
-    </div>
-  </template>
-
-  <!-- 3. 金石活字 -->
-  <template id="tpl-3">
-    <div class="c3-container">
-      <div style="text-align: center; color: #666; margin-bottom: 20px; font-size: 14px;">尝试悬浮并点击下方卡片</div>
-      <div class="c3-card">
-        <div class="c3-seal">吉</div>
-        <h1 style="font-family: var(--font-serif); font-size: 60px; margin-bottom: 20px;">定稿确认</h1>
-        <p style="line-height: 1.8; font-size: 16px;">
-          极具物理打击感的交互。<br>
-          硬阴影带来“金石印章”般的厚重感。非常适合“确认、生成”等需要仪式感的操作。
-        </p>
-      </div>
-    </div>
-  </template>
-
-  <!-- 4. 流光琉璃 -->
-  <template id="tpl-4">
-    <div class="c4-container">
-      <div style="text-align: center; color: #999; margin-bottom: 30px; font-size: 14px;">悬浮卡片，观察边缘流光</div>
-      <div class="c4-glaze-wrap">
-        <div class="c4-inner">
-          <h1 style="font-family: var(--font-serif); font-size: 50px; margin-bottom: 20px;">演算中...</h1>
-          <p style="line-height: 1.8; color: #666;">
-            纯 CSS 实现的流光边缘。<br>
-            宛如真气流转，将科技感与东方的“气韵”完美结合。
-          </p>
-        </div>
-      </div>
-    </div>
-  </template>
-
-  <!-- 5. 融合大成 (Spatial Hybrid) -->
-  <template id="tpl-5">
-    <div class="c5-bg"></div>
-    <div style="text-align: center; color: #999; margin-top: 20px; font-size: 14px;">将鼠标移入网格区域，感受层叠卡片的滑出与放大</div>
-    <div class="c5-container c5-grid">
-      <!-- 主卡片 -->
-      <div class="c5-glass c5-hero">
-        <div style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-bottom: 20px;">Current Candidate</div>
-        <h1 class="c5-typography-title">宋泽谦</h1>
-        <p style="max-width: 400px; line-height: 1.8; color: #666; margin-top: 30px;">
-          这里融合了 <b>白玉玻璃态</b> (悬浮材质)、<b>层叠透视</b> (右侧卡片折叠)、以及 <b>流光交互</b> (按钮 Hover 动效)。
-        </p>
-        <button class="c5-btn">确认定稿</button>
-      </div>
-      
-      <!-- 侧边卡片 1 -->
-      <div class="c5-glass c5-side-1">
-        <h3 style="font-family: var(--font-serif); font-size: 24px; margin-bottom: 15px;">五格剖象</h3>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 8px;">
-            <span style="color: #666;">天格 (金)</span><strong style="color: var(--color-jade);">85 吉</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 8px;">
-            <span style="color: #666;">人格 (水)</span><strong style="color: #3B82F6;">95 大吉</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between;">
-            <span style="color: #666;">地格 (木)</span><strong style="color: var(--color-jade);">80 吉</strong>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 侧边卡片 2 -->
-      <div class="c5-glass c5-side-2">
-        <h3 style="font-family: var(--font-serif); font-size: 24px; margin-bottom: 15px;">八字喜用</h3>
-        <p style="line-height: 1.8; color: #666; font-size: 14px;">
-          此命五行缺水，泽字补水。谦字属木，水生木，五行相生，格局顺畅。
-        </p>
-      </div>
-    </div>
-  </template>
-
-  <script>
-    function render(num) {
-      document.querySelectorAll('.concept-btn').forEach(function(btn, idx) {
-        if (idx === num - 1) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-      document.body.className = 'c' + num + '-body';
-      
-      var template = document.getElementById('tpl-' + num);
-      var appRoot = document.getElementById('app-root');
-      appRoot.innerHTML = '';
-      if (template) {
-        appRoot.appendChild(template.content.cloneNode(true));
+      .c5-body {
+        background: #f4f6f8;
+        color: var(--color-ink);
+        overflow: hidden;
       }
-    }
+      .c5-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 10% 20%, rgba(43, 174, 133, 0.08), transparent 40%),
+          radial-gradient(circle at 90% 80%, rgba(210, 168, 91, 0.08), transparent 40%);
+        filter: blur(40px);
+        animation: c2-breathe 8s infinite alternate ease-in-out;
+      }
+      .c5-container {
+        margin: 80px auto;
+        max-width: 1100px;
+        padding: 0 24px;
+        position: relative;
+      }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      render(5); // 默认渲染融合方案 5
-    });
-  </script>
-</body>
+      /* Bento Grid 融合 Layered */
+      .c5-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 24px;
+      }
+
+      /* 基础玻璃态 */
+      .c5-glass {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(24px) saturate(120%);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 24px;
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.03),
+          inset 0 1px 0 #fff;
+        transition: all 0.5s var(--ease-spring);
+        position: relative;
+      }
+
+      /* 层叠透视效果 (Layered + Hover 放大) */
+      .c5-hero {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+        padding: 60px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+      }
+      .c5-hero:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.08),
+          inset 0 1px 0 #fff;
+      }
+
+      /* 右侧层叠卡片 (带有初始偏移) */
+      .c5-side-1 {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+        padding: 30px;
+        transform: translateX(-20px) translateY(20px);
+        z-index: 1;
+        opacity: 0.9;
+      }
+      .c5-side-2 {
+        grid-column: 3 / 4;
+        grid-row: 2 / 3;
+        padding: 30px;
+        transform: translateX(-20px) translateY(-20px);
+        z-index: 1;
+        opacity: 0.9;
+      }
+
+      /* 交互：当容器 hover 时，侧边卡片滑出 (Mist Parallax 思路) */
+      .c5-grid:hover .c5-side-1 {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+        z-index: 3;
+      }
+      .c5-grid:hover .c5-side-2 {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+        z-index: 3;
+      }
+
+      /* 流光边缘 (Flowing Glaze 简化版) */
+      .c5-btn {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        padding: 14px 28px;
+        border-radius: 100px;
+        font-size: 15px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+        color: var(--color-ink);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        margin-top: 30px;
+      }
+      .c5-btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(43, 174, 133, 0.1), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease-in-out;
+      }
+      .c5-btn:hover {
+        border-color: var(--color-jade);
+        color: var(--color-jade);
+        box-shadow: 0 10px 20px rgba(43, 174, 133, 0.15);
+        transform: translateY(-2px);
+      }
+      .c5-btn:hover::before {
+        transform: translateX(100%);
+      }
+
+      .c5-typography-title {
+        font-family: var(--font-serif);
+        font-size: 100px;
+        letter-spacing: 4px;
+        background: linear-gradient(135deg, var(--color-ink), #4a5568);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="switcher">
+      <button class="concept-btn" onclick="render(1)">1. 折纸扇骨 (Origami)</button>
+      <button class="concept-btn" onclick="render(2)">2. 晨雾透视 (Mist Layered)</button>
+      <button class="concept-btn" onclick="render(3)">3. 金石活字 (Tactile Seal)</button>
+      <button class="concept-btn" onclick="render(4)">4. 流光琉璃 (Flowing Glaze)</button>
+      <button class="concept-btn active" onclick="render(5)">
+        5. 融合大成 (Spatial Hybrid) 🏆
+      </button>
+    </div>
+
+    <div id="app-root"></div>
+
+    <!-- 1. 折纸扇骨 -->
+    <template id="tpl-1">
+      <div class="c1-container">
+        <div class="c1-card">
+          <div style="text-align: center; color: #999; margin-bottom: 10px; font-size: 12px">
+            将鼠标悬浮在卡片上展开
+          </div>
+          <h1 class="c1-name">宋泽谦</h1>
+          <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #666">
+            天格吉 · 人格大吉
+          </div>
+
+          <div class="c1-fold">
+            <h3 style="margin-bottom: 15px; font-size: 16px">八字解析详情</h3>
+            <p style="font-size: 14px; line-height: 1.8; color: #555">
+              利用 CSS 3D Transform 模拟东方折纸/折扇的展开效果。<br />
+              不占用初始屏幕空间，极其优雅地呈现次级信息。
+            </p>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- 2. 晨雾透视 -->
+    <template id="tpl-2">
+      <div
+        style="
+          text-align: center;
+          width: 100%;
+          position: absolute;
+          top: 80px;
+          color: #999;
+          font-size: 14px;
+        "
+      >
+        将鼠标悬浮在后方模糊的卡片上
+      </div>
+      <div class="c2-container">
+        <div class="c2-card c2-front">
+          <h2 style="font-family: var(--font-serif); font-size: 40px; margin-bottom: 20px">
+            主要候选
+          </h2>
+          <p style="line-height: 1.8; color: #666">
+            这是前景层。清晰、锐利。当您关注后方信息时，它会主动退隐并变得模糊，如同融入晨雾之中。
+          </p>
+        </div>
+        <div class="c2-card c2-back">
+          <h2 style="font-family: var(--font-serif); font-size: 32px; margin-bottom: 20px">
+            深度解析
+          </h2>
+          <p style="line-height: 1.8; color: #666">
+            这是背景层。利用 filter: blur()
+            模拟大气透视（景深）。交互时平滑切换焦点，极具空间层次感。
+          </p>
+        </div>
+      </div>
+    </template>
+
+    <!-- 3. 金石活字 -->
+    <template id="tpl-3">
+      <div class="c3-container">
+        <div style="text-align: center; color: #666; margin-bottom: 20px; font-size: 14px">
+          尝试悬浮并点击下方卡片
+        </div>
+        <div class="c3-card">
+          <div class="c3-seal">吉</div>
+          <h1 style="font-family: var(--font-serif); font-size: 60px; margin-bottom: 20px">
+            定稿确认
+          </h1>
+          <p style="line-height: 1.8; font-size: 16px">
+            极具物理打击感的交互。<br />
+            硬阴影带来“金石印章”般的厚重感。非常适合“确认、生成”等需要仪式感的操作。
+          </p>
+        </div>
+      </div>
+    </template>
+
+    <!-- 4. 流光琉璃 -->
+    <template id="tpl-4">
+      <div class="c4-container">
+        <div style="text-align: center; color: #999; margin-bottom: 30px; font-size: 14px">
+          悬浮卡片，观察边缘流光
+        </div>
+        <div class="c4-glaze-wrap">
+          <div class="c4-inner">
+            <h1 style="font-family: var(--font-serif); font-size: 50px; margin-bottom: 20px">
+              演算中...
+            </h1>
+            <p style="line-height: 1.8; color: #666">
+              纯 CSS 实现的流光边缘。<br />
+              宛如真气流转，将科技感与东方的“气韵”完美结合。
+            </p>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- 5. 融合大成 (Spatial Hybrid) -->
+    <template id="tpl-5">
+      <div class="c5-bg"></div>
+      <div style="text-align: center; color: #999; margin-top: 20px; font-size: 14px">
+        将鼠标移入网格区域，感受层叠卡片的滑出与放大
+      </div>
+      <div class="c5-container c5-grid">
+        <!-- 主卡片 -->
+        <div class="c5-glass c5-hero">
+          <div
+            style="
+              font-size: 12px;
+              letter-spacing: 2px;
+              text-transform: uppercase;
+              color: #999;
+              margin-bottom: 20px;
+            "
+          >
+            Current Candidate
+          </div>
+          <h1 class="c5-typography-title">宋泽谦</h1>
+          <p style="max-width: 400px; line-height: 1.8; color: #666; margin-top: 30px">
+            这里融合了 <b>白玉玻璃态</b> (悬浮材质)、<b>层叠透视</b> (右侧卡片折叠)、以及
+            <b>流光交互</b> (按钮 Hover 动效)。
+          </p>
+          <button class="c5-btn">确认定稿</button>
+        </div>
+
+        <!-- 侧边卡片 1 -->
+        <div class="c5-glass c5-side-1">
+          <h3 style="font-family: var(--font-serif); font-size: 24px; margin-bottom: 15px">
+            五格剖象
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                padding-bottom: 8px;
+              "
+            >
+              <span style="color: #666">天格 (金)</span
+              ><strong style="color: var(--color-jade)">85 吉</strong>
+            </div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                padding-bottom: 8px;
+              "
+            >
+              <span style="color: #666">人格 (水)</span
+              ><strong style="color: #3b82f6">95 大吉</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between">
+              <span style="color: #666">地格 (木)</span
+              ><strong style="color: var(--color-jade)">80 吉</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 侧边卡片 2 -->
+        <div class="c5-glass c5-side-2">
+          <h3 style="font-family: var(--font-serif); font-size: 24px; margin-bottom: 15px">
+            八字喜用
+          </h3>
+          <p style="line-height: 1.8; color: #666; font-size: 14px">
+            此命五行缺水，泽字补水。谦字属木，水生木，五行相生，格局顺畅。
+          </p>
+        </div>
+      </div>
+    </template>
+
+    <script>
+      function render(num) {
+        document.querySelectorAll(".concept-btn").forEach(function (btn, idx) {
+          if (idx === num - 1) {
+            btn.classList.add("active");
+          } else {
+            btn.classList.remove("active");
+          }
+        });
+        document.body.className = "c" + num + "-body";
+
+        var template = document.getElementById("tpl-" + num);
+        var appRoot = document.getElementById("app-root");
+        appRoot.innerHTML = "";
+        if (template) {
+          appRoot.appendChild(template.content.cloneNode(true));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        render(5); // 默认渲染融合方案 5
+      });
+    </script>
+  </body>
 </html>

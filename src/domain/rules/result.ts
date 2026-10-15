@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 export const ruleResultSchema = z.object({
   id: z.string().min(1),
@@ -12,4 +12,4 @@ export const ruleResultSchema = z.object({
   ruleVersion: z.string().min(1),
 });
 
-export type RuleResult = z.infer<typeof ruleResultSchema>;
+export type RuleResult = Infer<typeof ruleResultSchema>;

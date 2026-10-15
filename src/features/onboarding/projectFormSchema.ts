@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../../domain/shared/zod";
 
 export const projectFormSchema = z
   .object({
@@ -41,7 +41,7 @@ export const projectFormSchema = z
       });
   });
 
-export type ProjectFormValues = z.infer<typeof projectFormSchema>;
+export type ProjectFormValues = Infer<typeof projectFormSchema>;
 
 function splitChineseList(value: string): string[] {
   return [

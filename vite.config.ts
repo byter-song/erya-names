@@ -7,6 +7,20 @@ const corpusFile = `data/names-${createHash("sha256").update(corpus).digest("hex
 function corpusAsset(): Plugin {
   return {
     name: "erya-local-corpus",
+    transformIndexHtml() {
+      return [
+        {
+          tag: "link",
+          attrs: {
+            rel: "preload",
+            as: "fetch",
+            href: `/${corpusFile}`,
+            crossorigin: "anonymous",
+          },
+          injectTo: "head",
+        },
+      ];
+    },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (req.url?.split("?")[0] !== `/${corpusFile}`) return next();

@@ -7,7 +7,7 @@ test("reopens an existing project and deletes it after confirmation", async ({ p
 
   await page.goto(`/projects/${projectId}`);
   await expect(page).toHaveURL(new RegExp(`/projects/${projectId}/generate$`));
-  await expect(page.getByRole("heading", { name: "生名与初选", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "灵感池 9 个", exact: true })).toBeVisible();
 
   await page.goto("/");
   await page.evaluate(() => {
@@ -30,7 +30,7 @@ test("reopens an existing project and deletes it after confirmation", async ({ p
     ),
   ).toEqual([]);
   await page.getByRole("button", { name: "确认删除" }).click();
-  await expect(page.getByRole("heading", { name: "开始第一个起名方案" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "铺开第一卷" })).toBeVisible();
   await expect(page.getByRole("link", { name: "继续方案" })).toHaveCount(0);
 
   await page.goto(`/projects/${projectId}/generate`);

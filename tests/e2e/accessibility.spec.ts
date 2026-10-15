@@ -10,17 +10,16 @@ async function expectNoSeriousViolations(page: import("@playwright/test").Page) 
 
 async function createGeneratedProject(page: import("@playwright/test").Page) {
   await page.goto("/");
-  await page.getByRole("button", { name: "新建起名方案" }).click();
+  await page.getByRole("button", { name: "展新卷 · 新建方案" }).first().click();
   await page.getByLabel("姓氏", { exact: true }).fill("宋");
-  await page.getByRole("button", { name: "下一步" }).click();
-  await page.getByLabel("没有", { exact: true }).check();
-  await page.getByRole("button", { name: "下一步" }).click();
-  await page.getByLabel("清朗自然").check();
+  await page.getByRole("button", { name: "下一步", exact: true }).click();
+  await page.getByRole("radio", { name: "没有", exact: true }).check();
+  await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.getByRole("button", { name: "完成建档，开始选名" }).click();
   await expectNoSeriousViolations(page);
-  await page.getByRole("button", { name: "生成一批" }).focus();
+  await page.getByRole("button", { name: "展卷 · 生成 9 个名字" }).focus();
   await page.keyboard.press("Enter");
-  await expect(page.locator(".candidate-card").first()).toBeVisible();
+  await expect(page.locator(".ils__panel").first()).toBeVisible();
 }
 
 test(
@@ -38,7 +37,8 @@ test(
   async ({ page }) => {
     await page.goto("/");
     await expect(page.locator(".startup-screen")).toHaveCount(0);
-    await expect(page.locator(".ink-scene__opening-brush")).toHaveCount(1);
+    await expect(page.getByTestId("ink-shell")).toBeVisible();
+    await expect(page.locator(".ink-scene__opening-brush")).toHaveCount(0);
   },
 );
 
@@ -49,22 +49,20 @@ test(
     test.skip(browserName !== "chromium", "Full keyboard tab order is validated in Chromium");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
-    await expect(page.getByRole("button", { name: "新建起名方案" })).toBeVisible();
+    const create = page.getByRole("button", { name: "展新卷 · 新建方案" }).first();
+    await expect(create).toBeVisible();
     for (let attempt = 0; attempt < 12; attempt += 1) {
       await page.keyboard.press("Tab");
-      if (
-        (await page.evaluate(() => document.activeElement?.textContent?.trim())) ===
-        "新建起名方案"
-      )
-        break;
+      if (await create.evaluate((element) => element === document.activeElement)) break;
     }
-    await expect(page.getByRole("button", { name: "新建起名方案" })).toBeFocused();
+    await expect(create).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("heading", { name: "创建起名方案" })).toBeVisible();
     await expect(page.getByTestId("gold-ink-canvas")).toHaveCount(0);
     expect(
       await page
-        .locator(".ink-scene__opening-brush")
+        .locator(".condition-environment__ambient span")
+        .first()
         .evaluate((element) => getComputedStyle(element).animationName),
     ).toBe("none");
   },
@@ -77,8 +75,9 @@ test("the mounted scene exposes no persistent motion control", async ({ page }) 
 });
 
 test("sidebar navigation does not force page transition animation", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  const target = page.getByRole("link", { name: "起名条件" });
+  const target = page.getByRole("button", { name: /起名条件/ });
   expect(await target.evaluate((element) => getComputedStyle(element).transitionDuration)).toBe(
     "0s",
   );
@@ -98,7 +97,7 @@ test("sidebar navigation does not force page transition animation", async ({ pag
   expect(animationName).toBe("none");
   expect(
     await page
-      .getByRole("link", { name: "起名条件" })
+      .getByRole("button", { name: /起名条件/ })
       .evaluate((element) => getComputedStyle(element, "::after").animationName),
   ).toBe("none");
 });
@@ -117,20 +116,22 @@ test(
     await page.keyboard.press("Escape");
     await expect(page.getByRole("button", { name: "手工添加姓名" })).toBeFocused();
 
-    const names = await page.locator(".candidate-card h2").allTextContents();
-    for (const name of names.slice(0, 2))
-      await page.getByRole("button", { name: `保留到基础候选${name}`, exact: true }).click();
-    await page.getByRole("button", { name: /^基础候选/ }).click();
+    const names = (await page.locator(".ils__panel h2").allTextContents()).slice(0, 2);
+    for (const name of names) {
+      const panel = page.locator(".ils__panel").filter({ hasText: name });
+      await panel.getByRole("button", { name: "保留到基础候选", exact: true }).click();
+    }
+    await page.getByRole("button", { name: /02\s*基础候选/ }).click();
     for (const name of names.slice(0, 2)) {
+      await page.getByRole("button", { name: `查看${name}详情` }).click();
       const add = page
-        .locator(".candidate-card")
-        .filter({ hasText: name })
+        .getByRole("dialog")
         .getByRole("button", { name: "跳过民俗，加入重点候选" });
       await add.focus();
       await page.keyboard.press("Enter");
-      await expect(add).toBeHidden();
+      await expect(page.getByRole("dialog")).toHaveCount(0);
     }
-    await page.getByRole("button", { name: "打开重点候选" }).focus();
+    await page.getByRole("button", { name: "并卷比较" }).focus();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("heading", { name: "重点候选" })).toBeVisible();
     await expectNoSeriousViolations(page);

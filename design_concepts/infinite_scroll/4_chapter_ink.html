@@ -1,209 +1,595 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>长卷 · 换章泼墨</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
-:root{
-  --paper:#FBF9F3;--ink:#1A1916;--ink2:#5D5A51;--ink3:#A39E90;
-  --gold:#AE8B54;--cinnabar:#A84D3B;
-  --spring:cubic-bezier(.16,1,.3,1);
-  --serif:'Noto Serif SC',serif;--brush:'Ma Shan Zheng',cursive;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{height:100vh;font-family:var(--serif);background:var(--paper);color:var(--ink);overflow:hidden;
-  transition:background 1.1s ease}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>长卷 · 换章泼墨</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap");
+      :root {
+        --paper: #fbf9f3;
+        --ink: #1a1916;
+        --ink2: #5d5a51;
+        --ink3: #a39e90;
+        --gold: #ae8b54;
+        --cinnabar: #a84d3b;
+        --spring: cubic-bezier(0.16, 1, 0.3, 1);
+        --serif: "Noto Serif SC", serif;
+        --brush: "Ma Shan Zheng", cursive;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        font-family: var(--serif);
+        background: var(--paper);
+        color: var(--ink);
+        overflow: hidden;
+        transition: background 1.1s ease;
+      }
 
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-  radial-gradient(ellipse at 50% -10%,rgba(174,139,84,.13),transparent 55%)}
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse at 50% -10%,
+          rgba(174, 139, 84, 0.13),
+          transparent 55%
+        );
+      }
 
-/* 换章泼墨层 */
-.splash{position:fixed;inset:0;z-index:55;pointer-events:none;opacity:0;
-  background:radial-gradient(circle at 50% 50%,rgba(20,22,18,.5) 0%,transparent 60%)}
-.splash.go{animation:splash .8s var(--spring)}
-@keyframes splash{0%{opacity:0;transform:scale(.3)}40%{opacity:.55}100%{opacity:0;transform:scale(2.4)}}
+      /* 换章泼墨层 */
+      .splash {
+        position: fixed;
+        inset: 0;
+        z-index: 55;
+        pointer-events: none;
+        opacity: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(20, 22, 18, 0.5) 0%,
+          transparent 60%
+        );
+      }
+      .splash.go {
+        animation: splash 0.8s var(--spring);
+      }
+      @keyframes splash {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        40% {
+          opacity: 0.55;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(2.4);
+        }
+      }
 
-header{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:30px 56px}
-.logo{font-family:var(--brush);font-size:2.1rem}
-.hud b{color:var(--gold)}
-.hud{font-size:.95rem;letter-spacing:.2em}
+      header {
+        position: relative;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 30px 56px;
+      }
+      .logo {
+        font-family: var(--brush);
+        font-size: 2.1rem;
+      }
+      .hud b {
+        color: var(--gold);
+      }
+      .hud {
+        font-size: 0.95rem;
+        letter-spacing: 0.2em;
+      }
 
-.scroll{position:relative;z-index:10;height:calc(100vh - 150px);display:flex;align-items:stretch;
-  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:0 42vw}
-.scroll::-webkit-scrollbar{height:0}
+      .scroll {
+        position: relative;
+        z-index: 10;
+        height: calc(100vh - 150px);
+        display: flex;
+        align-items: stretch;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding: 0 42vw;
+      }
+      .scroll::-webkit-scrollbar {
+        height: 0;
+      }
 
-.page{scroll-snap-align:center;flex:0 0 min(70vw,720px);display:flex;flex-direction:column;justify-content:center;
-  padding:0 6vw;position:relative;opacity:0;transform:scale(.92);transition:opacity .6s,transform .6s var(--spring)}
-.page.in{opacity:1;transform:scale(1)}
-.page::before{content:"";position:absolute;left:0;top:12%;bottom:12%;width:1px;background:linear-gradient(var(--gold),transparent);opacity:.5}
+      .page {
+        scroll-snap-align: center;
+        flex: 0 0 min(70vw, 720px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 6vw;
+        position: relative;
+        opacity: 0;
+        transform: scale(0.92);
+        transition:
+          opacity 0.6s,
+          transform 0.6s var(--spring);
+      }
+      .page.in {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .page::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12%;
+        bottom: 12%;
+        width: 1px;
+        background: linear-gradient(var(--gold), transparent);
+        opacity: 0.5;
+      }
 
-/* 章封面 */
-.cover{align-items:center;text-align:center}
-.cover .cno{font-size:.8rem;letter-spacing:.5em;color:var(--ink3);margin-bottom:20px}
-.cover .cname{font-family:var(--brush);font-size:clamp(4.5rem,11vw,8rem);line-height:1.1;color:var(--ink)}
-.cover .csub{margin-top:24px;font-size:1.1rem;color:var(--ink2);letter-spacing:.3em}
+      /* 章封面 */
+      .cover {
+        align-items: center;
+        text-align: center;
+      }
+      .cover .cno {
+        font-size: 0.8rem;
+        letter-spacing: 0.5em;
+        color: var(--ink3);
+        margin-bottom: 20px;
+      }
+      .cover .cname {
+        font-family: var(--brush);
+        font-size: clamp(4.5rem, 11vw, 8rem);
+        line-height: 1.1;
+        color: var(--ink);
+      }
+      .cover .csub {
+        margin-top: 24px;
+        font-size: 1.1rem;
+        color: var(--ink2);
+        letter-spacing: 0.3em;
+      }
 
-.p-idx{font-size:.78rem;letter-spacing:.4em;color:var(--ink3);margin-bottom:12px}
-.p-py{letter-spacing:.34em;color:var(--gold);font-size:1rem;margin-bottom:4px}
-.p-name{font-family:var(--brush);font-size:clamp(4rem,10vw,7rem);line-height:1.05;cursor:pointer;transition:.3s}
-.page.in .p-name:hover{color:var(--gold);transform:translateX(8px)}
-.p-q{margin-top:22px;font-size:1.2rem;color:var(--ink2);line-height:1.85}
-.p-src{margin-top:6px;font-size:.88rem;color:var(--gold)}
+      .p-idx {
+        font-size: 0.78rem;
+        letter-spacing: 0.4em;
+        color: var(--ink3);
+        margin-bottom: 12px;
+      }
+      .p-py {
+        letter-spacing: 0.34em;
+        color: var(--gold);
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+      .p-name {
+        font-family: var(--brush);
+        font-size: clamp(4rem, 10vw, 7rem);
+        line-height: 1.05;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .page.in .p-name:hover {
+        color: var(--gold);
+        transform: translateX(8px);
+      }
+      .p-q {
+        margin-top: 22px;
+        font-size: 1.2rem;
+        color: var(--ink2);
+        line-height: 1.85;
+      }
+      .p-src {
+        margin-top: 6px;
+        font-size: 0.88rem;
+        color: var(--gold);
+      }
 
-.loading{scroll-snap-align:center;flex:0 0 min(70vw,720px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
-.inkdot{width:18px;height:18px;border-radius:50%;background:var(--ink);filter:blur(2px);animation:bleed 1.1s ease-in-out infinite}
-@keyframes bleed{0%,100%{transform:scale(.6);opacity:.4}50%{transform:scale(1.6);opacity:.9}}
-.loading em{font-style:normal;font-size:.9rem;letter-spacing:.4em;color:var(--ink3)}
+      .loading {
+        scroll-snap-align: center;
+        flex: 0 0 min(70vw, 720px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+      }
+      .inkdot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--ink);
+        filter: blur(2px);
+        animation: bleed 1.1s ease-in-out infinite;
+      }
+      @keyframes bleed {
+        0%,
+        100% {
+          transform: scale(0.6);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scale(1.6);
+          opacity: 0.9;
+        }
+      }
+      .loading em {
+        font-style: normal;
+        font-size: 0.9rem;
+        letter-spacing: 0.4em;
+        color: var(--ink3);
+      }
 
-.detail{position:fixed;inset:0;z-index:60;background:rgba(250,248,243,.88);backdrop-filter:blur(30px);
-  opacity:0;pointer-events:none;cursor:pointer;transition:opacity .5s}
-.detail.show{opacity:1;pointer-events:auto}
-.di{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7vh 6vw;
-  transform:translateY(38px);transition:.7s var(--spring)}
-.detail.show .di{transform:none}
-.d-seal{font-family:var(--brush);color:var(--cinnabar);border:2px solid var(--cinnabar);width:54px;height:54px;display:grid;place-items:center;
-  border-radius:8px;font-size:1.3rem;opacity:.85;margin-bottom:20px}
-.d-py{letter-spacing:.4em;color:var(--gold);margin-bottom:6px}
-.d-name{font-family:var(--brush);font-size:clamp(5rem,14vw,9rem);line-height:1.1}
-.d-src{margin-top:24px;color:var(--ink2);font-size:1.2rem;line-height:2;max-width:640px}
-.d-back{position:absolute;bottom:5vh;color:var(--ink3);font-size:.82rem;letter-spacing:.3em;animation:blink 2.2s infinite}
-@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
-</style>
-</head>
-<body>
-<div class="bg"></div>
-<div class="splash" id="splash"></div>
+      .detail {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgba(250, 248, 243, 0.88);
+        backdrop-filter: blur(30px);
+        opacity: 0;
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.5s;
+      }
+      .detail.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .di {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7vh 6vw;
+        transform: translateY(38px);
+        transition: 0.7s var(--spring);
+      }
+      .detail.show .di {
+        transform: none;
+      }
+      .d-seal {
+        font-family: var(--brush);
+        color: var(--cinnabar);
+        border: 2px solid var(--cinnabar);
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        font-size: 1.3rem;
+        opacity: 0.85;
+        margin-bottom: 20px;
+      }
+      .d-py {
+        letter-spacing: 0.4em;
+        color: var(--gold);
+        margin-bottom: 6px;
+      }
+      .d-name {
+        font-family: var(--brush);
+        font-size: clamp(5rem, 14vw, 9rem);
+        line-height: 1.1;
+      }
+      .d-src {
+        margin-top: 24px;
+        color: var(--ink2);
+        font-size: 1.2rem;
+        line-height: 2;
+        max-width: 640px;
+      }
+      .d-back {
+        position: absolute;
+        bottom: 5vh;
+        color: var(--ink3);
+        font-size: 0.82rem;
+        letter-spacing: 0.3em;
+        animation: blink 2.2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg"></div>
+    <div class="splash" id="splash"></div>
 
-<header>
-  <div class="logo">尔雅</div>
-  <div class="hud" id="hud">第 一 章 · 诗 经</div>
-</header>
-<main class="scroll" id="scroll"></main>
+    <header>
+      <div class="logo">尔雅</div>
+      <div class="hud" id="hud">第 一 章 · 诗 经</div>
+    </header>
+    <main class="scroll" id="scroll"></main>
 
-<div class="detail" id="detail"><div class="di">
-  <div class="d-seal">尔雅</div>
-  <div class="d-py" id="dPy"></div>
-  <div class="d-name" id="dName"></div>
-  <div class="d-src" id="dSrc"></div>
-  <div class="d-back">继 续 点 击 任 意 处 返 回</div>
-</div></div>
+    <div class="detail" id="detail">
+      <div class="di">
+        <div class="d-seal">尔雅</div>
+        <div class="d-py" id="dPy"></div>
+        <div class="d-name" id="dName"></div>
+        <div class="d-src" id="dSrc"></div>
+        <div class="d-back">继 续 点 击 任 意 处 返 回</div>
+      </div>
+    </div>
 
-<script>
-const CHAPTERS=[
- {name:"诗经",sub:"思 无 邪",tint:"#FBF9F3",names:[
-   {n:"林子衿",p:"LIN ZI JIN",q:"青青子衿，悠悠我心。",s:"《诗经 · 郑风》"},
-   {n:"林清婉",p:"LIN QING WAN",q:"有美一人，清扬婉兮。",s:"《诗经 · 郑风》"},
-   {n:"林嘉木",p:"LIN JIA MU",q:"南有嘉木，葛藟累之。",s:"《诗经 · 周南》"},
-   {n:"林景行",p:"LIN JING XING",q:"高山仰止，景行行止。",s:"《诗经 · 小雅》"}]},
- {name:"楚辞",sub:"夕 餐 秋 菊",tint:"#FAF6EE",names:[
-   {n:"林若华",p:"LIN RUO HUA",q:"羲和之未扬，若华何光？",s:"《楚辞 · 天问》"},
-   {n:"林望舒",p:"LIN WANG SHU",q:"前望舒使先驱兮。",s:"《楚辞 · 离骚》"},
-   {n:"林正则",p:"LIN ZHENG ZE",q:"名余曰正则兮，字余曰灵均。",s:"《楚辞 · 离骚》"},
-   {n:"林怀瑾",p:"LIN HUAI JIN",q:"怀瑾握瑜兮。",s:"《楚辞 · 九章》"}]},
- {name:"乐府",sub:"缘 事 而 发",tint:"#F9F7F0",names:[
-   {n:"林江南",p:"LIN JIANG NAN",q:"江南可采莲，莲叶何田田。",s:"乐府 · 相和歌"},
-   {n:"林长歌",p:"LIN CHANG GE",q:"青青园中葵，朝露待日晞。",s:"汉乐府 · 长歌行"},
-   {n:"林陌桑",p:"LIN MO SANG",q:"日出东南隅，照我秦氏楼。",s:"汉乐府 · 陌上桑"},
-   {n:"林关山",p:"LIN GUAN SHAN",q:"关山三五月，客子忆秦川。",s:"乐府 · 横吹曲"}]},
- {name:"唐诗",sub:"登 高 赋 远",tint:"#F8F5ED",names:[
-   {n:"林松月",p:"LIN SONG YUE",q:"明月松间照，清泉石上流。",s:"王维《山居秋暝》"},
-   {n:"林星河",p:"LIN XING HE",q:"飞流直下三千尺，疑是银河落九天。",s:"李白《望庐山瀑布》"},
-   {n:"林翠微",p:"LIN CUI WEI",q:"江涵秋影雁初飞，与客携壶上翠微。",s:"杜牧《九日齐山登高》"},
-   {n:"林清辉",p:"LIN QING HUI",q:"香雾云鬟湿，清辉玉臂寒。",s:"杜甫《月夜》"}]},
- {name:"宋词",sub:"别 是 一 家",tint:"#FAF8F2",names:[
-   {n:"林清欢",p:"LIN QING HUAN",q:"人间有味是清欢。",s:"苏轼《浣溪沙》"},
-   {n:"林疏影",p:"LIN SHU YING",q:"疏影横斜水清浅，暗香浮动月黄昏。",s:"林逋《山园小梅》"},
-   {n:"林惊鸿",p:"LIN JING HONG",q:"伤心桥下春波绿，曾是惊鸿照影来。",s:"陆游《沈园》"},
-   {n:"林素月",p:"LIN SU YUE",q:"素月分辉，明河共影，表里俱澄澈。",s:"张孝祥《念奴娇》"}]}
-];
-const CN=["一","二","三","四","五","六","七","八"];
-const scroll=document.getElementById('scroll');
-let chNo=0,loading=false,curChapter=-1;
+    <script>
+      const CHAPTERS = [
+        {
+          name: "诗经",
+          sub: "思 无 邪",
+          tint: "#FBF9F3",
+          names: [
+            { n: "林子衿", p: "LIN ZI JIN", q: "青青子衿，悠悠我心。", s: "《诗经 · 郑风》" },
+            { n: "林清婉", p: "LIN QING WAN", q: "有美一人，清扬婉兮。", s: "《诗经 · 郑风》" },
+            { n: "林嘉木", p: "LIN JIA MU", q: "南有嘉木，葛藟累之。", s: "《诗经 · 周南》" },
+            {
+              n: "林景行",
+              p: "LIN JING XING",
+              q: "高山仰止，景行行止。",
+              s: "《诗经 · 小雅》",
+            },
+          ],
+        },
+        {
+          name: "楚辞",
+          sub: "夕 餐 秋 菊",
+          tint: "#FAF6EE",
+          names: [
+            {
+              n: "林若华",
+              p: "LIN RUO HUA",
+              q: "羲和之未扬，若华何光？",
+              s: "《楚辞 · 天问》",
+            },
+            { n: "林望舒", p: "LIN WANG SHU", q: "前望舒使先驱兮。", s: "《楚辞 · 离骚》" },
+            {
+              n: "林正则",
+              p: "LIN ZHENG ZE",
+              q: "名余曰正则兮，字余曰灵均。",
+              s: "《楚辞 · 离骚》",
+            },
+            { n: "林怀瑾", p: "LIN HUAI JIN", q: "怀瑾握瑜兮。", s: "《楚辞 · 九章》" },
+          ],
+        },
+        {
+          name: "乐府",
+          sub: "缘 事 而 发",
+          tint: "#F9F7F0",
+          names: [
+            {
+              n: "林江南",
+              p: "LIN JIANG NAN",
+              q: "江南可采莲，莲叶何田田。",
+              s: "乐府 · 相和歌",
+            },
+            {
+              n: "林长歌",
+              p: "LIN CHANG GE",
+              q: "青青园中葵，朝露待日晞。",
+              s: "汉乐府 · 长歌行",
+            },
+            {
+              n: "林陌桑",
+              p: "LIN MO SANG",
+              q: "日出东南隅，照我秦氏楼。",
+              s: "汉乐府 · 陌上桑",
+            },
+            {
+              n: "林关山",
+              p: "LIN GUAN SHAN",
+              q: "关山三五月，客子忆秦川。",
+              s: "乐府 · 横吹曲",
+            },
+          ],
+        },
+        {
+          name: "唐诗",
+          sub: "登 高 赋 远",
+          tint: "#F8F5ED",
+          names: [
+            {
+              n: "林松月",
+              p: "LIN SONG YUE",
+              q: "明月松间照，清泉石上流。",
+              s: "王维《山居秋暝》",
+            },
+            {
+              n: "林星河",
+              p: "LIN XING HE",
+              q: "飞流直下三千尺，疑是银河落九天。",
+              s: "李白《望庐山瀑布》",
+            },
+            {
+              n: "林翠微",
+              p: "LIN CUI WEI",
+              q: "江涵秋影雁初飞，与客携壶上翠微。",
+              s: "杜牧《九日齐山登高》",
+            },
+            {
+              n: "林清辉",
+              p: "LIN QING HUI",
+              q: "香雾云鬟湿，清辉玉臂寒。",
+              s: "杜甫《月夜》",
+            },
+          ],
+        },
+        {
+          name: "宋词",
+          sub: "别 是 一 家",
+          tint: "#FAF8F2",
+          names: [
+            { n: "林清欢", p: "LIN QING HUAN", q: "人间有味是清欢。", s: "苏轼《浣溪沙》" },
+            {
+              n: "林疏影",
+              p: "LIN SHU YING",
+              q: "疏影横斜水清浅，暗香浮动月黄昏。",
+              s: "林逋《山园小梅》",
+            },
+            {
+              n: "林惊鸿",
+              p: "LIN JING HONG",
+              q: "伤心桥下春波绿，曾是惊鸿照影来。",
+              s: "陆游《沈园》",
+            },
+            {
+              n: "林素月",
+              p: "LIN SU YUE",
+              q: "素月分辉，明河共影，表里俱澄澈。",
+              s: "张孝祥《念奴娇》",
+            },
+          ],
+        },
+      ];
+      const CN = ["一", "二", "三", "四", "五", "六", "七", "八"];
+      const scroll = document.getElementById("scroll");
+      let chNo = 0,
+        loading = false,
+        curChapter = -1;
 
-function makeCover(ch){
-  const el=document.createElement('section');el.className='page cover';
-  el.innerHTML=`<div class="cno">第 ${CN[chNo]} 章</div>
+      function makeCover(ch) {
+        const el = document.createElement("section");
+        el.className = "page cover";
+        el.innerHTML = `<div class="cno">第 ${CN[chNo]} 章</div>
     <div class="cname">${ch.name}</div><div class="csub">${ch.sub}</div>`;
-  return el;
-}
-function makeName(d,frame){
-  const el=document.createElement('section');el.className='page';
-  el.innerHTML=`<div class="p-idx">第 ${frame+1} 帧</div>
+        return el;
+      }
+      function makeName(d, frame) {
+        const el = document.createElement("section");
+        el.className = "page";
+        el.innerHTML = `<div class="p-idx">第 ${frame + 1} 帧</div>
     <div class="p-py">${d.p}</div><div class="p-name">${d.n}</div>
     <div class="p-q">${d.q}</div><div class="p-src">—— ${d.s}</div>`;
-  el.querySelector('.p-name').addEventListener('click',()=>{
-    dPy.textContent=d.p;dName.textContent=d.n;
-    dSrc.innerHTML=`「${d.q}」<br>—— ${d.s}`;detail.classList.add('show');
-  });
-  return el;
-}
-const io=new IntersectionObserver(es=>{
-  es.forEach(e=>e.target.classList.toggle('in',e.isIntersecting&&e.intersectionRatio>.55));
-},{root:scroll,threshold:[.55]});
+        el.querySelector(".p-name").addEventListener("click", () => {
+          dPy.textContent = d.p;
+          dName.textContent = d.n;
+          dSrc.innerHTML = `「${d.q}」<br>—— ${d.s}`;
+          detail.classList.add("show");
+        });
+        return el;
+      }
+      const io = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) =>
+            e.target.classList.toggle("in", e.isIntersecting && e.intersectionRatio > 0.55),
+          );
+        },
+        { root: scroll, threshold: [0.55] },
+      );
 
-function appendChapter(){
-  if(loading)return;loading=true;
-  const ch=CHAPTERS[chNo%CHAPTERS.length];
-  const pages=[];
-  // 预占位：封面 + 四帧
-  for(let i=0;i<5;i++){
-    const ph=document.createElement('div');ph.className='loading';
-    ph.innerHTML=`<div class="inkdot"></div><em>换 章 研 墨</em>`;
-    scroll.appendChild(ph);
-  }
-  setTimeout(()=>{
-    document.querySelectorAll('.loading').forEach(ph=>ph.remove());
-    const cover=makeCover(ch);scroll.appendChild(cover);io.observe(cover);
-    ch.names.forEach((d,j)=>{
-      const page=makeName(d,j);scroll.appendChild(page);io.observe(page);pages.push(page);
-    });
-    // 哨兵：章内倒数第二帧（第 3 帧）
-    pages[pages.length-2].dataset.s='1';
-    loading=false;chNo++;
-  },640);
-}
-// 全局委托哨兵触发
-const _io=io;
-const sentinelIO=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>.55&&e.target.dataset.s==='1')appendChapter();});
-},{root:scroll,threshold:[.55,.9]});
-io.observe=new Proxy(io.observe.bind(io),{apply(t,_,[el]){
-  Reflect.apply(t,null,[el]);if(el.dataset&&el.dataset.s)sentinelIO.observe(el);
-}});
+      function appendChapter() {
+        if (loading) return;
+        loading = true;
+        const ch = CHAPTERS[chNo % CHAPTERS.length];
+        const pages = [];
+        // 预占位：封面 + 四帧
+        for (let i = 0; i < 5; i++) {
+          const ph = document.createElement("div");
+          ph.className = "loading";
+          ph.innerHTML = `<div class="inkdot"></div><em>换 章 研 墨</em>`;
+          scroll.appendChild(ph);
+        }
+        setTimeout(() => {
+          document.querySelectorAll(".loading").forEach((ph) => ph.remove());
+          const cover = makeCover(ch);
+          scroll.appendChild(cover);
+          io.observe(cover);
+          ch.names.forEach((d, j) => {
+            const page = makeName(d, j);
+            scroll.appendChild(page);
+            io.observe(page);
+            pages.push(page);
+          });
+          // 哨兵：章内倒数第二帧（第 3 帧）
+          pages[pages.length - 2].dataset.s = "1";
+          loading = false;
+          chNo++;
+        }, 640);
+      }
+      // 全局委托哨兵触发
+      const _io = io;
+      const sentinelIO = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            if (e.isIntersecting && e.intersectionRatio > 0.55 && e.target.dataset.s === "1")
+              appendChapter();
+          });
+        },
+        { root: scroll, threshold: [0.55, 0.9] },
+      );
+      io.observe = new Proxy(io.observe.bind(io), {
+        apply(t, _, [el]) {
+          Reflect.apply(t, null, [el]);
+          if (el.dataset && el.dataset.s) sentinelIO.observe(el);
+        },
+      });
 
-appendChapter();
+      appendChapter();
 
-// 进入新章：泼墨 + 换底色 + 更新标题
-scroll.addEventListener('scroll',()=>{
-  const pages=[...scroll.querySelectorAll('.page')];
-  if(!pages.length)return;
-  // 找离中心最近的页
-  const cx=scroll.scrollLeft+innerWidth/2;
-  let best=pages[0],bd=Infinity;
-  pages.forEach(p=>{
-    const r=p.getBoundingClientRect();const pc=r.left+r.width/2;
-    const dd=Math.abs(pc-cx);if(dd<bd){bd=dd;best=p;}
-  });
-  const idx=[...scroll.children].indexOf(best);
-  const chapter=Math.max(0,Math.floor(idx/5));
-  if(chapter!==curChapter){
-    curChapter=chapter;
-    const ch=CHAPTERS[chapter%CHAPTERS.length];
-    document.body.style.background=ch.tint;
-    hud.textContent=`第 ${CN[chapter]} 章 · ${ch.name}`;
-    splash.classList.remove('go');void splash.offsetWidth;splash.classList.add('go');
-  }
-},{passive:true});
+      // 进入新章：泼墨 + 换底色 + 更新标题
+      scroll.addEventListener(
+        "scroll",
+        () => {
+          const pages = [...scroll.querySelectorAll(".page")];
+          if (!pages.length) return;
+          // 找离中心最近的页
+          const cx = scroll.scrollLeft + innerWidth / 2;
+          let best = pages[0],
+            bd = Infinity;
+          pages.forEach((p) => {
+            const r = p.getBoundingClientRect();
+            const pc = r.left + r.width / 2;
+            const dd = Math.abs(pc - cx);
+            if (dd < bd) {
+              bd = dd;
+              best = p;
+            }
+          });
+          const idx = [...scroll.children].indexOf(best);
+          const chapter = Math.max(0, Math.floor(idx / 5));
+          if (chapter !== curChapter) {
+            curChapter = chapter;
+            const ch = CHAPTERS[chapter % CHAPTERS.length];
+            document.body.style.background = ch.tint;
+            hud.textContent = `第 ${CN[chapter]} 章 · ${ch.name}`;
+            splash.classList.remove("go");
+            void splash.offsetWidth;
+            splash.classList.add("go");
+          }
+        },
+        { passive: true },
+      );
 
-const detail=document.getElementById('detail');
-detail.addEventListener('click',()=>detail.classList.remove('show'));
-scroll.addEventListener('wheel',e=>{
-  if(e.shiftKey||Math.abs(e.deltaY)>=Math.abs(e.deltaX)){
-    e.preventDefault();scroll.scrollLeft+=e.deltaY||e.deltaX;
-  }
-},{passive:false});
-</script>
-</body>
+      const detail = document.getElementById("detail");
+      detail.addEventListener("click", () => detail.classList.remove("show"));
+      scroll.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.shiftKey || Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
+            e.preventDefault();
+            scroll.scrollLeft += e.deltaY || e.deltaX;
+          }
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
 </html>

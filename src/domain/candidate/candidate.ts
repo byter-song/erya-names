@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 export const candidateSchema = z.object({
   id: z.string().min(1),
@@ -19,4 +19,4 @@ export const candidateSchema = z.object({
   createdAt: z.iso.datetime(),
 });
 
-export type Candidate = z.infer<typeof candidateSchema>;
+export type Candidate = Infer<typeof candidateSchema>;

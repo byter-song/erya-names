@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../../domain/shared/zod";
 import { namingProfileSchema } from "../../domain/project/profile";
 import { namingProjectSchema } from "../../domain/project/project";
 import { generationBatchSchema } from "../../domain/generation/batch";
@@ -199,8 +199,8 @@ export const backupEnvelopeSchema = z.object({
   payload: backupPayloadSchema,
 });
 
-export type BackupPayload = z.infer<typeof backupPayloadSchema>;
-export type BackupEnvelope = z.infer<typeof backupEnvelopeSchema>;
+export type BackupPayload = Infer<typeof backupPayloadSchema>;
+export type BackupEnvelope = Infer<typeof backupEnvelopeSchema>;
 
 export async function createBackupEnvelope(input: {
   payload: unknown;

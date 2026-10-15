@@ -4,15 +4,15 @@ import { chooseNames, createProject } from "./helpers";
 test("keeps the active journey step visible without a native scrollbar", async ({ page }) => {
   await page.goto("/recovery");
 
-  const active = page.locator('.app-rail__item[aria-current="page"]');
-  await expect(active).toHaveAccessibleName("备份与导出");
+  const active = page.locator('.ink-shell__chip[aria-current="page"]');
+  await expect(active).toContainText("备份与导出");
   await expect
     .poll(async () => {
       const box = await active.boundingBox();
       return box ? box.x >= 0 && box.x + box.width <= page.viewportSize()!.width : false;
     })
     .toBe(true);
-  await expect(page.locator(".app-rail__overlay")).toHaveCSS("scrollbar-width", "none");
+  await expect(page.locator(".ink-shell__chips")).toHaveCSS("scrollbar-width", "none");
 });
 
 test("uses the route as the source of truth for onboarding steps", async ({ page }) => {
@@ -32,13 +32,12 @@ test("compares the same attributes across three important names on mobile", asyn
 }) => {
   await createProject(page);
   const names = await chooseNames(page, 3);
-  for (const name of names)
-    await page
-      .locator(".candidate-card")
-      .filter({ has: page.getByRole("heading", { name, exact: true }) })
-      .getByRole("button", { name: "跳过民俗，加入重点候选" })
-      .click();
-  await page.getByRole("button", { name: "打开重点候选" }).click();
+  const dialog = page.getByRole("dialog");
+  for (const name of names) {
+    await page.getByRole("button", { name: `查看${name}详情` }).click();
+    await dialog.getByRole("button", { name: "跳过民俗，加入重点候选" }).click();
+  }
+  await page.getByRole("button", { name: "并卷比较", exact: true }).click();
 
   const comparison = page.getByRole("region", { name: "重点候选同属性比较" });
   await expect(comparison).toBeVisible();

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 const snapshotSourceSchema = z.object({
   sourceId: z.string().min(1),
@@ -67,5 +67,5 @@ export const comparisonSnapshotSchema = z
     }
   });
 
-export type ComparisonSnapshotCandidate = z.infer<typeof comparisonSnapshotCandidateSchema>;
-export type ComparisonSnapshot = z.infer<typeof comparisonSnapshotSchema>;
+export type ComparisonSnapshotCandidate = Infer<typeof comparisonSnapshotCandidateSchema>;
+export type ComparisonSnapshot = Infer<typeof comparisonSnapshotSchema>;

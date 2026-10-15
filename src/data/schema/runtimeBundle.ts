@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../../domain/shared/zod";
 
 const singleNfcCharacterSchema = z
   .string()
@@ -130,7 +130,7 @@ export const modernCombinationSchema = z
   })
   .strict();
 
-export type RuntimeModernCombination = z.infer<typeof modernCombinationSchema>;
+export type RuntimeModernCombination = Infer<typeof modernCombinationSchema>;
 
 export const runtimeBundleSchema = z.object({
   manifest: z.object({
@@ -151,8 +151,8 @@ export const runtimeBundleSchema = z.object({
   personUsages: z.array(personUsageSchema).default([]),
 });
 
-export type RuntimeBundle = z.infer<typeof runtimeBundleSchema>;
-export type RuntimeCharacter = z.infer<typeof runtimeCharacterSchema>;
-export type RuntimeAllusion = z.infer<typeof runtimeAllusionSchema>;
-export type PersonUsage = z.infer<typeof personUsageSchema>;
-export type ReviewedRiskSignal = z.infer<typeof reviewedRiskSignalSchema>;
+export type RuntimeBundle = Infer<typeof runtimeBundleSchema>;
+export type RuntimeCharacter = Infer<typeof runtimeCharacterSchema>;
+export type RuntimeAllusion = Infer<typeof runtimeAllusionSchema>;
+export type PersonUsage = Infer<typeof personUsageSchema>;
+export type ReviewedRiskSignal = Infer<typeof reviewedRiskSignalSchema>;

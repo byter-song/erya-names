@@ -11,11 +11,12 @@ applyTheme();
 async function start(root: HTMLElement) {
   const startup = createStartupScreen();
   root.replaceChildren(startup.element);
+  const bootstrapPromise = import("./app/bootstrap");
 
-  // 动画由启动屏自身的时间线完整播放；数据就绪后才会进入“钤印 + 退场”
+  // 路由代码和本地资料并行读取；只有资料就绪后才挂载应用。
   const proceed = async () => {
     await startup.exit();
-    const { bootstrap } = await import("./app/bootstrap");
+    const { bootstrap } = await bootstrapPromise;
     await bootstrap(root);
   };
 
@@ -51,7 +52,6 @@ async function start(root: HTMLElement) {
       initializeRuntimeBundle(await response.json());
     }
     startup.setProgress(1);
-    await import("./app/bootstrap");
     await proceed();
   } catch {
     startup.fail({

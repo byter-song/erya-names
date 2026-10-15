@@ -1,153 +1,375 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>尔雅 2026 | 空间交响 (Spatial Symphony - Ultimate)</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500&display=swap');
-        
-        :root {
-            --bg: #FAFAF7; --ink: #1C1C1C; --ink-light: #666; --gold: #B38B59;
-            --glass: rgba(255, 255, 255, 0.5); --glass-border: rgba(255, 255, 255, 0.8);
-            --spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      @import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500&display=swap");
+
+      :root {
+        --bg: #fafaf7;
+        --ink: #1c1c1c;
+        --ink-light: #666;
+        --gold: #b38b59;
+        --glass: rgba(255, 255, 255, 0.5);
+        --glass-border: rgba(255, 255, 255, 0.8);
+        --spring: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      }
+
+      body {
+        margin: 0;
+        font-family: "Noto Serif SC", serif;
+        background-color: var(--bg);
+        color: var(--ink);
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        perspective: 1200px;
+      }
+
+      /* Ambient Ink Background */
+      .ambient {
+        position: absolute;
+        width: 80vw;
+        height: 80vw;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, transparent 60%);
+        border-radius: 50%;
+        filter: blur(50px);
+        animation: breathe 12s infinite alternate;
+        z-index: 0;
+        pointer-events: none;
+      }
+      @keyframes breathe {
+        0% {
+          transform: scale(1);
         }
-
-        body {
-            margin: 0; font-family: 'Noto Serif SC', serif; background-color: var(--bg);
-            color: var(--ink); height: 100vh; overflow: hidden; display: flex;
-            flex-direction: column; align-items: center; perspective: 1200px;
+        100% {
+          transform: scale(1.2);
         }
+      }
+      @keyframes pulse {
+        0% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.4;
+        }
+      }
 
-        /* Ambient Ink Background */
-        .ambient { position: absolute; width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); animation: breathe 12s infinite alternate; z-index: 0; pointer-events: none; }
-        @keyframes breathe { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
-        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+      /* Generative Input Morph */
+      .hero {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
+        transition: all 1s var(--spring);
+      }
+      .hero.morph {
+        top: 80px;
+        transform: translate(-50%, 0) scale(0.8);
+      }
+      .logo {
+        font-family: "Ma Shan Zheng", cursive;
+        font-size: 4rem;
+        margin-bottom: 30px;
+      }
+      .ai-input {
+        width: 400px;
+        padding: 20px 30px;
+        border-radius: 40px;
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        font-size: 1.2rem;
+        font-family: inherit;
+        text-align: center;
+        outline: none;
+        transition: all 0.3s;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+      }
+      .ai-input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 15px 40px rgba(179, 139, 89, 0.1);
+      }
 
-        /* Generative Input Morph */
-        .hero { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; transition: all 1s var(--spring); }
-        .hero.morph { top: 80px; transform: translate(-50%, 0) scale(0.8); }
-        .logo { font-family: 'Ma Shan Zheng', cursive; font-size: 4rem; margin-bottom: 30px; }
-        .ai-input { width: 400px; padding: 20px 30px; border-radius: 40px; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); font-size: 1.2rem; font-family: inherit; text-align: center; outline: none; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .ai-input:focus { border-color: var(--gold); box-shadow: 0 15px 40px rgba(179, 139, 89, 0.1); }
+      /* Floating Stage Control (Dynamic Island) */
+      .stage-island {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: #111;
+        color: #fff;
+        padding: 10px;
+        border-radius: 40px;
+        display: flex;
+        gap: 10px;
+        z-index: 50;
+        transition: transform 0.6s var(--spring);
+        opacity: 0;
+      }
+      .hero.morph ~ .stage-island {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+      .stage-tab {
+        padding: 10px 25px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+      }
+      .stage-tab.active {
+        background: var(--gold);
+        color: #fff;
+      }
 
-        /* Floating Stage Control (Dynamic Island) */
-        .stage-island { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px); background: #111; color: #fff; padding: 10px; border-radius: 40px; display: flex; gap: 10px; z-index: 50; transition: transform 0.6s var(--spring); opacity: 0; }
-        .hero.morph ~ .stage-island { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .stage-tab { padding: 10px 25px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-size: 0.9rem; letter-spacing: 1px; }
-        .stage-tab.active { background: var(--gold); color: #fff; }
+      /* Spatial Grid */
+      .workspace {
+        position: absolute;
+        top: 180px;
+        width: 90%;
+        max-width: 1200px;
+        height: calc(100vh - 300px);
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s 0.5s;
+        display: flex;
+        gap: 30px;
+      }
+      .hero.morph ~ .workspace {
+        opacity: 1;
+        pointer-events: auto;
+      }
 
-        /* Spatial Grid */
-        .workspace { position: absolute; top: 180px; width: 90%; max-width: 1200px; height: calc(100vh - 300px); z-index: 5; opacity: 0; pointer-events: none; transition: opacity 0.5s 0.5s; display: flex; gap: 30px; }
-        .hero.morph ~ .workspace { opacity: 1; pointer-events: auto; }
-        
-        .grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; align-content: flex-start; overflow-y: auto; padding-bottom: 50px; }
-        .grid::-webkit-scrollbar { display: none; }
+      .grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        align-content: flex-start;
+        overflow-y: auto;
+        padding-bottom: 50px;
+      }
+      .grid::-webkit-scrollbar {
+        display: none;
+      }
 
-        /* Cards with Calligraphy */
-        .card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.4s var(--spring); position: relative; }
-        .card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--gold); background: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.04); }
-        .brush-name { font-family: 'Ma Shan Zheng', cursive; font-size: 3.5rem; color: var(--ink); margin: 15px 0; }
-        .pinyin { font-size: 0.85rem; color: var(--gold); letter-spacing: 2px; }
-        
-        /* Multi-name interaction: Selection Toggle */
-        .select-btn { position: absolute; top: 20px; right: 20px; width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 2; }
-        .select-btn:hover { transform: scale(1.1); }
-        .card.selected { border-color: var(--gold); background: rgba(179, 139, 89, 0.05); }
-        .card.selected .select-btn { background: var(--gold); border-color: var(--gold); }
-        .card.selected .select-btn::after { content: '✓'; color: #fff; font-size: 12px; }
+      /* Cards with Calligraphy */
+      .card {
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.4s var(--spring);
+        position: relative;
+      }
+      .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: var(--gold);
+        background: #fff;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+      }
+      .brush-name {
+        font-family: "Ma Shan Zheng", cursive;
+        font-size: 3.5rem;
+        color: var(--ink);
+        margin: 15px 0;
+      }
+      .pinyin {
+        font-size: 0.85rem;
+        color: var(--gold);
+        letter-spacing: 2px;
+      }
 
-        /* Detail Modal (Expansion) - Updated for Click-to-Return */
-        .detail-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(250, 250, 247, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 100; display: flex; opacity: 0; pointer-events: none; transition: opacity 0.5s; cursor: pointer; }
-        .detail-modal.active { opacity: 1; pointer-events: auto; }
-        .modal-content { margin: auto; text-align: center; transform: scale(0.9) translateY(30px); transition: all 0.6s var(--spring); pointer-events: none; }
-        .detail-modal.active .modal-content { transform: scale(1) translateY(0); }
-        .modal-brush { font-family: 'Ma Shan Zheng', cursive; font-size: 8rem; margin: 0; color: var(--ink); text-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+      /* Multi-name interaction: Selection Toggle */
+      .select-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        z-index: 2;
+      }
+      .select-btn:hover {
+        transform: scale(1.1);
+      }
+      .card.selected {
+        border-color: var(--gold);
+        background: rgba(179, 139, 89, 0.05);
+      }
+      .card.selected .select-btn {
+        background: var(--gold);
+        border-color: var(--gold);
+      }
+      .card.selected .select-btn::after {
+        content: "✓";
+        color: #fff;
+        font-size: 12px;
+      }
 
-        /* Stage Layout Transition */
-        body.stage-shortlist .grid .card:not(.selected) { display: none; }
-        body.stage-shortlist .grid { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); }
-        body.stage-shortlist .card { transform: scale(1.05); }
-        body.stage-shortlist .card:hover { transform: scale(1.08) translateY(-5px); }
+      /* Detail Modal (Expansion) - Updated for Click-to-Return */
+      .detail-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(250, 250, 247, 0.85);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        z-index: 100;
+        display: flex;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s;
+        cursor: pointer;
+      }
+      .detail-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal-content {
+        margin: auto;
+        text-align: center;
+        transform: scale(0.9) translateY(30px);
+        transition: all 0.6s var(--spring);
+        pointer-events: none;
+      }
+      .detail-modal.active .modal-content {
+        transform: scale(1) translateY(0);
+      }
+      .modal-brush {
+        font-family: "Ma Shan Zheng", cursive;
+        font-size: 8rem;
+        margin: 0;
+        color: var(--ink);
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Stage Layout Transition */
+      body.stage-shortlist .grid .card:not(.selected) {
+        display: none;
+      }
+      body.stage-shortlist .grid {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      }
+      body.stage-shortlist .card {
+        transform: scale(1.05);
+      }
+      body.stage-shortlist .card:hover {
+        transform: scale(1.08) translateY(-5px);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="ambient"></div>
 
     <div class="hero" id="hero">
-        <div class="logo">尔雅</div>
-        <input type="text" class="ai-input" placeholder="输入期许，如: 温润如玉" id="inputBox">
+      <div class="logo">尔雅</div>
+      <input type="text" class="ai-input" placeholder="输入期许，如: 温润如玉" id="inputBox" />
     </div>
 
     <div class="workspace">
-        <div class="grid" id="grid">
-            <!-- Cards -->
-            <div class="card" onclick="openDetail(event, '林子衿')">
-                <div class="select-btn" onclick="toggleSelect(event, this)"></div>
-                <div class="pinyin">Lín Zǐ Jīn</div>
-                <div class="brush-name">林子衿</div>
-                <div style="font-size:0.9rem; color:#666;">青青子衿，悠悠我心</div>
-            </div>
-            <div class="card" onclick="openDetail(event, '林若华')">
-                <div class="select-btn" onclick="toggleSelect(event, this)"></div>
-                <div class="pinyin">Lín Ruò Huá</div>
-                <div class="brush-name">林若华</div>
-                <div style="font-size:0.9rem; color:#666;">羲和之未扬，若华何光</div>
-            </div>
-            <div class="card" onclick="openDetail(event, '林望舒')">
-                <div class="select-btn" onclick="toggleSelect(event, this)"></div>
-                <div class="pinyin">Lín Wàng Shū</div>
-                <div class="brush-name">林望舒</div>
-                <div style="font-size:0.9rem; color:#666;">前望舒使先驱兮</div>
-            </div>
+      <div class="grid" id="grid">
+        <!-- Cards -->
+        <div class="card" onclick="openDetail(event, '林子衿')">
+          <div class="select-btn" onclick="toggleSelect(event, this)"></div>
+          <div class="pinyin">Lín Zǐ Jīn</div>
+          <div class="brush-name">林子衿</div>
+          <div style="font-size: 0.9rem; color: #666">青青子衿，悠悠我心</div>
         </div>
+        <div class="card" onclick="openDetail(event, '林若华')">
+          <div class="select-btn" onclick="toggleSelect(event, this)"></div>
+          <div class="pinyin">Lín Ruò Huá</div>
+          <div class="brush-name">林若华</div>
+          <div style="font-size: 0.9rem; color: #666">羲和之未扬，若华何光</div>
+        </div>
+        <div class="card" onclick="openDetail(event, '林望舒')">
+          <div class="select-btn" onclick="toggleSelect(event, this)"></div>
+          <div class="pinyin">Lín Wàng Shū</div>
+          <div class="brush-name">林望舒</div>
+          <div style="font-size: 0.9rem; color: #666">前望舒使先驱兮</div>
+        </div>
+      </div>
     </div>
 
     <!-- Floating Stage Nav -->
     <div class="stage-island">
-        <div class="stage-tab active" onclick="switchStage('all', this)">初筛生成 (3)</div>
-        <div class="stage-tab" onclick="switchStage('shortlist', this)">决断留存</div>
+      <div class="stage-tab active" onclick="switchStage('all', this)">初筛生成 (3)</div>
+      <div class="stage-tab" onclick="switchStage('shortlist', this)">决断留存</div>
     </div>
 
     <!-- Detail Expansion - Click anywhere to return -->
     <div class="detail-modal" id="modal" onclick="closeDetail()">
-        <div class="modal-content">
-            <h1 class="modal-brush" id="modalName"></h1>
-            <p style="font-size: 1.5rem; color: #555; margin-top: 40px; letter-spacing: 2px;">详细字理释义与典故溯源...</p>
-            <p style="font-size: 1rem; color: var(--gold); margin-top: 80px; letter-spacing: 3px; animation: pulse 2s infinite;">— 继续点击任意处返回 —</p>
-        </div>
+      <div class="modal-content">
+        <h1 class="modal-brush" id="modalName"></h1>
+        <p style="font-size: 1.5rem; color: #555; margin-top: 40px; letter-spacing: 2px">
+          详细字理释义与典故溯源...
+        </p>
+        <p
+          style="
+            font-size: 1rem;
+            color: var(--gold);
+            margin-top: 80px;
+            letter-spacing: 3px;
+            animation: pulse 2s infinite;
+          "
+        >
+          — 继续点击任意处返回 —
+        </p>
+      </div>
     </div>
 
     <script>
-        const input = document.getElementById('inputBox');
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') document.getElementById('hero').classList.add('morph');
-        });
+      const input = document.getElementById("inputBox");
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") document.getElementById("hero").classList.add("morph");
+      });
 
-        // Toggle Selection
-        function toggleSelect(e, btn) {
-            e.stopPropagation(); // prevent modal opening
-            const card = btn.closest('.card');
-            card.classList.toggle('selected');
-        }
+      // Toggle Selection
+      function toggleSelect(e, btn) {
+        e.stopPropagation(); // prevent modal opening
+        const card = btn.closest(".card");
+        card.classList.toggle("selected");
+      }
 
-        // Detail Modal
-        function openDetail(e, name) {
-            document.getElementById('modalName').innerText = name;
-            document.getElementById('modal').classList.add('active');
-        }
-        
-        // Close Detail (Triggered by clicking anywhere on the modal)
-        function closeDetail() { 
-            document.getElementById('modal').classList.remove('active'); 
-        }
+      // Detail Modal
+      function openDetail(e, name) {
+        document.getElementById("modalName").innerText = name;
+        document.getElementById("modal").classList.add("active");
+      }
 
-        // Stage Switch
-        function switchStage(stage, el) {
-            document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            if (stage === 'shortlist') document.body.classList.add('stage-shortlist');
-            else document.body.classList.remove('stage-shortlist');
-        }
+      // Close Detail (Triggered by clicking anywhere on the modal)
+      function closeDetail() {
+        document.getElementById("modal").classList.remove("active");
+      }
+
+      // Stage Switch
+      function switchStage(stage, el) {
+        document.querySelectorAll(".stage-tab").forEach((t) => t.classList.remove("active"));
+        el.classList.add("active");
+        if (stage === "shortlist") document.body.classList.add("stage-shortlist");
+        else document.body.classList.remove("stage-shortlist");
+      }
     </script>
-</body>
+  </body>
 </html>

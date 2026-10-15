@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, type Infer } from "../shared/zod";
 
 export const finalDecisionSchema = z.object({
   projectId: z.string().min(1),
@@ -7,4 +7,4 @@ export const finalDecisionSchema = z.object({
   updatedAt: z.iso.datetime(),
 });
 
-export type FinalDecision = z.infer<typeof finalDecisionSchema>;
+export type FinalDecision = Infer<typeof finalDecisionSchema>;

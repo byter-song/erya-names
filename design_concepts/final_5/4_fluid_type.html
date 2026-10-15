@@ -1,139 +1,419 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>尔雅 · 流体活字</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
-  :root{
-    --paper:#FAF8F3;--ink:#1A1916;--ink-2:#5D5A51;--ink-3:#9C988C;
-    --gold:#AE8B54;--gold-soft:rgba(174,139,84,.13);--cinnabar:#A84D3B;
-    --spring:cubic-bezier(.16,1,.3,1);
-    --serif:'Noto Serif SC',serif;--brush:'Ma Shan Zheng',cursive;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{min-height:100vh;font-family:var(--serif);background:var(--paper);color:var(--ink);overflow-x:hidden}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>尔雅 · 流体活字</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap");
+      :root {
+        --paper: #faf8f3;
+        --ink: #1a1916;
+        --ink-2: #5d5a51;
+        --ink-3: #9c988c;
+        --gold: #ae8b54;
+        --gold-soft: rgba(174, 139, 84, 0.13);
+        --cinnabar: #a84d3b;
+        --spring: cubic-bezier(0.16, 1, 0.3, 1);
+        --serif: "Noto Serif SC", serif;
+        --brush: "Ma Shan Zheng", cursive;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        min-height: 100vh;
+        font-family: var(--serif);
+        background: var(--paper);
+        color: var(--ink);
+        overflow-x: hidden;
+      }
 
-  .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-  .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5}
-  .b1{width:42vw;height:42vw;left:-12vw;top:-14vw;background:radial-gradient(circle,rgba(0,0,0,.06),transparent 65%);animation:b 18s alternate infinite}
-  .b2{width:36vw;height:36vw;right:-10vw;bottom:-14vw;background:radial-gradient(circle,rgba(174,139,84,.2),transparent 65%);animation:b 22s alternate-reverse infinite}
-  @keyframes b{to{transform:translate(4vw,3vh) scale(1.12)}}
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.5;
+      }
+      .b1 {
+        width: 42vw;
+        height: 42vw;
+        left: -12vw;
+        top: -14vw;
+        background: radial-gradient(circle, rgba(0, 0, 0, 0.06), transparent 65%);
+        animation: b 18s alternate infinite;
+      }
+      .b2 {
+        width: 36vw;
+        height: 36vw;
+        right: -10vw;
+        bottom: -14vw;
+        background: radial-gradient(circle, rgba(174, 139, 84, 0.2), transparent 65%);
+        animation: b 22s alternate-reverse infinite;
+      }
+      @keyframes b {
+        to {
+          transform: translate(4vw, 3vh) scale(1.12);
+        }
+      }
 
-  header{position:relative;z-index:20;padding:6vh 7vw 0;max-width:1400px;margin:0 auto}
-  .eyebrow{font-size:.78rem;letter-spacing:.5em;color:var(--gold);margin-bottom:14px}
-  h1{font-family:var(--brush);font-size:clamp(3.5rem,7vw,5.4rem);line-height:1.05}
-  h1 span{color:var(--gold)}
-  .sub{margin-top:18px;color:var(--ink-2);font-size:1.05rem;line-height:1.8;max-width:560px}
+      header {
+        position: relative;
+        z-index: 20;
+        padding: 6vh 7vw 0;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .eyebrow {
+        font-size: 0.78rem;
+        letter-spacing: 0.5em;
+        color: var(--gold);
+        margin-bottom: 14px;
+      }
+      h1 {
+        font-family: var(--brush);
+        font-size: clamp(3.5rem, 7vw, 5.4rem);
+        line-height: 1.05;
+      }
+      h1 span {
+        color: var(--gold);
+      }
+      .sub {
+        margin-top: 18px;
+        color: var(--ink-2);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        max-width: 560px;
+      }
 
-  /* 胶囊筛选 */
-  .filters{display:flex;gap:10px;flex-wrap:wrap;margin:34px 0 10px}
-  .filters button{border:1px solid rgba(0,0,0,.12);background:#fff;font-family:var(--serif);font-size:.88rem;
-    padding:9px 22px;border-radius:40px;cursor:pointer;color:var(--ink-2);transition:.3s}
-  .filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .filters button:hover{border-color:var(--gold)}
+      /* 胶囊筛选 */
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 34px 0 10px;
+      }
+      .filters button {
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        background: #fff;
+        font-family: var(--serif);
+        font-size: 0.88rem;
+        padding: 9px 22px;
+        border-radius: 40px;
+        cursor: pointer;
+        color: var(--ink-2);
+        transition: 0.3s;
+      }
+      .filters button.on {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      .filters button:hover {
+        border-color: var(--gold);
+      }
 
-  /* Organic Bento */
-  .bento{position:relative;z-index:10;max-width:1400px;margin:30px auto 8vh;padding:0 7vw;
-    display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:230px;gap:22px}
-  .cell{position:relative;background:#fff;padding:34px;display:flex;flex-direction:column;justify-content:center;
-    cursor:pointer;overflow:hidden;
-    border-radius:44% 56% 62% 38%/42% 44% 56% 58%;
-    animation:morph 12s ease-in-out infinite alternate;
-    transition:box-shadow .5s,border-radius .5s,transform .5s,opacity .4s;
-    border:1px solid rgba(0,0,0,.04)}
-  @keyframes morph{to{border-radius:58%42%38%62%/56%58%42%44%}}
-  .cell:hover{border-radius:20px;transform:translateY(-6px);box-shadow:0 26px 55px rgba(40,34,20,.13);border-color:var(--gold)}
-  .cell.lg{grid-column:span 2;grid-row:span 2}
-  .cell.wide{grid-column:span 2}
-  .cell.tall{grid-row:span 2}
+      /* Organic Bento */
+      .bento {
+        position: relative;
+        z-index: 10;
+        max-width: 1400px;
+        margin: 30px auto 8vh;
+        padding: 0 7vw;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 230px;
+        gap: 22px;
+      }
+      .cell {
+        position: relative;
+        background: #fff;
+        padding: 34px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: 44% 56% 62% 38%/42% 44% 56% 58%;
+        animation: morph 12s ease-in-out infinite alternate;
+        transition:
+          box-shadow 0.5s,
+          border-radius 0.5s,
+          transform 0.5s,
+          opacity 0.4s;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+      }
+      @keyframes morph {
+        to {
+          border-radius: 58%42%38%62%/56%58%42%44%;
+        }
+      }
+      .cell:hover {
+        border-radius: 20px;
+        transform: translateY(-6px);
+        box-shadow: 0 26px 55px rgba(40, 34, 20, 0.13);
+        border-color: var(--gold);
+      }
+      .cell.lg {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      .cell.wide {
+        grid-column: span 2;
+      }
+      .cell.tall {
+        grid-row: span 2;
+      }
 
-  .pinyin{font-size:.72rem;letter-spacing:.26em;color:var(--gold);text-transform:uppercase}
-  .name{font-family:var(--brush);line-height:1.1;margin:6px 0}
-  .cell .name{font-size:2.2rem}
-  .cell.lg .name{font-size:4.2rem}
-  .desc{font-size:.85rem;color:var(--ink-2);line-height:1.6}
-  .cell.lg .desc{font-size:1.05rem;max-width:80%}
-  .sealmark{position:absolute;top:24px;right:26px;font-family:var(--brush);color:var(--cinnabar);opacity:.4;font-size:1.4rem}
-  .cell.hide{display:none}
+      .pinyin {
+        font-size: 0.72rem;
+        letter-spacing: 0.26em;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+      .name {
+        font-family: var(--brush);
+        line-height: 1.1;
+        margin: 6px 0;
+      }
+      .cell .name {
+        font-size: 2.2rem;
+      }
+      .cell.lg .name {
+        font-size: 4.2rem;
+      }
+      .desc {
+        font-size: 0.85rem;
+        color: var(--ink-2);
+        line-height: 1.6;
+      }
+      .cell.lg .desc {
+        font-size: 1.05rem;
+        max-width: 80%;
+      }
+      .sealmark {
+        position: absolute;
+        top: 24px;
+        right: 26px;
+        font-family: var(--brush);
+        color: var(--cinnabar);
+        opacity: 0.4;
+        font-size: 1.4rem;
+      }
+      .cell.hide {
+        display: none;
+      }
 
-  /* 详情共享元素层 */
-  .detail{position:fixed;inset:0;z-index:60;background:rgba(250,248,243,.85);backdrop-filter:blur(30px);
-    opacity:0;pointer-events:none;cursor:pointer;transition:opacity .5s}
-  .detail.show{opacity:1;pointer-events:auto}
-  .di{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7vh 6vw;
-    transform:scale(.9);transition:.7s var(--spring)}
-  .detail.show .di{transform:none}
-  .d-pinyin{letter-spacing:.4em;color:var(--gold);margin-bottom:8px}
-  .d-name{font-family:var(--brush);font-size:clamp(5rem,14vw,9rem);line-height:1.1}
-  .d-src{margin-top:26px;color:var(--ink-2);font-size:1.2rem;line-height:2;max-width:640px}
-  .d-tags{display:flex;gap:8px;margin-top:30px;flex-wrap:wrap;justify-content:center}
-  .d-tags span{font-size:.8rem;padding:6px 15px;border:1px solid rgba(174,139,84,.5);border-radius:30px;color:var(--gold)}
-  .d-back{position:absolute;bottom:5vh;color:var(--ink-3);font-size:.82rem;letter-spacing:.3em;animation:blink 2.2s infinite}
-  @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
-</style>
-</head>
-<body>
-  <div class="bg"><div class="blob b1"></div><div class="blob b2"></div></div>
-  <header>
-    <div class="eyebrow">林 氏 · 水 墨 起 名</div>
-    <h1>让名字<span>活</span>在纸上</h1>
-    <p class="sub">流体活字，因形生意。鼠标所至，墨迹收锋；轻点名字，溯源经典。</p>
-    <div class="filters" id="filters">
-      <button class="on" data-f="all">全部 · 6</button>
-      <button data-f="neutral">中性</button>
-      <button data-f="gentle">温婉</button>
-      <button data-f="grand">开阔</button>
+      /* 详情共享元素层 */
+      .detail {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: rgba(250, 248, 243, 0.85);
+        backdrop-filter: blur(30px);
+        opacity: 0;
+        pointer-events: none;
+        cursor: pointer;
+        transition: opacity 0.5s;
+      }
+      .detail.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .di {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 7vh 6vw;
+        transform: scale(0.9);
+        transition: 0.7s var(--spring);
+      }
+      .detail.show .di {
+        transform: none;
+      }
+      .d-pinyin {
+        letter-spacing: 0.4em;
+        color: var(--gold);
+        margin-bottom: 8px;
+      }
+      .d-name {
+        font-family: var(--brush);
+        font-size: clamp(5rem, 14vw, 9rem);
+        line-height: 1.1;
+      }
+      .d-src {
+        margin-top: 26px;
+        color: var(--ink-2);
+        font-size: 1.2rem;
+        line-height: 2;
+        max-width: 640px;
+      }
+      .d-tags {
+        display: flex;
+        gap: 8px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .d-tags span {
+        font-size: 0.8rem;
+        padding: 6px 15px;
+        border: 1px solid rgba(174, 139, 84, 0.5);
+        border-radius: 30px;
+        color: var(--gold);
+      }
+      .d-back {
+        position: absolute;
+        bottom: 5vh;
+        color: var(--ink-3);
+        font-size: 0.82rem;
+        letter-spacing: 0.3em;
+        animation: blink 2.2s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
     </div>
-  </header>
+    <header>
+      <div class="eyebrow">林 氏 · 水 墨 起 名</div>
+      <h1>让名字<span>活</span>在纸上</h1>
+      <p class="sub">流体活字，因形生意。鼠标所至，墨迹收锋；轻点名字，溯源经典。</p>
+      <div class="filters" id="filters">
+        <button class="on" data-f="all">全部 · 6</button>
+        <button data-f="neutral">中性</button>
+        <button data-f="gentle">温婉</button>
+        <button data-f="grand">开阔</button>
+      </div>
+    </header>
 
-  <main class="bento" id="bento"></main>
+    <main class="bento" id="bento"></main>
 
-  <div class="detail" id="detail"><div class="di">
-    <div class="d-pinyin" id="dPinyin"></div>
-    <div class="d-name" id="dName"></div>
-    <div class="d-src" id="dSrc"></div>
-    <div class="d-tags" id="dTags"></div>
-    <div class="d-back">继 续 点 击 任 意 处 返 回</div>
-  </div></div>
+    <div class="detail" id="detail">
+      <div class="di">
+        <div class="d-pinyin" id="dPinyin"></div>
+        <div class="d-name" id="dName"></div>
+        <div class="d-src" id="dSrc"></div>
+        <div class="d-tags" id="dTags"></div>
+        <div class="d-back">继 续 点 击 任 意 处 返 回</div>
+      </div>
+    </div>
 
-<script>
-const DATA=[
- {n:"林子衿",p:"LIN ZI JIN",q:"青青子衿，悠悠我心。",s:"《诗经 · 郑风 · 子衿》",cat:["neutral"],tags:["学识","经典"],size:"lg"},
- {n:"林若华",p:"LIN RUO HUA",q:"羲和之未扬，若华何光？",s:"《楚辞 · 天问》",cat:["grand"],tags:["光华","朝气"],size:""},
- {n:"林清婉",p:"LIN QING WAN",q:"有美一人，清扬婉兮。",s:"《诗经 · 郑风》",cat:["gentle"],tags:["温婉","柔美"],size:"tall"},
- {n:"林嘉木",p:"LIN JIA MU",q:"南有嘉木，葛藟累之。",s:"《诗经 · 周南》",cat:["neutral"],tags:["繁茂","担当"],size:"wide"},
- {n:"林望舒",p:"LIN WANG SHU",q:"前望舒使先驱兮。",s:"《楚辞 · 离骚》",cat:["gentle","neutral"],tags:["月神","清雅"],size:""},
- {n:"林星汉",p:"LIN XING HAN",q:"星汉灿烂，若出其里。",s:"曹操《观沧海》",cat:["grand"],tags:["辽阔","壮志"],size:""}
-];
-const bento=document.getElementById('bento');
-DATA.forEach(d=>{
-  const c=document.createElement('div');
-  c.className='cell '+(d.size||'');c.dataset.cat=d.cat.join(',');
-  c.innerHTML=`<div class="sealmark">印</div><div class="pinyin">${d.p}</div>
+    <script>
+      const DATA = [
+        {
+          n: "林子衿",
+          p: "LIN ZI JIN",
+          q: "青青子衿，悠悠我心。",
+          s: "《诗经 · 郑风 · 子衿》",
+          cat: ["neutral"],
+          tags: ["学识", "经典"],
+          size: "lg",
+        },
+        {
+          n: "林若华",
+          p: "LIN RUO HUA",
+          q: "羲和之未扬，若华何光？",
+          s: "《楚辞 · 天问》",
+          cat: ["grand"],
+          tags: ["光华", "朝气"],
+          size: "",
+        },
+        {
+          n: "林清婉",
+          p: "LIN QING WAN",
+          q: "有美一人，清扬婉兮。",
+          s: "《诗经 · 郑风》",
+          cat: ["gentle"],
+          tags: ["温婉", "柔美"],
+          size: "tall",
+        },
+        {
+          n: "林嘉木",
+          p: "LIN JIA MU",
+          q: "南有嘉木，葛藟累之。",
+          s: "《诗经 · 周南》",
+          cat: ["neutral"],
+          tags: ["繁茂", "担当"],
+          size: "wide",
+        },
+        {
+          n: "林望舒",
+          p: "LIN WANG SHU",
+          q: "前望舒使先驱兮。",
+          s: "《楚辞 · 离骚》",
+          cat: ["gentle", "neutral"],
+          tags: ["月神", "清雅"],
+          size: "",
+        },
+        {
+          n: "林星汉",
+          p: "LIN XING HAN",
+          q: "星汉灿烂，若出其里。",
+          s: "曹操《观沧海》",
+          cat: ["grand"],
+          tags: ["辽阔", "壮志"],
+          size: "",
+        },
+      ];
+      const bento = document.getElementById("bento");
+      DATA.forEach((d) => {
+        const c = document.createElement("div");
+        c.className = "cell " + (d.size || "");
+        c.dataset.cat = d.cat.join(",");
+        c.innerHTML = `<div class="sealmark">印</div><div class="pinyin">${d.p}</div>
     <div class="name">${d.n}</div><div class="desc">${d.q}</div>`;
-  c.addEventListener('click',()=>{
-    dPinyin.textContent=d.p;dName.textContent=d.n;
-    dSrc.innerHTML=`「${d.q}」<br>—— ${d.s}`;
-    dTags.innerHTML=d.tags.map(t=>`<span>${t}</span>`).join('');
-    detail.classList.add('show');
-  });
-  bento.appendChild(c);
-});
-const detail=document.getElementById('detail');
-detail.addEventListener('click',()=>detail.classList.remove('show'));
+        c.addEventListener("click", () => {
+          dPinyin.textContent = d.p;
+          dName.textContent = d.n;
+          dSrc.innerHTML = `「${d.q}」<br>—— ${d.s}`;
+          dTags.innerHTML = d.tags.map((t) => `<span>${t}</span>`).join("");
+          detail.classList.add("show");
+        });
+        bento.appendChild(c);
+      });
+      const detail = document.getElementById("detail");
+      detail.addEventListener("click", () => detail.classList.remove("show"));
 
-document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  const f=b.dataset.f;
-  document.querySelectorAll('.cell').forEach((c,i)=>{
-    const show=f==='all'||c.dataset.cat.split(',').includes(f);
-    c.classList.toggle('hide',!show);
-    if(show){c.style.animation='none';void c.offsetWidth;c.style.animation=`morph 12s ease-in-out infinite alternate, enter .5s ${i*.04}s backwards`;}
-  });
-}));
-</script>
-</body>
+      document.querySelectorAll(".filters button").forEach((b) =>
+        b.addEventListener("click", () => {
+          document.querySelectorAll(".filters button").forEach((x) => x.classList.remove("on"));
+          b.classList.add("on");
+          const f = b.dataset.f;
+          document.querySelectorAll(".cell").forEach((c, i) => {
+            const show = f === "all" || c.dataset.cat.split(",").includes(f);
+            c.classList.toggle("hide", !show);
+            if (show) {
+              c.style.animation = "none";
+              void c.offsetWidth;
+              c.style.animation = `morph 12s ease-in-out infinite alternate, enter .5s ${i * 0.04}s backwards`;
+            }
+          });
+        }),
+      );
+    </script>
+  </body>
 </html>
