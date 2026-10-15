@@ -77,7 +77,7 @@
 ## 当前发布事实
 
 - 0.3 个人版规格：workspace `specs/20260927-naming-studio/`；使用说明见 `docs/personal-guide.md`。
-- 默认 `personal-2026.09.30` 内容包：303 个字、396 条经过 `corpus-score-1` 准入的双字典故、500 个现代组合和 66 条历史用名参考；source_checked 与生产人审 verified 分开。精选 TSV/JSON 是持久输入，构建不从原始大语料重新抽取名字。
+- 默认 `personal-2026.10.15` 内容包：303 个字、396 条经过 `corpus-score-1` 准入的双字典故、600 个现代组合和 81 条历史用名参考，其中状元 30 条；source_checked 与生产人审 verified 分开。精选 TSV/JSON 是持久输入，构建不从原始大语料重新抽取名字。
 - `data/sources/personal/standard-character-pinyin.json` 是覆盖 8,105 个通用规范汉字的持久拼音 SSOT；303 张 `characters` 仍是独立的自动生成白名单。
 - `data/sources/personal/traditional-to-simplified.json` 是固定 OpenCC 来源生成的持久映射；繁体底本在精选构建和候选生成时先转换为简体，再进入字卡门禁与页面展示。
 - `data/sources/personal/character-elements.json` 为全部 303 张生成字卡提供 `semantic-imagery-1` 五行文化意象与逐字理由；它是 source_checked 项目分类，不是唯一权威字表。

@@ -169,12 +169,21 @@ const modernCombinations = JSON.parse(
   ),
 );
 const personUsages = JSON.parse(read("person-usages.json"));
+const corpusTargets = JSON.parse(read("corpus-targets.json"));
 const standardCharacterPinyin = JSON.parse(read("standard-character-pinyin.json")).index;
 if (
-  modernCombinations.length !== 500 ||
-  new Set(modernCombinations.map((item) => item.givenName)).size !== 500
+  modernCombinations.length !== corpusTargets.modernCombinations ||
+  new Set(modernCombinations.map((item) => item.givenName)).size !==
+    corpusTargets.modernCombinations
 )
-  throw new Error("Expected exactly 500 unique modern combinations");
+  throw new Error(
+    `Expected exactly ${corpusTargets.modernCombinations} unique modern combinations`,
+  );
+if (
+  personUsages.filter((item) => item.identityType === "zhuangyuan").length !==
+  corpusTargets.zhuangyuan
+)
+  throw new Error(`Expected exactly ${corpusTargets.zhuangyuan} zhuangyuan records`);
 for (const item of modernCombinations) {
   if (
     [...item.givenName].length !== 2 ||
@@ -193,9 +202,9 @@ const body = {
 const contentHash = createHash("sha256").update(JSON.stringify(body)).digest("hex");
 const bundle = {
   manifest: {
-    version: "personal-2026.09.30",
+    version: "personal-2026.10.15",
     status: "personal",
-    builtAt: "2026-09-30T00:00:00.000Z",
+    builtAt: "2026-10-15T00:00:00.000Z",
     contentHash,
   },
   ...body,

@@ -1100,6 +1100,305 @@
     "checkedAt": "2026-09-30"
   },
   {
+    "id": "person:imperial-exam:tang:843:1",
+    "name": "卢肇",
+    "inspirationEligible": false,
+    "inspirationReviewNote": "“肇”尚未进入当前字卡，本轮只保留史实记录。",
+    "period": "唐·会昌三年（843）",
+    "description": "会昌三年进士科第一，后世称状元。",
+    "rankEvidence": "三门峡市廉政网人物资料记载卢肇于843年高中状元。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "三门峡市廉政网《不惮风霜与苦辛——状元卢肇的风骨》",
+        "url": "https://www.smxlz.gov.cn/sitesources/nysjwjw/page_pc/xcjd/s/articlefbfd825eecf34ad59c000e1b9b8beb93.html"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:song:977:1",
+    "name": "吕蒙正",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["正"],
+    "inspirationReviewNote": "人工确认只借用原名中的“正”。",
+    "period": "北宋·太平兴国二年（977）",
+    "description": "太平兴国二年进士第一。",
+    "rankEvidence": "开封市纪委资料记载吕蒙正于977年参加科举并考中状元。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "开封廉政网《平民宰相吕蒙正清廉三两事》",
+        "url": "https://www.kflz.gov.cn/sitesources/kflzw/page_pc/lzwh/articleb9b201d48c2a4b4898222f2c624422af.html"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:yuan:1321:1",
+    "name": "泰不华",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["华"],
+    "inspirationReviewNote": "该姓名不按汉式姓氏机械拆分，仅人工确认借用“华”。",
+    "period": "元·至治元年（1321）",
+    "description": "至治元年状元。",
+    "rankEvidence": "《台州地区志》历代状元名录列泰不华为元至治元年状元。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "台州市地方志《第二节 科举概况》，历代状元名录",
+        "url": "https://tzsz.zjtz.gov.cn/art/2019/2/26/art_1229206684_54284978.html"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:ming:1511:1",
+    "name": "杨慎",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["慎"],
+    "inspirationReviewNote": "人工确认借用原名“慎”。",
+    "period": "明·正德六年（1511）",
+    "description": "正德六年状元。",
+    "rankEvidence": "故宫博物院资料将杨慎列入正德朝状元名单。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院《明代科举考试》，正德朝状元名单",
+        "url": "https://www.dpm.org.cn/Uploads/File/pdf/6a/82/7e/6a827e9c711d38cb82204e12f95bd8a9.pdf"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:ming:1544:1",
+    "name": "秦鸣雷",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["鸣"],
+    "inspirationReviewNote": "“雷”尚未进入当前字卡，本轮借用“鸣”。",
+    "period": "明·嘉靖二十三年（1544）",
+    "description": "嘉靖二十三年状元。",
+    "rankEvidence": "《台州地区志》历代状元名录列秦鸣雷为明嘉靖二十三年状元。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "台州市地方志《第二节 科举概况》，历代状元名录",
+        "url": "https://tzsz.zjtz.gov.cn/art/2019/2/26/art_1229206684_54284978.html"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:ming:1598:1",
+    "name": "赵秉忠",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["秉"],
+    "inspirationReviewNote": "“忠”尚未进入当前字卡，本轮借用“秉”。",
+    "period": "明·万历二十六年（1598）",
+    "description": "万历二十六年状元。",
+    "rankEvidence": "青州博物馆藏赵秉忠状元卷卷首题为第一甲第一名。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "青州博物馆赵秉忠状元卷，卷首名次",
+        "url": "https://www.sdxc.gov.cn/sy/xcdt/202010/t20201004_11623163.htm"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-shunzhi:1",
+    "name": "徐元文",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["文"],
+    "inspirationReviewNote": "“元”尚未进入当前字卡，本轮借用“文”。",
+    "period": "清·顺治朝",
+    "description": "顺治朝状元。",
+    "rankEvidence": "故宫博物院人物词条明确记载徐元文为清顺治时期状元。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院人物词条“徐元文”",
+        "url": "https://www.dpm.org.cn/lemmas/242929.html"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-kangxi:1",
+    "name": "孙承恩",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["承", "恩"],
+    "inspirationReviewNote": "“承”“恩”均已进入字卡，可沿用二字或分别借字。",
+    "period": "清·康熙朝",
+    "description": "康熙朝状元。",
+    "rankEvidence": "故宫博物院资料将孙承恩列入康熙朝状元名单。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院《清代状元》，康熙朝状元名单",
+        "url": "https://www.dpm.org.cn/Uploads/File/pdf/26/ad/97/26ad97a223d5416bf437dfa4d905e65f.pdf"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-qianlong:1745:1",
+    "name": "钱维城",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["维"],
+    "inspirationReviewNote": "“城”尚未进入当前字卡，本轮借用“维”。",
+    "period": "清·乾隆十年（1745）",
+    "description": "乾隆十年状元。",
+    "rankEvidence": "故宫博物院人物资料明确记载钱维城于乾隆十年中状元。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院“钱维城”人物资料",
+        "url": "https://www.dpm.org.cn/subject_wanzi/"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-qianlong:1760:1",
+    "name": "毕沅",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["沅"],
+    "inspirationReviewNote": "人工确认借用原名“沅”。",
+    "period": "清·乾隆二十五年（1760）",
+    "description": "乾隆二十五年进士第一。",
+    "rankEvidence": "苏州市地方志资料记载毕沅于乾隆二十五年殿试第一。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "苏州市地方志《考试季，苏州这些“考神”你知道吗？》",
+        "url": "https://dfzb.suzhou.gov.cn/dfzb/szdq/202406/335dc5eb2f634f01bce9a193a782abb7.shtml"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-qianlong:zhangshuxun",
+    "name": "张书勋",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["书"],
+    "inspirationReviewNote": "“勋”尚未进入当前字卡，本轮借用“书”。",
+    "period": "清·乾隆朝",
+    "description": "乾隆朝状元。",
+    "rankEvidence": "故宫博物院资料将张书勋列入乾隆朝状元名单。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院《清代状元》，乾隆朝状元名单",
+        "url": "https://www.dpm.org.cn/Uploads/File/pdf/26/ad/97/26ad97a223d5416bf437dfa4d905e65f.pdf"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-qianlong:chenchuzhe",
+    "name": "陈初哲",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["初"],
+    "inspirationReviewNote": "“哲”尚未进入当前字卡，本轮借用“初”。",
+    "period": "清·乾隆朝",
+    "description": "乾隆朝状元。",
+    "rankEvidence": "故宫博物院资料将陈初哲列入乾隆朝状元名单。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院《清代状元》，乾隆朝状元名单",
+        "url": "https://www.dpm.org.cn/Uploads/File/pdf/26/ad/97/26ad97a223d5416bf437dfa4d905e65f.pdf"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-jiaqing:lizhenjun",
+    "name": "李振钧",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["钧"],
+    "inspirationReviewNote": "“振”尚未进入当前字卡，本轮借用“钧”。",
+    "period": "清·嘉庆朝",
+    "description": "嘉庆朝状元。",
+    "rankEvidence": "故宫博物院资料将李振钧列入嘉庆朝状元名单。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院《清代状元》，嘉庆朝状元名单",
+        "url": "https://www.dpm.org.cn/Uploads/File/pdf/26/ad/97/26ad97a223d5416bf437dfa4d905e65f.pdf"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing-jiaqing:wangyunjin",
+    "name": "王云锦",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["云", "锦"],
+    "inspirationReviewNote": "“云”“锦”均已进入字卡，可沿用二字或分别借字。",
+    "period": "清·嘉庆朝",
+    "description": "嘉庆朝状元。",
+    "rankEvidence": "故宫博物院资料将王云锦列入嘉庆朝状元名单。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "故宫博物院《清代状元》，嘉庆朝状元名单",
+        "url": "https://www.dpm.org.cn/Uploads/File/pdf/26/ad/97/26ad97a223d5416bf437dfa4d905e65f.pdf"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
+    "id": "person:imperial-exam:qing:1823:1",
+    "name": "林召棠",
+    "inspirationEligible": true,
+    "inspirationCharacters": ["棠"],
+    "inspirationReviewNote": "“召”尚未进入当前字卡，本轮借用“棠”。",
+    "period": "清·道光三年（1823）",
+    "description": "道光三年进士一甲第一名。",
+    "rankEvidence": "吴川市政府资料记载林召棠于道光三年殿试一甲第一名。",
+    "identityType": "zhuangyuan",
+    "sourceRefs": [
+      {
+        "sourceId": "manual-imperial-exam-curation",
+        "location": "吴川市人民政府“林召棠”科举记录",
+        "url": "https://www.gdwc.gov.cn/bmzz/wcsrmzfw/zjwc/wcmp/lsmr/content/post_367806.html"
+      }
+    ],
+    "reviewStatus": "source_checked",
+    "checkedAt": "2026-10-15"
+  },
+  {
     "id": "person:imperial-exam:1838:42",
     "name": "曾国藩",
     "period": "清·道光十八年（1838）",

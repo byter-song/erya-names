@@ -256,7 +256,15 @@ export function generateCandidates(input: {
     orderedAllusions.length,
     Math.max(0, Math.round(input.requestedCount * input.allusionRatio)),
   );
-  const historical = seededShuffle(acceptedHistorical, `${input.seed}:historical`);
+  const uniqueHistorical = new Map<string, GeneratedCandidate>();
+  for (const item of acceptedHistorical) {
+    const existing = uniqueHistorical.get(item.fullName);
+    if (existing) {
+      existing.sourceEvidence.push(...item.sourceEvidence);
+      existing.sourceIds = [...new Set([...existing.sourceIds, ...item.sourceIds])];
+    } else uniqueHistorical.set(item.fullName, item);
+  }
+  const historical = seededShuffle([...uniqueHistorical.values()], `${input.seed}:historical`);
   const historicalTarget =
     sources.length === 1
       ? input.requestedCount

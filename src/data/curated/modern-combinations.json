@@ -3498,5 +3498,705 @@
     "styleTags": ["沉稳端正", "文雅书卷"],
     "usageNote": "穆字笔画较多，需与姓氏一起试写。",
     "genderExpression": "neutral"
+  },
+  {
+    "givenName": "云岚",
+    "meaning": "以云气与山间雾气相连，取开阔轻盈和自然清雅彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "建议把“姓+云岚”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "云晏",
+    "meaning": "以云气与安宁晴朗相连，取开阔轻盈和温和从容彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "请与姓氏一起手写“云晏”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "雨宵",
+    "meaning": "以雨水润泽与夜色将深相连，取细腻生机和安静从容彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "“雨宵”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "雨溪",
+    "meaning": "以雨水润泽与清澈溪流相连，取细腻生机和灵动自然彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“雨溪”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "清晏",
+    "meaning": "以清澈清正与安宁晴朗相连，取澄明自持和温和从容彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "向家人介绍时说明“清晏”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "清言",
+    "meaning": "以清澈清正与真诚表达相连，取澄明自持和言语有度彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "建议把“姓+清言”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "星帆",
+    "meaning": "以明亮星辰与远行船帆相连，取辽阔希望和启程探索彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "请与姓氏一起手写“星帆”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "星禾",
+    "meaning": "以明亮星辰与生长禾苗相连，取辽阔希望和朴实丰盈彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "“星禾”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "星宥",
+    "meaning": "以明亮星辰与宽宥包容相连，取辽阔希望和从容有度彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“星宥”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "星嘉",
+    "meaning": "以明亮星辰与美好嘉许相连，取辽阔希望和温暖欣赏彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "向家人介绍时说明“星嘉”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "月朗",
+    "meaning": "以清朗月色与明亮爽朗相连，取圆融澄净和坦荡开阔彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "建议把“姓+月朗”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "月清",
+    "meaning": "以清朗月色与清澈清正相连，取圆融澄净和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "请与姓氏一起手写“月清”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "映澄",
+    "meaning": "以光影相映与水色澄明相连，取彼此照亮和清静通透彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "“映澄”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "映华",
+    "meaning": "以光影相映与光彩繁盛相连，取彼此照亮和明丽丰盈彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“映华”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "晨清",
+    "meaning": "以清晨初起与清澈清正相连，取蓬勃新生和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "向家人介绍时说明“晨清”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "晨宥",
+    "meaning": "以清晨初起与宽宥包容相连，取蓬勃新生和从容有度彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "建议把“姓+晨宥”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "昕宵",
+    "meaning": "以太阳将出与夜色将深相连，取晨光与希望和安静从容彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "请与姓氏一起手写“昕宵”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "昕悦",
+    "meaning": "以太阳将出与喜悦和悦相连，取晨光与希望和乐观亲和彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "“昕悦”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "晴宛",
+    "meaning": "以天色晴朗与宛转柔和相连，取明净开阔和含蓄温润彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“晴宛”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "汐华",
+    "meaning": "以有序晚潮与光彩繁盛相连，取从容节律和明丽丰盈彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "向家人介绍时说明“汐华”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "沅清",
+    "meaning": "以沅水长流与清澈清正相连，取清雅自然和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "建议把“姓+沅清”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "洛宥",
+    "meaning": "以洛水山川与宽宥包容相连，取清朗悠远和从容有度彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "请与姓氏一起手写“洛宥”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "泓澄",
+    "meaning": "以深而清的水与水色澄明相连，取深厚澄澈和清静通透彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "“泓澄”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "林宥",
+    "meaning": "以树木成林与宽宥包容相连，取生长宽厚和从容有度彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“林宥”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "松清",
+    "meaning": "以长青松木与清澈清正相连，取坚韧舒展和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["清朗自然", "中性现代"],
+    "usageNote": "向家人介绍时说明“松清”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "书瑞",
+    "meaning": "以书籍书写与吉祥瑞信相连，取求知文雅和美好祝愿彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "建议把“姓+书瑞”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "书达",
+    "meaning": "以书籍书写与通达明白相连，取求知文雅和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "请与姓氏一起手写“书达”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "书朗",
+    "meaning": "以书籍书写与明亮爽朗相连，取求知文雅和坦荡开阔彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "“书朗”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "书华",
+    "meaning": "以书籍书写与光彩繁盛相连，取求知文雅和明丽丰盈彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“书华”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "文安",
+    "meaning": "以文采学问与安定从容相连，取涵养表达和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "向家人介绍时说明“文安”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "文衡",
+    "meaning": "以文采学问与衡量平衡相连，取涵养表达和公正有度彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "建议把“姓+文衡”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "文韵",
+    "meaning": "以文采学问与和谐音韵相连，取涵养表达和文雅有致彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "请与姓氏一起手写“文韵”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "思达",
+    "meaning": "以思考体察与通达明白相连，取善思重情和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "“思达”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "思宥",
+    "meaning": "以思考体察与宽宥包容相连，取善思重情和从容有度彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“思宥”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "思朗",
+    "meaning": "以思考体察与明亮爽朗相连，取善思重情和坦荡开阔彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "向家人介绍时说明“思朗”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "诗令",
+    "meaning": "以诗歌表达与美好可亲相连，取文雅想象和端雅有礼彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "建议把“姓+诗令”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "诗和",
+    "meaning": "以诗歌表达与和谐和悦相连，取文雅想象和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "请与姓氏一起手写“诗和”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "砚安",
+    "meaning": "以砚台书写与安定从容相连，取勤学文思和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "“砚安”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "砚朗",
+    "meaning": "以砚台书写与明亮爽朗相连，取勤学文思和坦荡开阔彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“砚朗”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "砚言",
+    "meaning": "以砚台书写与真诚表达相连，取勤学文思和言语有度彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "向家人介绍时说明“砚言”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "墨和",
+    "meaning": "以墨色书画与和谐和悦相连，取沉静文思和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "建议把“姓+墨和”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "墨安",
+    "meaning": "以墨色书画与安定从容相连，取沉静文思和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "请与姓氏一起手写“墨安”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "墨韵",
+    "meaning": "以墨色书画与和谐音韵相连，取沉静文思和文雅有致彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "“墨韵”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "言和",
+    "meaning": "以真诚表达与和谐和悦相连，取言语有度和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“言和”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "言达",
+    "meaning": "以真诚表达与通达明白相连，取言语有度和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "向家人介绍时说明“言达”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "韵嘉",
+    "meaning": "以和谐音韵与美好嘉许相连，取文雅有致和温暖欣赏彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "建议把“姓+韵嘉”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "韵和",
+    "meaning": "以和谐音韵与和谐和悦相连，取文雅有致和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "请与姓氏一起手写“韵和”，比较整体疏密与辨识度。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "颂安",
+    "meaning": "以赞颂欣赏与安定从容相连，取善于发现和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "“颂安”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "颂和",
+    "meaning": "以赞颂欣赏与和谐和悦相连，取善于发现和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“颂和”，留意谐音。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "承宥",
+    "meaning": "以承接担当与宽宥包容相连，取责任与延续和从容有度彼此映衬的当代名字意境。",
+    "styleTags": ["文雅书卷", "中性现代"],
+    "usageNote": "向家人介绍时说明“承宥”的具体用字，避免同音字误写。",
+    "genderExpression": "neutral"
+  },
+  {
+    "givenName": "秉正",
+    "meaning": "以持守秉承与端正正直相连，取原则与定力和公正坦然彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "建议把“姓+秉正”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "秉修",
+    "meaning": "以持守秉承与修养修习相连，取原则与定力和持续精进彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "请与姓氏一起手写“秉修”，比较整体疏密与辨识度。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "弘达",
+    "meaning": "以广大弘远与通达明白相连，取开阔胸襟和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "“弘达”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "弘朗",
+    "meaning": "以广大弘远与明亮爽朗相连，取开阔胸襟和坦荡开阔彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“弘朗”，留意谐音。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "明达",
+    "meaning": "以明亮明白与通达明白相连，取明理坦荡和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "向家人介绍时说明“明达”的具体用字，避免同音字误写。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "明和",
+    "meaning": "以明亮明白与和谐和悦相连，取明理坦荡和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "建议把“姓+明和”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "正达",
+    "meaning": "以端正正直与通达明白相连，取公正坦然和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "请与姓氏一起手写“正达”，比较整体疏密与辨识度。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "正和",
+    "meaning": "以端正正直与和谐和悦相连，取公正坦然和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "“正和”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "彦达",
+    "meaning": "以才德之士与通达明白相连，取才学品行和开阔练达彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“彦达”，留意谐音。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "彦衡",
+    "meaning": "以才德之士与衡量平衡相连，取才学品行和公正有度彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "向家人介绍时说明“彦衡”的具体用字，避免同音字误写。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "彦修",
+    "meaning": "以才德之士与修养修习相连，取才学品行和持续精进彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "建议把“姓+彦修”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "钧瑞",
+    "meaning": "以稳重有度与吉祥瑞信相连，取平衡分寸和美好祝愿彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "请与姓氏一起手写“钧瑞”，比较整体疏密与辨识度。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "钧衡",
+    "meaning": "以稳重有度与衡量平衡相连，取平衡分寸和公正有度彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "“钧衡”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "铭瑞",
+    "meaning": "以铭记珍重与吉祥瑞信相连，取自省守信和美好祝愿彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“铭瑞”，留意谐音。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "铭衡",
+    "meaning": "以铭记珍重与衡量平衡相连，取自省守信和公正有度彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "向家人介绍时说明“铭衡”的具体用字，避免同音字误写。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "维安",
+    "meaning": "以维系思考与安定从容相连，取守护连结和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "建议把“姓+维安”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "维衡",
+    "meaning": "以维系思考与衡量平衡相连，取守护连结和公正有度彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "请与姓氏一起手写“维衡”，比较整体疏密与辨识度。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "良衡",
+    "meaning": "以良善美好与衡量平衡相连，取温厚可信和公正有度彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "“良衡”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "良朗",
+    "meaning": "以良善美好与明亮爽朗相连，取温厚可信和坦荡开阔彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“良朗”，留意谐音。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "昭安",
+    "meaning": "以光明显明与安定从容相连，取坦荡清醒和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "向家人介绍时说明“昭安”的具体用字，避免同音字误写。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "昭和",
+    "meaning": "以光明显明与和谐和悦相连，取坦荡清醒和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "建议把“姓+昭和”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "令嘉",
+    "meaning": "以美好可亲与美好嘉许相连，取端雅有礼和温暖欣赏彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "请与姓氏一起手写“令嘉”，比较整体疏密与辨识度。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "令和",
+    "meaning": "以美好可亲与和谐和悦相连，取端雅有礼和温厚相处彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "“令和”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "云锦",
+    "meaning": "以云气与纹彩锦帛相连，取开阔轻盈和美好文采彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“云锦”，留意谐音。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "承恩",
+    "meaning": "以承接担当与情谊恩惠相连，取责任与延续和知恩珍重彼此映衬的当代名字意境。",
+    "styleTags": ["沉稳端正", "文雅书卷"],
+    "usageNote": "向家人介绍时说明“承恩”的具体用字，避免同音字误写。",
+    "genderExpression": "masculine"
+  },
+  {
+    "givenName": "婉月",
+    "meaning": "以柔和婉转与清朗月色相连，取温雅有礼和圆融澄净彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "建议把“姓+婉月”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "婉音",
+    "meaning": "以柔和婉转与声音音韵相连，取温雅有礼和和谐悦耳彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "请与姓氏一起手写“婉音”，比较整体疏密与辨识度。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "静月",
+    "meaning": "以安静沉着与清朗月色相连，取平和专注和圆融澄净彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "“静月”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "静宛",
+    "meaning": "以安静沉着与宛转柔和相连，取平和专注和含蓄温润彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“静宛”，留意谐音。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "雅音",
+    "meaning": "以雅正文雅与声音音韵相连，取端庄涵养和和谐悦耳彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "向家人介绍时说明“雅音”的具体用字，避免同音字误写。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "雅清",
+    "meaning": "以雅正文雅与清澈清正相连，取端庄涵养和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "建议把“姓+雅清”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "舒清",
+    "meaning": "以舒展从容与清澈清正相连，取自在安适和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "请与姓氏一起手写“舒清”，比较整体疏密与辨识度。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "舒月",
+    "meaning": "以舒展从容与清朗月色相连，取自在安适和圆融澄净彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "“舒月”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "宛月",
+    "meaning": "以宛转柔和与清朗月色相连，取含蓄温润和圆融澄净彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“宛月”，留意谐音。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "宛音",
+    "meaning": "以宛转柔和与声音音韵相连，取含蓄温润和和谐悦耳彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "向家人介绍时说明“宛音”的具体用字，避免同音字误写。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "柔宜",
+    "meaning": "以柔和柔韧与适宜合度相连，取温和有力和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "建议把“姓+柔宜”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "柔清",
+    "meaning": "以柔和柔韧与清澈清正相连，取温和有力和澄明自持彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "请与姓氏一起手写“柔清”，比较整体疏密与辨识度。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "芷宜",
+    "meaning": "以芳香白芷与适宜合度相连，取清雅芳洁和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "“芷宜”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "芷月",
+    "meaning": "以芳香白芷与清朗月色相连，取清雅芳洁和圆融澄净彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“芷月”，留意谐音。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "兰嘉",
+    "meaning": "以兰草兰花与美好嘉许相连，取清雅坚贞和温暖欣赏彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "向家人介绍时说明“兰嘉”的具体用字，避免同音字误写。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "兰月",
+    "meaning": "以兰草兰花与清朗月色相连，取清雅坚贞和圆融澄净彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "建议把“姓+兰月”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "薇宜",
+    "meaning": "以草木新生与适宜合度相连，取自然清秀和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "请与姓氏一起手写“薇宜”，比较整体疏密与辨识度。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "薇安",
+    "meaning": "以草木新生与安定从容相连，取自然清秀和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "“薇安”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "苓安",
+    "meaning": "以草木植物与安定从容相连，取朴素生机和平和可靠彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“苓安”，留意谐音。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "卉晴",
+    "meaning": "以花草繁茂与天色晴朗相连，取自然生机和明净开阔彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "向家人介绍时说明“卉晴”的具体用字，避免同音字误写。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "采宜",
+    "meaning": "以采撷文采与适宜合度相连，取发现美好和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "建议把“姓+采宜”连续读三遍，确认声调衔接自然。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "琬宜",
+    "meaning": "以温润美玉与适宜合度相连，取圆融端雅和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "请与姓氏一起手写“琬宜”，比较整体疏密与辨识度。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "琼宜",
+    "meaning": "以洁美玉石与适宜合度相连，取珍重明净和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "“琼宜”按现代字义组合使用，不宣称出自某一句古诗文。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "佩嘉",
+    "meaning": "以佩玉自持与美好嘉许相连，取珍重品行和温暖欣赏彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "可分别用普通话和家庭常用方言试读“佩嘉”，留意谐音。",
+    "genderExpression": "feminine"
+  },
+  {
+    "givenName": "姝宜",
+    "meaning": "以美好明丽与适宜合度相连，取温雅自信和从容得体彼此映衬的当代名字意境。",
+    "styleTags": ["温婉灵秀", "清朗自然"],
+    "usageNote": "向家人介绍时说明“姝宜”的具体用字，避免同音字误写。",
+    "genderExpression": "feminine"
   }
 ]

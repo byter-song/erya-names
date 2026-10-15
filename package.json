@@ -46,7 +46,7 @@
     "data:build-standard-pinyin": "node scripts/data/build-standard-pinyin-index.mjs",
     "data:build-traditional-to-simplified": "node scripts/data/build-traditional-to-simplified.mjs",
     "preflight": "npm run format:check && npm run typecheck && npm run lint && npm run test -- --run && npm run data:audit && npm run build",
-    "release:check": "npm audit --audit-level=high && npm run preflight && npm run quality:security && npm run quality:performance && npm run test:accessibility && npm run test:e2e && npm run quality:lighthouse && npm run quality:manifest && npm run release:verify",
+    "release:check": "npm audit --audit-level=high && npm run preflight && npm run quality:combinations && npm run quality:security && npm run quality:performance && npm run test:accessibility && npm run test:e2e && npm run quality:lighthouse && npm run quality:manifest && npm run release:verify",
     "data:build-personal": "node scripts/data/build-personal.mjs",
     "quality:combinations": "tsx scripts/quality/combination-report.ts"
   },

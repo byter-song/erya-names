@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 const read = (path) =>
   JSON.parse(readFileSync(new URL(`../../${path}`, import.meta.url), "utf8"));
 const bundle = read("src/data/curated/personal-bundle.json");
+const corpusTargets = read("data/sources/personal/corpus-targets.json");
 const standard = new Set(read("src/data/curated/standard-characters.json").characters);
 const {
   characters,
@@ -57,10 +58,13 @@ for (const char of characters) {
 if (modernCombinations) {
   const chars = new Set(characters.map((item) => item.char));
   if (
-    modernCombinations.length !== 500 ||
-    new Set(modernCombinations.map((item) => item.givenName)).size !== 500
+    modernCombinations.length !== corpusTargets.modernCombinations ||
+    new Set(modernCombinations.map((item) => item.givenName)).size !==
+      corpusTargets.modernCombinations
   )
-    failures.push("Modern collection must contain 500 unique names");
+    failures.push(
+      `Modern collection must contain ${corpusTargets.modernCombinations} unique names`,
+    );
   for (const item of modernCombinations)
     if (
       [...item.givenName].length !== 2 ||
@@ -110,6 +114,38 @@ for (const item of allusions) {
     if (simplify(value) !== value)
       failures.push(`Traditional display text ${item.id}: ${value}`);
 }
+const personIds = personUsages.map((usage) => usage.id);
+const zhuangyuan = personUsages.filter((usage) => usage.identityType === "zhuangyuan");
+if (new Set(personIds).size !== personIds.length) failures.push("Duplicate person usage ids");
+if (zhuangyuan.length !== corpusTargets.zhuangyuan)
+  failures.push(`Expected ${corpusTargets.zhuangyuan} zhuangyuan records`);
+const modernNames = modernCombinations?.map((item) => item.givenName) ?? [];
+const characterSet = new Set(characters.map((item) => item.char));
+const reviewedInspirationZhuangyuan = zhuangyuan.filter(
+  (usage) => usage.inspirationEligible !== undefined,
+);
+const generatableZhuangyuan = reviewedInspirationZhuangyuan.filter((usage) => {
+  if (usage.inspirationEligible === false) return false;
+  const simplifiedName = simplify(usage.name);
+  const legacyCharacters = [...simplifiedName.slice(1)];
+  const reviewedCharacters = usage.inspirationCharacters?.map(simplify);
+  const usable = (reviewedCharacters ?? legacyCharacters).filter((char) =>
+    characterSet.has(char),
+  );
+  return (
+    usable.length > 0 &&
+    (usable.length === 2 ||
+      modernNames.some((name) => usable.some((char) => name.includes(char))))
+  );
+});
+if (
+  reviewedInspirationZhuangyuan.length > 0 &&
+  generatableZhuangyuan.length / reviewedInspirationZhuangyuan.length <
+    corpusTargets.minimumGeneratableNewZhuangyuanRatio
+)
+  failures.push(
+    `Generatable new zhuangyuan ratio ${generatableZhuangyuan.length}/${reviewedInspirationZhuangyuan.length} is below ${corpusTargets.minimumGeneratableNewZhuangyuanRatio}`,
+  );
 for (const usage of personUsages) {
   if (
     !usage.id ||
@@ -156,7 +192,11 @@ if (failures.length) {
   );
 
 function simplify(value) {
-  return [...value.normalize("NFC")]
+  // 乾 is retained in the proper era name 乾隆; character-by-character OpenCC-style
+  // conversion would incorrectly turn it into 干隆.
+  const protectedValue = value.normalize("NFC").replaceAll("乾隆", "QIANLONG_ERA");
+  return [...protectedValue]
     .map((char) => traditionalToSimplified[char] ?? char)
-    .join("");
+    .join("")
+    .replaceAll("QIANLONG_ERA", "乾隆");
 }

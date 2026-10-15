@@ -10,20 +10,33 @@ export function historicalInspirationDrafts(
 ): GeneratedCandidate[] {
   const cards = new Map(bundle.characters.map((c) => [c.char, c]));
   const drafts: GeneratedCandidate[] = [];
-  // The current collection contains these surnames. Unknown/compound names stay ungenerated.
+  // Legacy records predate explicit inspirationCharacters. Keep their reviewed single surnames
+  // as a fallback, while new records declare the exact characters that may be borrowed.
   const knownSurnames = new Set([..."刘翁林王黄陈吴张陆梁洪孙赵曹崇骆夏"]);
   for (const person of bundle.personUsages) {
     if (
       person.identityType !== "zhuangyuan" ||
+      person.inspirationEligible === false ||
       (bundle.manifest.status !== "personal" && person.reviewStatus !== "verified")
     )
       continue;
     const name = toSimplifiedText(person.name, bundle.traditionalToSimplified);
-    if (!knownSurnames.has(name[0]!) || name.length < 2 || name.length > 3) continue;
-    const original = name.slice(1);
-    const borrowed = [...original].filter((char) => cards.has(char));
+    if (name.length < 2 || name.length > 4) continue;
+    const legacyOriginal = knownSurnames.has(name[0]!) ? name.slice(1) : "";
+    const reviewedCharacters = person.inspirationCharacters?.map((char) =>
+      toSimplifiedText(char, bundle.traditionalToSimplified),
+    );
+    const original = reviewedCharacters?.join("") || legacyOriginal;
+    const borrowed = (reviewedCharacters ?? [...legacyOriginal]).filter((char) =>
+      cards.has(char),
+    );
+    if (!borrowed.length) continue;
     const options = new Set<string>();
-    if (original.length === profile.givenNameLength) options.add(original);
+    if (
+      original.length === profile.givenNameLength &&
+      [...original].every((char) => cards.has(char))
+    )
+      options.add(original);
     for (const char of borrowed) {
       if (profile.givenNameLength === 1) options.add(char);
       else
@@ -33,7 +46,7 @@ export function historicalInspirationDrafts(
     for (const givenName of options) {
       const relation =
         givenName === original
-          ? `沿用名中“${original}”，替换姓氏`
+          ? `沿用已核对的灵感字“${original}”，替换姓氏`
           : `借用原名“${original}”中的“${[...givenName].filter((c) => original.includes(c)).join("、")}”，与当代字义组合“${givenName}”相接`;
       const entries = [...givenName].map((char) => cards.get(char));
       if (entries.some((c) => !c)) continue;

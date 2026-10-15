@@ -12,7 +12,7 @@
 
 现代组合只作为编辑推荐，没有伪造的古籍引用。组合取意写入候选 summary，使用提醒写入同一候选的 sourceEvidence，既有备份结构可完整保存。所选五行只参与软排序，不能绕过硬条件。
 
-`data:build-personal` 从仓内来源资料重建个人包，`data:audit` 检查哈希、用字、引用和许可；`quality:combinations` 对全部 500 个组合逐一调用真实生成器，核对名字、整名解释和使用提醒。
+`data:build-personal` 从仓内来源资料重建个人包，`data:audit` 检查哈希、用字、引用和许可；`quality:combinations` 对全部 600 个组合逐一调用真实生成器，核对名字、整名解释和使用提醒，并已纳入 `release:check`。
 
 ## 计算与性能
 

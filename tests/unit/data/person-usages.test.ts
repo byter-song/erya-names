@@ -73,6 +73,32 @@ describe("person usage source data", () => {
     for (const identityType of ["zhuangyuan", "bangyan", "tanhua", "jinshi"]) {
       expect(counts.get(identityType)).toBeGreaterThanOrEqual(10);
     }
+    expect(parsed).toHaveLength(81);
+    expect(counts.get("zhuangyuan")).toBe(30);
+  });
+
+  it("adds reviewed cross-dynasty zhuangyuan inspiration characters", () => {
+    const added = personUsages.filter(
+      (usage) => usage.identityType === "zhuangyuan" && usage.checkedAt === "2026-10-15",
+    );
+    const periods = added.map((usage) => usage.period);
+
+    expect(added).toHaveLength(15);
+    expect(added.filter((usage) => usage.inspirationEligible)).toHaveLength(14);
+    expect(periods.some((period) => period.startsWith("唐·"))).toBe(true);
+    expect(periods.some((period) => period.startsWith("北宋·"))).toBe(true);
+    expect(periods.some((period) => period.startsWith("元·"))).toBe(true);
+    expect(periods.some((period) => period.startsWith("明·"))).toBe(true);
+    expect(periods.some((period) => period.startsWith("清·"))).toBe(true);
+    for (const usage of added) {
+      expect(usage.sourceRefs.every((source) => source.url.startsWith("https://"))).toBe(true);
+      if (!usage.inspirationEligible) continue;
+      expect(usage.inspirationCharacters?.length).toBeGreaterThan(0);
+      expect(usage.inspirationCharacters?.every((char) => usage.name.includes(char))).toBe(
+        true,
+      );
+      expect(usage.inspirationReviewNote).toBeTruthy();
+    }
   });
 
   it("contains only deceased historical people and historical exam cohorts", () => {
@@ -82,10 +108,15 @@ describe("person usage source data", () => {
       ),
     ).toBe(true);
 
-    const imperialYears = personUsages
+    const imperialPeriods = personUsages
       .filter((usage) => usage.identityType !== "historical_person")
-      .map((usage) => Number(usage.period.match(/（(\d{4})）$/u)?.[1]));
-    expect(imperialYears.every((year) => Number.isInteger(year) && year <= 1904)).toBe(true);
+      .map((usage) => usage.period);
+    expect(
+      imperialPeriods.every((period) => {
+        const year = period.match(/（(\d{3,4})）$/u)?.[1];
+        return year ? Number(year) <= 1904 : period.endsWith("朝");
+      }),
+    ).toBe(true);
   });
 
   it("keeps every new Qing exam record tied to an exact year, rank and pinned revision", () => {

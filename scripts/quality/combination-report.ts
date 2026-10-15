@@ -3,6 +3,7 @@ import { loadSelectedRuntimeBundle } from "../data/runtimeBundleSelection";
 import { namingProfileSchema } from "../../src/domain/project/profile";
 import { evaluateCandidateRules } from "../../src/domain/rules/rulePack";
 import { generateCandidates } from "../../src/domain/generation/generateCandidates";
+import corpusTargets from "../../data/sources/personal/corpus-targets.json";
 const bundle = loadSelectedRuntimeBundle();
 const combinations = bundle.modernCombinations ?? [];
 const characterMap = new Map(bundle.characters.map((item) => [item.char, item]));
@@ -24,10 +25,10 @@ const profile = namingProfileSchema.parse({
 });
 const failures: string[] = [];
 if (
-  combinations.length !== 500 ||
-  new Set(combinations.map((item) => item.givenName)).size !== 500
+  combinations.length !== corpusTargets.modernCombinations ||
+  new Set(combinations.map((item) => item.givenName)).size !== corpusTargets.modernCombinations
 )
-  failures.push("需要恰好500个不重复组合");
+  failures.push(`需要恰好${corpusTargets.modernCombinations}个不重复组合`);
 const allusionNames = new Set(bundle.allusions.map((item) => item.selectedText));
 for (const item of combinations) {
   const result = evaluateCandidateRules({

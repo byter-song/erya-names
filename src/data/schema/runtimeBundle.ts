@@ -110,6 +110,9 @@ const historicalPersonUsageSchema = personUsageBaseSchema.extend({
 const imperialExamPersonUsageSchema = personUsageBaseSchema.extend({
   identityType: z.enum(["zhuangyuan", "bangyan", "tanhua", "jinshi"]),
   rankEvidence: z.string().min(1),
+  inspirationEligible: z.boolean().optional(),
+  inspirationCharacters: z.array(singleNfcCharacterSchema).min(1).max(2).optional(),
+  inspirationReviewNote: z.string().min(1).optional(),
 });
 
 export const personUsageSchema = z.discriminatedUnion("identityType", [

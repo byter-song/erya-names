@@ -14,7 +14,7 @@ afterEach(async () => {
 describe("runtime bundle selection", () => {
   it("uses the personal bundle by default", () => {
     expect(loadSelectedRuntimeBundle()).toMatchObject({
-      manifest: { status: "personal", version: "personal-2026.09.30" },
+      manifest: { status: "personal", version: "personal-2026.10.15" },
     });
   });
 

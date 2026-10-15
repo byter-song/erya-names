@@ -6,6 +6,7 @@ import { namingProfileFixture } from "../fixtures/namingProfile";
 import type { CandidateFunnelItem } from "../../src/application/models/CandidateFunnelItem";
 import { zodiacAdvisory } from "../../src/domain/folklore/zodiacAdvisory";
 import { generateCandidates } from "../../src/domain/generation/generateCandidates";
+import { historicalInspirationDrafts } from "../../src/domain/generation/historicalInspiration";
 import { runtimeBundleSchema } from "../../src/data/schema/runtimeBundle";
 import personal from "../../src/data/curated/personal-bundle.json";
 const bundle = runtimeBundleSchema.parse(personal);
@@ -78,6 +79,22 @@ describe("long scroll decisions", () => {
   });
 });
 describe("inspiration and folklore separation", () => {
+  it("turns the reviewed new dynasties into historical inspiration drafts", () => {
+    const drafts = historicalInspirationDrafts(
+      { ...profile, inspirationSources: ["historical"] },
+      bundle,
+    );
+    const titles = drafts.flatMap((draft) =>
+      draft.sourceEvidence.map((evidence) => evidence.title),
+    );
+
+    expect(titles).toContain("吕蒙正 · 状元用名");
+    expect(titles).toContain("泰不华 · 状元用名");
+    expect(titles).toContain("赵秉忠 · 状元用名");
+    expect(titles).toContain("王云锦 · 状元用名");
+    expect(titles).toContain("林召棠 · 状元用名");
+    expect(titles).not.toContain("卢肇 · 状元用名");
+  });
   it("generates sourced historical inspirations without bypassing the current family constraints", () => {
     const input = {
       profile: { ...profile, inspirationSources: ["historical" as const] },
