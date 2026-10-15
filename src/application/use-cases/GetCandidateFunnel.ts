@@ -1,3 +1,5 @@
+import { currentEligibility } from "../../domain/rules/currentEligibility";
+import type { ProjectRepository } from "../ports/ProjectRepository";
 import type { GenerationRepository } from "../ports/GenerationRepository";
 import type { EvaluationRepository } from "../ports/EvaluationRepository";
 import type { CandidateFunnelItem } from "../models/CandidateFunnelItem";
@@ -10,12 +12,14 @@ export class GetCandidateFunnel {
   constructor(
     private readonly repository: GenerationRepository,
     private readonly evaluations?: EvaluationRepository,
+    private readonly projects?: ProjectRepository,
   ) {}
 
   async execute(
     projectId: string,
     stages?: CandidateDecision["stage"][],
   ): Promise<CandidateFunnelItem[]> {
+    const workspace = await this.projects?.getWorkspace(projectId);
     const [records, evaluations] = await Promise.all([
       this.repository.listCandidates(projectId, stages),
       this.evaluations?.list(projectId) ?? Promise.resolve([]),
@@ -26,7 +30,9 @@ export class GetCandidateFunnel {
     return records.map(
       ({ candidate, decision, warnings, systemScore, scoreEvidence, ruleEvidence }) => {
         const evaluation = evaluationsByCandidate.get(candidate.id);
+        const issue = workspace ? currentEligibility(candidate, workspace.profile) : undefined;
         return {
+          ...(issue ? { eligibilityIssue: issue } : {}),
           id: candidate.id,
           ...(candidate.batchId ? { batchId: candidate.batchId } : {}),
           createdAt: candidate.createdAt,

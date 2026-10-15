@@ -22,13 +22,63 @@ export const namingProfileSchema = z
     generationCharacters: z.array(singleCharacter),
     avoidCharacters: z.array(singleCharacter),
     relativeNames: z.array(nonEmptyText),
+    relativeAvoidances: z
+      .array(
+        z.object({
+          fullName: nonEmptyText.max(20).regex(/^\p{Script=Han}+$/u, "亲属姓名请使用汉字"),
+          givenName: z
+            .string()
+            .trim()
+            .max(4)
+            .regex(/^\p{Script=Han}*$/u, "亲属的名请使用汉字"),
+          mode: z.enum(["whole-name", "same-character", "same-sound"]),
+          pinyin: z.array(z.string().trim().min(1).max(20)).max(4),
+        }),
+      )
+      .max(30)
+      .optional(),
     forbiddenCombinations: z.array(nonEmptyText),
     genderExpression: z.enum(["unrestricted", "neutral", "masculine", "feminine"]),
     styleTags: z.array(nonEmptyText),
     dialectNotes: z.string().trim().max(500).optional(),
     writingComplexity: z.enum(["simple", "balanced", "unrestricted"]),
     pinyinFriendly: z.boolean(),
+    inspirationSources: z
+      .array(z.enum(["poetry", "modern", "historical"]))
+      .min(1)
+      .optional(),
     folklore: z.object({
+      zodiacConvention: z.enum(["lunar", "pillar"]).optional(),
+      zodiacRules: z
+        .array(
+          z.object({
+            zodiac: z.enum([
+              "鼠",
+              "牛",
+              "虎",
+              "兔",
+              "龙",
+              "蛇",
+              "马",
+              "羊",
+              "猴",
+              "鸡",
+              "狗",
+              "猪",
+            ]),
+            characters: z
+              .string()
+              .trim()
+              .min(1)
+              .max(100)
+              .regex(/^\p{Script=Han}+$/u, "请逐字填写汉字"),
+            position: z.enum(["start", "any"]),
+            explanation: z.string().trim().min(1).max(300),
+            source: z.string().trim().min(1).max(300),
+          }),
+        )
+        .max(30)
+        .optional(),
       enabled: z.boolean(),
       dayBoundary: z.enum(["midnight", "zi"]).optional(),
       timeKnown: z.boolean().optional(),
@@ -86,13 +136,37 @@ export const namingProfileSchema = z
       profile.constraintKnowledge === "present" &&
       profile.requiredCharacters.length === 0 &&
       profile.avoidCharacters.length === 0 &&
-      profile.relativeNames.length === 0
+      profile.relativeNames.length === 0 &&
+      !profile.relativeAvoidances?.length
     )
       context.addIssue({
         code: "custom",
         message: "请至少填写一项必须遵守的字辈或避讳",
         path: ["constraintKnowledge"],
       });
+    profile.relativeAvoidances?.forEach((rule, index) => {
+      if (
+        rule.mode !== "whole-name" &&
+        (!rule.givenName || !rule.fullName.endsWith(rule.givenName))
+      )
+        context.addIssue({
+          code: "custom",
+          message: "请明确填写亲属姓名中不含姓氏的名",
+          path: ["relativeAvoidances", index, "givenName"],
+        });
+      if (
+        rule.mode === "same-sound" &&
+        (rule.pinyin.length !== [...rule.givenName].length ||
+          rule.pinyin.some(
+            (syllable) => !/^[a-züǖǘǚǜāáǎàēéěèīíǐìōóǒòūúǔùńňǹḿ]+[1-5]?$/iu.test(syllable),
+          ))
+      )
+        context.addIssue({
+          code: "custom",
+          message: "同音避讳请按亲属的名逐字填写普通话拼音，以空格分隔",
+          path: ["relativeAvoidances", index, "pinyin"],
+        });
+    });
     if (
       new Set(profile.requiredCharacters.map((item) => item.char)).size >
       profile.givenNameLength

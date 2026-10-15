@@ -7,6 +7,7 @@ const sourceLabels = {
   verified_allusion: "古籍取名",
   modern_combination: "字义组合",
   user_input: "手工录入",
+  historical_inspiration: "状元灵感",
 };
 
 const stageLabels = {

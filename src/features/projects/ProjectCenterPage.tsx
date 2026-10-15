@@ -86,9 +86,6 @@ export function ProjectCenterPage({
           </div>
           <h2>铺开第一卷</h2>
           <p>写下姓氏与家庭边界，让第一个名字在长卷上落纸。</p>
-          <Button onClick={onCreate} type="button">
-            展新卷 · 新建方案
-          </Button>
         </section>
       )}
 

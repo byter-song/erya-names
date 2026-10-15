@@ -6,10 +6,12 @@ import { evaluateStandardCharacters } from "./l1/standardCharacter";
 import { evaluateReviewedRisks } from "./l2/reviewedRisks";
 import type { RuleEvaluation } from "./types";
 
-export const RULE_PACK_VERSION = "core-rules-3";
+export const RULE_PACK_VERSION = "core-rules-4";
 
 export function evaluateCandidateRules(input: {
-  candidate: Pick<GeneratedCandidate, "fullName" | "givenName" | "riskSignals">;
+  candidate: Pick<GeneratedCandidate, "fullName" | "givenName" | "riskSignals"> & {
+    pinyin?: string[];
+  };
   profile: NamingProfile;
   bundle: RuntimeBundle;
 }): RuleEvaluation {
@@ -22,6 +24,7 @@ export function evaluateCandidateRules(input: {
     evaluateFamilyConstraints({
       fullName: input.candidate.fullName,
       givenName: input.candidate.givenName,
+      ...(input.candidate.pinyin ? { pinyin: input.candidate.pinyin } : {}),
       profile: input.profile,
     }),
     ...evaluateReviewedRisks({

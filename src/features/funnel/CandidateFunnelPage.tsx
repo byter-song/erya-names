@@ -234,7 +234,9 @@ export function CandidateFunnelPage({
     setRisk("all");
     setStyle("all");
     setOnlyLatestBatch(false);
-    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const prefersReducedMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    )?.matches;
     let secondFrame = 0;
     const firstFrame = requestAnimationFrame(() => {
       secondFrame = requestAnimationFrame(() => {
@@ -652,10 +654,11 @@ export function CandidateFunnelPage({
         </div>
       ) : null}
       {detail ? (
-        <Dialog title={`${detail.fullName}详情`} onClose={() => setDetailId(undefined)}>
-          <button className="dialog-close" type="button" onClick={() => setDetailId(undefined)}>
-            关闭详情
-          </button>
+        <Dialog
+          title={`${detail.fullName}详情`}
+          closeLabel="关闭详情"
+          onClose={() => setDetailId(undefined)}
+        >
           <NameExplanation
             candidate={detail}
             profile={profile}

@@ -37,6 +37,7 @@ function projectChips(
     },
     { id: "compare", label: "重点候选", href: `/projects/${projectId}/compare` },
     { id: "finalize", label: "定稿名单", href: `/projects/${projectId}/finalize` },
+    { id: "backup", label: "备份", href: `/projects/${projectId}/backup` },
   ].map((chip) => ({
     ...chip,
     ...(availability ? { availability: availability[chip.id as JourneyStageId] } : {}),
@@ -80,10 +81,22 @@ export function InkScrollShell() {
     return () => window.removeEventListener("erya:journey-changed", refresh);
   }, [container, hasProject, projectId]);
 
-  const chips = hasProject
-    ? projectChips(projectId!, journeyView)
-    : setupChips;
+  const chips = hasProject ? projectChips(projectId!, journeyView) : setupChips;
   const activeId = activeChipId(pathname, location.hash);
+  useEffect(() => {
+    const revealActive = () => {
+      const chip = document.querySelector<HTMLElement>(`[data-chip="${activeId}"]`);
+      const nav = chip?.parentElement;
+      if (!chip || !nav) return;
+      const item = chip.getBoundingClientRect();
+      const viewport = nav.getBoundingClientRect();
+      if (item.left < viewport.left) nav.scrollLeft += item.left - viewport.left;
+      else if (item.right > viewport.right) nav.scrollLeft += item.right - viewport.right;
+    };
+    revealActive();
+    window.addEventListener("resize", revealActive);
+    return () => window.removeEventListener("resize", revealActive);
+  }, [activeId]);
 
   const navigate = (href: string) => void router.navigate({ href });
   const onChipClick = (event: MouseEvent<HTMLButtonElement>, href: string) => {
@@ -135,9 +148,7 @@ export function InkScrollShell() {
               onClick={(event) => onChipClick(event, chip.href)}
               type="button"
             >
-              <span className="ink-shell__chip-no">
-                {String(index + 1).padStart(2, "0")}
-              </span>
+              <span className="ink-shell__chip-no">{String(index + 1).padStart(2, "0")}</span>
               <span className="ink-shell__chip-label">{chip.label}</span>
             </button>
           ))}

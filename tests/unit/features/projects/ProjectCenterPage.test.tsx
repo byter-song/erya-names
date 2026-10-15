@@ -9,8 +9,8 @@ describe("ProjectCenterPage", () => {
     const user = userEvent.setup();
     render(<ProjectCenterPage onCreate={onCreate} projects={[]} />);
 
-    expect(screen.getByRole("heading", { name: "开始第一个起名方案" })).toBeVisible();
-    await user.click(screen.getByRole("button", { name: "新建起名方案" }));
+    expect(screen.getByRole("heading", { name: "铺开第一卷" })).toBeVisible();
+    await user.click(screen.getAllByRole("button", { name: "展新卷 · 新建方案" })[0]!);
 
     expect(onCreate).toHaveBeenCalledOnce();
   });
@@ -37,7 +37,7 @@ describe("ProjectCenterPage", () => {
       />,
     );
 
-    expect(screen.getByRole("heading", { name: "继续最近方案" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "最近展卷" })).toBeVisible();
     expect(screen.getByText("宋姓宝宝起名")).toBeVisible();
     expect(screen.getByText("候选 24")).toBeVisible();
     expect(screen.getByText("初选 5")).toBeVisible();

@@ -75,8 +75,8 @@ describe("ComparisonPage", () => {
 
     expect(screen.getByRole("heading", { name: "重点候选" })).toBeVisible();
     expect(screen.getByRole("heading", { name: "宋清扬" })).toBeVisible();
-    expect(screen.getByText("5 分")).toBeVisible();
-    expect(screen.getByText("喜欢")).toBeVisible();
+    expect(screen.getAllByText("5 分")).toHaveLength(2);
+    expect(screen.getAllByText("喜欢")).toHaveLength(2);
     expect(screen.getAllByText("诗经 · 有美一人")).toHaveLength(2);
     expect(screen.getAllByText("读音与叫名").length).toBeGreaterThan(0);
     expect(screen.getAllByText("书写难度").length).toBeGreaterThan(0);

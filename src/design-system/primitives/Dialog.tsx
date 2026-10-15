@@ -5,7 +5,8 @@ export function Dialog({
   children,
   title,
   onClose,
-}: PropsWithChildren<{ title: string; onClose?: () => void }>) {
+  closeLabel = "关闭",
+}: PropsWithChildren<{ title: string; onClose?: () => void; closeLabel?: string }>) {
   const dialog = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const previous =
@@ -22,6 +23,19 @@ export function Dialog({
       previous?.focus();
     };
   }, []);
+  useEffect(() => {
+    // A focused action can lose focus when it is disabled during an async save.
+    // Keep Escape working for the top modal even if focus temporarily falls to body.
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || event.defaultPrevented) return;
+      const modals = document.querySelectorAll('[role="dialog"][aria-modal="true"]');
+      if (modals[modals.length - 1] !== dialog.current) return;
+      event.preventDefault();
+      onClose?.();
+    };
+    document.addEventListener("keydown", escape);
+    return () => document.removeEventListener("keydown", escape);
+  }, [onClose]);
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
       event.preventDefault();
@@ -33,7 +47,16 @@ export function Dialog({
       ...dialog.current.querySelectorAll<HTMLElement>(
         "button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], summary",
       ),
-    ];
+    ].filter((element) => {
+      if (element.closest("[hidden], [inert]")) return false;
+      for (let ancestor = element.parentElement; ancestor; ancestor = ancestor.parentElement) {
+        if (ancestor instanceof HTMLDetailsElement && !ancestor.open) {
+          const summary = ancestor.querySelector(":scope > summary");
+          if (!summary?.contains(element)) return false;
+        }
+      }
+      return true;
+    });
     if (focusable.length === 0) return;
     const first = focusable[0]!;
     const last = focusable.at(-1)!;
@@ -59,8 +82,15 @@ export function Dialog({
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
-        <h2>{title}</h2>
-        {children}
+        <header className="ui-dialog__heading">
+          <h2>{title}</h2>
+          {onClose && (
+            <button type="button" onClick={onClose}>
+              {closeLabel}
+            </button>
+          )}
+        </header>
+        <div className="ui-dialog__body">{children}</div>
       </div>
     </div>,
     document.body,

@@ -1,3 +1,4 @@
+import { seedDecisionWorkspace } from "../fixtures/decisionWorkspace";
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { MoveCandidateDecision } from "../../src/application/use-cases/MoveCandidateDecision";
@@ -20,6 +21,7 @@ function createDatabase(): EryaDatabase {
 describe("MoveCandidateDecision", () => {
   it("persists the state transition and history together", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.add({
       projectId: "p1",
       candidateId: "c1",
@@ -41,6 +43,7 @@ describe("MoveCandidateDecision", () => {
 
   it("moves one name through basic, folklore and important stages with recoverable exclusion", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.projects.add({
       id: "p1",
       title: "宋姓宝宝起名",
@@ -98,6 +101,7 @@ describe("MoveCandidateDecision", () => {
 
   it("enforces pending family rules inside the application use case", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.add({
       projectId: "p1",
       candidateId: "c1",
@@ -119,6 +123,7 @@ describe("MoveCandidateDecision", () => {
 
   it("rejects a sixth finalist", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.bulkAdd([
       ...["c1", "c2", "c3", "c4", "c5"].map((candidateId) => ({
         projectId: "p1",
@@ -145,6 +150,7 @@ describe("MoveCandidateDecision", () => {
 
   it("rejects an excessively long rejection reason", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.add({
       projectId: "p1",
       candidateId: "c1",
@@ -168,6 +174,7 @@ describe("MoveCandidateDecision", () => {
 
   it("keeps the finalist limit under concurrent writes", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.bulkAdd([
       ...["c1", "c2", "c3", "c4"].map((candidateId) => ({
         projectId: "p1",
@@ -205,6 +212,7 @@ describe("MoveCandidateDecision", () => {
 
   it("invalidates a completed final decision when the finalist set changes", async () => {
     const database = createDatabase();
+    await seedDecisionWorkspace(database);
     await database.projects.add({
       id: "p1",
       title: "宋姓宝宝起名",

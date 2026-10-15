@@ -65,7 +65,7 @@ describe("FinalizationPage", () => {
     expect(onExclude).toHaveBeenCalledWith("c1", "家人暂不考虑");
   });
 
-  it("shows a legacy single-name decision as read-only history", () => {
+  it("restores a saved preferred name and editable rationale", () => {
     render(
       <FinalizationPage
         candidates={candidates}
@@ -81,9 +81,7 @@ describe("FinalizationPage", () => {
       />,
     );
 
-    expect(screen.getByRole("region", { name: "历史单一定稿记录" })).toHaveTextContent(
-      "宋清扬",
-    );
-    expect(screen.getByText("旧版本决定理由")).toBeVisible();
+    expect(screen.getByRole("region", { name: "首选与选择理由" })).toHaveTextContent("宋清扬");
+    expect(screen.getByLabelText("家庭选择理由")).toHaveValue("旧版本决定理由");
   });
 });

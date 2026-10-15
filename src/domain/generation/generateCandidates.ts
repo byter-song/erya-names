@@ -1,3 +1,4 @@
+import { historicalInspirationDrafts } from "./historicalInspiration";
 import { evaluateFullNameSound } from "../rules/l2/fullNameSound";
 import { readSurname, toneOf } from "../candidate/nameReading";
 import type {
@@ -62,6 +63,7 @@ export function generateCandidates(input: {
     input.allusionRatio > 1
   )
     throw new Error("典故比例应为 0–1");
+  const sources = input.profile.inspirationSources ?? ["poetry", "modern"];
   const characters = new Map(input.bundle.characters.map((entry) => [entry.char, entry]));
   const allusionDrafts = input.bundle.allusions
     .filter(
@@ -83,11 +85,17 @@ export function generateCandidates(input: {
     seededShuffle(eligibleCharacters, input.seed),
     seededShuffle(modernCombinations, `${input.seed}:editorial`),
   );
+  const historicalDrafts = sources.includes("historical")
+    ? historicalInspirationDrafts(input.profile, input.bundle)
+    : [];
   const sourceCandidates =
-    allusionDrafts.length +
-    (input.profile.givenNameLength === 1
-      ? eligibleCharacters.length
-      : eligibleCharacters.length * (eligibleCharacters.length - 1));
+    (sources.includes("poetry") ? allusionDrafts.length : 0) +
+    historicalDrafts.length +
+    (sources.includes("modern")
+      ? input.profile.givenNameLength === 1
+        ? eligibleCharacters.length
+        : eligibleCharacters.length * (eligibleCharacters.length - 1)
+      : 0);
   let hardRejected = 0;
   let historicalRejected = 0;
   const applyRules = (candidate: GeneratedCandidate) => {
@@ -205,12 +213,15 @@ export function generateCandidates(input: {
       ],
     };
   };
-  const acceptedAllusions = allusionDrafts
+  const acceptedHistorical = sources.includes("historical")
+    ? historicalDrafts.map(applyRules).filter((c): c is GeneratedCandidate => c !== undefined)
+    : [];
+  const acceptedAllusions = (sources.includes("poetry") ? allusionDrafts : [])
     .map(applyRules)
     .filter((candidate): candidate is GeneratedCandidate => candidate !== undefined);
   // Sample across the whole alphabet before ranking; never build an O(n²) array of rich records.
   const acceptedCompositions: GeneratedCandidate[] = [];
-  for (const draft of compositionDrafts) {
+  for (const draft of sources.includes("modern") ? compositionDrafts : []) {
     if (input.historicalFingerprints.has(draft.normalizedFingerprint)) {
       historicalRejected++;
       continue;
@@ -245,10 +256,17 @@ export function generateCandidates(input: {
     orderedAllusions.length,
     Math.max(0, Math.round(input.requestedCount * input.allusionRatio)),
   );
+  const historical = seededShuffle(acceptedHistorical, `${input.seed}:historical`);
+  const historicalTarget =
+    sources.length === 1
+      ? input.requestedCount
+      : Math.ceil(input.requestedCount / sources.length);
   const preferred = [
+    ...historical.slice(0, historicalTarget),
     ...orderedAllusions.slice(0, allusionTarget),
     ...orderedCompositions,
     ...orderedAllusions.slice(allusionTarget),
+    ...historical.slice(historicalTarget),
   ];
   const candidates: GeneratedCandidate[] = [];
   const seen = new Set<string>();

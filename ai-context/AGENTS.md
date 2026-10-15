@@ -85,13 +85,13 @@
 - 生成与筛选合并到 `/generate`；旧 `/candidates` 保留重定向兼容。
 - 方案中心的“继续方案”按持久化阶段进入 `/generate`、`/compare` 或 `/finalize`；旧 `/projects/:id` 地址会读取方案后跳转，不再停留在占位页。删除方案需二次确认，并在单个 Dexie 事务中清理全部项目从属记录。
 
-- 应用版本 `0.3.0`，Dexie schema v4，项目备份 schema v3。
+- 应用版本 `0.3.0`，Dexie schema v4，项目备份 schema v4（可导入 v1/v2/v3/v4）。
 - `public/_headers` 记录静态托管期望的安全头，`public/_redirects` 提供 SPA 深链 fallback；当前部署平台是 ESA Functions & Pages，远端验收需确认平台实际应用这些规则。
 - `npm run release:prepare` 生成一次 `dist/` 和 `output/release/release-manifest.json`；`npm run release:verify` 验证该目录未发生改变。
 - `npm run release:prepare:production` 是唯一生产数据构建入口：只有真实人审通过后才会生成 `releases/current.json` 并注入 production artifact。
 - Chromium/WebKit 可在本机验证；Edge 通过 `npm run test:e2e:edge` 在安装 Microsoft Edge 的环境或 Windows CI 验证。
-- 桌面侧栏固定为 220px 展开的六阶段旅程轨道，不提供折叠入口和装饰图标；主内容为侧栏让出稳定空间。
-- 正文、表单与打印使用系统字体；屏幕品牌字和静态大标题使用仓内裁剪版 Ma Shan Zheng（SIL OFL，目标不超过 30 KB）。环境层不加载山水图片，也不注册鼠标跟随或点击泼墨；由 CSS 宣纸纹理、云线、圆轨、静态墨色和一次性挥毫入场构成。亮色主题为雾青宣纸，暗色主题为挥毫开卷；首次跟随系统，太阳/月亮按钮切换后写入 `erya-names:theme`。`prefers-reduced-motion` 下直接展示完成态；“雅”字启动页只在整页打开时渲染，侧栏普通点击使用客户端路由且无强制页面过渡。
+- 当前活跃界面为 `InkScrollShell` + `InkLongScrollPage`；顶部五个命名章节与备份入口，手机导航横向滚动并保持当前章可见。长卷按当前状态筛选，旧 `/candidates` 重定向到长卷。
+- 正文、表单与打印使用系统字体；品牌字与大标题使用裁剪版 Ma Shan Zheng。当前长卷采用亮色纸墨金线；旧暗色 token 和原型不等于可切换的活跃主题。启动页显示真实语料加载状态，就绪即退出；长卷支持减少动态效果。
 - 生产发布仍受两项硬门禁约束：真实人工复核的 production corpus，以及 preview/production 的同 artifact 提升和真人验收。
 
 同一套命令也记录在 [`skill-build-run-test.md`](skill-build-run-test.md)，供 workbench preflight 读取。
@@ -103,3 +103,11 @@
 3. 当前 spec 与 Obsidian 产品基线
 4. [`docs/README.md`](../docs/README.md) 及与任务相关的规范资料
 5. 与任务相关的 `src/`、`scripts/`、`tests/` 文件
+
+## 2026-10-15 长卷完善的当前契约
+
+- 临时规格与验收：workspace `specs/20261015-scroll-completion/`。长卷旅程测试：`npm run test:e2e -- tests/e2e/scroll-journey.spec.ts`。旧 E2E 中仍有面向退役卡片/侧栏的断言，不能据此宣称全部发布门禁已通过。
+- 状元灵感是可选生成源 `historical_inspiration`，使用已有记录并保留借字关系；不因身份加分。
+- 生肖规则仅用于 `zodiacAdvisory` 展示，不接入生成、评分、排序或阶段 guard；家庭字表逐字匹配，首字排除姓氏。
+- 旧候选推进、首选保存与报告生成重新检查当前家庭硬约束；历史证据保持。`relativeAvoidances` 支持逐亲属整名/同字/同音；同字与同音只比较名，同音按指定普通话拼音与候选现用拼音比较、不分声调。规则包 `core-rules-4`、家庭规则 `l1-family-constraint-2`。定稿允许 1–5 名，首选与理由持久化。
+- 备份导入使用通过 schema 校验的完整 profile，不能手工重建部分 folklore 字段导致新配置丢失。

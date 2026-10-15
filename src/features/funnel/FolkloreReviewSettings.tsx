@@ -1,3 +1,4 @@
+import { ZodiacRuleEditor } from "./ZodiacRuleEditor";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Button } from "../../design-system/primitives/Button";
 import { elementLabels, type FiveElement } from "../../domain/folklore/fiveElements";
@@ -31,7 +32,7 @@ export function FolkloreReviewSettings({
     setBusy(true);
     setError("");
     try {
-      await onSave({ ...draft, enabled: true, timeZone: "Asia/Shanghai" });
+      await onSave({ ...draft, timeZone: "Asia/Shanghai" });
       setSaved(true);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "民俗设置保存失败，请重试");
@@ -52,6 +53,14 @@ export function FolkloreReviewSettings({
         </div>
         <span className="ui-status">传统民俗参考，非科学结论</span>
       </div>
+      <label className="inline-choice">
+        <input
+          type="checkbox"
+          checked={draft.enabled}
+          onChange={(e) => patch({ enabled: e.target.checked })}
+        />
+        采用传统民俗参考
+      </label>
       <div className="studio-fields">
         <label>
           出生日期{draft.timeKnown === false ? "" : "与时间"}（可选）
@@ -117,6 +126,7 @@ export function FolkloreReviewSettings({
           />
           用指定五行意象排序当前民俗候选
         </label>
+        <ZodiacRuleEditor folklore={draft} onChange={patch} />
       </div>
       <div className="studio-actions">
         <Button disabled={busy} onClick={() => void save()} type="button">
@@ -145,7 +155,7 @@ export function FolkloreReviewSettings({
 function normalize(folklore: NamingProfile["folklore"]): NamingProfile["folklore"] {
   return {
     ...folklore,
-    enabled: true,
+    enabled: folklore.enabled,
     dayBoundary: folklore.dayBoundary ?? "midnight",
     timeKnown: folklore.timeKnown ?? true,
     timeZone: "Asia/Shanghai",

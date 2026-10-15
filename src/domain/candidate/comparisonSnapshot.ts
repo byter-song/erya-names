@@ -32,7 +32,12 @@ export const comparisonSnapshotCandidateSchema = z.object({
   id: z.string().min(1),
   fullName: z.string().min(1),
   pinyin: z.array(z.string()),
-  sourceType: z.enum(["verified_allusion", "modern_combination", "user_input"]),
+  sourceType: z.enum([
+    "verified_allusion",
+    "modern_combination",
+    "user_input",
+    "historical_inspiration",
+  ]),
   summary: z.string(),
   sourceEvidence: z.array(snapshotSourceSchema).default([]),
   usageNotes: z.array(z.string()).default([]),

@@ -25,13 +25,15 @@ export interface CandidateRuleEvidence {
 }
 
 export interface CandidateFunnelItem {
+  eligibilityIssue?: string;
   id: string;
   batchId?: string | undefined;
   createdAt?: string | undefined;
   givenName?: string | undefined;
   fullName: string;
   pinyin: string[];
-  sourceType: "verified_allusion" | "modern_combination" | "user_input";
+  sourceType:
+    "verified_allusion" | "modern_combination" | "user_input" | "historical_inspiration";
   summary: string;
   styleTags?: string[] | undefined;
   characterEvidence?: Array<{

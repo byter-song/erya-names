@@ -1,3 +1,4 @@
+import { namingProfileFixture } from "../fixtures/namingProfile";
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { BuildFinalReport } from "../../src/application/use-cases/BuildFinalReport";
@@ -22,7 +23,8 @@ describe("BuildFinalReport", () => {
       updatedAt: "2026-09-17T00:00:00.000Z",
     });
     await database.profiles.add({
-      projectId: "p1",
+      ...namingProfileFixture("p1"),
+      constraintKnowledge: "none",
       surname: "宋",
       avoidCharacters: ["病"],
       folklore: { enabled: false },
@@ -34,6 +36,7 @@ describe("BuildFinalReport", () => {
         batchId: "b1",
         normalizedFingerprint: `宋${givenName}`,
         fullName: `宋${givenName}`,
+        givenName,
         pinyin: [],
         summary: `${givenName}寓意`,
         sourceType: "verified_allusion",

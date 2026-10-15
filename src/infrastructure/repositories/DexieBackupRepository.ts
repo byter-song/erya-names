@@ -94,21 +94,7 @@ export class DexieBackupRepository implements BackupRepository {
       if (options.strategy === "replace") await this.deleteProjectRecords(projectId);
       this.hooks.beforeWrite?.();
       await this.database.projects.bulkPut(restored.projects);
-      await this.database.profiles.bulkPut(
-        restored.profiles.map(({ dialectNotes, folklore, ...profile }) => ({
-          ...profile,
-          ...(dialectNotes !== undefined ? { dialectNotes } : {}),
-          folklore: {
-            enabled: folklore.enabled,
-            usefulElements: folklore.usefulElements,
-            includeInRanking: folklore.includeInRanking,
-            ...(folklore.birthLocalDateTime !== undefined
-              ? { birthLocalDateTime: folklore.birthLocalDateTime }
-              : {}),
-            ...(folklore.timeZone !== undefined ? { timeZone: folklore.timeZone } : {}),
-          },
-        })),
-      );
+      await this.database.profiles.bulkPut(restored.profiles);
       await this.database.generationBatches.bulkPut(restored.generationBatches);
       await this.database.candidates.bulkPut(restored.candidates);
       await this.database.candidateSources.bulkPut(

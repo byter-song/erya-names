@@ -12,7 +12,7 @@ import { comparisonSnapshotSchema } from "../../domain/candidate/comparisonSnaps
 import { sha256 } from "./checksum";
 
 export const BACKUP_FORMAT = "erya-names-project-backup";
-export const BACKUP_SCHEMA_VERSION = 3;
+export const BACKUP_SCHEMA_VERSION = 4;
 
 const sourceEvidenceSchema = z
   .object({
@@ -226,7 +226,12 @@ export async function validateBackupEnvelope(input: unknown): Promise<BackupEnve
   const rawEnvelope = z
     .object({
       format: z.literal(BACKUP_FORMAT),
-      schemaVersion: z.union([z.literal(1), z.literal(2), z.literal(BACKUP_SCHEMA_VERSION)]),
+      schemaVersion: z.union([
+        z.literal(1),
+        z.literal(2),
+        z.literal(3),
+        z.literal(BACKUP_SCHEMA_VERSION),
+      ]),
       appVersion: z.string().min(1),
       datasetVersion: z.string().min(1),
       rulePackVersion: z.string().min(1),

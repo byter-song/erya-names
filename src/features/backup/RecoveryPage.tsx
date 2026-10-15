@@ -59,32 +59,15 @@ export function RecoveryPage({
     <main className="backup-page backup-page--vault">
       <header className="safety-vault-hero">
         <div>
-          <p className="project-center__kicker">SAFETY VAULT</p>
+          <p className="project-center__kicker">尔雅 · 恢复长卷</p>
           <h1>恢复数据</h1>
-          <p>文件会在本机完成校验和解密。预览确认前，不会写入 IndexedDB。</p>
+          <p>文件会在本机完成校验和解密。预览确认前，不会修改本地数据。</p>
         </div>
         <div className="safety-vault-hero__status" aria-label="恢复状态">
-          <span>导入门禁</span>
+          <span>恢复步骤</span>
           <strong>先预览</strong>
         </div>
       </header>
-      <section className="safety-vault-grid" aria-label="恢复规则">
-        <article>
-          <span>01</span>
-          <strong>读取文件</strong>
-          <p>支持普通 JSON 备份与加密备份；加密文件需要输入正确密码。</p>
-        </article>
-        <article>
-          <span>02</span>
-          <strong>预览影响</strong>
-          <p>先展示方案名称、候选数量、最终决定和冲突状态。</p>
-        </article>
-        <article>
-          <span>03</span>
-          <strong>确认写入</strong>
-          <p>只有选择冲突处理方式并确认恢复后，才会写入本地数据库。</p>
-        </article>
-      </section>
 
       <section className="safety-vault-panel" aria-labelledby="recovery-title">
         <div className="safety-vault-panel__heading">
@@ -158,6 +141,26 @@ export function RecoveryPage({
         {status ? <p role="status">{status}</p> : null}
         {error ? <p role="alert">{error}</p> : null}
       </section>
+      <details className="safety-vault-help">
+        <summary>备份与恢复说明</summary>
+        <section className="safety-vault-grid" aria-label="恢复规则">
+          <article>
+            <span>01</span>
+            <strong>读取文件</strong>
+            <p>支持普通 JSON 备份与加密备份；加密文件需要输入正确密码。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>预览影响</strong>
+            <p>先展示方案名称、候选数量、最终决定和冲突状态。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>确认写入</strong>
+            <p>只有选择冲突处理方式并确认恢复后，才会写入本地数据库。</p>
+          </article>
+        </section>
+      </details>
     </main>
   );
 }

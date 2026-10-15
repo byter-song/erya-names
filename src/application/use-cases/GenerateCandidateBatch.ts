@@ -54,6 +54,7 @@ export class GenerateCandidateBatch {
         projectId: input.projectId,
         sequence,
         seed: input.seed,
+        inspirationSources: workspace.profile.inspirationSources ?? ["poetry", "modern"],
         requestedCount: input.requestedCount,
         profileSnapshot: workspace.profile,
         datasetVersion: bundle.manifest.version,

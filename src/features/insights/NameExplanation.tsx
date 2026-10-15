@@ -1,3 +1,4 @@
+import { ZodiacAdvisory } from "./ZodiacAdvisory";
 import { lazy, Suspense } from "react";
 import type { CandidateFunnelItem } from "../../application/models/CandidateFunnelItem";
 import type { NamingProfile } from "../../domain/project/profile";
@@ -65,6 +66,11 @@ export function NameExplanation({
         <p>{reading.join(" · ")}</p>
         <p>{candidate.summary}</p>
       </div>
+      {candidate.eligibilityIssue && (
+        <p role="alert">
+          当前条件检查：{candidate.eligibilityIssue}。保留历史证据，但需调整后再比较或定稿。
+        </p>
+      )}
       <h3>逐字读懂</h3>
       <div className="character-grid">
         {evidence.map((item, i) => {
@@ -85,7 +91,29 @@ export function NameExplanation({
         })}
       </div>
       <h3>出处与取意</h3>
-      {quotes.length ? (
+      {candidate.sourceType === "historical_inspiration" ? (
+        <>
+          <p>状元用名是可选灵感；下列是人物事实与本次取字关系，不表示原名缘由或功名保证。</p>
+          {candidate.sourceEvidence?.map((source, i) => (
+            <section key={i}>
+              <h4>{source.title}</h4>
+              <p>
+                {source.work} · {source.excerpt}
+              </p>
+              {source.url && (
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  核对人物记录 ↗
+                </a>
+              )}
+            </section>
+          ))}
+        </>
+      ) : candidate.sourceType === "user_input" ? (
+        <p>
+          手工录入：{candidate.sourceEvidence?.map((s) => s.excerpt ?? s.location).join("；")}
+          。来源由你提供，尚未独立核验。
+        </p>
+      ) : quotes.length ? (
         quotes.map((source, i) => {
           const info = sourceCatalog[source.sourceId];
           const sourceUrl = source.url ?? info?.url;
@@ -162,6 +190,7 @@ export function NameExplanation({
           ))}
         </>
       ) : null}
+      {profile && <ZodiacAdvisory givenName={givenName} folklore={profile.folklore} />}
       <h3>需要一起考虑</h3>
       {modernNote ? <p className="insight-note">{modernNote}</p> : null}
       <ul>

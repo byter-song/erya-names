@@ -1,3 +1,6 @@
+import { FinalReport } from "../../../features/finalization/FinalReport";
+import type { FinalReportModel } from "../../../application/models/FinalReportModel";
+import { printDocument } from "../../../infrastructure/export/printDocument";
 import { finalizationRoute } from "./$projectId.finalize";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
@@ -14,6 +17,8 @@ export function FinalizationRoute() {
   const { projectId } = finalizationRoute.useParams();
   const container = useApplicationContainer();
   const navigate = useNavigate();
+  const [includePrivate, setIncludePrivate] = useState(false);
+  const [report, setReport] = useState<FinalReportModel>();
   const [candidates, setCandidates] = useState<FinalistView[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -39,6 +44,8 @@ export function FinalizationRoute() {
             id: item.id,
             fullName: item.fullName,
             summary: item.summary,
+            ...(item.note !== undefined ? { note: item.note } : {}),
+            ...(item.eligibilityIssue ? { eligibilityIssue: item.eligibilityIssue } : {}),
             ...(item.rating !== undefined ? { rating: item.rating } : {}),
           })),
       );
@@ -126,6 +133,32 @@ export function FinalizationRoute() {
       </main>
     );
 
+  if (report)
+    return (
+      <main className="final-report-preview">
+        <div className="no-print studio-actions">
+          <button onClick={() => setReport(undefined)}>返回定稿名单</button>
+          <button onClick={printDocument}>打印 / 保存 PDF</button>
+          <p>此报告默认隐藏出生信息、避字和逐名私密备注；包含已确认的家庭选择理由。</p>
+        </div>
+        <label className="no-print inline-choice">
+          <input
+            type="checkbox"
+            checked={includePrivate}
+            onChange={(e) => setIncludePrivate(e.target.checked)}
+          />
+          报告包含出生信息、生肖提醒、避字和逐名备注（仅自用时勾选）
+        </label>
+        <FinalReport
+          report={report}
+          redactions={{
+            birthData: !includePrivate,
+            avoidCharacters: !includePrivate,
+            notes: !includePrivate,
+          }}
+        />
+      </main>
+    );
   return (
     <FinalizationPage
       candidates={candidates}
@@ -146,19 +179,51 @@ export function FinalizationRoute() {
           }
         : {})}
       onExclude={(candidateId, reason) => move(candidateId, "excluded", reason)}
-      onExport={async () => exportFinalList(candidates)}
+      onSavePreferred={async (selectedCandidateId, rationale) => {
+        const result = await container.finalizeNamingDecision?.execute({
+          projectId,
+          selectedCandidateId,
+          rationale,
+        });
+        if (!result?.ok) throw new Error(result?.error ?? "保存失败");
+        await reload();
+      }}
+      onSaveNote={async (candidateId, note) => {
+        const rating = candidates.find((c) => c.id === candidateId)?.rating;
+        const result = await container.recordCandidateEvaluation?.execute({
+          projectId,
+          candidateId,
+          note,
+          ...(rating !== undefined ? { rating } : {}),
+        });
+        if (!result?.ok) throw new Error(result?.error ?? "保存失败");
+        await reload();
+      }}
+      onReport={async () => {
+        const result = await container.buildFinalReport?.execute(projectId);
+        if (!result?.ok) throw new Error(result?.error ?? "报告生成失败");
+        setReport(result.value);
+      }}
+      onExport={async () => {
+        const result = await container.buildFinalReport?.execute(projectId);
+        if (!result?.ok) throw new Error(result?.error ?? "当前条件尚不能导出");
+        exportFinalList(candidates, legacyDecision);
+      }}
       onRemove={(candidateId) => move(candidateId, "comparison")}
     />
   );
 }
 
-function exportFinalList(candidates: FinalistView[]): void {
+function exportFinalList(candidates: FinalistView[], decision?: FinalDecision): void {
   const content = [
     "尔雅起名 · 定稿名单",
+    decision
+      ? `首选：${candidates.find((c) => c.id === decision.selectedCandidateId)?.fullName ?? "待核对"}\n选择理由：${decision.rationale}`
+      : "尚未指定唯一首选",
     "",
     ...candidates.map(
       (candidate, index) =>
-        `${index + 1}. ${candidate.fullName}${candidate.rating ? ` · ${candidate.rating} 分` : ""}\n   ${candidate.summary}`,
+        `${index + 1}. ${candidate.fullName}${candidate.rating ? ` · ${candidate.rating} 分` : ""}\n   ${candidate.summary}\n   保留理由：${candidate.note ?? "未填写"}`,
     ),
   ].join("\n");
   const url = URL.createObjectURL(new Blob([content], { type: "text/plain;charset=utf-8" }));

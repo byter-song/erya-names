@@ -1,13 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import type { NamingProfile } from "../../domain/project/profile";
 import { Button } from "../../design-system/primitives/Button";
+import { RelativeAvoidanceEditor } from "./RelativeAvoidanceEditor";
 const split = (value: string) => [...new Set(value.split(/[，,、\s]+/u).filter(Boolean))];
 export function ProfileEditor({
   profile,
   onSave,
+  initiallyOpen = false,
 }: {
   profile: NamingProfile;
   onSave: (profile: NamingProfile) => Promise<void>;
+  initiallyOpen?: boolean;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
@@ -61,7 +64,12 @@ export function ProfileEditor({
     }
   };
   return (
-    <details ref={detailsRef} className="profile-editor paper-card" id="conditions">
+    <details
+      ref={detailsRef}
+      open={initiallyOpen}
+      className="profile-editor paper-card"
+      id="conditions"
+    >
       <summary>
         起名条件 <span>姓氏 · 字辈 · 避讳 · 风格</span>
       </summary>
@@ -231,12 +239,23 @@ export function ProfileEditor({
           />
           重视拼音辨识
         </label>
+        <RelativeAvoidanceEditor
+          profile={draft}
+          onChange={(rules) => {
+            field("relativeAvoidances", rules);
+            if (rules.length) field("constraintKnowledge", "present");
+          }}
+        />
       </div>
       <div className="studio-actions">
         <Button disabled={busy} onClick={() => void save()} type="button">
           {busy ? "正在保存…" : "保存起名条件"}
         </Button>
-        {saved ? <span role="status">条件已保存，下一批将使用新条件。</span> : null}
+        {saved ? (
+          <span role="status">
+            条件已保存。新候选使用新条件；旧候选保留原始证据，比较与定稿前会按当前硬约束核对。
+          </span>
+        ) : null}
       </div>
       {error ? (
         <p role="alert" className="onboarding__error">

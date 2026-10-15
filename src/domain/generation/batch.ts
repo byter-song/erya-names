@@ -5,6 +5,7 @@ export const generationBatchSchema = z.object({
   projectId: z.string().min(1),
   sequence: z.number().int().positive(),
   seed: z.string().min(1),
+  inspirationSources: z.array(z.enum(["poetry", "modern", "historical"])).optional(),
   requestedCount: z.number().int().min(1).max(200),
   profileSnapshot: z.record(z.string(), z.unknown()),
   datasetVersion: z.string().min(1),

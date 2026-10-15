@@ -86,3 +86,21 @@
     display: none;
   }
 }
+
+@media print {
+  .ink-shell__hud,
+  .ink-shell__ambient {
+    display: none !important;
+  }
+  .ink-shell,
+  .ink-shell__content {
+    position: static;
+    padding: 0;
+    background: white;
+    min-height: 0;
+  }
+  .ink-shell__content main {
+    max-width: none;
+    padding: 0;
+  }
+}

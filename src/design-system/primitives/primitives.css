@@ -147,6 +147,58 @@
     0 36px 96px rgb(12 8 4 / 38%),
     inset 0 1px rgb(255 255 255 / 72%);
 }
+.dialog-backdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgb(12 9 6 / 68%);
+  backdrop-filter: blur(5px);
+}
+.dialog-backdrop > .ui-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(850px, 100%);
+  max-width: 850px;
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  overflow: hidden;
+}
+.ui-dialog__heading {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--surface-border);
+}
+.ui-dialog__heading h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.ui-dialog__body {
+  min-height: 0;
+  padding: 20px 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+@media (max-width: 600px) {
+  .dialog-backdrop {
+    padding: 8px;
+  }
+  .dialog-backdrop > .ui-dialog {
+    max-height: calc(100dvh - 16px);
+  }
+  .ui-dialog__heading,
+  .ui-dialog__body {
+    padding: 16px;
+  }
+}
 
 .ui-status {
   display: inline-flex;

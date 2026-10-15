@@ -36,23 +36,26 @@ describe("project backup envelope", () => {
     expect(envelope.checksum).toMatch(/^[a-f0-9]{64}$/);
   });
 
-  it("upgrades a valid schema v2 envelope to schema v3", async () => {
-    const legacy = {
-      format: "erya-names-project-backup",
-      schemaVersion: 2,
-      appVersion: "0.3.0",
-      datasetVersion: "personal",
-      rulePackVersion: "rules",
-      exportedAt: "2026-10-08T00:00:00.000Z",
-      checksum: await sha256(payload),
-      payload,
-    };
+  it.each([2, 3])(
+    "upgrades a valid schema v%s envelope to schema v4",
+    async (schemaVersion) => {
+      const legacy = {
+        format: "erya-names-project-backup",
+        schemaVersion,
+        appVersion: "0.3.0",
+        datasetVersion: "personal",
+        rulePackVersion: "rules",
+        exportedAt: "2026-10-08T00:00:00.000Z",
+        checksum: await sha256(payload),
+        payload,
+      };
 
-    await expect(validateBackupEnvelope(legacy)).resolves.toMatchObject({
-      schemaVersion: 3,
-      payload,
-    });
-  });
+      await expect(validateBackupEnvelope(legacy)).resolves.toMatchObject({
+        schemaVersion: 4,
+        payload,
+      });
+    },
+  );
 
   it("rejects missing fields, unsupported versions and changed payloads", async () => {
     const envelope = await createBackupEnvelope({
@@ -227,7 +230,7 @@ describe("project backup envelope", () => {
     };
 
     await expect(validateBackupEnvelope(envelope)).resolves.toMatchObject({
-      schemaVersion: 3,
+      schemaVersion: 4,
       payload: { comparisonSnapshots: [] },
     });
   });

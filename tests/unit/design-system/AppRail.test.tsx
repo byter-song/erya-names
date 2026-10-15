@@ -35,7 +35,9 @@ describe("AppRail", () => {
       "data-stage",
       "available",
     );
-    expect(within(navigation).getByRole("button", { name: "切换为暗色主题" })).toBeVisible();
+    expect(
+      within(navigation).queryByRole("button", { name: "切换为暗色主题" }),
+    ).not.toBeInTheDocument();
   });
 
   it("ignores the removed collapse preference and stays expanded", () => {

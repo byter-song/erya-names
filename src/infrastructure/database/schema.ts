@@ -23,7 +23,8 @@ export interface CandidateRecord extends EntityRecord {
   givenName: string;
   fullName: string;
   pinyin: string[];
-  sourceType: "verified_allusion" | "modern_combination" | "user_input";
+  sourceType:
+    "verified_allusion" | "modern_combination" | "user_input" | "historical_inspiration";
   summary: string;
   sourceIds: string[];
   sourceEvidence: Array<{

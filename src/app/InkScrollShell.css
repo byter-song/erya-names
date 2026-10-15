@@ -144,8 +144,7 @@
 }
 .ink-shell__brand small {
   display: block;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 0.6rem;
   letter-spacing: 0.18em;
   color: var(--text-secondary);
@@ -187,7 +186,7 @@
   border: 1px solid rgba(174, 136, 84, 0.35);
   border-radius: 50%;
   font-family: ui-monospace, Menlo, monospace;
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   color: var(--gold-600);
   transition: all 0.28s;
 }
@@ -213,16 +212,15 @@
 .ink-shell__chip.is-completed:not([aria-current="page"]) .ink-shell__chip-no {
   background: var(--gold-500);
   border-color: var(--gold-500);
-  color: #fff;
+  color: var(--ink-950);
 }
 .ink-shell__toggle {
   flex: 0 0 auto;
 }
 
 .ink-shell__content {
-  position: absolute;
+  position: relative;
   z-index: 5;
-  inset: 0;
   padding-top: var(--hud-h);
 }
 
@@ -278,9 +276,8 @@
 
 /* 按钮：浅纸 + 墨/金，替代旧深绿重色 */
 .ink-shell .ui-button,
-.ink-shell__content button:not(.ink-shell__brand):not(.ink-shell__chip):not(
-    .ui-link
-  ):not(.ui-icon-button) {
+.ink-shell__content
+  button:not(.ink-shell__brand):not(.ink-shell__chip):not(.ui-link):not(.ui-icon-button) {
   border-radius: 30px;
   font-family: inherit;
 }
@@ -311,7 +308,9 @@
   font-family: inherit;
   padding: 11px 14px;
   outline: none;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
 }
 .ink-shell__content :where(input, select, textarea):focus {
   border-color: var(--gold-500);
@@ -437,5 +436,189 @@
   .ink-shell__blob,
   .ink-shell__orbit-dot {
     animation: none !important;
+  }
+}
+
+/* Long-scroll content retains full viewport width; other pages share the paper layout. */
+.ink-shell__content main.ils {
+  max-width: none;
+  padding: 12px 0 0;
+}
+.ink-shell__content .ils > header {
+  margin-bottom: 6px;
+}
+.ink-shell__content .ils h1 {
+  font-family: inherit;
+  font-size: 1.45rem;
+}
+.ink-shell__chip {
+  min-height: 44px;
+}
+.ink-shell__chip.is-blocked {
+  opacity: 1;
+}
+.ink-shell__content input,
+.ink-shell__content select,
+.ink-shell__content textarea,
+.ui-dialog input,
+.ui-dialog select,
+.ui-dialog textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+.ink-shell__content input[type="file"] {
+  width: 100%;
+}
+.final-report-preview {
+  max-width: 900px;
+  margin: auto;
+  padding: 24px;
+}
+.final-preference {
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.ink-shell__content :where(button:not(.ui-button)) {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--paper-300);
+  border-radius: 24px;
+  color: var(--text-primary);
+  background: var(--surface-card-solid);
+  font: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.ink-shell__content :where(button:disabled) {
+  opacity: 0.5;
+  cursor: default;
+}
+.studio-actions,
+.candidate-card__actions,
+.comparison-page .studio-actions > span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.comparison-page .studio-actions {
+  margin: 20px 0;
+  gap: 20px;
+}
+.finalization-page .ui-field {
+  margin: 16px 0;
+}
+.finalization-page textarea {
+  min-height: 96px;
+}
+.final-seal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+.startup-screen__mark {
+  font-size: 100px;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+.startup-screen progress {
+  width: 180px;
+  accent-color: var(--gold-500);
+}
+.ui-dialog {
+  color: var(--text-primary);
+  background: var(--surface-card-solid);
+}
+.ui-dialog button {
+  min-height: 44px;
+  border: 1px solid #baaa8d;
+  border-radius: 22px;
+  padding: 8px 16px;
+  color: var(--text-primary);
+  background: var(--surface-card-solid);
+  font: inherit;
+  cursor: pointer;
+}
+.ui-dialog button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ui-dialog input:not([type="checkbox"]):not([type="radio"]),
+.ui-dialog select,
+.ui-dialog textarea {
+  min-height: 44px;
+  border: 1px solid #baaa8d;
+  border-radius: 8px;
+  padding: 8px;
+  font: inherit;
+  color: var(--text-primary);
+  background: var(--surface-input);
+}
+.ui-dialog textarea {
+  width: 100%;
+  min-height: 90px;
+}
+.ui-dialog fieldset {
+  min-width: 0;
+}
+.ui-dialog .ui-field {
+  margin: 14px 0;
+}
+.ui-dialog .studio-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 20px 0;
+}
+.ui-dialog .studio-fields > label {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+.ui-dialog .studio-fields input:not([type="checkbox"]):not([type="radio"]),
+.ui-dialog .studio-fields select,
+.ui-dialog .studio-fields textarea {
+  width: 100%;
+}
+.ui-dialog .wide-field {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.ui-dialog .inline-choice {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+.ui-dialog .inline-choice input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.ui-dialog .profile-editor,
+.ui-dialog .folklore-review-settings {
+  padding: 16px;
+}
+.ui-dialog .profile-editor > summary span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.ui-dialog summary {
+  min-height: 44px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  .final-preference {
+    padding: 18px;
+  }
+  .ui-dialog .studio-fields {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

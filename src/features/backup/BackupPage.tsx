@@ -43,33 +43,18 @@ export function BackupPage({
     <main className="backup-page backup-page--vault">
       <header className="safety-vault-hero">
         <div>
-          <p className="project-center__kicker">SAFETY VAULT</p>
-          <h1>安全穹顶</h1>
-          <p>{projectTitle} 的完整数据只在当前浏览器中处理。导出文件由你自己保存，不会上传服务器。</p>
+          <p className="project-center__kicker">尔雅 · 藏卷备份</p>
+          <h1>方案备份</h1>
+          <p>
+            {projectTitle}{" "}
+            的完整数据只在当前浏览器中处理。导出文件由你自己保存，不会上传服务器。
+          </p>
         </div>
         <div className="safety-vault-hero__status" aria-label="安全状态">
           <span>本地优先</span>
           <strong>无云端同步</strong>
         </div>
       </header>
-
-      <section className="safety-vault-grid" aria-label="安全能力">
-        <article>
-          <span>01</span>
-          <strong>完整备份</strong>
-          <p>导出起名条件、批次、候选、规则证据、筛选记录、评价和最终决定。</p>
-        </article>
-        <article>
-          <span>02</span>
-          <strong>可选加密</strong>
-          <p>加密文件使用你输入的密码，密码不会保存在浏览器或备份文件中。</p>
-        </article>
-        <article>
-          <span>03</span>
-          <strong>恢复前预览</strong>
-          <p>导入备份会先校验并展示影响范围，确认前不会写入本地数据库。</p>
-        </article>
-      </section>
 
       <section className="safety-vault-panel" aria-labelledby="backup-title">
         <div className="safety-vault-panel__heading">
@@ -138,6 +123,26 @@ export function BackupPage({
         {status ? <p role="status">{status}</p> : null}
         {error ? <p role="alert">{error}</p> : null}
       </section>
+      <details className="safety-vault-help">
+        <summary>备份与恢复说明</summary>
+        <section className="safety-vault-grid" aria-label="安全能力">
+          <article>
+            <span>01</span>
+            <strong>完整备份</strong>
+            <p>导出起名条件、批次、候选、规则证据、筛选记录、评价和最终决定。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>可选加密</strong>
+            <p>加密文件使用你输入的密码，密码不会保存在浏览器或备份文件中。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>恢复前预览</strong>
+            <p>导入备份会先校验并展示影响范围，确认前不会写入本地数据库。</p>
+          </article>
+        </section>
+      </details>
     </main>
   );
 }

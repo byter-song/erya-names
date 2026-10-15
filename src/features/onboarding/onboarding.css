@@ -236,8 +236,7 @@
   border: 1px solid rgb(174 136 68 / 22%);
   border-radius: 8px;
   background:
-    linear-gradient(90deg, rgb(174 136 68 / 12%), transparent 58%),
-    rgb(250 247 238 / 40%);
+    linear-gradient(90deg, rgb(174 136 68 / 12%), transparent 58%), rgb(250 247 238 / 40%);
 }
 
 .condition-environment__active::after {
@@ -472,5 +471,51 @@
   .onboarding__fields {
     grid-template-columns: 1fr;
     padding: 14px;
+  }
+  .onboarding__card {
+    padding: 18px;
+  }
+  .condition-environment__header {
+    margin-bottom: 18px;
+  }
+  .condition-environment__seal,
+  .condition-environment__layer small,
+  .condition-environment__active-copy span,
+  .condition-environment__active-copy p,
+  .condition-environment__active::after {
+    display: none;
+  }
+  .condition-environment__status {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .condition-environment__layers {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .condition-environment__layer {
+    min-height: 0;
+    padding: 10px 6px;
+    text-align: center;
+  }
+  .condition-environment__layer span {
+    width: 26px;
+    height: 26px;
+    margin: auto;
+  }
+  .condition-environment__layer strong {
+    margin-top: 8px;
+    font-size: 0.8rem;
+  }
+  .onboarding-progress {
+    min-height: 0;
+    padding: 12px;
+  }
+  .condition-environment__active {
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+  .condition-environment__active-copy h2 {
+    font-size: 1.1rem;
   }
 }

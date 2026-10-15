@@ -147,9 +147,7 @@ export function NamingUniversePage({
       <div>
         <p className="eyebrow">Seeding</p>
         <h2>播种一批名字</h2>
-        <p>
-          先按规范字、家庭边界和读写风险过滤，再按风格与文脉排序。历史名字会跨批去重。
-        </p>
+        <p>先按规范字、家庭边界和读写风险过滤，再按风格与文脉排序。历史名字会跨批去重。</p>
       </div>
       <div className="universe-seed-controls">
         <label>
@@ -220,9 +218,7 @@ export function NamingUniversePage({
         <div className="universe-field__copy">
           <p className="eyebrow">Naming Field</p>
           <h2 id="universe-field-title">有限命名场</h2>
-          <p>
-            名字是唯一对象：从外围灵感进入稳定轨道，经过文化透镜，再被决策引力环吸附。
-          </p>
+          <p>名字是唯一对象：从外围灵感进入稳定轨道，经过文化透镜，再被决策引力环吸附。</p>
         </div>
         <div className="universe-orbit" aria-label="命名场状态">
           <button
@@ -293,7 +289,8 @@ export function NamingUniversePage({
               onClick={() =>
                 setFocusRequest({
                   requestId: Date.now(),
-                  stage: counts.folklore > 0 ? "folklore" : counts.basic > 0 ? "basic" : "inbox",
+                  stage:
+                    counts.folklore > 0 ? "folklore" : counts.basic > 0 ? "basic" : "inbox",
                 })
               }
             >
@@ -309,7 +306,11 @@ export function NamingUniversePage({
             <div className="universe-comparison-preview__heading">
               <div>
                 <p className="eyebrow">Comparison Reflow</p>
-                <h3 id="universe-comparison-preview-title" ref={comparisonPreviewHeading} tabIndex={-1}>
+                <h3
+                  id="universe-comparison-preview-title"
+                  ref={comparisonPreviewHeading}
+                  tabIndex={-1}
+                >
                   命名场内比较预览
                 </h3>
                 <p>先在当前命名场中快速对齐核心差异；需要编辑快照或定稿时再进入完整比较页。</p>
@@ -323,7 +324,11 @@ export function NamingUniversePage({
                 </Button>
               </div>
             </div>
-            <div className="universe-comparison-preview__table" role="region" aria-label="重点候选快速比较">
+            <div
+              className="universe-comparison-preview__table"
+              role="region"
+              aria-label="重点候选快速比较"
+            >
               <table>
                 <thead>
                   <tr>
@@ -349,8 +354,14 @@ export function NamingUniversePage({
                       "系统匹配",
                       (candidate: CandidateFunnelItem) => `${candidate.systemScore ?? 0}/100`,
                     ],
-                    ["使用提醒", (candidate: CandidateFunnelItem) => previewRiskLabel(candidate)],
-                    ["民俗参考", (candidate: CandidateFunnelItem) => previewFolkloreLabel(candidate)],
+                    [
+                      "使用提醒",
+                      (candidate: CandidateFunnelItem) => previewRiskLabel(candidate),
+                    ],
+                    [
+                      "民俗参考",
+                      (candidate: CandidateFunnelItem) => previewFolkloreLabel(candidate),
+                    ],
                     [
                       "个人记录",
                       (candidate: CandidateFunnelItem) =>
@@ -390,7 +401,8 @@ export function NamingUniversePage({
                 }
                 setFocusRequest({
                   requestId: Date.now(),
-                  stage: counts.folklore > 0 ? "folklore" : counts.basic > 0 ? "basic" : "inbox",
+                  stage:
+                    counts.folklore > 0 ? "folklore" : counts.basic > 0 ? "basic" : "inbox",
                 });
               }}
             >
@@ -423,7 +435,11 @@ export function NamingUniversePage({
             <div className="universe-final-preview__names" aria-label="定稿候选预览">
               {finalPreviewCandidates.map((candidate, index) => (
                 <article
-                  className={index === 0 ? "universe-final-preview__name is-primary" : "universe-final-preview__name"}
+                  className={
+                    index === 0
+                      ? "universe-final-preview__name is-primary"
+                      : "universe-final-preview__name"
+                  }
                   key={candidate.id}
                 >
                   <span>{index === 0 ? "首位候选" : `备选 ${index + 1}`}</span>
@@ -472,15 +488,11 @@ export function NamingUniversePage({
         <div className="guide-grid">
           <section>
             <h3>先好用，再动心</h3>
-            <p>
-              先确认登记、规范字、家庭避讳与全名读音，再看字义、典故和书写。
-            </p>
+            <p>先确认登记、规范字、家庭避讳与全名读音，再看字义、典故和书写。</p>
           </section>
           <section>
             <h3>文化透镜</h3>
-            <p>
-              民俗内容只作为传统文化参考，不输出吉凶和人生预测，也不自动推断喜用神。
-            </p>
+            <p>民俗内容只作为传统文化参考，不输出吉凶和人生预测，也不自动推断喜用神。</p>
           </section>
         </div>
         <p>
@@ -496,7 +508,9 @@ export function NamingUniversePage({
   );
 }
 
-function getComparisonPreviewCandidates(candidates: CandidateFunnelItem[]): CandidateFunnelItem[] {
+function getComparisonPreviewCandidates(
+  candidates: CandidateFunnelItem[],
+): CandidateFunnelItem[] {
   return [...candidates]
     .filter((candidate) => ["comparison", "finalist"].includes(candidate.stage))
     .sort((left, right) => {
@@ -529,6 +543,7 @@ function previewSourceLabel(candidate: CandidateFunnelItem): string {
   const labels = {
     modern_combination: "现代组合",
     user_input: "手工录入",
+    historical_inspiration: "状元灵感",
     verified_allusion: "古籍取名",
   } as const;
   return labels[candidate.sourceType];
@@ -602,8 +617,9 @@ function buildUniverseOrbit(
   const basic = bestCandidate(candidates, (candidate) =>
     ["basic_shortlist", "favorite"].includes(candidate.stage),
   );
-  const folklore = bestCandidate(candidates, (candidate) =>
-    candidate.stage === "folklore_review" || Boolean(candidate.folkloreReviewed),
+  const folklore = bestCandidate(
+    candidates,
+    (candidate) => candidate.stage === "folklore_review" || Boolean(candidate.folkloreReviewed),
   );
   const inbox = bestCandidate(candidates, (candidate) => candidate.stage === "inbox");
   const usedIds = new Set<string>();
@@ -612,16 +628,18 @@ function buildUniverseOrbit(
   const leftCandidate =
     bestCandidate(
       candidates,
-      (candidate) => candidate.stage === "folklore_review" || Boolean(candidate.folkloreReviewed),
+      (candidate) =>
+        candidate.stage === "folklore_review" || Boolean(candidate.folkloreReviewed),
       usedIds,
-    ) ?? bestCandidate(candidates, (candidate) => candidate.stage === "basic_shortlist", usedIds);
+    ) ??
+    bestCandidate(candidates, (candidate) => candidate.stage === "basic_shortlist", usedIds);
   if (leftCandidate) usedIds.add(leftCandidate.id);
   const rightCandidate =
     bestCandidate(candidates, (candidate) => candidate.stage === "inbox", usedIds) ??
     bestCandidate(candidates, (candidate) => candidate.stage === "comparison", usedIds);
   const leftIsFolklore = Boolean(
     leftCandidate &&
-      (leftCandidate.stage === "folklore_review" || Boolean(leftCandidate.folkloreReviewed)),
+    (leftCandidate.stage === "folklore_review" || Boolean(leftCandidate.folkloreReviewed)),
   );
   const rightIsInbox = rightCandidate?.stage === "inbox";
 

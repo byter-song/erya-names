@@ -1,3 +1,4 @@
+import { currentEligibility } from "../../domain/rules/currentEligibility";
 import type { DecisionRepository } from "../../application/ports/DecisionRepository";
 import {
   candidateDecisionSchema,
@@ -30,12 +31,24 @@ export class DexieDecisionRepository implements DecisionRepository {
         this.database.decisionHistory,
         this.database.finalDecisions,
         this.database.projects,
+        this.database.profiles,
+        this.database.candidates,
       ],
       async () => {
         const current = await this.database.candidateDecisions.get(input.candidateId);
         if (!current || current.projectId !== input.projectId)
           throw new Error("candidate-not-found");
         if (current.stage !== input.from) throw new Error("decision-state-changed");
+        if (
+          input.to === "finalist" ||
+          (input.to === "comparison" && input.from !== "finalist")
+        ) {
+          const profile = await this.database.profiles.get(input.projectId);
+          const candidate = await this.database.candidates.get(input.candidateId);
+          if (!profile || !candidate) throw new Error("方案或候选不存在");
+          const issue = currentEligibility(candidate, profile);
+          if (issue) throw new Error(issue);
+        }
         if (input.maximumTargetCount !== undefined) {
           const count = await this.database.candidateDecisions
             .where("[projectId+stage]")

@@ -9,7 +9,8 @@ export interface L3Dimension {
 
 export function scoreCandidatePreferences(input: {
   pinyin: string[];
-  sourceType: "verified_allusion" | "modern_combination" | "user_input";
+  sourceType:
+    "verified_allusion" | "modern_combination" | "user_input" | "historical_inspiration";
   characterStyleTags: string[];
   preferredStyleTags: string[];
   pinyinFriendly: boolean;
@@ -56,7 +57,9 @@ export function scoreCandidatePreferences(input: {
           ? "古籍原句取字"
           : input.sourceType === "modern_combination"
             ? "来自有来源的字卡组合"
-            : "用户手工录入",
+            : input.sourceType === "historical_inspiration"
+              ? "状元用名取字灵感；人物身份不加分"
+              : "用户手工录入",
     },
     {
       id: "pinyin-friendly",

@@ -1,5 +1,6 @@
 import { Status } from "../../design-system/primitives/Status";
 import type { ProjectSummary, ResumableProject } from "../../application/models/ProjectSummary";
+import "./project-card.css";
 
 const STAGE_LABELS: Record<ProjectSummary["stage"], string> = {
   onboarding: "完善条件",

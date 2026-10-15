@@ -2,7 +2,7 @@ import type { FinalDecisionRepository } from "../ports/FinalDecisionRepository";
 import { finalDecisionSchema, type FinalDecision } from "../../domain/candidate/finalDecision";
 import { err, ok, type Result } from "../../domain/shared/result";
 
-/** @deprecated V4 keeps this use case for legacy read/report compatibility only. */
+/** Saves the preferred name and rationale within the one-to-five final list. */
 export class FinalizeNamingDecision {
   constructor(
     private readonly repository: FinalDecisionRepository,
@@ -15,8 +15,8 @@ export class FinalizeNamingDecision {
     rationale: string;
   }): Promise<Result<FinalDecision, string>> {
     const finalistIds = await this.repository.listFinalistIds(input.projectId);
-    if (finalistIds.length < 3 || finalistIds.length > 5) {
-      return err("最终候选需要保持在 3 到 5 个");
+    if (finalistIds.length < 1 || finalistIds.length > 5) {
+      return err("最终候选需要保持在 1 到 5 个");
     }
     if (!finalistIds.includes(input.selectedCandidateId)) {
       return err("最终选择必须来自最终候选");

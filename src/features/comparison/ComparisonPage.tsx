@@ -1,3 +1,6 @@
+import type { NamingProfile } from "../../domain/project/profile";
+import { readSurname } from "../../domain/candidate/nameReading";
+import { NameExplanation } from "../insights/NameExplanation";
 import { Dialog } from "../../design-system/primitives/Dialog";
 import { Card } from "../../design-system/primitives/Card";
 import { Button } from "../../design-system/primitives/Button";
@@ -10,6 +13,8 @@ import "./comparison.css";
 
 export function ComparisonPage({
   candidates,
+  profile,
+  onReturnToBasic,
   finalists = [],
   onPromote,
   onReturnToComparison,
@@ -21,6 +26,8 @@ export function ComparisonPage({
   initialCanUndo = false,
 }: {
   candidates: FunnelCandidate[];
+  profile?: NamingProfile | undefined;
+  onReturnToBasic?: (id: string) => Promise<void>;
   finalists?: FunnelCandidate[];
   onPromote: (candidateId: string) => Promise<void>;
   onReturnToComparison?: (candidateId: string) => Promise<void>;
@@ -31,6 +38,8 @@ export function ComparisonPage({
   snapshots?: ComparisonSnapshot[];
   initialCanUndo?: boolean;
 }) {
+  const [detailId, setDetailId] = useState<string>();
+  const detail = candidates.find((c) => c.id === detailId);
   const [promotedIds, setPromotedIds] = useState<Set<string>>(() => new Set());
   const [pendingIds, setPendingIds] = useState<Set<string>>(() => new Set());
   const pendingIdsRef = useRef(new Set<string>());
@@ -74,8 +83,12 @@ export function ComparisonPage({
       await operation;
       setPromotedIds((current) => new Set(current).add(candidate.id));
       setCanUndo(true);
-    } catch {
-      setError(`未能将${candidate.fullName}加入定稿名单，请重试。`);
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : `未能将${candidate.fullName}加入定稿名单，请重试。`,
+      );
     } finally {
       pendingIdsRef.current.delete(candidate.id);
       setPendingIds(new Set(pendingIdsRef.current));
@@ -86,9 +99,9 @@ export function ComparisonPage({
     <main className="comparison-page comparison-page--gravity">
       <header className="comparison-gravity__hero">
         <div>
-          <p className="project-center__kicker">DECISION GRAVITY RING</p>
+          <p className="project-center__kicker">尔雅 · 并卷比较</p>
           <h1>重点候选</h1>
-          <p>让 2–5 个名字聚拢到同一个证据场里，横向比较出处、寓意、风险和个人评分。</p>
+          <p>让 2–5 个名字聚拢到同一卷中，横向比较出处、寓意、风险和个人评分。</p>
         </div>
         <div className="comparison-gravity__ring" aria-label="比较状态">
           <span>COMPARE</span>
@@ -101,7 +114,7 @@ export function ComparisonPage({
       <section className="comparison-gravity__toolbar" aria-label="比较操作">
         <div className="comparison-gravity__metric">
           <span>{comparedCandidates.length}</span>
-          <strong>进入引力环</strong>
+          <strong>同卷比较</strong>
           <small>最多同时比较 5 个名字</small>
         </div>
         {onSaveSnapshot && candidates.length >= 2 ? (
@@ -171,6 +184,49 @@ export function ComparisonPage({
         </div>
       </section>
 
+      {detail && (
+        <Dialog
+          title={`${detail.fullName}详情`}
+          closeLabel="关闭详情"
+          onClose={() => setDetailId(undefined)}
+        >
+          <NameExplanation
+            candidate={detail}
+            profile={profile}
+            showFolklore={Boolean(detail.folkloreReviewed)}
+          />
+        </Dialog>
+      )}
+      <div className="studio-actions">
+        {comparedCandidates.map((candidate) => (
+          <span key={candidate.id}>
+            <button onClick={() => setDetailId(candidate.id)}>
+              查看{candidate.fullName}详情
+            </button>
+            {onReturnToBasic && (
+              <button
+                disabled={pendingIds.has(candidate.id)}
+                onClick={() => {
+                  setPendingIds((current) => new Set(current).add(candidate.id));
+                  void onReturnToBasic(candidate.id)
+                    .catch((reason) =>
+                      setError(reason instanceof Error ? reason.message : "移回失败"),
+                    )
+                    .finally(() =>
+                      setPendingIds((current) => {
+                        const next = new Set(current);
+                        next.delete(candidate.id);
+                        return next;
+                      }),
+                    );
+                }}
+              >
+                将{candidate.fullName}移回基础候选
+              </button>
+            )}
+          </span>
+        ))}
+      </div>
       {snapshotSaved ? (
         <p className="comparison-gravity__status" role="status">
           对比快照已保存
@@ -241,7 +297,7 @@ export function ComparisonPage({
           ) : null}
         </Card>
       ) : (
-        <section className="comparison-gravity__matrix" aria-label="比较引力环">
+        <section className="comparison-gravity__matrix" aria-label="并卷比较">
           <div className="comparison-gravity__orbit" aria-hidden="true">
             {comparedCandidates.map((candidate, index) => (
               <span key={candidate.id} style={{ "--orbit-index": index } as CSSProperties}>
@@ -271,9 +327,23 @@ export function ComparisonPage({
                   [
                     "读音",
                     (candidate: FunnelCandidate) =>
-                      candidate.pinyin.join(" · ") || "待人工确认",
+                      [
+                        ...(profile ? readSurname(profile.surname, profile.surnamePinyin) : []),
+                        ...candidate.pinyin,
+                      ].join(" · ") || "待人工确认",
                   ],
                   ["寓意", (candidate: FunnelCandidate) => candidate.summary],
+                  [
+                    "个人评分",
+                    (candidate: FunnelCandidate) =>
+                      candidate.rating ? `${candidate.rating} 分` : "未评分",
+                  ],
+                  ["心选理由", (candidate: FunnelCandidate) => candidate.note ?? "未填写"],
+                  [
+                    "当前条件",
+                    (candidate: FunnelCandidate) =>
+                      candidate.eligibilityIssue ?? "硬约束检查通过",
+                  ],
                   [
                     "排序分",
                     (candidate: FunnelCandidate) =>
@@ -301,6 +371,7 @@ export function ComparisonPage({
                     <td key={candidate.id}>
                       <Button
                         disabled={
+                          Boolean(candidate.eligibilityIssue) ||
                           pendingIds.has(candidate.id) ||
                           promotedIds.has(candidate.id) ||
                           finalistCount >= 5
@@ -326,7 +397,12 @@ export function ComparisonPage({
                   <dt>来源与出处</dt>
                   <dd>{formatProvenance(candidate)}</dd>
                   <dt>读音与叫名</dt>
-                  <dd>{candidate.pinyin.join(" · ") || "待人工确认"}</dd>
+                  <dd>
+                    {[
+                      ...(profile ? readSurname(profile.surname, profile.surnamePinyin) : []),
+                      ...candidate.pinyin,
+                    ].join(" · ") || "待人工确认"}
+                  </dd>
                   <dt>寓意</dt>
                   <dd>{candidate.summary}</dd>
                   <dt>系统匹配</dt>
@@ -349,6 +425,7 @@ export function ComparisonPage({
                 <TechnicalEvidence candidate={candidate} />
                 <Button
                   disabled={
+                    Boolean(candidate.eligibilityIssue) ||
                     pendingIds.has(candidate.id) ||
                     promotedIds.has(candidate.id) ||
                     finalistCount >= 5
@@ -368,7 +445,11 @@ export function ComparisonPage({
         </section>
       )}
       {openSnapshot ? (
-        <Dialog title={openSnapshot.name} onClose={() => setOpenSnapshotId(undefined)}>
+        <Dialog
+          title={openSnapshot.name}
+          closeLabel="关闭历史快照"
+          onClose={() => setOpenSnapshotId(undefined)}
+        >
           <p>保存于 {new Date(openSnapshot.createdAt).toLocaleString("zh-CN")}</p>
           {openSnapshot.candidates.map((candidate) => (
             <section key={candidate.id}>
@@ -376,9 +457,6 @@ export function ComparisonPage({
               <ComparisonEvidence candidate={candidate} />
             </section>
           ))}
-          <button onClick={() => setOpenSnapshotId(undefined)} type="button">
-            关闭历史快照
-          </button>
         </Dialog>
       ) : null}
     </main>
@@ -424,6 +502,7 @@ const sourceLabels = {
   verified_allusion: "古籍取名",
   modern_combination: "现代组合",
   user_input: "用户录入",
+  historical_inspiration: "状元灵感",
 } as const;
 
 function formatProvenance(candidate: FunnelCandidate | ComparisonSnapshotCandidate): string {

@@ -146,6 +146,12 @@
   border-radius: var(--radius-sm);
   background: var(--surface-subtle);
 }
+.safety-vault-help summary {
+  min-height: 44px;
+  padding: 12px 0;
+  cursor: pointer;
+  color: var(--text-primary);
+}
 
 @media (max-width: 760px) {
   .backup-page {

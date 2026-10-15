@@ -1,3 +1,4 @@
+import { ZodiacAdvisory } from "../insights/ZodiacAdvisory";
 import { lazy, Suspense } from "react";
 import { readSurname, nameSoundNotes } from "../../domain/candidate/nameReading";
 import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
@@ -101,12 +102,31 @@ export function FinalReport({
               <p>传统民俗参考，非科学结论；不由名字预测健康、事业或人生。</p>
             </>
           ) : null}
+          {!redactions.folklore && !redactions.birthData && report.profile && (
+            <ZodiacAdvisory
+              givenName={candidate.givenName ?? ""}
+              folklore={report.profile.folklore}
+            />
+          )}
           {candidate.sources
-            .filter((source) => source.quote || source.sourceId === "user-input")
+            .filter(
+              (source) =>
+                source.quote ||
+                source.sourceId === "user-input" ||
+                source.title?.includes("状元用名"),
+            )
             .map((source) => (
               <blockquote key={`${candidate.id}:${source.sourceId}`}>
                 {source.work ? <cite>{source.work}</cite> : null}
                 {source.quote ?? source.excerpt ?? source.location ?? source.sourceId}
+                {source.url && (
+                  <p>
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      核对来源
+                    </a>
+                    {source.revision ? ` · ${source.revision}` : ""}
+                  </p>
+                )}
               </blockquote>
             ))}
           {candidate.sources

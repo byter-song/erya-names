@@ -3,6 +3,8 @@ import type { CandidateWarningEvidence } from "./CandidateFunnelItem";
 
 export interface FinalReportSource {
   sourceId: string;
+  url?: string;
+  revision?: string;
   title?: string;
   work?: string;
   quote?: string;

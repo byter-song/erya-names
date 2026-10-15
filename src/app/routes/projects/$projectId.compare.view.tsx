@@ -6,12 +6,13 @@ import { ComparisonPage } from "../../../features/comparison/ComparisonPage";
 import { Button } from "../../../design-system/primitives/Button";
 import type { CandidateFunnelItem as FunnelCandidate } from "../../../application/models/CandidateFunnelItem";
 import type { ComparisonSnapshot } from "../../../domain/candidate/comparisonSnapshot";
-import { familyRulesArePending } from "../../../domain/project/profile";
+import { familyRulesArePending, type NamingProfile } from "../../../domain/project/profile";
 
 export function ComparisonRoute() {
   const { projectId } = comparisonRoute.useParams();
   const container = useApplicationContainer();
   const navigate = useNavigate();
+  const [profile, setProfile] = useState<NamingProfile>();
   const [candidates, setCandidates] = useState<FunnelCandidate[]>([]);
   const [finalists, setFinalists] = useState<FunnelCandidate[]>([]);
   const [snapshots, setSnapshots] = useState<ComparisonSnapshot[]>([]);
@@ -27,6 +28,7 @@ export function ComparisonRoute() {
         container.getProjectWorkspace?.execute(projectId),
       ]);
       const allItems = items ?? [];
+      if (workspace?.ok) setProfile(workspace.value.profile);
       setEligibilityBlocked(
         Boolean(workspace?.ok && familyRulesArePending(workspace.value.profile)),
       );
@@ -86,6 +88,16 @@ export function ComparisonRoute() {
   return (
     <ComparisonPage
       candidates={candidates}
+      profile={profile}
+      onReturnToBasic={async (candidateId) => {
+        const result = await container.moveCandidateDecision?.execute({
+          projectId,
+          candidateId,
+          to: "basic_shortlist",
+        });
+        if (!result?.ok) throw new Error(result?.error ?? "移回失败");
+        await reload();
+      }}
       finalists={finalists}
       initialCanUndo={Boolean(container.undoCandidateDecision?.hasCommands(projectId))}
       snapshots={snapshots}

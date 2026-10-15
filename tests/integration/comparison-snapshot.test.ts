@@ -1,3 +1,4 @@
+import { seedDecisionWorkspace } from "../fixtures/decisionWorkspace";
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { CreateComparisonSnapshot } from "../../src/application/use-cases/CreateComparisonSnapshot";
@@ -15,6 +16,7 @@ describe("CreateComparisonSnapshot", () => {
     const name = `erya-comparison-${crypto.randomUUID()}`;
     names.add(name);
     const database = new EryaDatabase(name);
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.bulkAdd(
       ["c1", "c2"].map((candidateId) => ({
         projectId: "p1",
@@ -77,6 +79,7 @@ describe("CreateComparisonSnapshot", () => {
     const name = `erya-comparison-${crypto.randomUUID()}`;
     names.add(name);
     const database = new EryaDatabase(name);
+    await seedDecisionWorkspace(database);
     await database.candidateDecisions.bulkAdd(
       ["c1", "c2", "c3", "c4", "c5"].map((candidateId) => ({
         projectId: "p1",

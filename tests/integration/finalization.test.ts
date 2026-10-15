@@ -1,3 +1,4 @@
+import { seedDecisionWorkspace } from "../fixtures/decisionWorkspace";
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
 import { FinalizeNamingDecision } from "../../src/application/use-cases/FinalizeNamingDecision";
@@ -19,6 +20,12 @@ describe("FinalizeNamingDecision", () => {
     const database = new EryaDatabase(name);
     const repository = new DexieFinalDecisionRepository(database);
     await database.projects.add(namingProjectFixture());
+    await seedDecisionWorkspace(database, "project-song", [
+      "candidate-1",
+      "candidate-2",
+      "candidate-3",
+      "candidate-4",
+    ]);
     await database.candidateDecisions.bulkAdd(
       ["candidate-1", "candidate-2", "candidate-3", "candidate-4"].map((candidateId) => ({
         projectId: "project-song",
@@ -49,7 +56,7 @@ describe("FinalizeNamingDecision", () => {
     database.close();
   });
 
-  it("requires between three and five finalists", async () => {
+  it("requires between one and five finalists", async () => {
     const name = `erya-final-${crypto.randomUUID()}`;
     databaseNames.add(name);
     const database = new EryaDatabase(name);
@@ -64,7 +71,7 @@ describe("FinalizeNamingDecision", () => {
       rationale: "测试",
     });
 
-    expect(result).toEqual({ ok: false, error: "最终候选需要保持在 3 到 5 个" });
+    expect(result).toEqual({ ok: false, error: "最终候选需要保持在 1 到 5 个" });
     database.close();
   });
 
@@ -73,6 +80,12 @@ describe("FinalizeNamingDecision", () => {
     databaseNames.add(name);
     const database = new EryaDatabase(name);
     await database.projects.add(namingProjectFixture());
+    await seedDecisionWorkspace(database, "project-song", [
+      "candidate-1",
+      "candidate-2",
+      "candidate-3",
+      "candidate-4",
+    ]);
     await database.candidateDecisions.bulkAdd(
       ["candidate-1", "candidate-2", "candidate-3", "candidate-4"].map((candidateId) => ({
         projectId: "project-song",

@@ -17,7 +17,7 @@ export class DexieReportRepository implements ReportRepository {
         .toArray(),
       this.database.candidateEvaluations.where("projectId").equals(projectId).toArray(),
     ]);
-    if (!project || !profile || !decision) return undefined;
+    if (!project || !profile) return undefined;
     const candidateIds = candidateDecisions.map((item) => item.candidateId);
     const [candidates, sources, rules] = await Promise.all([
       this.database.candidates.bulkGet(candidateIds),
@@ -29,8 +29,8 @@ export class DexieReportRepository implements ReportRepository {
     return {
       profile,
       projectTitle: project.title,
-      selectedCandidateId: decision.selectedCandidateId,
-      rationale: decision.rationale,
+      selectedCandidateId: decision?.selectedCandidateId ?? "",
+      rationale: decision?.rationale ?? "尚未指定唯一首选，保留以下定稿名单。",
       privateData: {
         avoidCharacters: profile.avoidCharacters,
         ...(profile.folklore.birthLocalDateTime !== undefined
@@ -58,6 +58,8 @@ export class DexieReportRepository implements ReportRepository {
               .filter((source) => source.candidateId === candidate.id)
               .map((source): FinalReportSource => ({
                 sourceId: source.sourceId,
+                ...(source.url ? { url: source.url } : {}),
+                ...(source.revision ? { revision: source.revision } : {}),
                 ...(source.title !== undefined ? { title: source.title } : {}),
                 ...(source.work !== undefined ? { work: source.work } : {}),
                 ...(source.quote !== undefined ? { quote: source.quote } : {}),

@@ -11,8 +11,7 @@ describe("InkScene", () => {
     );
 
     expect(screen.getByRole("heading", { name: "生成中心" })).toBeVisible();
-    expect(screen.getByTestId("ink-depth-layers")).toHaveAttribute("aria-hidden", "true");
-    expect(document.querySelector(".ink-scene__opening-brush")).toHaveAttribute(
+    expect(document.querySelector(".ink-scene__ambient")).toHaveAttribute(
       "aria-hidden",
       "true",
     );

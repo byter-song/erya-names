@@ -24,7 +24,7 @@ export class UpdateFolkloreReviewSettings {
     try {
       const profile = namingProfileSchema.parse({
         ...current.profile,
-        folklore: { ...input.folklore, enabled: true },
+        folklore: input.folklore,
       });
       const project = namingProjectSchema.parse({
         ...current.project,
@@ -55,7 +55,7 @@ function createFolkloreResult(
   characterElements: Array<"wood" | "fire" | "earth" | "metal" | "water">,
 ): CandidateRuleResult | undefined {
   const score = scoreBasicFiveElements({
-    enabled: true,
+    enabled: folklore.enabled,
     usefulElements: folklore.usefulElements,
     includeInRanking: folklore.includeInRanking,
     characterElements,

@@ -30,9 +30,16 @@ export class AddManualCandidate {
     const fullName = input.fullName.trim().normalize("NFC");
     if (!fullName.startsWith(workspace.profile.surname)) return err("surname-mismatch");
     const givenName = fullName.slice(workspace.profile.surname.length);
+    const bundle = this.dependencies.loadBundle();
+    const bundleCharacters = new Map(bundle.characters.map((entry) => [entry.char, entry]));
+    const pinyinIndex = bundle.standardCharacterPinyin;
+    const pinyin = [...givenName].flatMap(
+      (char) => bundleCharacters.get(char)?.pinyin[0] ?? pinyinIndex[char]?.[0] ?? [],
+    );
     const family = evaluateFamilyConstraints({
       fullName,
       givenName,
+      pinyin,
       profile: workspace.profile,
     });
     if (family.outcome === "reject") return err(family.explanation);
@@ -42,9 +49,6 @@ export class AddManualCandidate {
     if (await this.candidates.exists(input.projectId, fullName))
       return err("这个名字已经在本方案中，请在灵感池或候选集中搜索后保留。");
 
-    const bundle = this.dependencies.loadBundle();
-    const bundleCharacters = new Map(bundle.characters.map((entry) => [entry.char, entry]));
-    const pinyinIndex = bundle.standardCharacterPinyin;
     const missingEvidence = [...givenName].filter((char) => !bundleCharacters.has(char));
     const reviewedRisks = evaluateReviewedRisks({
       givenName,
@@ -63,9 +67,7 @@ export class AddManualCandidate {
       normalizedFingerprint: fullName,
       summary: input.meaning.trim(),
       userSource: input.userSource.trim(),
-      pinyin: [...givenName].flatMap(
-        (char) => bundleCharacters.get(char)?.pinyin[0] ?? pinyinIndex[char]?.[0] ?? [],
-      ),
+      pinyin,
       riskSignals: [...givenName].flatMap(
         (char) => bundleCharacters.get(char)?.riskSignals ?? [],
       ),

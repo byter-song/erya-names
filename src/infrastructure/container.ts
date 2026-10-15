@@ -103,7 +103,11 @@ export function createApplicationContainer(dependencies: {
       createCandidateId: (fullName) => `${crypto.randomUUID()}:${fullName}`,
       now,
     }),
-    getCandidateFunnel: new GetCandidateFunnel(generationRepository, evaluationRepository),
+    getCandidateFunnel: new GetCandidateFunnel(
+      generationRepository,
+      evaluationRepository,
+      repository,
+    ),
     moveCandidateDecision: new MoveCandidateDecision(decisionRepository, {
       now,
       canProgress,
