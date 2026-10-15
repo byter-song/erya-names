@@ -1,9 +1,9 @@
 import { createRootRoute } from "@tanstack/react-router";
 import { AppErrorBoundary } from "../AppErrorBoundary";
-import { AppShell } from "../AppShell";
+import { InkScrollShell } from "../InkScrollShell";
 
 export const rootRoute = createRootRoute({
-  component: AppShell,
+  component: InkScrollShell,
   errorComponent: ({ error, reset }) => (
     <AppErrorBoundary
       error={error instanceof Error ? error : new Error("Unknown application error")}

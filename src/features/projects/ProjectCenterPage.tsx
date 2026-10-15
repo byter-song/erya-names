@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
 import { Button } from "../../design-system/primitives/Button";
-import { Card } from "../../design-system/primitives/Card";
 import { Dialog } from "../../design-system/primitives/Dialog";
 import type { ProjectSummary } from "../../application/models/ProjectSummary";
 import { ProjectCard } from "./ProjectCard";
-import "./project-center.css";
+import "./project-scroll-page.css";
 
 export interface ProjectCenterPageProps {
   projects: ProjectSummary[];
@@ -23,88 +22,104 @@ export function ProjectCenterPage({
   const [pendingDelete, setPendingDelete] = useState<ProjectSummary>();
   const [deleteError, setDeleteError] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const recentProject = [...projects].sort((left, right) =>
+
+  const sortedProjects = [...projects].sort((left, right) =>
     right.updatedAt.localeCompare(left.updatedAt),
-  )[0];
+  );
+  const recentProject = sortedProjects[0];
+  const otherProjects = sortedProjects.filter((project) => project.id !== recentProject?.id);
+  const activeProjects = projects.filter((project) => project.status !== "completed").length;
+  const totalCandidates = projects.reduce((sum, project) => sum + project.candidateCount, 0);
+  const totalFinalists = projects.reduce((sum, project) => sum + project.finalistCount, 0);
+
+  const stats: Array<[string, number]> = [
+    ["长卷方案", projects.length],
+    ["进行中", activeProjects],
+    ["候选之名", totalCandidates],
+    ["定稿之名", totalFinalists],
+  ];
 
   return (
-    <main className="project-center">
-      <header className="project-center__hero">
-        <div>
-          <p className="project-center__kicker">ERYA NAMES · 为新生，落一笔美好</p>
-          <h1>{recentProject ? "继续最近方案" : "开始第一个起名方案"}</h1>
-          <p>
-            一字一意，一名一生。从诗文与自然拾取灵感，为中国宝宝留下一份可读、可用、可珍藏的名字。
-          </p>
+    <main className="project-scroll-page">
+      <header className="project-scroll-page__hero">
+        <p className="project-center__kicker">ERYA · 长 卷 起 名</p>
+        <h1>尔雅长卷</h1>
+        <p>
+          每个起名方案都是一卷独立长卷。沿卷展名，从灵感、初选、比较，直到定稿封存，
+          名字与故事都留在你的浏览器里。
+        </p>
+        <div className="project-scroll-page__actions">
+          <Button onClick={onCreate} type="button">
+            展新卷 · 新建方案
+          </Button>
+          <a className="project-scroll-page__restore" href="/recovery">
+            恢复已有方案
+          </a>
         </div>
-        <Button onClick={onCreate} type="button">
-          新建起名方案
-        </Button>
       </header>
 
+      <section className="project-scroll-page__stats" aria-label="本地长卷概览">
+        {stats.map(([label, value]) => (
+          <div className="project-scroll-page__stat" key={label}>
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </section>
+
       {recentProject ? (
-        <section aria-label="最近方案" className="project-center__recent">
+        <section className="project-scroll-page__section">
+          <h2 className="ink-section-title">
+            <span>最近展卷</span>
+          </h2>
           <ProjectCard
             project={recentProject}
+            variant="featured"
             {...(onDelete ? { onDelete: () => setPendingDelete(recentProject) } : {})}
             {...(onOpen ? { onOpen } : {})}
           />
         </section>
       ) : (
-        <Card className="project-center__empty">
-          <div aria-hidden="true" className="project-center__seal">
+        <section className="project-scroll-page__empty paper-card">
+          <div aria-hidden="true" className="project-scroll-page__empty-seal brush-type">
             始
           </div>
-          <h2>尚未创建方案</h2>
-          <p>填写姓氏、家庭习惯与风格偏好。批量生成、同页初选，把心动的名字慢慢留下。</p>
-        </Card>
+          <h2>铺开第一卷</h2>
+          <p>写下姓氏与家庭边界，让第一个名字在长卷上落纸。</p>
+          <Button onClick={onCreate} type="button">
+            展新卷 · 新建方案
+          </Button>
+        </section>
       )}
 
-      {projects.length > 1 ? (
-        <section aria-label="全部起名方案" className="project-center__all">
-          <h2>其他方案</h2>
-          <div className="project-center__journey">
-            {projects
-              .filter((project) => project.id !== recentProject?.id)
-              .map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  {...(onDelete ? { onDelete: () => setPendingDelete(project) } : {})}
-                  {...(onOpen ? { onOpen } : {})}
-                />
-              ))}
+      {otherProjects.length ? (
+        <section className="project-scroll-page__section">
+          <h2 className="ink-section-title">
+            <span>其他长卷</span>
+            <small>{otherProjects.length} 卷</small>
+          </h2>
+          <div className="project-scroll-page__grid">
+            {otherProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                {...(onDelete ? { onDelete: () => setPendingDelete(project) } : {})}
+                {...(onOpen ? { onOpen } : {})}
+              />
+            ))}
           </div>
         </section>
       ) : null}
-      <section aria-label="起名流程" className="project-center__journey">
-        {[
-          ["一", "建立条件", "姓氏结构、家庭硬约束和风格偏好"],
-          ["二", "拾字选名", "批量生成与筛选同页，喜欢才收入候选"],
-          ["三", "家庭定稿", "评分、对比并保存最终候选"],
-        ].map(([number, title, description]) => (
-          <Card className="project-center__step" key={number}>
-            <span>{number}</span>
-            <h2>{title}</h2>
-            <p>{description}</p>
-          </Card>
-        ))}
-      </section>
-      <section className="project-center__colophon">
-        <div>
-          <span>{activeRuntimeBundle.characters.length}</span> 个精选用字
-        </div>
-        <div>
-          <span>{activeRuntimeBundle.allusions.length}</span> 条溯源典故
-        </div>
+
+      <footer className="project-scroll-page__colophon">
+        <span>{activeRuntimeBundle.characters.length} 个精选用字</span>
+        <span>{activeRuntimeBundle.allusions.length} 条溯源典故</span>
         {activeRuntimeBundle.modernCombinations?.length ? (
-          <div>
-            <span>{activeRuntimeBundle.modernCombinations.length}</span> 个现代组合
-          </div>
+          <span>{activeRuntimeBundle.modernCombinations.length} 个现代组合</span>
         ) : null}
-        <div>数据留在你的浏览器 · 支持完整备份</div>
-        <a href="/recovery">恢复已有方案 ↗</a>
-      </section>
+        <span>数据留在浏览器 · 支持完整备份</span>
+      </footer>
+
       {pendingDelete && onDelete ? (
         <Dialog
           title="删除起名方案"

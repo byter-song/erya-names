@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>尔雅 | 滴墨成渊</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: #f0ece1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /* 融合效果滤镜 (Gooey Effect) */
+            filter: contrast(30);
+            background: #fff;
+        }
+
+        .ink-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+        }
+
+        .ink-drop {
+            position: absolute;
+            background: #000;
+            border-radius: 50%;
+            filter: blur(15px);
+            animation: expand 4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+
+        h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 8rem;
+            color: #000;
+            position: relative;
+            z-index: 10;
+            letter-spacing: 1.5rem;
+            filter: blur(10px);
+            opacity: 0;
+            animation: textFocus 3s 1s ease-out forwards;
+            mix-blend-mode: difference;
+            color: #fff; /* 因为父级有contrast滤镜，这里利用difference做出反差 */
+        }
+
+        @keyframes expand {
+            0% { width: 0px; height: 0px; opacity: 1; }
+            40% { width: 300px; height: 300px; opacity: 0.9; }
+            100% { width: 150vw; height: 150vw; opacity: 0; }
+        }
+
+        @keyframes textFocus {
+            0% { filter: blur(20px); opacity: 0; transform: scale(1.2); }
+            100% { filter: blur(0px); opacity: 1; transform: scale(1); }
+        }
+
+        .interactive-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        
+        .hint {
+            font-family: sans-serif;
+            margin-top: 150px;
+            color: #333;
+            letter-spacing: 5px;
+            animation: pulse 2s infinite;
+            pointer-events: auto;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ink-container" id="inkBox">
+        <div class="ink-drop"></div>
+        <h1>尔 雅</h1>
+    </div>
+    <div class="interactive-layer">
+        <div class="hint" onclick="dropInk()">点击水面，涟漪起名</div>
+    </div>
+
+    <script>
+        function dropInk() {
+            const box = document.getElementById('inkBox');
+            const newDrop = document.createElement('div');
+            newDrop.className = 'ink-drop';
+            newDrop.style.animation = 'none';
+            // Trigger reflow
+            void newDrop.offsetWidth;
+            newDrop.style.animation = 'expand 3s cubic-bezier(0.19, 1, 0.22, 1) forwards';
+            box.appendChild(newDrop);
+            setTimeout(() => { newDrop.remove(); }, 3000);
+        }
+    </script>
+</body>
+</html>

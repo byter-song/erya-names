@@ -1,6 +1,5 @@
 import "./app-rail.css";
 import { useEffect, useRef, type MouseEvent } from "react";
-import { ThemeToggle } from "../ThemeToggle";
 
 export interface AppRailItem {
   id: string;
@@ -43,9 +42,6 @@ export function AppRail({ activeId, items, utilityItems = [], onNavigate }: AppR
           <strong>尔雅起名</strong>
           <small>一名一章 · 慎选所爱</small>
         </span>
-      </div>
-      <div className="app-rail__theme">
-        <ThemeToggle />
       </div>
       <div className="app-rail__overlay">
         <div className="app-rail__progress">

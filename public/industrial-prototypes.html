@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erya Names - Industrial Production Prototypes</title>
+  <style>
+    /* =========================================
+       Global Reset, Variables & Switcher
+       ========================================= */
+    :root {
+      /* 工业化标准字体栈 */
+      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      
+      /* 东方色彩系统 (克制、实用的生产级色彩) */
+      --color-ink-900: #0F172A;
+      --color-ink-600: #475569;
+      --color-ink-300: #CBD5E1;
+      --color-jade-500: #059669; /* 主强调色：青绿 */
+      --color-jade-50: #ECFDF5;
+      --color-gold-500: #D97706; /* 辅助色：鎏金 */
+      --color-gold-50: #FFFBEB;
+      --color-bg-base: #F8FAFC;
+      --color-bg-surface: #FFFFFF;
+      
+      --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); min-height: 100vh; background: var(--color-bg-base); color: var(--color-ink-900); transition: background 0.3s; overflow-x: hidden; }
+    
+    .switcher {
+      position: fixed; top: 0; left: 0; right: 0; height: 60px;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      z-index: 9999; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .concept-btn {
+      background: transparent; border: 1px solid #CBD5E1; color: #475569;
+      padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s;
+    }
+    .concept-btn.active, .concept-btn:hover { background: var(--color-ink-900); color: #fff; border-color: var(--color-ink-900); }
+    
+    #app-root { margin-top: 60px; min-height: calc(100vh - 60px); display: flex; justify-content: center; padding: 40px 24px; }
+    
+    .layout-wrapper { width: 100%; max-width: 1200px; display: grid; grid-template-columns: 280px 1fr; gap: 24px; }
+
+    /* 通用组件 (用于展示真实信息密度) */
+    .badge-jade { background: var(--color-jade-50); color: var(--color-jade-500); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    .badge-gold { background: var(--color-gold-50); color: var(--color-gold-500); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    .data-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9; }
+    .data-row:last-child { border-bottom: none; }
+    .data-label { color: var(--color-ink-600); font-size: 14px; }
+    .data-value { font-weight: 500; font-size: 14px; }
+
+    /* =========================================
+       Concept 1: 企业级 Bento (Enterprise SaaS)
+       特点：1px 细线边框，极致清晰的层级，Linear/Vercel 风格
+       ========================================= */
+    .c1-body { background: #FAFAFA; }
+    .c1-card { background: #FFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .c1-sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .c1-main { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-content: start; }
+    .c1-hero { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-start; }
+    .c1-name { font-family: var(--font-serif); font-size: 48px; font-weight: normal; line-height: 1.2; }
+    .c1-btn { background: #FFF; border: 1px solid #E2E8F0; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+    .c1-btn-primary { background: var(--color-ink-900); color: #FFF; border: none; }
+    .c1-btn:hover { border-color: #CBD5E1; background: #F8FAFC; }
+    .c1-btn-primary:hover { background: #334155; }
+
+    /* =========================================
+       Concept 2: 柔和拟物 (Soft Skeuomorphism / Health App)
+       特点：大圆角，柔和的弥散阴影，米白色背景，亲和力极强
+       ========================================= */
+    .c2-body { background: #F4F1ED; }
+    .c2-card { background: #FFF; border-radius: 24px; padding: 32px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+    .c2-main { display: flex; flex-direction: column; gap: 24px; }
+    .c2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .c2-name { font-family: var(--font-serif); font-size: 56px; color: #2D3748; }
+    .c2-btn-primary { background: var(--color-jade-500); color: #FFF; border: none; padding: 16px 32px; border-radius: 100px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2); transition: transform 0.2s; }
+    .c2-btn-primary:active { transform: scale(0.96); }
+
+    /* =========================================
+       Concept 3: 建筑网格 (Architectural Grid)
+       特点：东方窗棂/榫卯结构的现代演绎。没有圆角，全是硬线条。
+       ========================================= */
+    .c3-body { background: #FFF; }
+    .c3-wrapper { border: 1px solid var(--color-ink-900); padding: 0; gap: 0; }
+    .c3-card { padding: 24px; border-right: 1px solid var(--color-ink-900); border-bottom: 1px solid var(--color-ink-900); }
+    .c3-card:last-child { border-bottom: none; }
+    .c3-sidebar { border-right: 1px solid var(--color-ink-900); }
+    .c3-main { display: grid; grid-template-columns: 1fr 1fr; }
+    .c3-hero { grid-column: 1 / -1; border-bottom: 1px solid var(--color-ink-900); padding: 40px; }
+    .c3-name { font-family: var(--font-serif); font-size: 64px; }
+    .c3-btn { background: transparent; border: 1px solid var(--color-ink-900); padding: 12px 24px; font-size: 14px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .c3-btn:hover { background: var(--color-ink-900); color: #FFF; }
+
+    /* =========================================
+       Concept 4: 原生空间 (Native macOS / iOS Spatial)
+       特点：克制的毛玻璃，底层微弱的环境色，极其精致的边框
+       ========================================= */
+    .c4-body { background: #F1F5F9; }
+    .c4-bg-glow { position: fixed; top: 0; left: 0; right: 0; height: 400px; background: linear-gradient(135deg, rgba(5,150,105,0.1), rgba(217,119,6,0.05)); z-index: -1; mask-image: linear-gradient(to bottom, black, transparent); }
+    .c4-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px) saturate(150%); border: 1px solid rgba(255,255,255,1); border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,1); }
+    .c4-main { display: flex; flex-direction: column; gap: 20px; }
+    .c4-hero { display: flex; align-items: center; justify-content: space-between; }
+    .c4-name { font-family: var(--font-serif); font-size: 48px; }
+    .c4-btn-primary { background: linear-gradient(180deg, #1E293B, #0F172A); color: #FFF; border: 1px solid #0F172A; box-shadow: 0 1px 2px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1); padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; }
+
+    /* =========================================
+       Concept 5: 中庸之道 (The Golden Mean / Production Ultimate) 🏆
+       特点：专为高密度工具设计的最终形态。清晰的侧栏、主内容区、实用的悬浮反馈。
+       ========================================= */
+    .c5-body { background: #F8FAFC; }
+    .c5-layout { display: flex; width: 100%; max-width: 1400px; gap: 32px; }
+    
+    /* 侧栏导航 (类似现代 IDE) */
+    .c5-sidebar { width: 260px; display: flex; flex-direction: column; gap: 8px; }
+    .c5-nav-item { padding: 12px 16px; border-radius: 8px; color: var(--color-ink-600); font-size: 14px; font-weight: 500; display: flex; justify-content: space-between; cursor: pointer; transition: all 0.2s; }
+    .c5-nav-item:hover { background: #F1F5F9; color: var(--color-ink-900); }
+    .c5-nav-item.active { background: #FFF; color: var(--color-jade-500); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    
+    /* 主工作区 */
+    .c5-main { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+    
+    /* 工具栏 */
+    .c5-toolbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: #FFF; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.02); border: 1px solid #E2E8F0; }
+    
+    /* 核心数据卡片 */
+    .c5-card { background: #FFF; border-radius: 12px; border: 1px solid #E2E8F0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); padding: 32px; transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
+    .c5-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.04); transform: translateY(-2px); }
+    
+    /* 卡片顶部装饰线 (东方色彩点缀) */
+    .c5-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--color-jade-500); opacity: 0; transition: opacity 0.2s; }
+    .c5-card:hover::before { opacity: 1; }
+    
+    .c5-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    
+    .c5-name-section { display: flex; align-items: flex-end; gap: 24px; margin-bottom: 24px; }
+    .c5-name { font-family: var(--font-serif); font-size: 56px; line-height: 1; color: var(--color-ink-900); }
+    
+    /* 生产级按钮 */
+    .c5-btn { background: #FFF; border: 1px solid #CBD5E1; color: var(--color-ink-900); padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .c5-btn:hover { background: #F8FAFC; border-color: #94A3B8; }
+    .c5-btn-primary { background: var(--color-jade-500); color: #FFF; border: none; box-shadow: 0 2px 4px rgba(5,150,105,0.2); }
+    .c5-btn-primary:hover { background: #047857; box-shadow: 0 4px 6px rgba(5,150,105,0.3); }
+
+    /* 进度条/得分条 */
+    .c5-progress-bg { width: 100%; height: 6px; background: #F1F5F9; border-radius: 3px; overflow: hidden; margin-top: 8px; }
+    .c5-progress-fill { height: 100%; background: var(--color-jade-500); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <div class="switcher">
+    <button class="concept-btn" onclick="render(1)">1. 企业级 Bento (Enterprise)</button>
+    <button class="concept-btn" onclick="render(2)">2. 柔和拟物 (Soft Health)</button>
+    <button class="concept-btn" onclick="render(3)">3. 建筑网格 (Architectural)</button>
+    <button class="concept-btn" onclick="render(4)">4. 原生空间 (Native macOS)</button>
+    <button class="concept-btn active" onclick="render(5)">5. 中庸之道 (Production Ultimate) 🏆</button>
+  </div>
+
+  <div id="app-root"></div>
+
+  <!-- 1. 企业级 Bento -->
+  <template id="tpl-1">
+    <div class="layout-wrapper">
+      <div class="c1-sidebar">
+        <div class="c1-card">
+          <h3 style="font-size: 14px; color: var(--color-ink-600); margin-bottom: 16px; text-transform: uppercase;">工作台</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="c1-btn" style="text-align: left;">方案中心</button>
+            <button class="c1-btn" style="text-align: left; background: #F1F5F9; border-color: #CBD5E1;">当前候选名单</button>
+            <button class="c1-btn" style="text-align: left;">回收站</button>
+          </div>
+        </div>
+      </div>
+      <div class="c1-main">
+        <div class="c1-card c1-hero">
+          <div>
+            <div style="font-size: 12px; color: var(--color-ink-600); margin-bottom: 8px;">ID: ERYA-001</div>
+            <h1 class="c1-name">宋泽谦</h1>
+            <div style="margin-top: 12px; display: flex; gap: 8px;">
+              <span class="badge-jade">天格 吉</span>
+              <span class="badge-gold">木火通明</span>
+            </div>
+          </div>
+          <button class="c1-btn c1-btn-primary">加入定稿名单</button>
+        </div>
+        <div class="c1-card">
+          <h3 style="font-size: 16px; margin-bottom: 16px;">五格剖象</h3>
+          <div class="data-row"><span class="data-label">天格 (金)</span><span class="data-value">85 分</span></div>
+          <div class="data-row"><span class="data-label">人格 (水)</span><span class="data-value">95 分</span></div>
+          <div class="data-row"><span class="data-label">地格 (木)</span><span class="data-value">80 分</span></div>
+        </div>
+        <div class="c1-card">
+          <h3 style="font-size: 16px; margin-bottom: 16px;">八字解析</h3>
+          <p style="font-size: 14px; line-height: 1.6; color: var(--color-ink-600);">
+            此命五行缺水，泽字补水。谦字属木，水生木，五行相生，格局顺畅。适合高密度的工业级展示，信息层级极其清晰。
+          </p>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- 2. 柔和拟物 -->
+  <template id="tpl-2">
+    <div class="layout-wrapper" style="max-width: 1000px; grid-template-columns: 1fr;">
+      <div class="c2-main">
+        <div class="c2-card" style="text-align: center; padding: 60px 32px;">
+          <h1 class="c2-name">宋泽谦</h1>
+          <p style="color: #718096; margin: 16px 0 32px; font-size: 18px;">温润如水，谦和有礼</p>
+          <button class="c2-btn-primary">确认选定此名</button>
+        </div>
+        <div class="c2-grid">
+          <div class="c2-card">
+            <h3 style="font-size: 18px; margin-bottom: 24px; color: #2D3748;">五格得分</h3>
+            <div class="data-row"><span class="data-label">天格</span><span class="badge-jade">85 吉</span></div>
+            <div class="data-row"><span class="data-label">人格</span><span class="badge-jade">95 大吉</span></div>
+            <div class="data-row"><span class="data-label">地格</span><span class="badge-jade">80 吉</span></div>
+          </div>
+          <div class="c2-card">
+            <h3 style="font-size: 18px; margin-bottom: 24px; color: #2D3748;">喜用神契合</h3>
+            <p style="font-size: 15px; line-height: 1.8; color: #718096;">
+              柔和的大圆角和阴影，给人一种极其安全、舒适的消费级 App 体验。不冰冷，充满人文关怀。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- 3. 建筑网格 -->
+  <template id="tpl-3">
+    <div class="layout-wrapper c3-wrapper">
+      <div class="c3-sidebar">
+        <div class="c3-card" style="border-right: none;">
+          <div style="font-weight: bold; margin-bottom: 20px;">SYSTEM / 01</div>
+          <p style="font-size: 14px; line-height: 1.6;">极致的网格结构。无圆角。类似建筑图纸的严谨排版。</p>
+        </div>
+      </div>
+      <div class="c3-main">
+        <div class="c3-card c3-hero">
+          <div style="font-size: 12px; margin-bottom: 12px; font-family: var(--font-mono);">CANDIDATE_001</div>
+          <h1 class="c3-name">宋泽谦</h1>
+          <button class="c3-btn" style="margin-top: 24px;">APPROVE_NAME</button>
+        </div>
+        <div class="c3-card">
+          <h3 style="font-size: 14px; margin-bottom: 20px; font-family: var(--font-mono);">[ WUXING_ANALYSIS ]</h3>
+          <div class="data-row"><span class="data-label" style="font-family: var(--font-mono);">TIANGE</span><span class="data-value">85</span></div>
+          <div class="data-row"><span class="data-label" style="font-family: var(--font-mono);">RENGE</span><span class="data-value">95</span></div>
+        </div>
+        <div class="c3-card">
+          <h3 style="font-size: 14px; margin-bottom: 20px; font-family: var(--font-mono);">[ BAZI_MATCH ]</h3>
+          <p style="font-size: 14px; line-height: 1.6;">工业感极强，数据呈现极其规整。适合极客或专业推演工具。</p>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- 4. 原生空间 -->
+  <template id="tpl-4">
+    <div class="c4-bg-glow"></div>
+    <div class="layout-wrapper">
+      <div class="c1-sidebar">
+        <div class="c4-card" style="padding: 16px;">
+          <div style="padding: 8px 12px; background: rgba(0,0,0,0.05); border-radius: 6px; font-size: 14px; font-weight: 500;">重点候选</div>
+          <div style="padding: 8px 12px; font-size: 14px; color: var(--color-ink-600);">灵感池</div>
+        </div>
+      </div>
+      <div class="c4-main">
+        <div class="c4-card c4-hero">
+          <div>
+            <h1 class="c4-name">宋泽谦</h1>
+            <p style="color: var(--color-ink-600); margin-top: 8px;">温润如水，谦和有礼</p>
+          </div>
+          <button class="c4-btn-primary">定稿确认</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div class="c4-card">
+            <h3 style="font-size: 16px; margin-bottom: 16px;">五格剖象</h3>
+            <div class="data-row"><span class="data-label">天格</span><span class="data-value">85</span></div>
+            <div class="data-row"><span class="data-label">人格</span><span class="data-value">95</span></div>
+          </div>
+          <div class="c4-card">
+            <h3 style="font-size: 16px; margin-bottom: 16px;">系统质感</h3>
+            <p style="font-size: 14px; line-height: 1.6; color: var(--color-ink-600);">
+              标准的 macOS / iOS 质感。性能开销比极简动效大一点，但非常精致。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- 5. 中庸之道 (The Golden Mean) -->
+  <template id="tpl-5">
+    <div class="c5-layout">
+      <!-- 左侧导航 -->
+      <nav class="c5-sidebar">
+        <div style="padding: 0 16px 12px; font-size: 12px; font-weight: 700; color: #94A3B8; letter-spacing: 1px;">方案进度</div>
+        <div class="c5-nav-item">
+          <span>1. 基础建档</span>
+          <span style="color: #10B981;">✓</span>
+        </div>
+        <div class="c5-nav-item">
+          <span>2. 灵感池提取</span>
+          <span style="background: #E2E8F0; padding: 2px 6px; border-radius: 10px; font-size: 11px; color: #475569;">128</span>
+        </div>
+        <div class="c5-nav-item active">
+          <span>3. 重点候选对比</span>
+          <span style="background: var(--color-jade-50); color: var(--color-jade-500); padding: 2px 6px; border-radius: 10px; font-size: 11px;">4</span>
+        </div>
+        <div class="c5-nav-item">
+          <span>4. 最终定稿报告</span>
+        </div>
+      </nav>
+
+      <!-- 主工作区 -->
+      <main class="c5-main">
+        <!-- 顶部工具栏 -->
+        <header class="c5-toolbar">
+          <div style="font-size: 18px; font-weight: 600; color: var(--color-ink-900);">候选对比视图</div>
+          <div style="display: flex; gap: 12px;">
+            <button class="c5-btn">导出当前对比表</button>
+            <button class="c5-btn c5-btn-primary">进入定稿阶段</button>
+          </div>
+        </header>
+
+        <!-- 核心内容区 -->
+        <div class="c5-grid">
+          
+          <!-- 候选人卡片 A -->
+          <div class="c5-card">
+            <div class="c5-name-section">
+              <h1 class="c5-name">宋泽谦</h1>
+              <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                <span class="badge-jade">95分 大吉</span>
+                <span class="badge-gold">水木相生</span>
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--color-ink-600); margin-bottom: 4px;">
+                <span>综合契合度</span>
+                <span style="font-weight: 600; color: var(--color-ink-900);">92%</span>
+              </div>
+              <div class="c5-progress-bg"><div class="c5-progress-fill" style="width: 92%;"></div></div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div class="data-row">
+                <span class="data-label">八字喜用匹配</span>
+                <span class="data-value">极佳 (补水生木)</span>
+              </div>
+              <div class="data-row">
+                <span class="data-label">三才五格结构</span>
+                <span class="data-value" style="color: var(--color-jade-500);">金 水 木 (大吉)</span>
+              </div>
+              <div class="data-row">
+                <span class="data-label">文化寓意出处</span>
+                <span class="data-value" style="font-size: 13px; max-width: 160px; text-align: right;">《易经》“谦谦君子”</span>
+              </div>
+            </div>
+            
+            <div style="margin-top: 32px; display: flex; gap: 12px;">
+              <button class="c5-btn" style="flex: 1;">查看详情</button>
+              <button class="c5-btn c5-btn-primary" style="flex: 1;">选定此名</button>
+            </div>
+          </div>
+
+          <!-- 候选人卡片 B (对比项) -->
+          <div class="c5-card" style="background: #FAFAFA;">
+            <div class="c5-name-section">
+              <h1 class="c5-name" style="color: var(--color-ink-600);">宋景行</h1>
+              <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                <span class="badge-jade" style="background: #E2E8F0; color: #475569;">88分 吉</span>
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--color-ink-600); margin-bottom: 4px;">
+                <span>综合契合度</span>
+                <span style="font-weight: 600; color: var(--color-ink-900);">85%</span>
+              </div>
+              <div class="c5-progress-bg"><div class="c5-progress-fill" style="width: 85%; background: #94A3B8;"></div></div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div class="data-row">
+                <span class="data-label">八字喜用匹配</span>
+                <span class="data-value">良好 (略偏火)</span>
+              </div>
+              <div class="data-row">
+                <span class="data-label">三才五格结构</span>
+                <span class="data-value">金 木 火 (吉)</span>
+              </div>
+              <div class="data-row">
+                <span class="data-label">文化寓意出处</span>
+                <span class="data-value" style="font-size: 13px; max-width: 160px; text-align: right;">《诗经》“高山仰止”</span>
+              </div>
+            </div>
+            
+            <div style="margin-top: 32px; display: flex; gap: 12px;">
+              <button class="c5-btn" style="flex: 1;">查看详情</button>
+              <button class="c5-btn" style="flex: 1;">选定此名</button>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </template>
+
+  <script>
+    function render(num) {
+      document.querySelectorAll('.concept-btn').forEach(function(btn, idx) {
+        if (idx === num - 1) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      document.body.className = 'c' + num + '-body';
+      
+      var template = document.getElementById('tpl-' + num);
+      var appRoot = document.getElementById('app-root');
+      appRoot.innerHTML = '';
+      if (template) {
+        appRoot.appendChild(template.content.cloneNode(true));
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      render(5); // 默认渲染方案 5 (中庸之道)
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>尔雅 2026 | 聚光探秘 (Cursor Reveal)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400&display=swap');
+        
+        body {
+            margin: 0; padding: 0; font-family: 'Noto Serif SC', serif;
+            background-color: #EBE9E1; height: 100vh; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* 2026 Trend: Mask Reveal & Spotlight */
+        .content-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .base-layer {
+            color: rgba(0,0,0,0.03); /* Almost invisible */
+        }
+
+        .reveal-layer {
+            color: #111;
+            /* The magic: CSS mask tied to CSS variables updated by JS */
+            -webkit-mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
+            mask-image: radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), black 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        h1 { font-size: 2rem; letter-spacing: 1em; position: absolute; top: 40px; }
+        
+        .name-display {
+            font-size: 8rem; font-weight: 200; letter-spacing: 0.2em; margin: 0;
+        }
+        
+        .desc {
+            font-size: 1.5rem; letter-spacing: 5px; margin-top: 20px;
+        }
+
+        .hint {
+            position: absolute; bottom: 40px; color: #999; font-family: sans-serif;
+            letter-spacing: 2px; font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-layer base-layer">
+        <h1>尔雅</h1>
+        <div class="name-display">林子衿</div>
+        <div class="desc">青青子衿，悠悠我心。</div>
+    </div>
+
+    <div class="content-layer reveal-layer" id="reveal">
+        <h1>尔雅</h1>
+        <div class="name-display">林子衿</div>
+        <div class="desc">青青子衿，悠悠我心。</div>
+    </div>
+
+    <div class="hint">移动鼠标，犹如提笔探寻</div>
+
+    <script>
+        const reveal = document.getElementById('reveal');
+        
+        // Initialize center
+        reveal.style.setProperty('--x', `50%`);
+        reveal.style.setProperty('--y', `50%`);
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            reveal.style.setProperty('--x', `${x}%`);
+            reveal.style.setProperty('--y', `${y}%`);
+        });
+    </script>
+</body>
+</html>

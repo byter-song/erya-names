@@ -8,9 +8,8 @@ export async function createProject(page: Page) {
   await page.getByRole("button", { name: "下一步" }).click();
   await page.getByLabel("清朗自然", { exact: true }).check();
   await page.getByRole("button", { name: "完成建档，开始选名" }).click();
-  await expect(page.getByRole("heading", { name: "生名与初选", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "生成一批", exact: true }).click();
-  await expect(page.getByText("已保存 9 个名字")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /氏命名场$/ })).toBeVisible();
+  await page.getByRole("button", { name: /^(播种 9 个名字|生成一批)$/ }).click();
   await expect(page.locator(".candidate-card")).toHaveCount(9);
   return page.url().match(/projects\/([^/]+)/)![1]!;
 }

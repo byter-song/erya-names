@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { BackupImportPreview } from "../../application/use-cases/PreviewBackupImport";
 import { Button } from "../../design-system/primitives/Button";
-import { Card } from "../../design-system/primitives/Card";
 import "./backup.css";
 
 type ConflictStrategy = "keep-current" | "replace" | "import-copy";
@@ -57,36 +56,71 @@ export function RecoveryPage({
   }
 
   return (
-    <main className="backup-page">
-      <header>
-        <p className="project-center__kicker">LOCAL RECOVERY</p>
-        <h1>恢复数据</h1>
-        <p>文件会在本机完成校验和解密；预览确认前不会写入数据库。</p>
+    <main className="backup-page backup-page--vault">
+      <header className="safety-vault-hero">
+        <div>
+          <p className="project-center__kicker">SAFETY VAULT</p>
+          <h1>恢复数据</h1>
+          <p>文件会在本机完成校验和解密。预览确认前，不会写入 IndexedDB。</p>
+        </div>
+        <div className="safety-vault-hero__status" aria-label="恢复状态">
+          <span>导入门禁</span>
+          <strong>先预览</strong>
+        </div>
       </header>
-      <Card className="backup-page__card">
-        <label className="ui-field">
-          <span>备份密码（仅加密文件需要）</span>
-          <input
-            aria-label="备份密码"
-            disabled={Boolean(activity)}
-            onChange={(event) => setPassword(event.target.value)}
-            type="password"
-            value={password}
-          />
-        </label>
-        <label className="ui-field">
-          <span>选择备份文件</span>
-          <input
-            aria-label="选择备份文件"
-            accept="application/json,.json"
-            disabled={Boolean(activity)}
-            onChange={(event) => {
-              const selected = event.target.files?.[0];
-              if (selected) void previewFile(selected);
-            }}
-            type="file"
-          />
-        </label>
+      <section className="safety-vault-grid" aria-label="恢复规则">
+        <article>
+          <span>01</span>
+          <strong>读取文件</strong>
+          <p>支持普通 JSON 备份与加密备份；加密文件需要输入正确密码。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <strong>预览影响</strong>
+          <p>先展示方案名称、候选数量、最终决定和冲突状态。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <strong>确认写入</strong>
+          <p>只有选择冲突处理方式并确认恢复后，才会写入本地数据库。</p>
+        </article>
+      </section>
+
+      <section className="safety-vault-panel" aria-labelledby="recovery-title">
+        <div className="safety-vault-panel__heading">
+          <div>
+            <p className="project-center__kicker">IMPORT</p>
+            <h2 id="recovery-title">预览并恢复备份</h2>
+            <p>恢复前请确认文件来源可信；失败时不会覆盖现有数据。</p>
+          </div>
+          <a href="/">返回方案中心</a>
+        </div>
+
+        <div className="safety-vault-form">
+          <label className="ui-field">
+            <span>备份密码（仅加密文件需要）</span>
+            <input
+              aria-label="备份密码"
+              disabled={Boolean(activity)}
+              onChange={(event) => setPassword(event.target.value)}
+              type="password"
+              value={password}
+            />
+          </label>
+          <label className="ui-field">
+            <span>选择备份文件</span>
+            <input
+              aria-label="选择备份文件"
+              accept="application/json,.json"
+              disabled={Boolean(activity)}
+              onChange={(event) => {
+                const selected = event.target.files?.[0];
+                if (selected) void previewFile(selected);
+              }}
+              type="file"
+            />
+          </label>
+        </div>
         {activity === "preview" ? <p role="status">正在校验备份文件…</p> : null}
         {file && !preview && activity !== "preview" ? (
           <Button onClick={() => void previewFile(file)} type="button">
@@ -123,7 +157,7 @@ export function RecoveryPage({
         ) : null}
         {status ? <p role="status">{status}</p> : null}
         {error ? <p role="alert">{error}</p> : null}
-      </Card>
+      </section>
     </main>
   );
 }

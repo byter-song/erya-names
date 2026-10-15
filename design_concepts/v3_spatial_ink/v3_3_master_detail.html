@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>尔雅 | 分屏列卷 (Split Scroll)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400&display=swap');
+        body { margin: 0; background: #FAFAF7; font-family: 'Noto Serif SC', serif; height: 100vh; overflow: hidden; display: flex; }
+        
+        .grid-area { width: 100%; padding: 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); overflow-y: auto; }
+        body.split .grid-area { width: 40%; grid-template-columns: 1fr; padding-right: 30px; }
+        
+        .card { background: #fff; border: 1px solid rgba(0,0,0,0.05); padding: 30px; border-radius: 16px; cursor: pointer; transition: all 0.3s; }
+        .card:hover, .card.active { border-color: #B38B59; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+        .brush { font-family: 'Ma Shan Zheng', cursive; font-size: 2.5rem; }
+        
+        .detail-area { width: 0; opacity: 0; background: linear-gradient(to left, #F5F4F0, #FAFAF7); border-left: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); overflow: hidden; }
+        body.split .detail-area { width: 60%; opacity: 1; }
+        
+        .d-brush { font-family: 'Ma Shan Zheng', cursive; font-size: 8rem; margin: 0; transform: translateY(30px); opacity: 0; transition: all 0.6s 0.2s; }
+        body.split .d-brush { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="grid-area">
+        <div class="card" onclick="openDetail(this, '林子衿')">
+            <div class="brush">林子衿</div>
+        </div>
+        <div class="card" onclick="openDetail(this, '林若华')">
+            <div class="brush">林若华</div>
+        </div>
+        <div class="card" onclick="openDetail(this, '林望舒')">
+            <div class="brush">林望舒</div>
+        </div>
+    </div>
+    
+    <div class="detail-area">
+        <h1 class="d-brush" id="dBrush"></h1>
+        <p style="color:#666; font-size: 1.2rem; letter-spacing: 2px; margin-top:40px;">溯源经典，赐子佳名</p>
+    </div>
+
+    <script>
+        function openDetail(el, name) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.body.classList.add('split');
+            document.getElementById('dBrush').innerText = name;
+        }
+    </script>
+</body>
+</html>

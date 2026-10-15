@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>尔雅 | 星汉流转 (卦象与粒子)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400&display=swap');
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050505;
+            color: #d4af37; /* 雅致的暗金色 */
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 1;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 200;
+            letter-spacing: 2rem;
+            margin: 0 0 20px 2rem;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        p {
+            font-size: 1.2rem;
+            letter-spacing: 0.8rem;
+            margin-left: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .search-box {
+            margin-top: 50px;
+            pointer-events: auto;
+        }
+
+        input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #d4af37;
+            font-family: inherit;
+            text-align: center;
+            outline: none;
+            transition: all 0.4s;
+            width: 250px;
+            backdrop-filter: blur(5px);
+        }
+
+        input:focus {
+            width: 300px;
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(212, 175, 55, 0.8);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="stars"></canvas>
+    <div class="content">
+        <h1>尔雅</h1>
+        <p>易有太极，是生两仪</p>
+        <div class="search-box">
+            <input type="text" placeholder="引星象入名...">
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > width) this.vx *= -1;
+                if(this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(212, 175, 55, 0.6)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for(let i = 0; i < 150; i++) particles.push(new Particle());
+
+        // Mouse interaction
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.2)'; // 拖尾效果
+            ctx.fillRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+                
+                // 连线逻辑
+                if(mouse.x != null) {
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if(dist < 150) {
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${1 - dist/150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>

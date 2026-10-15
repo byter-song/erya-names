@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尔雅 · 长卷流觞</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
+  :root{
+    --paper:#FBF9F4;--paper-2:#F2EFE6;--ink:#1A1916;--ink-2:#5D5A51;--ink-3:#9C988C;
+    --gold:#AF8C55;--gold-soft:rgba(175,140,85,.13);--cinnabar:#A84D3B;
+    --spring:cubic-bezier(.16,1,.3,1);
+    --serif:'Noto Serif SC',serif;--brush:'Ma Shan Zheng',cursive;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{height:100vh;font-family:var(--serif);background:var(--paper);color:var(--ink);overflow:hidden}
+
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .bg::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse at 50% -10%,rgba(175,140,85,.12),transparent 55%)}
+  .mount{position:absolute;left:0;right:0;bottom:0;height:34vh;opacity:.12;
+    background:radial-gradient(ellipse at 20% 100%,rgba(20,24,18,.7),transparent 60%),
+              radial-gradient(ellipse at 75% 100%,rgba(20,24,18,.5),transparent 55%);
+    filter:blur(8px)}
+
+  header{position:relative;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:32px 56px}
+  .logo{font-family:var(--brush);font-size:2.2rem}
+  .hint{font-size:.85rem;color:var(--ink-2);letter-spacing:.15em}
+  .hint b{color:var(--gold);font-weight:500}
+
+  /* 横向长卷 */
+  .scroll{position:relative;z-index:10;height:calc(100vh - 150px);display:flex;align-items:stretch;
+    overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    padding:0 42vw;gap:0}
+  .scroll::-webkit-scrollbar{height:0}
+
+  .panel{scroll-snap-align:center;flex:0 0 min(78vw,820px);display:flex;flex-direction:column;justify-content:center;
+    padding:0 7vw;position:relative;opacity:.32;transform:scale(.94);
+    transition:opacity .6s,transform .6s var(--spring)}
+  .panel.in{opacity:1;transform:scale(1)}
+  .panel::before{content:"";position:absolute;left:0;top:12%;bottom:12%;width:1px;
+    background:linear-gradient(var(--gold),transparent);opacity:.6}
+  .p-idx{font-size:.78rem;letter-spacing:.4em;color:var(--ink-3);margin-bottom:14px}
+  .p-pinyin{letter-spacing:.35em;color:var(--gold);font-size:1rem;margin-bottom:6px}
+  .p-name{font-family:var(--brush);font-size:clamp(4.5rem,11vw,8rem);line-height:1.05;cursor:pointer;transition:.3s}
+  .panel.in .p-name:hover{color:var(--gold);transform:translateX(8px)}
+  .p-quote{margin-top:26px;font-size:1.25rem;color:var(--ink-2);line-height:1.9}
+  .p-src{margin-top:8px;font-size:.9rem;color:var(--gold)}
+  .p-tags{display:flex;gap:8px;margin-top:22px}
+  .p-tags span{font-size:.78rem;padding:5px 14px;border:1px solid rgba(175,140,85,.45);border-radius:30px;color:var(--gold)}
+
+  /* 进度 */
+  .progress{position:fixed;left:50%;bottom:38px;transform:translateX(-50%);z-index:30;display:flex;gap:8px;align-items:center}
+  .dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.18);cursor:pointer;transition:.3s}
+  .dot.on{background:var(--gold);width:26px;border-radius:6px}
+
+  /* 详情层 */
+  .detail{position:fixed;inset:0;z-index:60;background:rgba(250,248,243,.86);backdrop-filter:blur(30px);
+    opacity:0;pointer-events:none;cursor:pointer;transition:opacity .5s}
+  .detail.show{opacity:1;pointer-events:auto}
+  .di{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7vh 6vw;
+    transform:translateY(40px);transition:.7s var(--spring)}
+  .detail.show .di{transform:none}
+  .d-seal{font-family:var(--brush);color:var(--cinnabar);border:2px solid var(--cinnabar);width:54px;height:54px;display:grid;place-items:center;
+    border-radius:8px;font-size:1.3rem;opacity:.85;margin-bottom:22px}
+  .d-pinyin{letter-spacing:.4em;color:var(--gold);margin-bottom:8px}
+  .d-name{font-family:var(--brush);font-size:clamp(5rem,14vw,9rem);line-height:1.1}
+  .d-src{margin-top:26px;color:var(--ink-2);font-size:1.2rem;line-height:2;max-width:640px}
+  .d-back{position:absolute;bottom:5vh;color:var(--ink-3);font-size:.82rem;letter-spacing:.3em;animation:blink 2.2s infinite}
+  @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+</style>
+</head>
+<body>
+  <div class="bg"><div class="mount"></div></div>
+  <header>
+    <div class="logo">尔雅</div>
+    <div class="hint">横向展卷 · <b>Shift + 滚轮</b> 或触控板滑动</div>
+  </header>
+
+  <main class="scroll" id="scroll"></main>
+  <div class="progress" id="progress"></div>
+
+  <div class="detail" id="detail"><div class="di">
+    <div class="d-seal">尔雅</div>
+    <div class="d-pinyin" id="dPinyin"></div>
+    <div class="d-name" id="dName"></div>
+    <div class="d-src" id="dSrc"></div>
+    <div class="d-back">继 续 点 击 任 意 处 返 回</div>
+  </div></div>
+
+<script>
+const DATA=[
+ {n:"林子衿",p:"LIN ZI JIN",q:"青青子衿，悠悠我心。纵我不往，子宁不嗣音。",s:"《诗经 · 郑风 · 子衿》",tags:["学识","经典"]},
+ {n:"林若华",p:"LIN RUO HUA",q:"羲和之未扬，若华何光？",s:"《楚辞 · 天问》",tags:["光华","朝气"]},
+ {n:"林望舒",p:"LIN WANG SHU",q:"前望舒使先驱兮，后飞廉使奔属。",s:"《楚辞 · 离骚》",tags:["月神","清雅"]},
+ {n:"林清婉",p:"LIN QING WAN",q:"有美一人，清扬婉兮。",s:"《诗经 · 郑风》",tags:["温婉","柔美"]},
+ {n:"林嘉木",p:"LIN JIA MU",q:"南有嘉木，葛藟累之。",s:"《诗经 · 周南》",tags:["繁茂","担当"]},
+ {n:"林星汉",p:"LIN XING HAN",q:"星汉灿烂，若出其里。",s:"曹操《观沧海》",tags:["辽阔","壮志"]}
+];
+const scroll=document.getElementById('scroll');
+const progress=document.getElementById('progress');
+DATA.forEach((d,i)=>{
+  const p=document.createElement('section');p.className='panel';
+  p.innerHTML=`<div class="p-idx">第 ${String(i+1).padStart(2,'0')} 卷</div>
+    <div class="p-pinyin">${d.p}</div><div class="p-name">${d.n}</div>
+    <div class="p-quote">${d.q}</div><div class="p-src">—— ${d.s}</div>
+    <div class="p-tags">${d.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+  p.querySelector('.p-name').addEventListener('click',()=>{
+    dPinyin.textContent=d.p;dName.textContent=d.n;
+    dSrc.innerHTML=`「${d.q}」<br>—— ${d.s}`;
+    detail.classList.add('show');
+  });
+  scroll.appendChild(p);
+
+  const dot=document.createElement('div');dot.className='dot';
+  dot.addEventListener('click',()=>p.scrollIntoView({behavior:'smooth',inline:'center'}));
+  progress.appendChild(dot);
+});
+const detail=document.getElementById('detail');
+detail.addEventListener('click',()=>detail.classList.remove('show'));
+
+const panels=[...document.querySelectorAll('.panel')];
+const dots=[...document.querySelectorAll('.dot')];
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    const i=panels.indexOf(e.target);
+    e.target.classList.toggle('in',e.isIntersecting&&e.intersectionRatio>.6);
+    if(e.isIntersecting&&e.intersectionRatio>.6)dots.forEach((d,j)=>d.classList.toggle('on',j===i));
+  });
+},{root:scroll,threshold:[.6,.9]});
+panels.forEach(p=>obs.observe(p));
+dots[0].classList.add('on');panels[0].classList.add('in');
+
+// Shift + wheel => horizontal
+scroll.addEventListener('wheel',e=>{
+  if(e.shiftKey||Math.abs(e.deltaY)>Math.abs(e.deltaX)){
+    e.preventDefault();scroll.scrollLeft+=e.deltaY||e.deltaX;
+  }
+},{passive:false});
+</script>
+</body>
+</html>

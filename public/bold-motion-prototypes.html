@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erya Names - Bold Motion Prototypes</title>
+  <style>
+    /* =========================================
+       Global Setup & Variables
+       ========================================= */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      --font-serif: "Songti SC", "Noto Serif CJK SC", "Times New Roman", serif;
+      --ease-spring: cubic-bezier(0.25, 1, 0.3, 1);
+      --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --color-bg: #F0F4F8;
+      --color-surface: #FFFFFF;
+      --color-text-main: #0F172A;
+      --color-text-sub: #64748B;
+      --color-accent: #059669; /* 东方青 */
+      --color-accent-light: #D1FAE5;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text-main); min-height: 100vh; overflow-x: hidden; }
+    
+    .switcher { position: fixed; top: 0; left: 0; right: 0; height: 60px; display: flex; align-items: center; justify-content: center; gap: 12px; z-index: 9999; background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .concept-btn { background: transparent; border: 1px solid #CBD5E1; color: #475569; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .concept-btn.active, .concept-btn:hover { background: var(--color-text-main); color: #fff; border-color: var(--color-text-main); }
+    
+    #app-root { margin-top: 60px; padding: 40px; display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 60px); }
+
+    /* 通用组件 */
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; background: var(--color-accent-light); color: var(--color-accent); }
+    
+    /* =========================================
+       Concept 1: 动态折扇 (Fluid Accordion) 🏆
+       竖排转横排，极致丝滑的 Flex 伸缩
+       ========================================= */
+    .c1-container { display: flex; gap: 12px; width: 100%; max-width: 1200px; height: 600px; }
+    .c1-card { flex: 1; background: var(--color-surface); border-radius: 24px; overflow: hidden; position: relative; cursor: pointer; transition: flex 0.7s var(--ease-spring), box-shadow 0.7s var(--ease-spring); box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); }
+    .c1-card:hover { flex: 6; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: rgba(5,150,105,0.2); }
+    
+    /* 折叠状态 (竖排) */
+    .c1-collapsed { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; transition: opacity 0.3s; padding: 20px 0; }
+    .c1-card:hover .c1-collapsed { opacity: 0; pointer-events: none; }
+    .c1-vertical-title { writing-mode: vertical-rl; font-family: var(--font-serif); font-size: 32px; letter-spacing: 8px; color: var(--color-text-main); }
+    .c1-score { transform: rotate(90deg); font-weight: bold; color: var(--color-accent); font-size: 14px; white-space: nowrap; }
+    
+    /* 展开状态 (详情) */
+    .c1-expanded { position: absolute; inset: 0; width: 600px; /* 固定宽度防止动画时内容换行跳动 */ padding: 40px; opacity: 0; transform: translateX(-20px); transition: opacity 0.4s 0.2s, transform 0.5s 0.2s var(--ease-spring); pointer-events: none; display: flex; flex-direction: column; }
+    .c1-card:hover .c1-expanded { opacity: 1; transform: translateX(0); pointer-events: auto; }
+    .c1-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #F1F5F9; padding-bottom: 20px; margin-bottom: 24px; }
+    .c1-name { font-family: var(--font-serif); font-size: 56px; line-height: 1; }
+    .c1-data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .c1-data-item { background: #F8FAFC; padding: 16px; border-radius: 12px; }
+    .c1-label { font-size: 13px; color: var(--color-text-sub); margin-bottom: 8px; display: block; }
+    .c1-value { font-size: 16px; font-weight: 600; }
+
+    /* =========================================
+       Concept 2: 引力磁场 (Magnetic Masonry)
+       Hover 聚光灯，其余卡片失焦模糊
+       ========================================= */
+    .c2-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; width: 100%; max-width: 1000px; }
+    /* 核心魔法：容器 hover 时，非 hover 卡片变暗模糊 */
+    .c2-container:hover .c2-card:not(:hover) { opacity: 0.4; filter: blur(4px) grayscale(50%); transform: scale(0.96); }
+    .c2-card { background: var(--color-surface); border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.5s var(--ease-spring); cursor: pointer; text-align: center; border: 1px solid transparent; }
+    .c2-card:hover { transform: scale(1.05) translateY(-10px); box-shadow: 0 30px 60px rgba(5,150,105,0.15); border-color: var(--color-accent); z-index: 10; }
+    .c2-name { font-family: var(--font-serif); font-size: 40px; margin-bottom: 16px; }
+
+    /* =========================================
+       Concept 3: 级联中枢 (Cascade Master-Detail)
+       超级生产力布局，Hover 列表触发右侧交错动画
+       ========================================= */
+    .c3-container { display: grid; grid-template-columns: 300px 1fr; gap: 32px; width: 100%; max-width: 1100px; height: 600px; }
+    .c3-list { display: flex; flex-direction: column; gap: 8px; overflow-y: auto; padding-right: 12px; }
+    .c3-list-item { padding: 16px 20px; background: var(--color-surface); border-radius: 12px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; display: flex; justify-content: space-between; align-items: center; }
+    .c3-list-item:hover, .c3-list-item.active { background: #FFF; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-color: #E2E8F0; transform: translateX(8px); }
+    .c3-list-item.active { border-left: 4px solid var(--color-accent); }
+    
+    .c3-detail { background: var(--color-surface); border-radius: 24px; padding: 48px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); position: relative; overflow: hidden; }
+    /* 模拟数据切换时的级联动画 (纯 CSS 演示，实际需 JS 配合) */
+    .c3-detail-content { animation: c3-slide-up 0.5s var(--ease-spring) forwards; }
+    .c3-stagger-1 { animation: c3-slide-up 0.5s var(--ease-spring) 0.0s forwards; opacity: 0; }
+    .c3-stagger-2 { animation: c3-slide-up 0.5s var(--ease-spring) 0.1s forwards; opacity: 0; }
+    .c3-stagger-3 { animation: c3-slide-up 0.5s var(--ease-spring) 0.2s forwards; opacity: 0; }
+    @keyframes c3-slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* =========================================
+       Concept 4: 悬浮视界 (Spatial 3D Stack)
+       卡片像扑克牌一样堆叠，Hover 展开
+       ========================================= */
+    .c4-container { position: relative; width: 400px; height: 500px; perspective: 1500px; }
+    .c4-card { position: absolute; inset: 0; background: var(--color-surface); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.8s var(--ease-spring); border: 1px solid #E2E8F0; text-align: center; transform-origin: bottom center; }
+    /* 初始堆叠状态 */
+    .c4-card:nth-child(1) { transform: translateZ(0px) translateY(0px); z-index: 6; }
+    .c4-card:nth-child(2) { transform: translateZ(-30px) translateY(20px) scale(0.95); z-index: 5; opacity: 0.9; }
+    .c4-card:nth-child(3) { transform: translateZ(-60px) translateY(40px) scale(0.9); z-index: 4; opacity: 0.8; }
+    .c4-card:nth-child(4) { transform: translateZ(-90px) translateY(60px) scale(0.85); z-index: 3; opacity: 0.7; }
+    .c4-card:nth-child(5) { transform: translateZ(-120px) translateY(80px) scale(0.8); z-index: 2; opacity: 0.6; }
+    .c4-card:nth-child(6) { transform: translateZ(-150px) translateY(100px) scale(0.75); z-index: 1; opacity: 0.5; }
+    
+    /* Hover 扇形展开状态 */
+    .c4-container:hover .c4-card:nth-child(1) { transform: rotate(-15deg) translateX(-150px) translateY(-50px); }
+    .c4-container:hover .c4-card:nth-child(2) { transform: rotate(-5deg) translateX(-70px) translateY(-20px); opacity: 1; }
+    .c4-container:hover .c4-card:nth-child(3) { transform: rotate(5deg) translateX(70px) translateY(-20px); opacity: 1; }
+    .c4-container:hover .c4-card:nth-child(4) { transform: rotate(15deg) translateX(150px) translateY(-50px); opacity: 1; }
+    .c4-container:hover .c4-card:nth-child(5) { transform: rotate(-25deg) translateX(-220px) translateY(-80px); opacity: 1; }
+    .c4-container:hover .c4-card:nth-child(6) { transform: rotate(25deg) translateX(220px) translateY(-80px); opacity: 1; }
+    .c4-name { font-family: var(--font-serif); font-size: 48px; margin-bottom: 20px; }
+
+    /* =========================================
+       Concept 5: 灵动矩阵 (Dynamic Island Grid)
+       小胶囊点击膨胀为巨大面板
+       ========================================= */
+    .c5-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 900px; position: relative; }
+    .c5-capsule { width: 160px; height: 60px; background: var(--color-surface); border-radius: 30px; display: flex; align-items: center; justify-content: center; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.6s var(--ease-spring); overflow: hidden; position: relative; }
+    /* 模拟展开状态 (这里用 hover 演示，实际中是 click) */
+    .c5-capsule:hover { width: 100%; height: 400px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); z-index: 10; }
+    
+    .c5-title-small { transition: opacity 0.3s; }
+    .c5-capsule:hover .c5-title-small { opacity: 0; position: absolute; }
+    
+    .c5-expanded-content { position: absolute; inset: 0; padding: 40px; opacity: 0; transform: scale(0.9); transition: all 0.5s 0.1s var(--ease-spring); pointer-events: none; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+    .c5-capsule:hover .c5-expanded-content { opacity: 1; transform: scale(1); pointer-events: auto; }
+  </style>
+</head>
+<body>
+
+  <div class="switcher">
+    <button class="concept-btn active" onclick="render(1)">1. 动态折扇 (Fluid Accordion) 🏆</button>
+    <button class="concept-btn" onclick="render(2)">2. 引力磁场 (Magnetic Masonry)</button>
+    <button class="concept-btn" onclick="render(3)">3. 级联中枢 (Cascade Master-Detail)</button>
+    <button class="concept-btn" onclick="render(4)">4. 悬浮视界 (Spatial 3D Stack)</button>
+    <button class="concept-btn" onclick="render(5)">5. 灵动矩阵 (Dynamic Island)</button>
+  </div>
+
+  <div id="app-root"></div>
+
+  <!-- 1. 动态折扇 -->
+  <template id="tpl-1">
+    <div class="c1-container">
+      <!-- 候选人 1 -->
+      <div class="c1-card">
+        <div class="c1-collapsed">
+          <div class="c1-vertical-title">宋泽谦</div>
+          <div class="c1-score">95分 吉</div>
+        </div>
+        <div class="c1-expanded">
+          <div class="c1-header">
+            <h1 class="c1-name">宋泽谦</h1>
+            <span class="badge">95分 综合契合极高</span>
+          </div>
+          <div class="c1-data-grid">
+            <div class="c1-data-item"><span class="c1-label">五格结构</span><span class="c1-value">天格85 · 人格95 · 地格80</span></div>
+            <div class="c1-data-item"><span class="c1-label">八字喜用</span><span class="c1-value">五行缺水，泽字完美补足</span></div>
+            <div class="c1-data-item" style="grid-column: 1 / -1;"><span class="c1-label">文化寓意</span><span class="c1-value" style="font-weight: normal; line-height: 1.6;">《易经》：“谦谦君子，卑以自牧也”。温润如水，谦和有礼。</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- 候选人 2 -->
+      <div class="c1-card">
+        <div class="c1-collapsed">
+          <div class="c1-vertical-title">宋景行</div>
+          <div class="c1-score" style="color: #64748B;">88分 吉</div>
+        </div>
+        <div class="c1-expanded">
+          <div class="c1-header"><h1 class="c1-name">宋景行</h1><span class="badge">88分 良好</span></div>
+          <div class="c1-data-grid"><div class="c1-data-item" style="grid-column: 1 / -1;"><span class="c1-label">文化寓意</span><span class="c1-value">《诗经》：“高山仰止，景行行止”。</span></div></div>
+        </div>
+      </div>
+      <!-- 候选人 3-6 简略 -->
+      <div class="c1-card"><div class="c1-collapsed"><div class="c1-vertical-title">宋嘉树</div><div class="c1-score">92分 大吉</div></div><div class="c1-expanded"><h1 class="c1-name">宋嘉树</h1></div></div>
+      <div class="c1-card"><div class="c1-collapsed"><div class="c1-vertical-title">宋知渊</div><div class="c1-score">90分 吉</div></div><div class="c1-expanded"><h1 class="c1-name">宋知渊</h1></div></div>
+      <div class="c1-card"><div class="c1-collapsed"><div class="c1-vertical-title">宋逾明</div><div class="c1-score">85分 吉</div></div><div class="c1-expanded"><h1 class="c1-name">宋逾明</h1></div></div>
+      <div class="c1-card"><div class="c1-collapsed"><div class="c1-vertical-title">宋云帆</div><div class="c1-score">96分 大吉</div></div><div class="c1-expanded"><h1 class="c1-name">宋云帆</h1></div></div>
+    </div>
+  </template>
+
+  <!-- 2. 引力磁场 -->
+  <template id="tpl-2">
+    <div style="position: absolute; top: 80px; color: #64748B; font-size: 14px;">悬浮任意卡片，体验沉浸式聚光灯焦点</div>
+    <div class="c2-container">
+      <div class="c2-card"><h2 class="c2-name">宋泽谦</h2><span class="badge">95分</span></div>
+      <div class="c2-card"><h2 class="c2-name">宋景行</h2><span class="badge">88分</span></div>
+      <div class="c2-card"><h2 class="c2-name">宋嘉树</h2><span class="badge">92分</span></div>
+      <div class="c2-card"><h2 class="c2-name">宋知渊</h2><span class="badge">90分</span></div>
+      <div class="c2-card"><h2 class="c2-name">宋逾明</h2><span class="badge">85分</span></div>
+      <div class="c2-card"><h2 class="c2-name">宋云帆</h2><span class="badge">96分</span></div>
+    </div>
+  </template>
+
+  <!-- 3. 级联中枢 -->
+  <template id="tpl-3">
+    <div class="c3-container">
+      <div class="c3-list">
+        <div class="c3-list-item active"><strong>宋泽谦</strong> <span class="badge">95</span></div>
+        <div class="c3-list-item"><strong>宋景行</strong> <span class="badge" style="background:#F1F5F9; color:#64748B;">88</span></div>
+        <div class="c3-list-item"><strong>宋嘉树</strong> <span class="badge">92</span></div>
+        <div class="c3-list-item"><strong>宋知渊</strong> <span class="badge">90</span></div>
+        <div class="c3-list-item"><strong>宋逾明</strong> <span class="badge" style="background:#F1F5F9; color:#64748B;">85</span></div>
+        <div class="c3-list-item"><strong>宋云帆</strong> <span class="badge">96</span></div>
+      </div>
+      <div class="c3-detail" id="c3-detail-pane">
+        <!-- 每次重新渲染触发级联动画 -->
+        <div class="c3-detail-content">
+          <h1 class="c1-name c3-stagger-1" style="margin-bottom: 24px;">宋泽谦</h1>
+          <div class="c3-stagger-2" style="display: flex; gap: 12px; margin-bottom: 40px;">
+            <span class="badge">天格吉</span><span class="badge">人格大吉</span><span class="badge" style="background:#FEF3C7; color:#D97706;">水木相生</span>
+          </div>
+          <div class="c3-stagger-3" style="line-height: 1.8; color: #475569;">
+            这里是生产力极高的级联视图。<br>通过左侧快速导航，右侧利用微小的延迟动效（Staggered Animation）缓解数据突变带来的视觉疲劳。
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- 4. 悬浮视界 -->
+  <template id="tpl-4">
+    <div style="position: absolute; top: 80px; color: #64748B; font-size: 14px;">悬浮中央卡片堆叠区，体验 3D 扇形展开</div>
+    <div class="c4-container">
+      <div class="c4-card"><h2 class="c4-name">宋泽谦</h2><span class="badge">95分</span></div>
+      <div class="c4-card"><h2 class="c4-name">宋景行</h2><span class="badge">88分</span></div>
+      <div class="c4-card"><h2 class="c4-name">宋嘉树</h2><span class="badge">92分</span></div>
+      <div class="c4-card"><h2 class="c4-name">宋知渊</h2><span class="badge">90分</span></div>
+      <div class="c4-card"><h2 class="c4-name">宋逾明</h2><span class="badge">85分</span></div>
+      <div class="c4-card"><h2 class="c4-name">宋云帆</h2><span class="badge">96分</span></div>
+    </div>
+  </template>
+
+  <!-- 5. 灵动矩阵 -->
+  <template id="tpl-5">
+    <div style="position: absolute; top: 80px; color: #64748B; font-size: 14px;">悬浮任意胶囊，体验灵动岛式空间膨胀</div>
+    <div class="c5-container">
+      <div class="c5-capsule">
+        <span class="c5-title-small">宋泽谦</span>
+        <div class="c5-expanded-content">
+          <h1 style="font-family: var(--font-serif); font-size: 64px; margin-bottom: 20px;">宋泽谦</h1>
+          <p style="color: #64748B; text-align: center;">微小的胶囊瞬间膨胀为巨型控制面板。<br>极致的弹簧动效，排除一切视觉干扰。</p>
+        </div>
+      </div>
+      <div class="c5-capsule"><span class="c5-title-small">宋景行</span></div>
+      <div class="c5-capsule"><span class="c5-title-small">宋嘉树</span></div>
+      <div class="c5-capsule"><span class="c5-title-small">宋知渊</span></div>
+      <div class="c5-capsule"><span class="c5-title-small">宋逾明</span></div>
+      <div class="c5-capsule"><span class="c5-title-small">宋云帆</span></div>
+    </div>
+  </template>
+
+  <script>
+    function render(num) {
+      document.querySelectorAll('.concept-btn').forEach(function(btn, idx) {
+        if (idx === num - 1) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      
+      var template = document.getElementById('tpl-' + num);
+      var appRoot = document.getElementById('app-root');
+      appRoot.innerHTML = '';
+      if (template) {
+        appRoot.appendChild(template.content.cloneNode(true));
+      }
+
+      // Option 3 专属逻辑：点击左侧列表重新触发右侧动画
+      if (num === 3) {
+        var items = document.querySelectorAll('.c3-list-item');
+        var pane = document.getElementById('c3-detail-pane');
+        items.forEach(function(item) {
+          item.addEventListener('mouseenter', function() {
+            items.forEach(function(i) { i.classList.remove('active'); });
+            this.classList.add('active');
+            var name = this.querySelector('strong').innerText;
+            // 重新挂载 DOM 以重置 CSS 动画
+            pane.innerHTML = '<div class="c3-detail-content">' +
+                '<h1 class="c1-name c3-stagger-1" style="margin-bottom: 24px;">' + name + '</h1>' +
+                '<div class="c3-stagger-2" style="display: flex; gap: 12px; margin-bottom: 40px;">' +
+                  '<span class="badge">切换计算中...</span>' +
+                '</div>' +
+                '<div class="c3-stagger-3" style="line-height: 1.8; color: #475569;">' +
+                  '实时级联更新。动画已重置。' +
+                '</div>' +
+              '</div>';
+          });
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      render(1); // 默认渲染方案 1 🏆
+    });
+  </script>
+</body>
+</html>

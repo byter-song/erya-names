@@ -14,6 +14,26 @@ import "./onboarding.css";
 import { ONBOARDING_DRAFT_KEY } from "../../infrastructure/persistence/LocalDraftWriter";
 
 const styleOptions = ["清朗自然", "文雅书卷", "沉稳端正", "中性现代"];
+const conditionLayers = [
+  {
+    step: 1,
+    label: "01",
+    title: "身份结构",
+    description: "姓氏、方案名称、名字长度和性别参照在这里定锚。",
+  },
+  {
+    step: 2,
+    label: "02",
+    title: "家庭边界",
+    description: "字辈、避字和亲属姓名只用于本地规则判断。",
+  },
+  {
+    step: 3,
+    label: "03",
+    title: "审美文化",
+    description: "名字气质、性别表达、书写复杂度和拼音友好度在这里成形。",
+  },
+] as const;
 
 export function OnboardingWizard({
   defaultSurname = "",
@@ -45,6 +65,7 @@ export function OnboardingWizard({
   );
   const [internalStep, setInternalStep] = useState(1);
   const step = currentStep ?? internalStep;
+  const activeLayer = conditionLayers.find((layer) => layer.step === step) ?? conditionLayers[0];
   const automaticTitle = useRef(defaultTitle(initialValues.surname));
   const titleIsAutomatic = useRef(initialValues.title === automaticTitle.current);
   const [submitError, setSubmitError] = useState<string>();
@@ -109,14 +130,59 @@ export function OnboardingWizard({
   };
 
   return (
-    <main className="onboarding">
-      <Card className="onboarding__card">
-        <OnboardingProgress current={step} total={3} />
-        <header>
-          <p className="project-center__kicker">CREATE NAMING PROJECT</p>
-          <h1>创建起名方案</h1>
+    <main className="onboarding condition-environment">
+      <Card className="onboarding__card condition-environment__shell">
+        <div aria-hidden="true" className="condition-environment__ambient">
+          <span />
+          <span />
+          <span />
+        </div>
+        <header className="condition-environment__header">
+          <div>
+            <p className="project-center__kicker">CONDITION ENVIRONMENT</p>
+            <h1>创建起名方案</h1>
+            <p>
+              把家庭边界和审美偏好先安放成一个本地环境，后续生成的每一批名字都会沿着它生长。
+            </p>
+          </div>
+          <div className="condition-environment__seal" aria-hidden="true">
+            第 {step} 层
+          </div>
         </header>
-        <form onSubmit={(event) => void complete(event)}>
+
+        <div className="condition-environment__status">
+          <OnboardingProgress current={step} total={3} />
+          <ol aria-label="条件环境层" className="condition-environment__layers">
+            {conditionLayers.map((layer) => (
+              <li
+                aria-current={layer.step === step ? "step" : undefined}
+                className={
+                  layer.step === step
+                    ? "condition-environment__layer condition-environment__layer--active"
+                    : "condition-environment__layer"
+                }
+                key={layer.step}
+              >
+                <span>{layer.label}</span>
+                <strong>{layer.title}</strong>
+                <small>{layer.description}</small>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <form
+          className={`condition-environment__form condition-environment__form--step-${step}`}
+          onSubmit={(event) => void complete(event)}
+        >
+          <section className="condition-environment__active" aria-label={activeLayer.title}>
+            <div className="condition-environment__active-copy">
+              <span>{activeLayer.label}</span>
+              <h2>{activeLayer.title}</h2>
+              <p>{activeLayer.description}</p>
+            </div>
+          </section>
+
           {step === 1 ? (
             <div className="onboarding__fields">
               <label>

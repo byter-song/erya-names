@@ -103,16 +103,6 @@ test("sidebar navigation does not force page transition animation", async ({ pag
   ).toBe("none");
 });
 
-test("the dark theme toggle persists and remains axe-clean", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "切换为暗色主题" }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expectNoSeriousViolations(page);
-  await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(page.getByRole("button", { name: "切换为亮色主题" })).toBeVisible();
-});
-
 test(
   "generation, funnel, dialog and comparison are keyboard operable and axe-clean",
   { tag: "@accessibility" },

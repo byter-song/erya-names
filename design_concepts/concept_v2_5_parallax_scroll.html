@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>尔雅 | 江山入画 (Scroll Depth Parallax)</title>
+    <style>
+        :root {
+            --sys-font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            --sys-font-serif: "Songti SC", "STSong", "SimSun", serif;
+            --paper: #f4f2ec;
+        }
+        body { margin: 0; background: var(--paper); font-family: var(--sys-font); height: 100vh; overflow: hidden; }
+        
+        /* 视差背景层：用 CSS 渐变模拟水墨远山 */
+        .layer {
+            position: absolute; top: 0; left: -5%; width: 110%; height: 100%;
+            pointer-events: none; transition: transform 0.1s ease-out;
+        }
+        .layer-1 {
+            background: radial-gradient(ellipse at 70% 80%, rgba(0,0,0,0.03) 0%, transparent 50%);
+            z-index: 1;
+        }
+        .layer-2 {
+            background: radial-gradient(ellipse at 30% 90%, rgba(0,0,0,0.05) 0%, transparent 60%);
+            z-index: 2;
+        }
+        
+        .layout { display: flex; height: 100vh; position: relative; z-index: 10; }
+        .sidebar { width: 320px; padding: 40px; background: rgba(244, 242, 236, 0.8); backdrop-filter: blur(10px); border-right: 1px solid rgba(0,0,0,0.05); }
+        .main { flex: 1; padding: 60px 80px; overflow-y: auto; perspective: 1000px; }
+        
+        h1 { font-family: var(--sys-font-serif); margin-top: 0; }
+        
+        .list-item {
+            padding: 30px; background: rgba(255,255,255,0.6); backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 20px;
+            display: flex; align-items: baseline; gap: 30px;
+            transform: translateZ(0); transition: all 0.4s;
+        }
+        .list-item:hover {
+            background: rgba(255,255,255,1);
+            transform: translateZ(20px) translateX(10px);
+            box-shadow: -10px 10px 20px rgba(0,0,0,0.02);
+            border-left: 2px solid #d4af37;
+        }
+        .item-name { font-family: var(--sys-font-serif); font-size: 2.5rem; color: #1a1a1a; min-width: 150px; }
+        .item-desc { color: #666; font-size: 1rem; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="layer layer-1" id="l1"></div>
+    <div class="layer layer-2" id="l2"></div>
+
+    <div class="layout">
+        <div class="sidebar">
+            <h1>尔雅</h1>
+            <p style="color: #777; line-height: 1.8;">鼠标移动时，背景的水墨色块会产生视差位移，仿佛置身画中。</p>
+        </div>
+        <div class="main">
+            <div class="list-item">
+                <div class="item-name">林子衿</div>
+                <div class="item-desc">青青子衿，悠悠我心。<br>源自《诗经》，寓意对人才的渴望。</div>
+            </div>
+            <div class="list-item">
+                <div class="item-name">林若华</div>
+                <div class="item-desc">羲和之未扬，若华何光。<br>源自《楚辞》，象征光华与生机。</div>
+            </div>
+            <div class="list-item">
+                <div class="item-name">林望舒</div>
+                <div class="item-desc">前望舒使先驱兮。<br>源自《楚辞》，望舒为神话中为月驾车之神，寓意迎接光明。</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const l1 = document.getElementById('l1');
+        const l2 = document.getElementById('l2');
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            l1.style.transform = `translate(${x * 1}px, ${y * 1}px)`;
+            l2.style.transform = `translate(${x * 2.5}px, ${y * 2.5}px)`;
+        });
+    </script>
+</body>
+</html>

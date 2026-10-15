@@ -21,14 +21,16 @@ export function ProjectCard({
   project,
   onDelete,
   onOpen,
+  variant = "orbit",
 }: {
   project: ProjectSummary;
   onDelete?: () => void;
   onOpen?: (href: string) => void;
+  variant?: "featured" | "orbit";
 }) {
   const resumeHref = getProjectResumeHref(project);
   return (
-    <article className="project-card paper-card">
+    <article className={`project-card project-card--${variant} paper-card`}>
       <header className="project-card__header">
         <div>
           <p className="project-card__eyebrow">{project.surname}姓方案</p>

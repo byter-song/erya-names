@@ -10,6 +10,11 @@ import { NameExplanation } from "../insights/NameExplanation";
 import "./candidate-funnel.css";
 export type FunnelCandidate = CandidateFunnelItem;
 export type FunnelStageView = "inbox" | "basic" | "folklore" | "excluded";
+export interface FunnelFocusRequest {
+  candidateId?: string | undefined;
+  requestId: number;
+  stage: FunnelStageView;
+}
 
 const isInBasicPool = (item: FunnelCandidate) =>
   ["basic_shortlist", "folklore_review", "favorite", "comparison", "finalist"].includes(
@@ -38,6 +43,7 @@ export function CandidateFunnelPage({
   onResolveConstraints,
   onApplyAutoFilter,
   generationControls,
+  focusRequest,
   folkloreControls,
   onGenerateMore,
   generationBusy = false,
@@ -75,6 +81,7 @@ export function CandidateFunnelPage({
     }>;
   }) => Promise<void>;
   generationControls?: ReactNode;
+  focusRequest?: FunnelFocusRequest | undefined;
   folkloreControls?: ReactNode;
   onGenerateMore?: () => Promise<void>;
   generationBusy?: boolean;
@@ -219,6 +226,40 @@ export function CandidateFunnelPage({
     setStage(value);
     onStageChange?.(value);
   };
+  useEffect(() => {
+    if (!focusRequest) return;
+    changeStage(focusRequest.stage);
+    setQuery("");
+    setSource("all");
+    setRisk("all");
+    setStyle("all");
+    setOnlyLatestBatch(false);
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => {
+        const candidateNode = focusRequest.candidateId
+          ? [...document.querySelectorAll<HTMLElement>("[data-candidate-id]")].find(
+              (element) => element.dataset.candidateId === focusRequest.candidateId,
+            )
+          : undefined;
+        candidateNode?.scrollIntoView({
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+          block: "center",
+        });
+        const focusTarget =
+          candidateNode?.querySelector<HTMLElement>("button:not([disabled])") ??
+          candidateNode?.querySelector<HTMLElement>(
+            "input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])",
+          );
+        (focusTarget ?? stageTitleRef.current)?.focus();
+      });
+    });
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      if (secondFrame) cancelAnimationFrame(secondFrame);
+    };
+  }, [focusRequest]);
   const run = async (id: string, action: () => Promise<void>) => {
     pendingCount.current++;
     setBusy(id);

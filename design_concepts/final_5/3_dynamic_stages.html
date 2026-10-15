@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尔雅 · 灵动阶段</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600&display=swap');
+  :root{
+    --paper:#FAF8F3;--paper-2:#F1EEE5;--ink:#1A1916;--ink-2:#5D5A51;--ink-3:#9C988C;
+    --gold:#AF8C55;--gold-soft:rgba(175,140,85,.13);--cinnabar:#A84D3B;
+    --spring:cubic-bezier(.16,1,.3,1);
+    --serif:'Noto Serif SC',serif;--brush:'Ma Shan Zheng',cursive;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{height:100vh;font-family:var(--serif);background:var(--paper);color:var(--ink);overflow:hidden;display:flex;flex-direction:column}
+
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .bg .w1{position:absolute;width:50vw;height:50vw;left:-14vw;top:-18vw;border-radius:50%;
+    background:radial-gradient(circle,rgba(0,0,0,.06),transparent 65%);filter:blur(50px);animation:b 16s alternate infinite ease-in-out}
+  .bg .w2{position:absolute;width:34vw;height:34vw;right:8vw;top:6vh;border-radius:50%;
+    border:1px solid rgba(175,140,85,.3);transform:rotate(-16deg) scaleY(.72);opacity:.6}
+  .bg .w2::before{content:"";position:absolute;top:12%;left:5%;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 16px var(--gold)}
+  @keyframes b{to{transform:translate(4vw,3vh) scale(1.1)}}
+
+  header{position:relative;z-index:20;padding:32px 48px 20px;display:flex;align-items:flex-end;justify-content:space-between}
+  .logo{font-family:var(--brush);font-size:2.4rem;line-height:1}
+  .logo small{display:block;font-family:var(--serif);font-size:.72rem;letter-spacing:.4em;color:var(--ink-3);margin-top:10px}
+  .meta{text-align:right;font-size:.85rem;color:var(--ink-2);line-height:1.7}
+  .meta b{color:var(--gold);font-weight:600}
+
+  /* 双区：灵感池 + 留存篮 */
+  .board{position:relative;z-index:10;flex:1;display:flex;gap:20px;padding:14px 48px 130px;transition:.6s var(--spring)}
+  .pool,.basket{border-radius:24px;transition:flex .8s var(--spring);display:flex;flex-direction:column;min-width:0}
+  .pool{flex:1;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.85);backdrop-filter:blur(12px);padding:24px}
+  .basket{flex:0 0 0;background:var(--paper-2);border:1px dashed rgba(175,140,85,.4);padding:0;overflow:hidden}
+  body.phase-keep .basket{flex:0 0 38%;padding:24px}
+  body.phase-keep .pool{flex:1}
+
+  .zone-title{display:flex;align-items:center;gap:10px;font-size:.82rem;letter-spacing:.25em;color:var(--ink-3);margin-bottom:18px}
+  .zone-title::after{content:"";flex:1;height:1px;background:linear-gradient(to right,rgba(175,140,85,.3),transparent)}
+  .cards{display:flex;flex-wrap:wrap;gap:14px;align-content:flex-start;overflow-y:auto;padding-right:4px}
+  .cards::-webkit-scrollbar{width:0}
+
+  .card{position:relative;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;
+    padding:18px 20px;cursor:pointer;transition:transform .35s var(--spring),box-shadow .35s,border-color .3s,opacity .4s;
+    animation:enter .5s var(--spring) backwards}
+  @keyframes enter{from{opacity:0;transform:translateY(16px) scale(.95)}}
+  .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(40,34,20,.1);border-color:var(--gold)}
+  .card .p{font-size:.68rem;letter-spacing:.2em;color:var(--gold)}
+  .card .n{font-family:var(--brush);font-size:2rem;line-height:1.2}
+  .card .s{font-size:.78rem;color:var(--ink-2);margin-top:2px;max-width:150px}
+  .card .add{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink-3);
+    color:var(--ink-3);display:grid;place-items:center;font-size:.8rem;transition:.3s}
+  .card:hover .add{background:var(--gold);border-color:var(--gold);color:#fff}
+  .card.inbasket .add{content:"";background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+
+  .basket .empty{margin:auto;text-align:center;color:var(--ink-3);font-size:.85rem;line-height:2;letter-spacing:.15em}
+  .basket .empty span{font-family:var(--brush);font-size:2.6rem;display:block;color:var(--gold);opacity:.5;margin-bottom:8px}
+  .basket.has .empty{display:none}
+
+  /* —— 灵动岛 —— */
+  .island{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:40;
+    background:#15140f;padding:8px;border-radius:42px;display:flex;gap:6px;box-shadow:0 22px 50px rgba(0,0,0,.28)}
+  .island button{border:none;background:none;color:#cfcabd;font-family:var(--serif);font-size:.9rem;padding:12px 26px;
+    border-radius:30px;cursor:pointer;transition:.3s;letter-spacing:.08em}
+  .island button.on{background:var(--gold);color:#fff}
+  .island .count{font-size:.74rem;opacity:.8}
+
+  /* —— 详情（全屏，点击任意处返回）—— */
+  .detail{position:fixed;inset:0;z-index:60;background:rgba(250,248,243,.84);backdrop-filter:blur(28px);
+    opacity:0;pointer-events:none;cursor:pointer;transition:opacity .5s}
+  .detail.show{opacity:1;pointer-events:auto}
+  .di{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7vh 6vw;
+    transform:scale(.92) translateY(36px);transition:.7s var(--spring)}
+  .detail.show .di{transform:none}
+  .d-seal{font-family:var(--brush);color:var(--cinnabar);border:2px solid var(--cinnabar);width:54px;height:54px;display:grid;place-items:center;
+    border-radius:8px;font-size:1.3rem;opacity:.85;margin-bottom:24px}
+  .d-pinyin{letter-spacing:.4em;color:var(--gold);font-size:1rem;margin-bottom:8px}
+  .d-name{font-family:var(--brush);font-size:clamp(5rem,14vw,9rem);line-height:1.1}
+  .d-src{margin-top:28px;max-width:660px;color:var(--ink-2);font-size:1.18rem;line-height:2}
+  .d-back{position:absolute;bottom:5vh;color:var(--ink-3);font-size:.82rem;letter-spacing:.3em;animation:blink 2.2s infinite}
+  @keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}
+</style>
+</head>
+<body>
+  <div class="bg"><div class="w1"></div><div class="w2"></div></div>
+  <header>
+    <div class="logo">尔雅<small>一 名 一 章 · 慎 选 所 爱</small></div>
+    <div class="meta">林氏命名 · 第 <b>2</b> 阶段<br>候选 <b id="mAll">6</b> · 留存 <b id="mKeep">0</b></div>
+  </header>
+
+  <div class="board">
+    <section class="pool">
+      <div class="zone-title">灵 感 池</div>
+      <div class="cards" id="poolCards"></div>
+    </section>
+    <section class="basket" id="basket">
+      <div class="zone-title" style="padding:0 4px">留 存 篮</div>
+      <div class="empty" id="empty"><span>慎</span>点击名字右上角<br>将心仪之名收存比对</div>
+      <div class="cards" id="basketCards"></div>
+    </section>
+  </div>
+
+  <nav class="island">
+    <button class="on" id="bGen">涌现阶段</button>
+    <button id="bKeep">留存比对 · <span class="count" id="isKeep">0</span></button>
+  </nav>
+
+  <div class="detail" id="detail"><div class="di">
+    <div class="d-seal">尔雅</div>
+    <div class="d-pinyin" id="dPinyin"></div>
+    <div class="d-name" id="dName"></div>
+    <div class="d-src" id="dSrc"></div>
+    <div class="d-back">继 续 点 击 任 意 处 返 回</div>
+  </div></div>
+
+<script>
+const DATA=[
+ {n:"林子衿",p:"LIN ZI JIN",q:"青青子衿，悠悠我心。",s:"《诗经 · 郑风 · 子衿》"},
+ {n:"林若华",p:"LIN RUO HUA",q:"羲和之未扬，若华何光？",s:"《楚辞 · 天问》"},
+ {n:"林望舒",p:"LIN WANG SHU",q:"前望舒使先驱兮。",s:"《楚辞 · 离骚》"},
+ {n:"林清婉",p:"LIN QING WAN",q:"有美一人，清扬婉兮。",s:"《诗经 · 郑风》"},
+ {n:"林嘉木",p:"LIN JIA MU",q:"南有嘉木，葛藟累之。",s:"《诗经 · 周南》"},
+ {n:"林星汉",p:"LIN XING HAN",q:"星汉灿烂，若出其里。",s:"曹操《观沧海》"}
+];
+const poolCards=document.getElementById('poolCards');
+const basketCards=document.getElementById('basketCards');
+DATA.forEach((d,i)=>{
+  const c=document.createElement('div');c.className='card';c.style.animationDelay=(i*.05)+'s';
+  c.innerHTML=`<div class="add">＋</div><div class="p">${d.p}</div><div class="n">${d.n}</div><div class="s">${d.s}</div>`;
+  c.addEventListener('click',()=>openDetail(d));
+  c.querySelector('.add').addEventListener('click',e=>{e.stopPropagation();toggleBasket(c);});
+  poolCards.appendChild(c);
+});
+function toggleBasket(c){
+  const inBasket=c.classList.contains('inbasket');
+  if(inBasket){c.classList.remove('inbasket');c.querySelector('.add').textContent='＋';poolCards.appendChild(c);}
+  else{c.classList.add('inbasket');c.querySelector('.add').textContent='－';basketCards.appendChild(c);}
+  updateCounts();
+}
+function updateCounts(){
+  const k=document.querySelectorAll('.card.inbasket').length;
+  mKeep.textContent=isKeep.textContent=k;mAll.textContent=DATA.length;
+  document.getElementById('basket').classList.toggle('has',k>0);
+}
+const detail=document.getElementById('detail');
+function openDetail(d){dPinyin.textContent=d.p;dName.textContent=d.n;
+  dSrc.innerHTML=`「${d.q}」<br>—— ${d.s}`;detail.classList.add('show');}
+detail.addEventListener('click',()=>detail.classList.remove('show'));
+
+bKeep.addEventListener('click',()=>{document.body.classList.add('phase-keep');
+  bKeep.classList.add('on');bGen.classList.remove('on');});
+bGen.addEventListener('click',()=>{document.body.classList.remove('phase-keep');
+  bGen.classList.add('on');bKeep.classList.remove('on');});
+</script>
+</body>
+</html>

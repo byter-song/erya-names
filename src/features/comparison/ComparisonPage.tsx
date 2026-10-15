@@ -1,7 +1,7 @@
 import { Dialog } from "../../design-system/primitives/Dialog";
 import { Card } from "../../design-system/primitives/Card";
 import { Button } from "../../design-system/primitives/Button";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { CandidateFunnelItem as FunnelCandidate } from "../../application/models/CandidateFunnelItem";
 import type { ComparisonSnapshot } from "../../domain/candidate/comparisonSnapshot";
 import type { ComparisonSnapshotCandidate } from "../../domain/candidate/comparisonSnapshot";
@@ -83,75 +83,104 @@ export function ComparisonPage({
   }
 
   return (
-    <main className="comparison-page">
-      <header>
-        <p className="project-center__kicker">CANDIDATE COMPARISON</p>
-        <h1>重点候选</h1>
-        <p>并排查看出处、寓意、风险和个人评分，可将 1–5 个名字加入定稿名单。</p>
-      </header>
-      {onSaveSnapshot && candidates.length >= 2 ? (
+    <main className="comparison-page comparison-page--gravity">
+      <header className="comparison-gravity__hero">
         <div>
-          <label>
-            快照名称
-            <input
-              aria-label="快照名称"
-              maxLength={80}
-              onChange={(event) => setSnapshotName(event.target.value)}
-              value={snapshotName}
-            />
-          </label>
-          <Button
-            disabled={!snapshotName.trim()}
-            onClick={() =>
-              void onSaveSnapshot(candidates.slice(0, 5), snapshotName.trim())
-                .then(() => setSnapshotSaved(true))
-                .catch(() => setError("快照保存失败，请重试"))
-            }
-            type="button"
-          >
-            保存对比快照
-          </Button>
+          <p className="project-center__kicker">DECISION GRAVITY RING</p>
+          <h1>重点候选</h1>
+          <p>让 2–5 个名字聚拢到同一个证据场里，横向比较出处、寓意、风险和个人评分。</p>
         </div>
-      ) : null}
-      {snapshotSaved ? <p role="status">对比快照已保存</p> : null}
-      {snapshots.length > 0 ? (
-        <section aria-label="历史对比快照">
-          <h2>历史对比</h2>
-          {snapshots.map((snapshot) => (
-            <button
-              key={snapshot.id}
-              onClick={() => setOpenSnapshotId(snapshot.id)}
+        <div className="comparison-gravity__ring" aria-label="比较状态">
+          <span>COMPARE</span>
+          <strong>{comparedCandidates.length}</strong>
+          <small>重点候选</small>
+          <em>{finalistCount} / 5 已入定稿</em>
+        </div>
+      </header>
+
+      <section className="comparison-gravity__toolbar" aria-label="比较操作">
+        <div className="comparison-gravity__metric">
+          <span>{comparedCandidates.length}</span>
+          <strong>进入引力环</strong>
+          <small>最多同时比较 5 个名字</small>
+        </div>
+        {onSaveSnapshot && candidates.length >= 2 ? (
+          <div className="comparison-gravity__snapshot">
+            <label>
+              快照名称
+              <input
+                aria-label="快照名称"
+                maxLength={80}
+                onChange={(event) => setSnapshotName(event.target.value)}
+                value={snapshotName}
+              />
+            </label>
+            <Button
+              disabled={!snapshotName.trim()}
+              onClick={() =>
+                void onSaveSnapshot(candidates.slice(0, 5), snapshotName.trim())
+                  .then(() => setSnapshotSaved(true))
+                  .catch(() => setError("快照保存失败，请重试"))
+              }
               type="button"
             >
-              查看{snapshot.name}
-            </button>
-          ))}
-        </section>
+              保存对比快照
+            </Button>
+          </div>
+        ) : null}
+        {snapshots.length > 0 ? (
+          <section className="comparison-gravity__history" aria-label="历史对比快照">
+            <h2>历史对比</h2>
+            <div>
+              {snapshots.map((snapshot) => (
+                <button
+                  key={snapshot.id}
+                  onClick={() => setOpenSnapshotId(snapshot.id)}
+                  type="button"
+                >
+                  查看{snapshot.name}
+                </button>
+              ))}
+            </div>
+          </section>
+        ) : null}
+        <div className="comparison-gravity__actions">
+          {onUndo && canUndo ? (
+            <Button
+              onClick={() =>
+                void onUndo().then((hasMore) => {
+                  setCanUndo(hasMore);
+                  setPromotedIds((current) => {
+                    const next = new Set(current);
+                    const latest = [...next].at(-1);
+                    if (latest) next.delete(latest);
+                    return next;
+                  });
+                })
+              }
+              type="button"
+            >
+              撤销上一步
+            </Button>
+          ) : null}
+          {onOpenFinalization && finalistCount >= 1 && finalistCount <= 5 ? (
+            <Button onClick={onOpenFinalization} type="button">
+              查看定稿名单
+            </Button>
+          ) : null}
+        </div>
+      </section>
+
+      {snapshotSaved ? (
+        <p className="comparison-gravity__status" role="status">
+          对比快照已保存
+        </p>
       ) : null}
-      {onUndo && canUndo ? (
-        <Button
-          onClick={() =>
-            void onUndo().then((hasMore) => {
-              setCanUndo(hasMore);
-              setPromotedIds((current) => {
-                const next = new Set(current);
-                const latest = [...next].at(-1);
-                if (latest) next.delete(latest);
-                return next;
-              });
-            })
-          }
-          type="button"
-        >
-          撤销上一步
-        </Button>
+      {error ? (
+        <p className="comparison-gravity__error" role="alert">
+          {error}
+        </p>
       ) : null}
-      {onOpenFinalization && finalistCount >= 1 && finalistCount <= 5 ? (
-        <Button onClick={onOpenFinalization} type="button">
-          查看定稿名单
-        </Button>
-      ) : null}
-      {error ? <p role="alert">{error}</p> : null}
       {visibleFinalists.length > 0 ? (
         <section aria-label="定稿名单" className="comparison-page__finalists">
           <div>
@@ -212,7 +241,14 @@ export function ComparisonPage({
           ) : null}
         </Card>
       ) : (
-        <>
+        <section className="comparison-gravity__matrix" aria-label="比较引力环">
+          <div className="comparison-gravity__orbit" aria-hidden="true">
+            {comparedCandidates.map((candidate, index) => (
+              <span key={candidate.id} style={{ "--orbit-index": index } as CSSProperties}>
+                {candidate.fullName}
+              </span>
+            ))}
+          </div>
           <div
             className="comparison-page__mobile-table"
             aria-label="重点候选同属性比较"
@@ -329,7 +365,7 @@ export function ComparisonPage({
               </Card>
             ))}
           </section>
-        </>
+        </section>
       )}
       {openSnapshot ? (
         <Dialog title={openSnapshot.name} onClose={() => setOpenSnapshotId(undefined)}>
