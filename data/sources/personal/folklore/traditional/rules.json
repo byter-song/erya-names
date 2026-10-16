@@ -1,0 +1,154 @@
+{
+  "behavior": {
+    "adviceOnly": true,
+    "filtersCandidates": false,
+    "blocksProgression": false,
+    "emitsHardConflict": false,
+    "familyAvoidanceHandledElsewhere": true
+  },
+  "scoring": {
+    "principleDeduction": 0,
+    "tabooDeduction": 5,
+    "moduleDeductionCap": 15,
+    "maximumCompositeWeightPercent": 15
+  },
+  "principles": [
+    {
+      "id": "xin",
+      "label": "信",
+      "kind": "interpretation_tag",
+      "definition": "以出生时可观察到的特征或事实命名。",
+      "deduction": 0,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "yi",
+      "label": "义",
+      "kind": "interpretation_tag",
+      "definition": "以德行或期许命名。",
+      "deduction": 0,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "xiang",
+      "label": "象",
+      "kind": "interpretation_tag",
+      "definition": "以相似物象取象命名。",
+      "deduction": 0,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "jia",
+      "label": "假",
+      "kind": "interpretation_tag",
+      "definition": "借取外物或典故所表达的美好含义。",
+      "deduction": 0,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "lei",
+      "label": "类",
+      "kind": "interpretation_tag",
+      "definition": "从亲属或同类关系推衍命名。",
+      "deduction": 0,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "reviewStatus": "reviewed"
+    }
+  ],
+  "taboos": [
+    {
+      "id": "country-name",
+      "label": "不以国名为名",
+      "matchMode": "explicit_term",
+      "terms": [
+        "秦",
+        "楚",
+        "齐",
+        "燕",
+        "韩",
+        "赵",
+        "魏",
+        "吴",
+        "越",
+        "鲁",
+        "宋",
+        "卫",
+        "晋",
+        "郑",
+        "陈",
+        "蔡"
+      ],
+      "deduction": 5,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "controversyStatus": "contextual",
+      "controversyNote": "原文处于周代礼制和名讳语境；现代姓名中单个同形字不必然等同以诸侯国为名，因此只报告字面命中并提示人工复核。",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "office-title",
+      "label": "不以官职为名",
+      "matchMode": "explicit_term",
+      "terms": ["司徒", "司空", "太师", "太傅", "御史"],
+      "deduction": 5,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "controversyStatus": "contextual",
+      "controversyNote": "仅匹配完整官职词，不把构成官职的普通单字自动判为命中；现代职业称谓另行人工判断。",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "mountain-river-name",
+      "label": "不以山川为名",
+      "matchMode": "explicit_term",
+      "terms": ["泰山", "华山", "嵩山", "衡山", "恒山", "黄河", "长江", "淮河", "济水"],
+      "deduction": 5,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "controversyStatus": "contextual",
+      "controversyNote": "山川意象在现代命名中常为正向取象；本规则只报告明确地名词组，不对山、水等普通意象字扣分。",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "hidden-illness",
+      "label": "不以隐疾为名",
+      "matchMode": "explicit_term",
+      "terms": ["疾", "疡", "疥", "疽", "痔"],
+      "deduction": 5,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "controversyStatus": "contextual",
+      "controversyNote": "该类别涉及历史身体观念；仅作文本提醒，不作健康判断，也不构成医疗建议。",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "livestock-name",
+      "label": "不以畜牲为名",
+      "matchMode": "explicit_term",
+      "terms": ["牛", "羊", "豕", "犬", "鸡", "马"],
+      "deduction": 5,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "controversyStatus": "contextual",
+      "controversyNote": "生肖、乳名和动物意象传统与此古代礼制禁忌并存；现代使用需结合完整含义人工判断。",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "ritual-object-or-currency",
+      "label": "不以器币为名",
+      "matchMode": "explicit_term",
+      "terms": ["鼎", "璧", "圭", "爵", "币", "钱"],
+      "deduction": 5,
+      "sourceId": "ctext-zuozhuan-huan-6",
+      "controversyStatus": "contextual",
+      "controversyNote": "玉器和礼器字在后世常转为美德或珍重意象；字面命中只提示历史语境，不宣称现代禁用。",
+      "reviewStatus": "reviewed"
+    }
+  ],
+  "exclusions": [
+    {
+      "id": "family-generation-and-elder-avoidance",
+      "reason": "字辈、长辈重名重字和亲属同音属于家庭约束模块，不在本模块重复扣分。"
+    }
+  ],
+  "disclaimer": "传统民俗参考，非科学结论。五原则仅作取意标签；六禁忌保留周代礼制语境，以明确词项作软提示。"
+}

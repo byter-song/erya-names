@@ -63,7 +63,8 @@ export function generateCandidates(input: {
     input.allusionRatio > 1
   )
     throw new Error("典故比例应为 0–1");
-  const sources = input.profile.inspirationSources ?? ["poetry", "modern"];
+  const { basics } = input.profile;
+  const sources = input.profile.inspiration.sources;
   const characters = new Map(input.bundle.characters.map((entry) => [entry.char, entry]));
   const allusionDrafts = input.bundle.allusions
     .filter(
@@ -92,7 +93,7 @@ export function generateCandidates(input: {
     (sources.includes("poetry") ? allusionDrafts.length : 0) +
     historicalDrafts.length +
     (sources.includes("modern")
-      ? input.profile.givenNameLength === 1
+      ? basics.givenNameLength === 1
         ? eligibleCharacters.length
         : eligibleCharacters.length * (eligibleCharacters.length - 1)
       : 0);
@@ -109,16 +110,16 @@ export function generateCandidates(input: {
       return undefined;
     }
     const fullNameWarnings = evaluateFullNameSound(
-      input.profile.surname,
+      basics.surname,
       candidate.pinyin,
-      input.profile.surnamePinyin,
+      basics.surnamePinyin,
     );
     const l3 = scoreCandidatePreferences({
       pinyin: candidate.pinyin,
       sourceType: candidate.sourceType,
       characterStyleTags: candidate.styleTags,
-      preferredStyleTags: input.profile.styleTags,
-      pinyinFriendly: input.profile.pinyinFriendly,
+      preferredStyleTags: basics.styleTags,
+      pinyinFriendly: basics.pinyinFriendly,
     });
     const l3Results: CandidateRuleResult[] = l3.dimensions.map((dimension) => ({
       evidenceLevel: "L3",
@@ -130,7 +131,7 @@ export function generateCandidates(input: {
       scoreDelta: dimension.scoreDelta,
     }));
     const tones = [
-      ...readSurname(input.profile.surname, input.profile.surnamePinyin),
+      ...readSurname(basics.surname, basics.surnamePinyin),
       ...candidate.pinyin,
     ].map(toneOf);
     if (tones.every((tone) => tone !== undefined))
@@ -163,11 +164,11 @@ export function generateCandidates(input: {
         ruleId: "l3-writing",
         ruleVersion: "preference-score-3",
         sourceRefs: ["unihan-17"],
-        explanation: `简体笔画 ${strokeCounts.join(" + ")}；书写偏好：${input.profile.writingComplexity === "simple" ? "简洁" : input.profile.writingComplexity === "balanced" ? "均衡" : "不限"}`,
+        explanation: `简体笔画 ${strokeCounts.join(" + ")}；书写偏好：${basics.writingComplexity === "simple" ? "简洁" : basics.writingComplexity === "balanced" ? "均衡" : "不限"}`,
         scoreDelta:
-          input.profile.writingComplexity === "simple"
+          basics.writingComplexity === "simple"
             ? Math.max(-6, 6 - Math.max(...strokeCounts))
-            : input.profile.writingComplexity === "balanced"
+            : basics.writingComplexity === "balanced"
               ? Math.max(
                   0,
                   3 -
@@ -179,11 +180,11 @@ export function generateCandidates(input: {
       });
     const expression = modernByName.get(candidate.givenName)?.genderExpression;
     const preferredExpression =
-      input.profile.genderExpression !== "unrestricted"
-        ? input.profile.genderExpression
-        : input.profile.childGender === "male"
+      basics.genderExpression !== "unrestricted"
+        ? basics.genderExpression
+        : basics.childGender === "male"
           ? "masculine"
-          : input.profile.childGender === "female"
+          : basics.childGender === "female"
             ? "feminine"
             : undefined;
     if (preferredExpression)
@@ -194,7 +195,7 @@ export function generateCandidates(input: {
         ruleVersion: "preference-score-3",
         sourceRefs: ["erya-original-20260927"],
         explanation:
-          input.profile.genderExpression === "unrestricted"
+          basics.genderExpression === "unrestricted"
             ? "按宝宝性别提供默认文字表达软排序；仅作起名参照，不限制跨性别使用。"
             : "按所选阳刚、柔美或中性的文字表达偏好排序；仅为编辑风格标签，不限制任何性别使用。",
         scoreDelta: expression
@@ -377,15 +378,15 @@ function* composeCharacters(
   modernCombinations: RuntimeModernCombination[],
 ): Generator<GeneratedCandidate> {
   const contextualOnly = new Set([..."离故独物审止身既好皋猗舜桢见格约辨则旗与知仁修至致"]);
-  const required = new Set(profile.requiredCharacters.map((item) => item.char));
+  const required = new Set(profile.family.requiredCharacters.map((item) => item.char));
   const verified = entries.filter(
     (entry) =>
-      !profile.avoidCharacters.includes(entry.char) &&
+      !profile.family.avoidCharacters.includes(entry.char) &&
       (!contextualOnly.has(entry.char) ||
         required.has(entry.char) ||
-        profile.givenNameLength === 1),
+        profile.basics.givenNameLength === 1),
   );
-  if (profile.givenNameLength === 1) {
+  if (profile.basics.givenNameLength === 1) {
     for (const entry of verified) {
       yield createCandidate({
         profile,
@@ -469,7 +470,7 @@ function* composeCharacters(
       if (editorialNames.has(givenName)) continue;
       if ("子亦以予之允惟".includes(second.char) && !required.has(second.char)) continue;
       if (
-        profile.requiredCharacters.some(({ char, position }) =>
+        profile.family.requiredCharacters.some(({ char, position }) =>
           position === "any" ? !givenName.includes(char) : givenName[position - 1] !== char,
         )
       )
@@ -522,13 +523,13 @@ function createCandidate(input: {
   pinyin: string[];
   initialRuleResults?: CandidateRuleResult[];
 }): GeneratedCandidate {
-  const fullName = `${input.profile.surname}${input.givenName}`;
+  const fullName = `${input.profile.basics.surname}${input.givenName}`;
   return {
     id: `candidate:${fullName}`,
     projectId: input.profile.projectId,
     batchId: null,
     normalizedFingerprint: fullName.normalize("NFC"),
-    surname: input.profile.surname,
+    surname: input.profile.basics.surname,
     givenName: input.givenName,
     fullName,
     pinyin: input.pinyin,

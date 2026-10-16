@@ -1,10 +1,10 @@
-import type { CandidateStage } from "./decision";
+import type { ActiveCandidatePool } from "./decision";
 
 export interface DecisionCommand {
   projectId: string;
   candidateId: string;
-  from: CandidateStage;
-  to: CandidateStage;
+  from: ActiveCandidatePool;
+  to: ActiveCandidatePool;
 }
 
 export class SessionUndoStack {

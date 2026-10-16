@@ -1,0 +1,43 @@
+{
+  "moduleId": "bazi_wuxing",
+  "schoolId": "four-path-useful-god-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "reviewed",
+  "reviewedAt": "2026-10-16",
+  "reviewedBy": "erya-maintainer",
+  "epistemicStatus": "research_model",
+  "uncertainty": "四条路径是已完成产品审计的可复现简化模型，不是唯一用神结论；必须保留各路径反证、低置信度并由用户确认采用五行后才参与姓名评分。",
+  "sourceIds": [
+    "erya-four-path-product-model",
+    "ditiansui-qiongtong-1926",
+    "ziping-zhenquan-1923"
+  ],
+  "applicableInputs": ["pillars", "dayMaster", "monthBranch", "hiddenStems", "timeKnown"],
+  "checksum": "sha256:ecd6fe3c0f0d82263a133b87732dc2eba57fd633220a2ace082a48a12e33347f",
+  "sources": [
+    {
+      "id": "erya-four-path-product-model",
+      "title": "尔雅四路径用神产品模型 1.0",
+      "locator": "project://src/domain/folklore/usefulGod.ts",
+      "pageOrSection": "等权五行计数、四路径并列、反证保留、用户确认后评分",
+      "verificationStatus": "official",
+      "notes": "reviewed 只表示产品公式、输入边界、夹具与扣分链已完成内部审计；古籍解释仍按 research_model 展示。"
+    },
+    {
+      "id": "ditiansui-qiongtong-1926",
+      "title": "滴天髓·穷通宝鉴（文明书局 1926 影印本）",
+      "locator": "https://commons.wikimedia.org/wiki/File:NLC416-07jh011206-4922_%E6%BB%B4%E5%A4%A9%E9%AB%93%C2%B7%E7%AA%AE%E9%80%9A%E5%AF%B6%E9%91%91_%E7%AC%AC2%E5%8D%B7.pdf",
+      "pageOrSection": "第 2 卷；具体规则页码待逐条影像复核",
+      "verificationStatus": "unverified",
+      "notes": "已确认书目、版本与影像来源；具体古籍条目尚未逐条页码复核，因此结论层保持 research_model 与低置信度。"
+    },
+    {
+      "id": "ziping-zhenquan-1923",
+      "title": "子平真诠（1923 上海会文堂印局本）",
+      "locator": "research-reference:ziping-zhenquan-1923",
+      "pageOrSection": "月令格局条目待影像定位",
+      "verificationStatus": "unverified",
+      "notes": "书目用于标示月令格局流派来源；具体条目尚未完成逐条影像核验，页面明确展示此不确定性。"
+    }
+  ]
+}

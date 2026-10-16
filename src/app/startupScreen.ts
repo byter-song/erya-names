@@ -8,7 +8,7 @@ export interface StartupController {
   exit: () => Promise<void>;
   fail: (actions: StartupFailureActions) => void;
 }
-/** A lightweight paper-and-ink opening: actual data readiness controls its duration. */
+/** A lightweight system-font loading screen; actual data readiness controls its duration. */
 export function createStartupScreen(): StartupController {
   const screen = document.createElement("section");
   screen.className = "startup-screen";
@@ -17,7 +17,7 @@ export function createStartupScreen(): StartupController {
   const center = document.createElement("div");
   center.className = "startup-screen__center";
   const mark = document.createElement("strong");
-  mark.className = "startup-screen__mark brush-type";
+  mark.className = "startup-screen__mark";
   mark.textContent = "雅";
   const label = document.createElement("p");
   label.textContent = "展卷寻名 · 正在读取本地资料";

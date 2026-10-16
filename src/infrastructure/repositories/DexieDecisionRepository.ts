@@ -1,9 +1,15 @@
-import { currentEligibility } from "../../domain/rules/currentEligibility";
-import type { DecisionRepository } from "../../application/ports/DecisionRepository";
+import type {
+  DecisionRepository,
+  DecisionWriteError,
+} from "../../application/ports/DecisionRepository";
 import {
   candidateDecisionSchema,
+  normalizeExclusionReason,
   type CandidateDecision,
+  type ExcludedCandidateDecision,
 } from "../../domain/candidate/decision";
+import { moveCandidatePool } from "../../domain/candidate/decisionState";
+import { err, ok, type Result } from "../../domain/shared/result";
 import type { EryaDatabase } from "../database/EryaDatabase";
 
 export class DexieDecisionRepository implements DecisionRepository {
@@ -14,146 +20,169 @@ export class DexieDecisionRepository implements DecisionRepository {
     return record ? candidateDecisionSchema.parse(record) : undefined;
   }
 
-  async move(input: Parameters<DecisionRepository["move"]>[0]): Promise<CandidateDecision> {
-    const next = candidateDecisionSchema.parse({
-      projectId: input.projectId,
-      candidateId: input.candidateId,
-      stage: input.to,
-      ...(input.rejectionReason ? { rejectionReason: input.rejectionReason } : {}),
-      ...(input.lastActiveStage ? { lastActiveStage: input.lastActiveStage } : {}),
-      ...(input.folkloreReviewed ? { folkloreReviewed: true } : {}),
-      updatedAt: input.changedAt,
-    });
-    await this.database.transaction(
+  async list(
+    projectId: string,
+    pool?: CandidateDecision["pool"],
+  ): Promise<CandidateDecision[]> {
+    const records = pool
+      ? await this.database.candidateDecisions
+          .where("[projectId+pool]")
+          .equals([projectId, pool])
+          .toArray()
+      : await this.database.candidateDecisions.where("projectId").equals(projectId).toArray();
+    return records.map((record) => candidateDecisionSchema.parse(record));
+  }
+
+  async move(
+    input: Parameters<DecisionRepository["move"]>[0],
+  ): Promise<Result<CandidateDecision, DecisionWriteError>> {
+    return this.database.transaction(
       "rw",
-      [
-        this.database.candidateDecisions,
-        this.database.decisionHistory,
-        this.database.finalDecisions,
-        this.database.projects,
-        this.database.profiles,
-        this.database.candidates,
-      ],
+      [this.database.candidateDecisions, this.database.decisionHistory],
       async () => {
         const current = await this.database.candidateDecisions.get(input.candidateId);
-        if (!current || current.projectId !== input.projectId)
-          throw new Error("candidate-not-found");
-        if (current.stage !== input.from) throw new Error("decision-state-changed");
-        if (
-          input.to === "finalist" ||
-          (input.to === "comparison" && input.from !== "finalist")
-        ) {
-          const profile = await this.database.profiles.get(input.projectId);
-          const candidate = await this.database.candidates.get(input.candidateId);
-          if (!profile || !candidate) throw new Error("方案或候选不存在");
-          const issue = currentEligibility(candidate, profile);
-          if (issue) throw new Error(issue);
-        }
-        if (input.maximumTargetCount !== undefined) {
-          const count = await this.database.candidateDecisions
-            .where("[projectId+stage]")
-            .equals([input.projectId, input.to])
-            .count();
-          if (count >= input.maximumTargetCount) throw new Error(`${input.to}-pool-full`);
-        }
+        if (!current) return err("candidate-not-found");
+        if (current.projectId !== input.projectId) return err("candidate-project-mismatch");
+        if (current.updatedAt !== input.expectedUpdatedAt) return err("candidate-stale");
+        const from = current.pool;
+        const to = moveCandidatePool(from, input.direction);
+        if (!to) return err("invalid-transition");
+        const next = candidateDecisionSchema.parse({
+          candidateId: current.candidateId,
+          projectId: current.projectId,
+          pool: to,
+          updatedAt: input.changedAt,
+        });
         await this.database.candidateDecisions.put(next);
         await this.database.decisionHistory.add({
           projectId: input.projectId,
           candidateId: input.candidateId,
-          from: input.from,
-          to: input.to,
-          action: "manual",
+          from,
+          to,
+          action: input.direction,
           changedAt: input.changedAt,
         });
-        if (input.from === "finalist" || input.to === "finalist") {
-          const finalDecision = await this.database.finalDecisions.get(input.projectId);
-          if (finalDecision) {
-            await this.database.finalDecisions.delete(input.projectId);
-          }
-        }
-        await this.updateProjectStage(input.projectId, input.changedAt);
+        return ok(next);
       },
     );
-    return next;
   }
 
-  async moveMany(input: Parameters<DecisionRepository["moveMany"]>[0]): Promise<void> {
-    await this.database.transaction(
+  async exclude(
+    input: Parameters<DecisionRepository["exclude"]>[0],
+  ): ReturnType<DecisionRepository["exclude"]> {
+    return this.database.transaction(
       "rw",
-      [this.database.candidateDecisions, this.database.decisionHistory, this.database.projects],
+      [this.database.candidateDecisions, this.database.decisionHistory],
       async () => {
-        const currentRows = await this.database.candidateDecisions.bulkGet(
-          input.moves.map((move) => move.candidateId),
-        );
-        const currentById = new Map(
-          currentRows.flatMap((row) => (row ? [[row.candidateId, row] as const] : [])),
-        );
-        for (const move of input.moves) {
-          const current = currentById.get(move.candidateId);
-          if (!current || current.projectId !== input.projectId)
-            throw new Error("candidate-not-found");
-          if (current.stage !== move.from || current.updatedAt !== move.expectedUpdatedAt)
-            throw new Error("auto-filter-preview-stale");
-        }
-        await this.database.candidateDecisions.bulkPut(
-          input.moves.map((move) =>
-            candidateDecisionSchema.parse({
-              projectId: input.projectId,
-              candidateId: move.candidateId,
-              stage: move.to,
-              updatedAt: input.changedAt,
-            }),
-          ),
-        );
-        await this.database.decisionHistory.bulkAdd(
-          input.moves.map((move) => ({
-            projectId: input.projectId,
-            candidateId: move.candidateId,
-            from: move.from,
-            to: move.to,
-            action: "auto_filter_confirmed" as const,
-            batchId: input.batchId,
-            changedAt: input.changedAt,
-          })),
-        );
-        await this.updateProjectStage(input.projectId, input.changedAt);
+        const current = await this.database.candidateDecisions.get(input.candidateId);
+        if (!current) return err("candidate-not-found");
+        if (current.projectId !== input.projectId) return err("candidate-project-mismatch");
+        if (current.updatedAt !== input.expectedUpdatedAt) return err("candidate-stale");
+        if (current.pool === "excluded") return err("invalid-transition");
+        const exclusionReason = normalizeExclusionReason(input.reason);
+        const next = candidateDecisionSchema.parse({
+          candidateId: current.candidateId,
+          projectId: current.projectId,
+          pool: "excluded",
+          lastActivePool: current.pool,
+          exclusionReason,
+          excludedAt: input.changedAt,
+          updatedAt: input.changedAt,
+        }) as ExcludedCandidateDecision;
+        await this.database.candidateDecisions.put(next);
+        await this.database.decisionHistory.add({
+          projectId: input.projectId,
+          candidateId: input.candidateId,
+          from: current.pool,
+          to: "excluded",
+          action: "exclude",
+          exclusionReason,
+          changedAt: input.changedAt,
+        });
+        return ok(next);
       },
     );
   }
 
-  private async updateProjectStage(projectId: string, changedAt: string): Promise<void> {
-    const project = await this.database.projects.get(projectId);
-    if (!project) return;
-    const [finalistCount, comparisonCount, funnelCount] = await Promise.all([
-      this.database.candidateDecisions
-        .where("[projectId+stage]")
-        .equals([projectId, "finalist"])
-        .count(),
-      this.database.candidateDecisions
-        .where("[projectId+stage]")
-        .equals([projectId, "comparison"])
-        .count(),
-      Promise.all(
-        ["basic_shortlist", "folklore_review", "favorite"].map((stage) =>
-          this.database.candidateDecisions
-            .where("[projectId+stage]")
-            .equals([projectId, stage])
-            .count(),
-        ),
-      ).then((counts) => counts.reduce((sum, count) => sum + count, 0)),
-    ]);
-    await this.database.projects.put({
-      ...project,
-      stage:
-        finalistCount > 0
-          ? "finalization"
-          : comparisonCount > 0
-            ? "comparison"
-            : funnelCount > 0
-              ? "funnel"
-              : "generation",
-      status: "active",
-      updatedAt: changedAt,
-    });
+  async restore(
+    input: Parameters<DecisionRepository["restore"]>[0],
+  ): ReturnType<DecisionRepository["restore"]> {
+    return this.database.transaction(
+      "rw",
+      [this.database.candidateDecisions, this.database.decisionHistory],
+      async () => {
+        const current = await this.database.candidateDecisions.get(input.candidateId);
+        if (!current) return err("candidate-not-found");
+        if (current.projectId !== input.projectId) return err("candidate-project-mismatch");
+        if (current.updatedAt !== input.expectedUpdatedAt) return err("candidate-stale");
+        if (current.pool !== "excluded") return err("candidate-not-excluded");
+        const next = candidateDecisionSchema.parse({
+          candidateId: current.candidateId,
+          projectId: current.projectId,
+          pool: current.lastActivePool,
+          updatedAt: input.changedAt,
+        });
+        await this.database.candidateDecisions.put(next);
+        await this.database.decisionHistory.add({
+          projectId: input.projectId,
+          candidateId: input.candidateId,
+          from: "excluded",
+          to: current.lastActivePool,
+          action: "restore",
+          exclusionReason: current.exclusionReason,
+          changedAt: input.changedAt,
+        });
+        return ok(next);
+      },
+    );
+  }
+
+  async clearExcluded(
+    input: Parameters<DecisionRepository["clearExcluded"]>[0],
+  ): ReturnType<DecisionRepository["clearExcluded"]> {
+    if (input.candidates.length === 0) return Promise.resolve(ok({ deleted: 0 }));
+    const candidateIds = input.candidates.map((candidate) => candidate.candidateId);
+    if (new Set(candidateIds).size !== candidateIds.length)
+      return Promise.resolve(err("candidate-stale"));
+
+    return this.database.transaction(
+      "rw",
+      [
+        this.database.candidates,
+        this.database.candidateSources,
+        this.database.candidateDecisions,
+        this.database.decisionHistory,
+        this.database.candidateEvaluations,
+        this.database.ruleEvidence,
+        this.database.candidateScores,
+      ],
+      async () => {
+        const [candidateRows, decisionRows] = await Promise.all([
+          this.database.candidates.bulkGet(candidateIds),
+          this.database.candidateDecisions.bulkGet(candidateIds),
+        ]);
+        for (let index = 0; index < input.candidates.length; index += 1) {
+          const expected = input.candidates[index]!;
+          const candidate = candidateRows[index];
+          const decision = decisionRows[index];
+          if (!candidate || !decision) return err("candidate-not-found");
+          if (candidate.projectId !== input.projectId || decision.projectId !== input.projectId)
+            return err("candidate-project-mismatch");
+          if (decision.updatedAt !== expected.expectedUpdatedAt) return err("candidate-stale");
+          if (decision.pool !== "excluded") return err("candidate-not-excluded");
+        }
+
+        await Promise.all([
+          this.database.candidates.bulkDelete(candidateIds),
+          this.database.candidateSources.where("candidateId").anyOf(candidateIds).delete(),
+          this.database.candidateDecisions.bulkDelete(candidateIds),
+          this.database.decisionHistory.where("candidateId").anyOf(candidateIds).delete(),
+          this.database.candidateEvaluations.bulkDelete(candidateIds),
+          this.database.ruleEvidence.where("candidateId").anyOf(candidateIds).delete(),
+          this.database.candidateScores.bulkDelete(candidateIds),
+        ]);
+        return ok({ deleted: candidateIds.length });
+      },
+    );
   }
 }

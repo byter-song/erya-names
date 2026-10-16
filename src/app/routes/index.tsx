@@ -22,6 +22,27 @@ function ProjectCenterRoute() {
         if (!result?.ok) throw new Error(result?.error ?? "删除服务暂不可用");
         setProjects((current) => current.filter((project) => project.id !== projectId));
       }}
+      onRename={async (input) => {
+        const result = await container.renameNamingProject?.execute(input);
+        if (!result?.ok) throw new Error(result?.error ?? "重命名服务暂不可用");
+        const workspace = await container.getProjectWorkspace?.execute(input.projectId);
+        if (!workspace?.ok) throw new Error(workspace?.error ?? "方案读取失败");
+        const renamed = {
+          title: workspace.value.project.title,
+          updatedAt: workspace.value.project.updatedAt,
+        };
+        setProjects((current) =>
+          current.map((project) =>
+            project.id === input.projectId ? { ...project, ...renamed } : project,
+          ),
+        );
+        return renamed;
+      }}
+      onCopy={async (input) => {
+        const result = await container.copyNamingConfiguration?.execute(input);
+        if (!result?.ok) throw new Error(result?.error ?? "复制配置服务暂不可用");
+        return result.value;
+      }}
       onOpen={(href) => void router.navigate({ href })}
       projects={projects}
     />

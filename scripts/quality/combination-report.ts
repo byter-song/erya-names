@@ -9,19 +9,45 @@ const combinations = bundle.modernCombinations ?? [];
 const characterMap = new Map(bundle.characters.map((item) => [item.char, item]));
 const profile = namingProfileSchema.parse({
   projectId: "quality",
-  surname: "宋",
-  surnameType: "single",
-  givenNameLength: 2,
-  requiredCharacters: [],
-  generationCharacters: [],
-  avoidCharacters: [],
-  relativeNames: [],
-  forbiddenCombinations: [],
-  genderExpression: "unrestricted",
-  styleTags: [],
-  writingComplexity: "balanced",
-  pinyinFriendly: false,
-  folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+  configRevision: 0,
+  basics: {
+    surname: "宋",
+    surnameType: "single",
+    givenNameLength: 2,
+    childGender: "unknown",
+    genderExpression: "unrestricted",
+    styleTags: [],
+    writingComplexity: "balanced",
+    pinyinFriendly: false,
+  },
+  family: {
+    constraintKnowledge: "none",
+    requiredCharacters: [],
+    generationCharacters: [],
+    avoidCharacters: [],
+    relativeNames: [],
+    relativeAvoidances: [],
+    forbiddenCombinations: [],
+  },
+  // This gate validates every curated modern combination through the real generator.
+  // Isolate that source so a matching allusion or historical name cannot replace its evidence.
+  inspiration: { sources: ["modern"] },
+  calendar: {
+    timeKnown: false,
+    timeZone: "Asia/Shanghai",
+    dayBoundary: "midnight",
+    zodiacConvention: "pillar",
+    trueSolarTimeCorrection: "not_applied",
+    historicalDstCorrection: "not_applied",
+  },
+  modules: {
+    bazi_wuxing: disabledModule("bazi-wuxing-v1"),
+    zodiac: disabledModule("zodiac-v1"),
+    traditional: disabledModule("traditional-v1"),
+    name_hexagram: disabledModule("name-hexagram-v1"),
+    five_grids: disabledModule("five-grids-v1"),
+  },
+  scoring: { presetId: "basic", presetVersion: "1", basicWeight: 100 },
 });
 const failures: string[] = [];
 if (
@@ -49,10 +75,13 @@ for (const item of combinations) {
   const result = generateCandidates({
     profile: {
       ...profile,
-      requiredCharacters: [
-        { char: item.givenName[0]!, position: 1 },
-        { char: item.givenName[1]!, position: 2 },
-      ],
+      family: {
+        ...profile.family,
+        requiredCharacters: [
+          { char: item.givenName[0]!, position: 1 },
+          { char: item.givenName[1]!, position: 2 },
+        ],
+      },
     },
     bundle,
     seed: `qa:${item.givenName}`,
@@ -97,3 +126,13 @@ await writeFile(
 );
 console.log(JSON.stringify(report, null, 2));
 if (failures.length) process.exitCode = 1;
+
+function disabledModule(ruleVersion: string) {
+  return {
+    analysisEnabled: false,
+    detailsVisible: false,
+    weight: 0,
+    schoolId: "erya-default",
+    ruleVersion,
+  };
+}

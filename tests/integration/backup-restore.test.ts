@@ -1,328 +1,264 @@
 import "fake-indexeddb/auto";
 import { afterEach, describe, expect, it } from "vitest";
+import {
+  BACKUP_FORMAT,
+  BACKUP_SCHEMA_VERSION,
+  createBackupEnvelope,
+} from "../../src/application/backup/backupSchema";
 import { ImportProjectBackup } from "../../src/application/use-cases/ImportProjectBackup";
 import { PreviewBackupImport } from "../../src/application/use-cases/PreviewBackupImport";
-import { createBackupEnvelope } from "../../src/application/backup/backupSchema";
 import { EryaDatabase } from "../../src/infrastructure/database/EryaDatabase";
 import { DexieBackupRepository } from "../../src/infrastructure/repositories/DexieBackupRepository";
 import { namingProfileFixture } from "../fixtures/namingProfile";
 import { namingProjectFixture } from "../fixtures/namingProject";
 
-const databaseNames = new Set<string>();
-
+const names = new Set<string>();
 afterEach(async () => {
-  await Promise.all([...databaseNames].map((name) => EryaDatabase.delete(name)));
-  databaseNames.clear();
+  await Promise.all([...names].map((name) => EryaDatabase.delete(name)));
+  names.clear();
 });
-
-async function backup(projectId = "project-song") {
-  return createBackupEnvelope({
-    appVersion: "0.2.0",
-    datasetVersion: "dev-2026.09.17",
-    rulePackVersion: "core-rules-1",
-    exportedAt: "2026-09-17T10:00:00.000Z",
-    payload: {
-      projectId,
-      projects: [namingProjectFixture(projectId)],
-      profiles: [namingProfileFixture(projectId)],
-      generationBatches: [],
-      candidates: [],
-      candidateSources: [],
-      ruleResults: [],
-      candidateDecisions: [],
-      decisionHistory: [],
-      candidateEvaluations: [],
-      comparisonSnapshots: [],
-      finalDecisions: [],
-    },
-  });
-}
-
-async function populatedBackup(projectId = "project-song") {
-  const profile = namingProfileFixture(projectId);
-  return createBackupEnvelope({
-    appVersion: "0.2.0",
-    datasetVersion: "dev-2026.09.17",
-    rulePackVersion: "core-rules-1",
-    exportedAt: "2026-09-17T10:00:00.000Z",
-    payload: {
-      projectId,
-      projects: [
-        {
-          id: projectId,
-          title: "宋姓宝宝起名",
-          stage: "finalization",
-          status: "completed",
-          createdAt: "2026-09-17T00:00:00.000Z",
-          updatedAt: "2026-09-17T09:00:00.000Z",
-        },
-      ],
-      profiles: [profile],
-      generationBatches: [
-        {
-          id: "batch-1",
-          projectId,
-          sequence: 1,
-          seed: "seed",
-          requestedCount: 1,
-          profileSnapshot: profile,
-          datasetVersion: "dev",
-          rulePackVersion: "rules",
-          status: "completed",
-          statistics: {
-            sourceCandidates: 1,
-            hardRejected: 0,
-            duplicateRejected: 0,
-            historicalRejected: 0,
-            persisted: 1,
-          },
-          createdAt: "2026-09-17T01:00:00.000Z",
-        },
-      ],
-      candidates: [
-        {
-          id: "candidate-1",
-          projectId,
-          batchId: "batch-1",
-          normalizedFingerprint: "宋清扬",
-          surname: "宋",
-          givenName: "清扬",
-          fullName: "宋清扬",
-          pinyin: ["sòng", "qīng", "yáng"],
-          sourceType: "verified_allusion",
-          summary: "清秀明朗",
-          sourceIds: ["shijing"],
-          sourceEvidence: [{ sourceId: "shijing", work: "诗经", quote: "有美一人" }],
-          warnings: [],
-          riskSignals: [],
-          ruleResults: [],
-          styleTags: [],
-          characterElements: [],
-          createdAt: "2026-09-17T01:00:00.000Z",
-        },
-        {
-          id: "candidate-2",
-          projectId,
-          batchId: "batch-1",
-          normalizedFingerprint: "宋知远",
-          surname: "宋",
-          givenName: "知远",
-          fullName: "宋知远",
-          pinyin: ["sòng", "zhī", "yuǎn"],
-          sourceType: "verified_allusion",
-          summary: "志向高远",
-          sourceIds: [],
-          sourceEvidence: [],
-          warnings: [],
-          riskSignals: [],
-          ruleResults: [],
-          styleTags: [],
-          characterElements: [],
-          createdAt: "2026-09-17T01:00:00.000Z",
-        },
-      ],
-      candidateSources: [
-        {
-          id: "source-1",
-          projectId,
-          candidateId: "candidate-1",
-          sourceId: "shijing",
-          work: "诗经",
-          quote: "有美一人",
-        },
-      ],
-      ruleResults: [
-        {
-          id: "rule-1",
-          projectId,
-          candidateId: "candidate-1",
-          evidenceLevel: "L1",
-          outcome: "pass",
-          ruleId: "l1-standard",
-          ruleVersion: "1",
-          explanation: "通过",
-          sourceRefs: ["standard-hanzi-2013"],
-        },
-      ],
-      candidateDecisions: [
-        {
-          projectId,
-          candidateId: "candidate-1",
-          stage: "finalist",
-          updatedAt: "2026-09-17T02:00:00.000Z",
-        },
-      ],
-      decisionHistory: [
-        {
-          projectId,
-          candidateId: "candidate-1",
-          from: "comparison",
-          to: "finalist",
-          changedAt: "2026-09-17T02:00:00.000Z",
-        },
-      ],
-      candidateEvaluations: [
-        {
-          projectId,
-          candidateId: "candidate-1",
-          rating: 5,
-          note: "喜欢",
-          updatedAt: "2026-09-17T02:00:00.000Z",
-        },
-      ],
-      comparisonSnapshots: [
-        {
-          id: "snapshot-1",
-          projectId,
-          name: "第一轮",
-          candidateIds: ["candidate-1", "candidate-2"],
-          candidates: [
-            {
-              id: "candidate-1",
-              fullName: "宋清扬",
-              pinyin: ["sòng", "qīng", "yáng"],
-              sourceType: "verified_allusion",
-              summary: "清秀明朗",
-              sourceEvidence: [],
-              warnings: [],
-              ruleEvidence: [],
-              rating: 5,
-              note: "喜欢",
-            },
-            {
-              id: "candidate-2",
-              fullName: "宋知远",
-              pinyin: ["sòng", "zhī", "yuǎn"],
-              sourceType: "verified_allusion",
-              summary: "志向高远",
-              sourceEvidence: [],
-              warnings: [],
-              ruleEvidence: [],
-            },
-          ],
-          createdAt: "2026-09-17T02:00:00.000Z",
-        },
-      ],
-      finalDecisions: [
-        {
-          projectId,
-          selectedCandidateId: "candidate-1",
-          rationale: "喜欢",
-          updatedAt: "2026-09-17T03:00:00.000Z",
-        },
-      ],
-    },
-  });
-}
 
 function createDatabase(): EryaDatabase {
   const name = `erya-restore-${crypto.randomUUID()}`;
-  databaseNames.add(name);
+  names.add(name);
   return new EryaDatabase(name);
 }
 
-describe("backup restore", () => {
-  it("previews a new project and an existing-project conflict without writing", async () => {
-    const database = createDatabase();
-    const repository = new DexieBackupRepository(database);
-    const preview = new PreviewBackupImport(repository);
-    const envelope = await backup();
-
-    await expect(preview.execute(envelope)).resolves.toMatchObject({
-      ok: true,
-      value: { conflict: "none", projectId: "project-song", counts: { projects: 1 } },
-    });
-    expect(await database.projects.count()).toBe(0);
-
-    await database.projects.add({
-      id: "project-song",
-      title: "当前方案",
-      status: "active",
-      updatedAt: "2026-09-17T09:00:00.000Z",
-    });
-    await expect(preview.execute(envelope)).resolves.toMatchObject({
-      ok: true,
-      value: { conflict: "project-id", projectId: "project-song" },
-    });
-    database.close();
+async function seedFullProject(database: EryaDatabase, projectId = "project-song") {
+  const profile = namingProfileFixture(projectId);
+  await database.projects.add(namingProjectFixture(projectId));
+  await database.profiles.add(profile);
+  await database.generationBatches.add({
+    id: "batch-1",
+    projectId,
+    sequence: 1,
+    seed: "seed",
+    requestedCount: 1,
+    profileSnapshot: profile,
+    datasetVersion: "dev",
+    rulePackVersion: "rules",
+    status: "completed",
+    statistics: {
+      sourceCandidates: 1,
+      hardRejected: 0,
+      duplicateRejected: 0,
+      historicalRejected: 0,
+      persisted: 1,
+    },
+    createdAt: "2026-10-16T01:00:00.000Z",
   });
+  await database.candidates.add({
+    id: "candidate-1",
+    projectId,
+    batchId: "batch-1",
+    normalizedFingerprint: "宋清扬",
+    surname: "宋",
+    givenName: "清扬",
+    fullName: "宋清扬",
+    pinyin: ["sòng", "qīng", "yáng"],
+    sourceType: "verified_allusion",
+    summary: "清秀明朗",
+    createdAt: "2026-10-16T01:00:00.000Z",
+  });
+  await database.candidateSources.add({
+    id: "source-1",
+    projectId,
+    candidateId: "candidate-1",
+    sourceId: "shijing",
+    work: "诗经",
+  });
+  await database.candidateDecisions.add({
+    projectId,
+    candidateId: "candidate-1",
+    pool: "selected",
+    updatedAt: "2026-10-16T02:00:00.000Z",
+  });
+  await database.decisionHistory.add({
+    projectId,
+    candidateId: "candidate-1",
+    from: "candidate",
+    to: "selected",
+    action: "forward",
+    changedAt: "2026-10-16T02:00:00.000Z",
+  });
+  await database.candidateEvaluations.add({
+    projectId,
+    candidateId: "candidate-1",
+    rating: 5,
+    note: "喜欢",
+    updatedAt: "2026-10-16T02:00:00.000Z",
+  });
+  await database.projectAssessments.add({
+    id: "assessment-1",
+    projectId,
+    moduleId: "zodiac",
+    configRevision: 0,
+    inputHash: "profile-hash",
+    result: { zodiac: "dragon" },
+  });
+  await database.ruleEvidence.add({
+    id: "evidence-1",
+    projectId,
+    candidateId: "candidate-1",
+    moduleId: "basic",
+    dimensionId: "meaning",
+    ruleId: "basic-meaning",
+    ruleVersion: "1",
+    severity: "soft",
+    status: "pass",
+    applicability: "applied",
+    scoreBefore: 100,
+    deduction: 0,
+    scoreAfter: 100,
+    explanation: "字义清朗",
+    inputSummary: "宋清扬",
+    inputHash: "candidate-hash",
+    calculation: ["100 - 0 = 100"],
+    sourceIds: ["shijing"],
+  });
+  await database.candidateScores.add({
+    candidateId: "candidate-1",
+    projectId,
+    configRevision: 0,
+    inputHash: "candidate-hash",
+    hardStatus: "pass",
+    totalScore: 100,
+    completeness: 1,
+    evaluatedDimensions: 1,
+    expectedDimensions: 1,
+    hiddenScoredModuleCount: 0,
+    moduleScores: { basic: 100 },
+    topDeductions: [],
+  });
+  await database.assessmentRuns.add({
+    projectId,
+    runId: "run-1",
+    configRevision: 0,
+    status: "completed",
+    completed: 1,
+    total: 1,
+  });
+  await database.appMetadata.add({
+    key: `project:${projectId}:report-layout`,
+    value: "compact",
+  });
+}
 
-  it("requires an explicit conflict strategy and can import as a copy", async () => {
-    const database = createDatabase();
-    await database.projects.add({
-      id: "project-song",
-      title: "当前方案",
-      status: "active",
-      updatedAt: "2026-09-17T09:00:00.000Z",
-    });
-    const useCase = new ImportProjectBackup(new DexieBackupRepository(database), {
-      createProjectId: () => "project-song-copy",
-    });
-    const envelope = await backup();
+async function exportEnvelope(database: EryaDatabase) {
+  const payload = await new DexieBackupRepository(database).exportProject("project-song");
+  return createBackupEnvelope({
+    payload,
+    appVersion: "1.0.0",
+    datasetVersion: "dev",
+    rulePackVersion: "rules",
+    exportedAt: "2026-10-16T10:00:00.000Z",
+  });
+}
 
-    await expect(useCase.execute({ envelope })).resolves.toEqual({
-      ok: false,
-      error: "conflict-strategy-required",
+describe("v2 backup restore", () => {
+  it("exports one explicit array for every v2 table and previews without writing", async () => {
+    const source = createDatabase();
+    await seedFullProject(source);
+    const envelope = await exportEnvelope(source);
+    expect(envelope).toMatchObject({
+      format: BACKUP_FORMAT,
+      schemaVersion: BACKUP_SCHEMA_VERSION,
     });
+    expect(Object.keys(envelope.payload).sort()).toEqual(
+      [
+        "projectId",
+        "projects",
+        "profiles",
+        "generationBatches",
+        "candidates",
+        "candidateSources",
+        "candidateDecisions",
+        "decisionHistory",
+        "candidateEvaluations",
+        "projectAssessments",
+        "ruleEvidence",
+        "candidateScores",
+        "assessmentRuns",
+        "appMetadata",
+      ].sort(),
+    );
+
+    const target = createDatabase();
     await expect(
-      useCase.execute({ envelope, conflictStrategy: "import-copy" }),
-    ).resolves.toMatchObject({ ok: true, value: { projectId: "project-song-copy" } });
-    await expect(database.projects.get("project-song")).resolves.toMatchObject({
-      title: "当前方案",
+      new PreviewBackupImport(new DexieBackupRepository(target)).execute(envelope),
+    ).resolves.toMatchObject({
+      ok: true,
+      value: { conflict: "none", counts: { candidates: 1, ruleEvidence: 1 } },
     });
-    await expect(database.projects.get("project-song-copy")).resolves.toMatchObject({
-      title: "宋姓宝宝起名（副本）",
-    });
-    database.close();
+    expect(await target.projects.count()).toBe(0);
+    source.close();
+    target.close();
   });
 
-  it("rolls back every write when restore fails inside the transaction", async () => {
-    const database = createDatabase();
-    await database.projects.add({
-      id: "project-song",
-      title: "当前方案",
-      status: "active",
-      updatedAt: "2026-09-17T09:00:00.000Z",
+  it("imports a copy with all project and candidate references remapped", async () => {
+    const source = createDatabase();
+    await seedFullProject(source);
+    const target = createDatabase();
+    const result = await new ImportProjectBackup(new DexieBackupRepository(target), {
+      createProjectId: () => "project-copy",
+    }).execute({
+      envelope: await exportEnvelope(source),
+      conflictStrategy: "import-copy",
     });
-    const repository = new DexieBackupRepository(database, {
+
+    expect(result).toMatchObject({ ok: true, value: { projectId: "project-copy" } });
+    const candidate = (await target.candidates.toArray())[0];
+    expect(candidate?.projectId).toBe("project-copy");
+    await expect(target.candidateDecisions.get(candidate?.id ?? "")).resolves.toMatchObject({
+      projectId: "project-copy",
+      pool: "selected",
+    });
+    expect((await target.ruleEvidence.toArray())[0]?.candidateId).toBe(candidate?.id);
+    expect((await target.candidateScores.toArray())[0]?.candidateId).toBe(candidate?.id);
+    expect((await target.assessmentRuns.toArray())[0]).toMatchObject({
+      projectId: "project-copy",
+    });
+    expect((await target.appMetadata.toArray())[0]?.key).toBe(
+      "project:project-copy:report-layout",
+    );
+    source.close();
+    target.close();
+  });
+
+  it("rejects legacy payload fields and rolls back a failed replacement", async () => {
+    const source = createDatabase();
+    await seedFullProject(source);
+    const envelope = await exportEnvelope(source);
+    await expect(
+      createBackupEnvelope({
+        payload: { ...envelope.payload, finalDecisions: [] },
+        appVersion: "1.0.0",
+        datasetVersion: "dev",
+        rulePackVersion: "rules",
+        exportedAt: "2026-10-16T10:00:00.000Z",
+      }),
+    ).rejects.toThrow();
+
+    const target = createDatabase();
+    await target.projects.add({
+      ...namingProjectFixture(),
+      title: "现有方案",
+    });
+    const repository = new DexieBackupRepository(target, {
       beforeWrite: () => {
         throw new Error("injected-write-failure");
       },
     });
-    const result = await new ImportProjectBackup(repository, {
-      createProjectId: () => "unused",
-    }).execute({ envelope: await backup(), conflictStrategy: "replace" });
-
-    expect(result).toEqual({ ok: false, error: "injected-write-failure" });
-    await expect(database.projects.get("project-song")).resolves.toMatchObject({
-      title: "当前方案",
+    await expect(
+      new ImportProjectBackup(repository, { createProjectId: () => "unused" }).execute({
+        envelope,
+        conflictStrategy: "replace",
+      }),
+    ).resolves.toEqual({ ok: false, error: "injected-write-failure" });
+    await expect(target.projects.get("project-song")).resolves.toMatchObject({
+      title: "现有方案",
     });
-    database.close();
-  });
-
-  it("remaps every top-level and nested project/candidate reference for a copied import", async () => {
-    const database = createDatabase();
-    const result = await new ImportProjectBackup(new DexieBackupRepository(database), {
-      createProjectId: () => "project-copy",
-    }).execute({ envelope: await populatedBackup(), conflictStrategy: "import-copy" });
-
-    expect(result).toMatchObject({ ok: true, value: { projectId: "project-copy" } });
-    const batch = (await database.generationBatches.toArray())[0] as {
-      profileSnapshot?: { projectId?: string };
-    };
-    const snapshot = (await database.comparisonSnapshots.toArray())[0];
-    const copiedCandidates = await database.candidates.toArray();
-    const copiedCandidate = copiedCandidates.find(
-      (candidate) => candidate.fullName === "宋清扬",
-    );
-    expect(batch.profileSnapshot?.projectId).toBe("project-copy");
-    expect(snapshot?.candidateIds).toHaveLength(2);
-    expect(snapshot?.candidates.map((candidate) => candidate.id)).toEqual(
-      snapshot?.candidateIds,
-    );
-    expect((await database.finalDecisions.toArray())[0]?.selectedCandidateId).toBe(
-      copiedCandidate?.id,
-    );
-    database.close();
+    source.close();
+    target.close();
   });
 });

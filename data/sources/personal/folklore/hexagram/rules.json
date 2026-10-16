@@ -1,0 +1,555 @@
+{
+  "methodId": "meihua-name-stroke-erya-v1",
+  "scoreMapId": "meihua-relation-score-v1",
+  "reviewStatus": "research_only",
+  "sourceBoundary": {
+    "traditionalPrinciples": "《梅花易数》传本提供卦以八除、爻以六除和字占分组思路；逐页影像复核尚未完成。",
+    "productConvention": "姓氏康熙笔画和为上卦输入、名字康熙笔画和为下卦输入，是尔雅固定化产品规则，并非古籍原句。"
+  },
+  "formula": {
+    "upperInput": "sum(surnameKangxiStrokes)",
+    "lowerInput": "sum(givenNameKangxiStrokes)",
+    "trigramNumber": "mod(input, 8); remainder 0 maps to 8",
+    "movingLine": "mod(upperInput + lowerInput, 6); remainder 0 maps to 6",
+    "changedHexagram": "flip the moving line",
+    "bodyUse": "the trigram containing the moving line is use; the other trigram is body",
+    "missingStrokeBehavior": "unknown"
+  },
+  "trigrams": [
+    {
+      "name": "乾",
+      "id": "heaven",
+      "number": 1,
+      "linesBottomToTop": [1, 1, 1],
+      "element": "metal"
+    },
+    {
+      "name": "兑",
+      "id": "lake",
+      "number": 2,
+      "linesBottomToTop": [1, 1, 0],
+      "element": "metal"
+    },
+    {
+      "name": "离",
+      "id": "fire",
+      "number": 3,
+      "linesBottomToTop": [1, 0, 1],
+      "element": "fire"
+    },
+    {
+      "name": "震",
+      "id": "thunder",
+      "number": 4,
+      "linesBottomToTop": [1, 0, 0],
+      "element": "wood"
+    },
+    {
+      "name": "巽",
+      "id": "wind",
+      "number": 5,
+      "linesBottomToTop": [0, 1, 1],
+      "element": "wood"
+    },
+    {
+      "name": "坎",
+      "id": "water",
+      "number": 6,
+      "linesBottomToTop": [0, 1, 0],
+      "element": "water"
+    },
+    {
+      "name": "艮",
+      "id": "mountain",
+      "number": 7,
+      "linesBottomToTop": [0, 0, 1],
+      "element": "earth"
+    },
+    {
+      "name": "坤",
+      "id": "earth",
+      "number": 8,
+      "linesBottomToTop": [0, 0, 0],
+      "element": "earth"
+    }
+  ],
+  "hexagrams": [
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "乾",
+      "name": "乾",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "乾",
+      "name": "夬",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "乾",
+      "name": "大有",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "乾",
+      "name": "大壮",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "乾",
+      "name": "小畜",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "乾",
+      "name": "需",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "乾",
+      "name": "大畜",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "乾",
+      "name": "泰",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "兑",
+      "name": "履",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "兑",
+      "name": "兑",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "兑",
+      "name": "睽",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "兑",
+      "name": "归妹",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "兑",
+      "name": "中孚",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "兑",
+      "name": "节",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "兑",
+      "name": "损",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "兑",
+      "name": "临",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "离",
+      "name": "同人",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "离",
+      "name": "革",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "离",
+      "name": "离",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "离",
+      "name": "丰",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "离",
+      "name": "家人",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "离",
+      "name": "既济",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "离",
+      "name": "贲",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "离",
+      "name": "明夷",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "震",
+      "name": "无妄",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "震",
+      "name": "随",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "震",
+      "name": "噬嗑",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "震",
+      "name": "震",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "震",
+      "name": "益",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "震",
+      "name": "屯",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "震",
+      "name": "颐",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "震",
+      "name": "复",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "巽",
+      "name": "姤",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "巽",
+      "name": "大过",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "巽",
+      "name": "鼎",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "巽",
+      "name": "恒",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "巽",
+      "name": "巽",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "巽",
+      "name": "井",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "巽",
+      "name": "蛊",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "巽",
+      "name": "升",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "坎",
+      "name": "讼",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "坎",
+      "name": "困",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "坎",
+      "name": "未济",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "坎",
+      "name": "解",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "坎",
+      "name": "涣",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "坎",
+      "name": "坎",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "坎",
+      "name": "蒙",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "坎",
+      "name": "师",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "艮",
+      "name": "遁",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "艮",
+      "name": "咸",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "艮",
+      "name": "旅",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "艮",
+      "name": "小过",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "艮",
+      "name": "渐",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "艮",
+      "name": "蹇",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "艮",
+      "name": "艮",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "艮",
+      "name": "谦",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "乾",
+      "lowerTrigram": "坤",
+      "name": "否",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "兑",
+      "lowerTrigram": "坤",
+      "name": "萃",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "离",
+      "lowerTrigram": "坤",
+      "name": "晋",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "震",
+      "lowerTrigram": "坤",
+      "name": "豫",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "巽",
+      "lowerTrigram": "坤",
+      "name": "观",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坎",
+      "lowerTrigram": "坤",
+      "name": "比",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "艮",
+      "lowerTrigram": "坤",
+      "name": "剥",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    },
+    {
+      "upperTrigram": "坤",
+      "lowerTrigram": "坤",
+      "name": "坤",
+      "reviewStatus": "research_only",
+      "interpretationInScore": false
+    }
+  ],
+  "scoreMap": [
+    {
+      "relation": "use_generates_body",
+      "originalPenalty": 0,
+      "changedPenalty": 0
+    },
+    {
+      "relation": "same_element",
+      "originalPenalty": 0,
+      "changedPenalty": 0
+    },
+    {
+      "relation": "body_controls_use",
+      "originalPenalty": 6,
+      "changedPenalty": 3
+    },
+    {
+      "relation": "body_generates_use",
+      "originalPenalty": 14,
+      "changedPenalty": 7
+    },
+    {
+      "relation": "use_controls_body",
+      "originalPenalty": 24,
+      "changedPenalty": 12
+    }
+  ],
+  "interpretationPolicy": "卦名、卦辞、爻辞与文化象意只展示且不计分；不输出健康、寿命、财富或灾祸预测。",
+  "disclaimer": "传统民俗参考，非科学结论。"
+}

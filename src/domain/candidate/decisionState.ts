@@ -1,23 +1,29 @@
-import type { CandidateStage } from "./decision";
+import { z, type Infer } from "../shared/zod";
+import type { ActiveCandidatePool, CandidatePool } from "./decision";
 
-const transitions: Record<CandidateStage, readonly CandidateStage[]> = {
-  inbox: ["basic_shortlist", "favorite", "comparison", "excluded", "rejected"],
-  basic_shortlist: ["inbox", "folklore_review", "comparison", "excluded"],
-  folklore_review: ["basic_shortlist", "comparison", "excluded"],
-  favorite: ["inbox", "folklore_review", "comparison", "excluded", "rejected"],
-  comparison: [
-    "basic_shortlist",
-    "folklore_review",
-    "favorite",
-    "finalist",
-    "excluded",
-    "rejected",
-  ],
-  finalist: ["comparison", "excluded", "rejected"],
-  excluded: ["inbox", "basic_shortlist", "folklore_review", "comparison"],
-  rejected: ["inbox", "basic_shortlist"],
+export const candidateMoveDirectionSchema = z.enum(["forward", "backward"]);
+export type CandidateMoveDirection = Infer<typeof candidateMoveDirectionSchema>;
+
+const adjacentPools: Record<
+  ActiveCandidatePool,
+  Partial<Record<CandidateMoveDirection, ActiveCandidatePool>>
+> = {
+  inspiration: { forward: "candidate" },
+  candidate: { forward: "selected", backward: "inspiration" },
+  selected: { backward: "candidate" },
 };
 
-export function canMoveCandidate(from: CandidateStage, to: CandidateStage): boolean {
-  return transitions[from].includes(to);
+export function moveCandidatePool(
+  from: CandidatePool,
+  direction: CandidateMoveDirection,
+): ActiveCandidatePool | undefined {
+  if (from === "excluded") return undefined;
+  return adjacentPools[from][direction];
+}
+
+export function canMoveCandidate(
+  from: CandidatePool,
+  direction: CandidateMoveDirection,
+): boolean {
+  return moveCandidatePool(from, direction) !== undefined;
 }

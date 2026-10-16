@@ -1,0 +1,29 @@
+{
+  "packId": "kangxi-strokes-erya-v1",
+  "generatedAt": "2026-10-16",
+  "coverageDefinition": "inventoryCoverage 表示范围内每个字都有待复核记录，不表示已取得可计算的康熙笔画。usableStrokeCoverage 只统计 reviewed 且具备非空 strokeCount 的记录。",
+  "generatedGivenNameCharacters": {
+    "expected": 303,
+    "recorded": 303,
+    "inventoryCoveragePercent": 100
+  },
+  "supportedSurnames": {
+    "registry": "src/domain/candidate/nameReading.ts#surnameReadings",
+    "entries": 123,
+    "uniqueCharacters": 132,
+    "recorded": 132,
+    "inventoryCoveragePercent": 100
+  },
+  "combinedInventory": {
+    "uniqueCharacters": 421,
+    "recorded": 421,
+    "inventoryCoveragePercent": 100
+  },
+  "review": {
+    "reviewedCharacters": 0,
+    "researchOnlyCharacters": 421,
+    "usableStrokeCoveragePercent": 0,
+    "missingImageReviewCharacters": 421
+  },
+  "conclusion": "已完整建立 303 个生成用字及 123 个支持姓氏（132 个去重姓氏字）的复核队列；421 个去重字目前均未完成康熙原始影像逐字复核，运行时必须按 unknown 处理。"
+}

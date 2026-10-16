@@ -4,23 +4,18 @@ import { runtimeBundleSchema } from "../../../../src/data/schema/runtimeBundle";
 import type { GeneratedCandidate } from "../../../../src/domain/generation/generateCandidates";
 import { namingProfileSchema } from "../../../../src/domain/project/profile";
 import { evaluateCandidateRules } from "../../../../src/domain/rules/rulePack";
+import { namingProfileFixture } from "../../../fixtures/namingProfile";
 
 const bundle = runtimeBundleSchema.parse(devBundle);
 const profile = namingProfileSchema.parse({
-  projectId: "project-song",
-  surname: "宋",
-  surnameType: "single",
-  givenNameLength: 2,
-  requiredCharacters: [{ char: "清", position: 1 }],
-  generationCharacters: [],
-  avoidCharacters: ["病"],
-  relativeNames: ["宋清扬"],
-  forbiddenCombinations: ["清华"],
-  genderExpression: "unrestricted",
-  styleTags: [],
-  writingComplexity: "balanced",
-  pinyinFriendly: true,
-  folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+  ...namingProfileFixture("project-song"),
+  family: {
+    ...namingProfileFixture("project-song").family,
+    requiredCharacters: [{ char: "清", position: 1 }],
+    avoidCharacters: ["病"],
+    relativeNames: ["宋清扬"],
+    forbiddenCombinations: ["清华"],
+  },
 });
 
 function candidate(givenName: string, pinyin: string[] = []): GeneratedCandidate {
@@ -50,7 +45,7 @@ describe("evaluateCandidateRules", () => {
   it("rejects candidates without reviewed standard-character evidence", () => {
     const evaluation = evaluateCandidateRules({
       candidate: candidate("清𠮷"),
-      profile: { ...profile, relativeNames: [] },
+      profile: { ...profile, family: { ...profile.family, relativeNames: [] } },
       bundle,
     });
 
@@ -69,7 +64,11 @@ describe("evaluateCandidateRules", () => {
   it("validates the surname against the complete official standard-character set", () => {
     const evaluation = evaluateCandidateRules({
       candidate: { ...candidate("清安"), fullName: "𠮷清安" },
-      profile: { ...profile, surname: "𠮷", relativeNames: [] },
+      profile: {
+        ...profile,
+        basics: { ...profile.basics, surname: "𠮷" },
+        family: { ...profile.family, relativeNames: [] },
+      },
       bundle,
     });
 
@@ -112,7 +111,7 @@ describe("evaluateCandidateRules", () => {
   it("keeps reviewed multi-pronunciation risk as a visible L2 warning", () => {
     const evaluation = evaluateCandidateRules({
       candidate: candidate("清行", ["qīng", "xíng"]),
-      profile: { ...profile, relativeNames: [] },
+      profile: { ...profile, family: { ...profile.family, relativeNames: [] } },
       bundle,
     });
 
@@ -147,7 +146,7 @@ describe("evaluateCandidateRules", () => {
 
     const evaluation = evaluateCandidateRules({
       candidate: input,
-      profile: { ...profile, relativeNames: [] },
+      profile: { ...profile, family: { ...profile.family, relativeNames: [] } },
       bundle,
     });
 
@@ -173,7 +172,7 @@ describe("evaluateCandidateRules", () => {
     expect(
       evaluateCandidateRules({
         candidate: input,
-        profile: { ...profile, relativeNames: [] },
+        profile: { ...profile, family: { ...profile.family, relativeNames: [] } },
         bundle,
       }).accepted,
     ).toBe(false);

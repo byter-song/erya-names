@@ -7,25 +7,11 @@ import { generationBatchSchema } from "../../src/domain/generation/batch";
 import { generateCandidates } from "../../src/domain/generation/generateCandidates";
 import { EryaDatabase } from "../../src/infrastructure/database/EryaDatabase";
 import { DexieGenerationRepository } from "../../src/infrastructure/repositories/DexieGenerationRepository";
+import { namingProfileFixture } from "../fixtures/namingProfile";
 it("atomically refuses a second tab's stale batch instead of saving duplicate names", async () => {
   const database = new EryaDatabase(`erya-concurrent-${crypto.randomUUID()}`);
   try {
-    const profile = namingProfileSchema.parse({
-      projectId: "p",
-      surname: "宋",
-      surnameType: "single",
-      givenNameLength: 2,
-      requiredCharacters: [],
-      generationCharacters: [],
-      avoidCharacters: [],
-      relativeNames: [],
-      forbiddenCombinations: [],
-      genderExpression: "unrestricted",
-      styleTags: [],
-      writingComplexity: "balanced",
-      pinyinFriendly: false,
-      folklore: { enabled: false, usefulElements: [], includeInRanking: false },
-    });
+    const profile = namingProfileSchema.parse(namingProfileFixture("p"));
     const bundle = runtimeBundleSchema.parse(devBundle);
     const generated = generateCandidates({
       profile,

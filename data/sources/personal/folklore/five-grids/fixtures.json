@@ -1,0 +1,66 @@
+[
+  {
+    "id": "five-grids-four-name-structures",
+    "moduleId": "five_grids",
+    "schoolId": "kumasaki-five-grid-1930-ndl-v1",
+    "ruleVersion": "1.0.0",
+    "title": "四种姓氏和名字结构使用固定产品公式",
+    "input": {
+      "cases": [
+        {
+          "surname": [7],
+          "given": [8, 5]
+        },
+        {
+          "surname": [7],
+          "given": [8]
+        },
+        {
+          "surname": [9, 7],
+          "given": [8, 5]
+        },
+        {
+          "surname": [9, 7],
+          "given": [8]
+        }
+      ]
+    },
+    "expected": {
+      "status": "pass",
+      "facts": {
+        "values": [
+          [8, 15, 13, 6, 20],
+          [8, 15, 9, 2, 15],
+          [16, 15, 13, 14, 29],
+          [16, 15, 9, 10, 24]
+        ]
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "erya-five-grid-product-convention",
+        "pageOrSection": "technical-design.md §5.7 五格公式"
+      }
+    ]
+  },
+  {
+    "id": "five-grids-number-meaning-unreviewed",
+    "moduleId": "five_grids",
+    "schoolId": "kumasaki-five-grid-1930-ndl-v1",
+    "ruleVersion": "1.0.0",
+    "title": "81 数标签没有影像页复核时保持未知",
+    "input": {
+      "number": 24
+    },
+    "expected": {
+      "status": "unknown",
+      "uncertainty": "原始标签与分类尚未逐页复核。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "ndl-kumasaki-1930",
+        "pageOrSection": "数字影像具体页码待逐条复核"
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "moduleId": "name_hexagram",
+  "schoolId": "meihua-name-stroke-erya-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "research_only",
+  "sourceIds": ["meihua-yishu-ctext", "erya-hexagram-product-convention"],
+  "applicableInputs": ["surnameKangxiStrokes", "givenNameKangxiStrokes"],
+  "checksum": "sha256:e5e1952f6737784275d800ecb84a624f36b1dc1512d87270e93344b7d64f3b38",
+  "sources": [
+    {
+      "id": "meihua-yishu-ctext",
+      "title": "梅花易数（中国哲学书电子化计划传本文本）",
+      "locator": "https://ctext.org/wiki.pl?chapter=957339&if=gb&remap=gb",
+      "pageOrSection": "卷一：卦以八除、爻以六除及字占相关条目；原始影像页待复核",
+      "verificationStatus": "unverified",
+      "notes": "网页传本文本用于定位，尚未对照古籍影印；不把尔雅姓名公式宣称为古籍原句。"
+    },
+    {
+      "id": "erya-hexagram-product-convention",
+      "title": "尔雅民俗起名技术设计",
+      "locator": "specs/20261016-folklore-naming/technical-design.md",
+      "pageOrSection": "§5.6 姓名卦象",
+      "verificationStatus": "official",
+      "notes": "产品公式与扣分映射，和古籍来源边界分开记录。"
+    }
+  ]
+}

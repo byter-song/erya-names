@@ -1,6 +1,12 @@
-import type { BackupRepository } from "../../application/ports/BackupRepository";
 import { backupPayloadSchema, type BackupPayload } from "../../application/backup/backupSchema";
+import type {
+  BackupConflictStrategy,
+  BackupImportAction,
+  BackupRepository,
+} from "../../application/ports/BackupRepository";
 import type { EryaDatabase } from "../database/EryaDatabase";
+
+const metadataPrefix = (projectId: string) => `project:${projectId}:`;
 
 export class DexieBackupRepository implements BackupRepository {
   constructor(
@@ -12,65 +18,68 @@ export class DexieBackupRepository implements BackupRepository {
     return (await this.database.projects.get(projectId)) !== undefined;
   }
 
-  async exportProject(projectId: string): Promise<unknown | undefined> {
+  async exportProject(projectId: string): Promise<BackupPayload | undefined> {
     const project = await this.database.projects.get(projectId);
     if (!project) return undefined;
 
     const [
-      profiles,
-      generationBatches,
-      candidates,
-      candidateDecisions,
-      decisionHistory,
-      candidateEvaluations,
-      comparisonSnapshots,
-      finalDecisions,
-    ] = await Promise.all([
-      this.database.profiles.where("projectId").equals(projectId).toArray(),
-      this.database.generationBatches.where("projectId").equals(projectId).toArray(),
-      this.database.candidates.where("projectId").equals(projectId).toArray(),
-      this.database.candidateDecisions.where("projectId").equals(projectId).toArray(),
-      this.database.decisionHistory.where("projectId").equals(projectId).toArray(),
-      this.database.candidateEvaluations.where("projectId").equals(projectId).toArray(),
-      this.database.comparisonSnapshots.where("projectId").equals(projectId).toArray(),
-      this.database.finalDecisions.where("projectId").equals(projectId).toArray(),
-    ]);
-    const candidateIds = candidates.map((candidate) => candidate.id);
-    const [candidateSources, ruleResults] =
-      candidateIds.length > 0
-        ? await Promise.all([
-            this.database.candidateSources.where("candidateId").anyOf(candidateIds).toArray(),
-            this.database.ruleResults.where("candidateId").anyOf(candidateIds).toArray(),
-          ])
-        : [[], []];
-
-    return {
-      projectId,
-      projects: [project],
-      profiles,
+      profile,
       generationBatches,
       candidates,
       candidateSources,
-      ruleResults,
       candidateDecisions,
       decisionHistory,
       candidateEvaluations,
-      comparisonSnapshots,
-      finalDecisions,
-    };
+      projectAssessments,
+      ruleEvidence,
+      candidateScores,
+      assessmentRun,
+      appMetadata,
+    ] = await Promise.all([
+      this.database.profiles.get(projectId),
+      this.database.generationBatches.where("projectId").equals(projectId).toArray(),
+      this.database.candidates.where("projectId").equals(projectId).toArray(),
+      this.database.candidateSources.where("projectId").equals(projectId).toArray(),
+      this.database.candidateDecisions.where("projectId").equals(projectId).toArray(),
+      this.database.decisionHistory.where("projectId").equals(projectId).toArray(),
+      this.database.candidateEvaluations.where("projectId").equals(projectId).toArray(),
+      this.database.projectAssessments.where("projectId").equals(projectId).toArray(),
+      this.database.ruleEvidence.where("projectId").equals(projectId).toArray(),
+      this.database.candidateScores.where("projectId").equals(projectId).toArray(),
+      this.database.assessmentRuns.get(projectId),
+      this.database.appMetadata.where("key").startsWith(metadataPrefix(projectId)).toArray(),
+    ]);
+    if (!profile) throw new Error("project-profile-not-found");
+
+    return backupPayloadSchema.parse({
+      projectId,
+      projects: [project],
+      profiles: [profile],
+      generationBatches,
+      candidates,
+      candidateSources,
+      candidateDecisions,
+      decisionHistory,
+      candidateEvaluations,
+      projectAssessments,
+      ruleEvidence,
+      candidateScores,
+      assessmentRuns: assessmentRun ? [assessmentRun] : [],
+      appMetadata,
+    });
   }
 
   async importProject(
-    input: unknown,
+    input: BackupPayload,
     options: {
-      strategy: "keep-current" | "replace" | "import-copy";
+      strategy: BackupConflictStrategy;
       copyProjectId?: string;
     },
-  ): Promise<{ projectId: string; action: "kept" | "replaced" | "imported" }> {
+  ): Promise<{ projectId: string; action: BackupImportAction }> {
     const payload = backupPayloadSchema.parse(input);
-    if (options.strategy === "keep-current") {
+    if (options.strategy === "keep-current")
       return { projectId: payload.projectId, action: "kept" };
-    }
+
     const restored =
       options.strategy === "import-copy"
         ? remapProject(payload, options.copyProjectId ?? "")
@@ -82,12 +91,14 @@ export class DexieBackupRepository implements BackupRepository {
       this.database.generationBatches,
       this.database.candidates,
       this.database.candidateSources,
-      this.database.ruleResults,
       this.database.candidateDecisions,
       this.database.decisionHistory,
       this.database.candidateEvaluations,
-      this.database.comparisonSnapshots,
-      this.database.finalDecisions,
+      this.database.projectAssessments,
+      this.database.ruleEvidence,
+      this.database.candidateScores,
+      this.database.assessmentRuns,
+      this.database.appMetadata,
     ];
 
     await this.database.transaction("rw", tables, async () => {
@@ -111,28 +122,26 @@ export class DexieBackupRepository implements BackupRepository {
           }),
         ),
       );
-      await this.database.ruleResults.bulkPut(
-        restored.ruleResults.map(({ scoreDelta, ...record }) => ({
-          ...record,
-          ...(scoreDelta !== undefined ? { scoreDelta } : {}),
-        })),
-      );
       await this.database.candidateDecisions.bulkPut(restored.candidateDecisions);
       await this.database.decisionHistory.bulkPut(
-        restored.decisionHistory.map(({ id, ...record }) => ({
-          ...record,
-          ...(id !== undefined ? { id } : {}),
-        })),
+        restored.decisionHistory.map(
+          ({ projectId, candidateId, from, to, action, exclusionReason, changedAt }) => ({
+            projectId,
+            candidateId,
+            from,
+            to,
+            action,
+            changedAt,
+            ...(exclusionReason !== undefined ? { exclusionReason } : {}),
+          }),
+        ),
       );
-      await this.database.candidateEvaluations.bulkPut(
-        restored.candidateEvaluations.map(({ rating, note, ...record }) => ({
-          ...record,
-          ...(rating !== undefined ? { rating } : {}),
-          ...(note !== undefined ? { note } : {}),
-        })),
-      );
-      await this.database.comparisonSnapshots.bulkPut(restored.comparisonSnapshots);
-      await this.database.finalDecisions.bulkPut(restored.finalDecisions);
+      await this.database.candidateEvaluations.bulkPut(restored.candidateEvaluations);
+      await this.database.projectAssessments.bulkPut(restored.projectAssessments);
+      await this.database.ruleEvidence.bulkPut(restored.ruleEvidence);
+      await this.database.candidateScores.bulkPut(restored.candidateScores);
+      await this.database.assessmentRuns.bulkPut(restored.assessmentRuns);
+      await this.database.appMetadata.bulkPut(restored.appMetadata);
     });
 
     return {
@@ -142,25 +151,20 @@ export class DexieBackupRepository implements BackupRepository {
   }
 
   private async deleteProjectRecords(projectId: string): Promise<void> {
-    const candidates = await this.database.candidates
-      .where("projectId")
-      .equals(projectId)
-      .toArray();
-    const candidateIds = candidates.map((candidate) => candidate.id);
-    if (candidateIds.length > 0) {
-      await this.database.candidateSources.where("candidateId").anyOf(candidateIds).delete();
-      await this.database.ruleResults.where("candidateId").anyOf(candidateIds).delete();
-    }
     await Promise.all([
       this.database.projects.delete(projectId),
       this.database.profiles.delete(projectId),
       this.database.generationBatches.where("projectId").equals(projectId).delete(),
       this.database.candidates.where("projectId").equals(projectId).delete(),
+      this.database.candidateSources.where("projectId").equals(projectId).delete(),
       this.database.candidateDecisions.where("projectId").equals(projectId).delete(),
       this.database.decisionHistory.where("projectId").equals(projectId).delete(),
       this.database.candidateEvaluations.where("projectId").equals(projectId).delete(),
-      this.database.comparisonSnapshots.where("projectId").equals(projectId).delete(),
-      this.database.finalDecisions.where("projectId").equals(projectId).delete(),
+      this.database.projectAssessments.where("projectId").equals(projectId).delete(),
+      this.database.ruleEvidence.where("projectId").equals(projectId).delete(),
+      this.database.candidateScores.where("projectId").equals(projectId).delete(),
+      this.database.assessmentRuns.delete(projectId),
+      this.database.appMetadata.where("key").startsWith(metadataPrefix(projectId)).delete(),
     ]);
   }
 }
@@ -168,81 +172,90 @@ export class DexieBackupRepository implements BackupRepository {
 function remapProject(payload: BackupPayload, newProjectId: string): BackupPayload {
   if (!newProjectId) throw new Error("copy-project-id-required");
   const remapId = (id: string) => `${newProjectId}:${id}`;
-  const batches = new Map(
-    payload.generationBatches.map((record) => [record.id, remapId(record.id)]),
-  );
-  const candidates = new Map(
-    payload.candidates.map((record) => [record.id, remapId(record.id)]),
-  );
-  const mapCandidateId = (candidateId: string) => candidates.get(candidateId) ?? candidateId;
+  const batchIds = new Map(payload.generationBatches.map(({ id }) => [id, remapId(id)]));
+  const candidateIds = new Map(payload.candidates.map(({ id }) => [id, remapId(id)]));
+  const candidateId = (id: string) => candidateIds.get(id) ?? id;
+  const oldMetadataPrefix = metadataPrefix(payload.projectId);
 
-  return {
+  return backupPayloadSchema.parse({
     projectId: newProjectId,
-    projects: payload.projects.map((record) => ({
-      ...record,
+    projects: payload.projects.map((project) => ({
+      ...project,
       id: newProjectId,
-      title: `${String(record.title ?? "导入方案")}（副本）`,
+      title: `${project.title}（副本）`,
     })),
-    profiles: payload.profiles.map((record) => ({ ...record, projectId: newProjectId })),
-    generationBatches: payload.generationBatches.map((record) => ({
-      ...record,
+    profiles: payload.profiles.map((profile) => ({
+      ...profile,
       projectId: newProjectId,
-      id: batches.get(record.id) ?? record.id,
-      profileSnapshot: { ...record.profileSnapshot, projectId: newProjectId },
     })),
-    candidates: payload.candidates.map((record) => ({
-      ...record,
+    generationBatches: payload.generationBatches.map((batch) => ({
+      ...batch,
+      id: batchIds.get(batch.id) ?? batch.id,
       projectId: newProjectId,
-      id: candidates.get(record.id) ?? record.id,
-      batchId: record.batchId ? (batches.get(record.batchId) ?? record.batchId) : null,
+      profileSnapshot: { ...batch.profileSnapshot, projectId: newProjectId },
     })),
-    candidateSources: payload.candidateSources.map((record) => ({
-      ...record,
+    candidates: payload.candidates.map((candidate) => ({
+      ...candidate,
+      id: candidateId(candidate.id),
       projectId: newProjectId,
-      ...(typeof record.candidateId === "string"
-        ? { candidateId: mapCandidateId(record.candidateId) }
-        : {}),
-      id: remapId(record.id),
+      batchId:
+        candidate.batchId === null
+          ? null
+          : (batchIds.get(candidate.batchId) ?? candidate.batchId),
     })),
-    ruleResults: payload.ruleResults.map((record) => ({
-      ...record,
+    candidateSources: payload.candidateSources.map((source) => ({
+      ...source,
+      id: remapId(source.id),
       projectId: newProjectId,
-      candidateId: mapCandidateId(record.candidateId),
-      id: remapId(record.id),
+      candidateId: candidateId(source.candidateId),
     })),
-    candidateDecisions: payload.candidateDecisions.map((record) => ({
-      ...record,
+    candidateDecisions: payload.candidateDecisions.map((decision) => ({
+      ...decision,
       projectId: newProjectId,
-      candidateId: mapCandidateId(record.candidateId),
+      candidateId: candidateId(decision.candidateId),
     })),
-    decisionHistory: payload.decisionHistory.map((record) => {
-      const withoutId = { ...record };
-      delete withoutId.id;
-      return {
-        ...withoutId,
+    decisionHistory: payload.decisionHistory.map(
+      ({ candidateId: oldCandidateId, from, to, action, exclusionReason, changedAt }) => ({
         projectId: newProjectId,
-        candidateId: mapCandidateId(record.candidateId),
-      };
-    }),
-    candidateEvaluations: payload.candidateEvaluations.map((record) => ({
-      ...record,
+        candidateId: candidateId(oldCandidateId),
+        from,
+        to,
+        action,
+        changedAt,
+        ...(exclusionReason !== undefined ? { exclusionReason } : {}),
+      }),
+    ),
+    candidateEvaluations: payload.candidateEvaluations.map((evaluation) => ({
+      ...evaluation,
       projectId: newProjectId,
-      candidateId: mapCandidateId(record.candidateId),
+      candidateId: candidateId(evaluation.candidateId),
     })),
-    comparisonSnapshots: payload.comparisonSnapshots.map((record) => ({
-      ...record,
+    projectAssessments: payload.projectAssessments.map((assessment) => ({
+      ...assessment,
+      id: remapId(assessment.id),
       projectId: newProjectId,
-      id: remapId(record.id),
-      candidateIds: record.candidateIds.map(mapCandidateId),
-      candidates: record.candidates.map((candidate) => ({
-        ...candidate,
-        id: mapCandidateId(candidate.id),
-      })),
     })),
-    finalDecisions: payload.finalDecisions.map((record) => ({
-      ...record,
+    ruleEvidence: payload.ruleEvidence.map((evidence) => ({
+      ...evidence,
+      id: remapId(evidence.id),
       projectId: newProjectId,
-      selectedCandidateId: mapCandidateId(record.selectedCandidateId),
+      candidateId: candidateId(evidence.candidateId),
     })),
-  };
+    candidateScores: payload.candidateScores.map((score) => ({
+      ...score,
+      projectId: newProjectId,
+      candidateId: candidateId(score.candidateId),
+    })),
+    assessmentRuns: payload.assessmentRuns.map((run) => ({
+      ...run,
+      projectId: newProjectId,
+      runId: remapId(run.runId),
+    })),
+    appMetadata: payload.appMetadata.map((metadata) => ({
+      ...metadata,
+      key: metadata.key.startsWith(oldMetadataPrefix)
+        ? metadataPrefix(newProjectId) + metadata.key.slice(oldMetadataPrefix.length)
+        : remapId(metadata.key),
+    })),
+  });
 }

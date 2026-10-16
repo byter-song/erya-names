@@ -1,11 +1,10 @@
-import type { GeneratedCandidate } from "../../domain/generation/generateCandidates";
 import type { GenerationBatch } from "../../domain/generation/batch";
 import type { CandidateDecision } from "../../domain/candidate/decision";
-import type { CandidateRuleResult } from "../../domain/rules/types";
+import type { CandidateSourceEvidence } from "../../domain/candidate/sourceEvidence";
+import type { Candidate } from "../../domain/candidate/candidate";
 
-export interface PersistedGeneratedCandidate extends GeneratedCandidate {
-  batchId: string;
-  createdAt: string;
+export interface PersistedGeneratedCandidate extends Candidate {
+  sourceEvidence: CandidateSourceEvidence[];
 }
 
 export interface GenerationRepository {
@@ -13,15 +12,12 @@ export interface GenerationRepository {
   countBatches(projectId: string): Promise<number>;
   listCandidates(
     projectId: string,
-    stages?: CandidateDecision["stage"][],
+    pools?: CandidateDecision["pool"][],
   ): Promise<
     Array<{
-      candidate: PersistedGeneratedCandidate;
+      candidate: Candidate;
       decision: CandidateDecision;
-      warnings: CandidateRuleResult[];
-      systemScore: number;
-      scoreEvidence: CandidateRuleResult[];
-      ruleEvidence: CandidateRuleResult[];
+      sources: CandidateSourceEvidence[];
     }>
   >;
   saveCompletedBatch(input: {

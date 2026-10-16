@@ -38,20 +38,8 @@ describe("system match score", () => {
     expect(calculateSystemScore([createSystemScoreBaseRule(), scoreRule(100)])).toBe(100);
   });
 
-  it("uses a compatibility base and applies legacy full-name-1 only once", () => {
-    const legacyWarning = scoreRule(0, {
-      evidenceLevel: "L2",
-      outcome: "warn",
-      ruleId: "l2-full-name-homophone",
-      ruleVersion: "full-name-1",
-    });
-    const evidence = getSystemScoreEvidence([legacyWarning, legacyWarning]);
-
-    expect(calculateSystemScore([legacyWarning, legacyWarning])).toBe(52);
-    expect(evidence.filter((rule) => rule.ruleId === "l2-full-name-homophone")).toEqual([
-      expect.objectContaining({ scoreDelta: -8 }),
-    ]);
-    expect(evidence[0]).toMatchObject({ ruleId: "l3-score-base", scoreDelta: 60 });
+  it("rejects candidates that do not carry the current persisted base rule", () => {
+    expect(() => calculateSystemScore([scoreRule(5)])).toThrow("system-score-base-missing");
   });
 
   it("stores a visible negative delta for newly detected full-name homophones", () => {
@@ -74,7 +62,7 @@ describe("system match score", () => {
     expect(calculateSystemScore([createSystemScoreBaseRule(), scoreRule(5), folklore])).toBe(
       65,
     );
-    expect(getSystemScoreEvidence([folklore])).not.toContainEqual(
+    expect(getSystemScoreEvidence([createSystemScoreBaseRule(), folklore])).not.toContainEqual(
       expect.objectContaining({ evidenceLevel: "L4" }),
     );
   });

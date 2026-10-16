@@ -1,0 +1,48 @@
+[
+  {
+    "id": "hexagram-zero-remainders",
+    "moduleId": "name_hexagram",
+    "schoolId": "meihua-name-stroke-erya-v1",
+    "ruleVersion": "1.0.0",
+    "title": "八余数与六余数为零时分别映射为八和六",
+    "input": {
+      "surnameStrokes": [8],
+      "givenNameStrokes": [8, 8]
+    },
+    "expected": {
+      "status": "pass",
+      "facts": {
+        "upperTrigramNumber": 8,
+        "lowerTrigramNumber": 8,
+        "movingLine": 6
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "erya-hexagram-product-convention",
+        "pageOrSection": "technical-design.md §5.6 公式 1–4"
+      }
+    ]
+  },
+  {
+    "id": "hexagram-missing-reviewed-stroke",
+    "moduleId": "name_hexagram",
+    "schoolId": "meihua-name-stroke-erya-v1",
+    "ruleVersion": "1.0.0",
+    "title": "任一康熙笔画未复核时不猜测卦象",
+    "input": {
+      "fullName": "宋𠮷安",
+      "reviewedStrokeCharacters": ["宋", "安"]
+    },
+    "expected": {
+      "status": "unknown",
+      "uncertainty": "𠮷没有 reviewed 康熙笔画。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "erya-hexagram-product-convention",
+        "pageOrSection": "technical-design.md §5.6 缺失笔画约束"
+      }
+    ]
+  }
+]

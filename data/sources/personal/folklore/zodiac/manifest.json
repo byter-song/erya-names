@@ -1,0 +1,31 @@
+{
+  "moduleId": "zodiac",
+  "schoolId": "zodiac-radical-hints-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "reviewed",
+  "reviewedAt": "2026-10-16",
+  "reviewedBy": "erya-maintainer",
+  "epistemicStatus": "school_specific",
+  "uncertainty": "生肖字根属于流派性提示，同一字根可能存在相反解释；只对规则包明确列出的例字做软提示，正向不加分、负向不筛除候选。",
+  "sourceIds": ["wikiversity-zodiac-naming", "sohu-zodiac-bazi-comparison"],
+  "applicableInputs": ["zodiacConvention", "zodiac", "givenNameCharacters"],
+  "checksum": "sha256:727879527016622910a0de8288b43ec1193efc54bcd13eaeb5a02694508a77be",
+  "sources": [
+    {
+      "id": "wikiversity-zodiac-naming",
+      "title": "维基学院：生肖姓名学",
+      "locator": "https://zh.wikiversity.org/wiki/%E7%94%9F%E8%82%96%E5%A7%93%E5%90%8D%E5%AD%B8",
+      "pageOrSection": "生肖字根、隐藏字根、喜忌字根",
+      "verificationStatus": "image_checked",
+      "notes": "已核对页面的生肖字根条目；开放编辑、繁体字形与流派差异继续作为不确定性展示，不把页面内容表述为权威标准。"
+    },
+    {
+      "id": "sohu-zodiac-bazi-comparison",
+      "title": "生肖姓名与八字起名对比文章",
+      "locator": "https://www.sohu.com/a/1079791290_120750411",
+      "pageOrSection": "生肖偏旁喜忌示例及“八字为主、生肖为辅”的说明",
+      "verificationStatus": "unverified",
+      "notes": "自动复核时页面读取超时，且属于平台自媒体内容；龙与辶的示例只保留为 disputed 研究规则。"
+    }
+  ]
+}

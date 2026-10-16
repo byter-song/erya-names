@@ -1,150 +1,160 @@
-import { z, type Infer } from "../shared/zod";
 import { validateBirthDateTime } from "../folklore/birthDate";
+import { z, type Infer } from "../shared/zod";
 
 const nonEmptyText = z.string().trim().min(1);
 const singleCharacter = z.string().trim().length(1);
+const elementSchema = z.enum(["wood", "fire", "earth", "metal", "water"]);
+
+export const folkloreModuleIdSchema = z.enum([
+  "bazi_wuxing",
+  "zodiac",
+  "traditional",
+  "name_hexagram",
+  "five_grids",
+]);
+
+export const folkloreModuleConfigSchema = z
+  .object({
+    analysisEnabled: z.boolean(),
+    detailsVisible: z.boolean(),
+    weight: z.number().min(0).max(100),
+    schoolId: nonEmptyText,
+    ruleVersion: nonEmptyText,
+  })
+  .superRefine((module, context) => {
+    if (module.analysisEnabled && module.weight === 0)
+      context.addIssue({
+        code: "custom",
+        message: "启用分析的模块权重必须大于 0",
+        path: ["weight"],
+      });
+  });
+
+const relativeAvoidanceSchema = z.object({
+  fullName: nonEmptyText.max(20).regex(/^\p{Script=Han}+$/u, "亲属姓名请使用汉字"),
+  givenName: z
+    .string()
+    .trim()
+    .max(4)
+    .regex(/^\p{Script=Han}*$/u, "亲属的名请使用汉字"),
+  mode: z.enum(["whole-name", "same-character", "same-sound"]),
+  pinyin: z.array(z.string().trim().min(1).max(20)).max(4),
+});
+
+const basicsSchema = z.object({
+  surname: nonEmptyText.max(4).regex(/^\p{Script=Han}+$/u, "姓氏请使用汉字"),
+  surnamePinyin: z.string().trim().max(80).optional(),
+  surnameType: z.enum(["single", "compound", "combined_parental"]),
+  givenNameLength: z.union([z.literal(1), z.literal(2)]),
+  childGender: z.enum(["male", "female", "unknown"]).optional(),
+  genderExpression: z.enum(["unrestricted", "neutral", "masculine", "feminine"]),
+  styleTags: z.array(nonEmptyText),
+  dialectNotes: z.string().trim().max(500).optional(),
+  writingComplexity: z.enum(["simple", "balanced", "unrestricted"]),
+  pinyinFriendly: z.boolean(),
+});
+
+const familySchema = z.object({
+  constraintKnowledge: z.enum(["present", "none", "unknown"]),
+  requiredCharacters: z.array(
+    z.object({
+      char: singleCharacter,
+      position: z.union([z.literal(1), z.literal(2), z.literal("any")]),
+    }),
+  ),
+  generationCharacters: z.array(singleCharacter),
+  avoidCharacters: z.array(singleCharacter),
+  relativeNames: z.array(nonEmptyText),
+  relativeAvoidances: z.array(relativeAvoidanceSchema).max(30).optional(),
+  forbiddenCombinations: z.array(nonEmptyText),
+});
+
+const inspirationSchema = z.object({
+  sources: z.array(z.enum(["poetry", "modern", "historical"])).min(1),
+});
+
+const calendarSchema = z.object({
+  birthLocalDateTime: z.string().optional(),
+  timeKnown: z.boolean(),
+  timeZone: nonEmptyText,
+  dayBoundary: z.enum(["midnight", "zi"]),
+  zodiacConvention: z.enum(["lunar", "pillar"]),
+  trueSolarTimeCorrection: z.literal("not_applied").default("not_applied"),
+  historicalDstCorrection: z.literal("not_applied").default("not_applied"),
+});
+
+const usefulGodDecisionSchema = z.object({
+  confirmedElements: z.array(elementSchema).min(1),
+  confirmedAt: z.iso.datetime(),
+  note: z.string().trim().max(500).optional(),
+});
 
 export const namingProfileSchema = z
   .object({
     projectId: nonEmptyText,
-    surname: nonEmptyText.max(4).regex(/^\p{Script=Han}+$/u, "姓氏请使用汉字"),
-    surnamePinyin: z.string().trim().max(80).optional(),
-    surnameType: z.enum(["single", "compound", "combined_parental"]),
-    givenNameLength: z.union([z.literal(1), z.literal(2)]),
-    childGender: z.enum(["male", "female", "unknown"]).optional(),
-    constraintKnowledge: z.enum(["present", "none", "unknown"]).optional(),
-    requiredCharacters: z.array(
-      z.object({
-        char: singleCharacter,
-        position: z.union([z.literal(1), z.literal(2), z.literal("any")]),
-      }),
-    ),
-    generationCharacters: z.array(singleCharacter),
-    avoidCharacters: z.array(singleCharacter),
-    relativeNames: z.array(nonEmptyText),
-    relativeAvoidances: z
-      .array(
-        z.object({
-          fullName: nonEmptyText.max(20).regex(/^\p{Script=Han}+$/u, "亲属姓名请使用汉字"),
-          givenName: z
-            .string()
-            .trim()
-            .max(4)
-            .regex(/^\p{Script=Han}*$/u, "亲属的名请使用汉字"),
-          mode: z.enum(["whole-name", "same-character", "same-sound"]),
-          pinyin: z.array(z.string().trim().min(1).max(20)).max(4),
-        }),
-      )
-      .max(30)
-      .optional(),
-    forbiddenCombinations: z.array(nonEmptyText),
-    genderExpression: z.enum(["unrestricted", "neutral", "masculine", "feminine"]),
-    styleTags: z.array(nonEmptyText),
-    dialectNotes: z.string().trim().max(500).optional(),
-    writingComplexity: z.enum(["simple", "balanced", "unrestricted"]),
-    pinyinFriendly: z.boolean(),
-    inspirationSources: z
-      .array(z.enum(["poetry", "modern", "historical"]))
-      .min(1)
-      .optional(),
-    folklore: z.object({
-      zodiacConvention: z.enum(["lunar", "pillar"]).optional(),
-      zodiacRules: z
-        .array(
-          z.object({
-            zodiac: z.enum([
-              "鼠",
-              "牛",
-              "虎",
-              "兔",
-              "龙",
-              "蛇",
-              "马",
-              "羊",
-              "猴",
-              "鸡",
-              "狗",
-              "猪",
-            ]),
-            characters: z
-              .string()
-              .trim()
-              .min(1)
-              .max(100)
-              .regex(/^\p{Script=Han}+$/u, "请逐字填写汉字"),
-            position: z.enum(["start", "any"]),
-            explanation: z.string().trim().min(1).max(300),
-            source: z.string().trim().min(1).max(300),
-          }),
-        )
-        .max(30)
-        .optional(),
-      enabled: z.boolean(),
-      dayBoundary: z.enum(["midnight", "zi"]).optional(),
-      timeKnown: z.boolean().optional(),
-      birthLocalDateTime: z.string().optional(),
-      timeZone: z.string().optional(),
-      usefulElements: z.array(z.enum(["wood", "fire", "earth", "metal", "water"])),
-      includeInRanking: z.boolean(),
+    configRevision: z.number().int().nonnegative(),
+    basics: basicsSchema,
+    family: familySchema,
+    inspiration: inspirationSchema,
+    calendar: calendarSchema,
+    modules: z.object({
+      bazi_wuxing: folkloreModuleConfigSchema,
+      zodiac: folkloreModuleConfigSchema,
+      traditional: folkloreModuleConfigSchema,
+      name_hexagram: folkloreModuleConfigSchema,
+      five_grids: folkloreModuleConfigSchema,
     }),
+    scoring: z.object({
+      presetId: nonEmptyText,
+      presetVersion: nonEmptyText,
+      basicWeight: z.number().min(0).max(100),
+    }),
+    usefulGodDecision: usefulGodDecisionSchema.optional(),
   })
   .superRefine((profile, context) => {
-    if (profile.surnameType === "single" && [...profile.surname].length !== 1)
+    const { basics, family, calendar } = profile;
+    if (basics.surnameType === "single" && [...basics.surname].length !== 1)
       context.addIssue({
         code: "custom",
         message: "单姓应为一个汉字，复姓请选择相应结构",
-        path: ["surname"],
+        path: ["basics", "surname"],
       });
-    const positions = profile.requiredCharacters.filter((item) => item.position !== "any");
+
+    const fixedPositions = family.requiredCharacters.filter((item) => item.position !== "any");
     if (
-      positions.some((item, i) =>
-        positions
-          .slice(i + 1)
+      fixedPositions.some((item, index) =>
+        fixedPositions
+          .slice(index + 1)
           .some((other) => other.position === item.position && other.char !== item.char),
       )
     )
       context.addIssue({
         code: "custom",
         message: "同一位置不能指定不同的字",
-        path: ["requiredCharacters"],
+        path: ["family", "requiredCharacters"],
       });
-    if (profile.folklore.enabled && profile.folklore.birthLocalDateTime) {
-      const error = validateBirthDateTime(
-        profile.folklore.birthLocalDateTime,
-        profile.folklore.timeKnown !== false,
-      );
-      if (error)
-        context.addIssue({
-          code: "custom",
-          message: error,
-          path: ["folklore", "birthLocalDateTime"],
-        });
-      if (profile.folklore.timeZone && profile.folklore.timeZone !== "Asia/Shanghai")
-        context.addIssue({
-          code: "custom",
-          message: "请选择中国标准时间 Asia/Shanghai",
-          path: ["folklore", "timeZone"],
-        });
-    }
-    if (profile.requiredCharacters.some(({ char }) => profile.avoidCharacters.includes(char)))
+
+    if (family.requiredCharacters.some(({ char }) => family.avoidCharacters.includes(char)))
       context.addIssue({
         code: "custom",
         message: "指定字与避字不能冲突",
-        path: ["requiredCharacters"],
+        path: ["family", "requiredCharacters"],
       });
+
     if (
-      profile.constraintKnowledge === "present" &&
-      profile.requiredCharacters.length === 0 &&
-      profile.avoidCharacters.length === 0 &&
-      profile.relativeNames.length === 0 &&
-      !profile.relativeAvoidances?.length
+      family.constraintKnowledge === "present" &&
+      family.requiredCharacters.length === 0 &&
+      family.avoidCharacters.length === 0 &&
+      family.relativeNames.length === 0 &&
+      !family.relativeAvoidances?.length
     )
       context.addIssue({
         code: "custom",
         message: "请至少填写一项必须遵守的字辈或避讳",
-        path: ["constraintKnowledge"],
+        path: ["family", "constraintKnowledge"],
       });
-    profile.relativeAvoidances?.forEach((rule, index) => {
+
+    family.relativeAvoidances?.forEach((rule, index) => {
       if (
         rule.mode !== "whole-name" &&
         (!rule.givenName || !rule.fullName.endsWith(rule.givenName))
@@ -152,7 +162,7 @@ export const namingProfileSchema = z
         context.addIssue({
           code: "custom",
           message: "请明确填写亲属姓名中不含姓氏的名",
-          path: ["relativeAvoidances", index, "givenName"],
+          path: ["family", "relativeAvoidances", index, "givenName"],
         });
       if (
         rule.mode === "same-sound" &&
@@ -163,35 +173,47 @@ export const namingProfileSchema = z
       )
         context.addIssue({
           code: "custom",
-          message: "同音避讳请按亲属的名逐字填写普通话拼音，以空格分隔",
-          path: ["relativeAvoidances", index, "pinyin"],
+          message: "同音避讳请按亲属的名逐字填写普通话拼音",
+          path: ["family", "relativeAvoidances", index, "pinyin"],
         });
     });
+
     if (
-      new Set(profile.requiredCharacters.map((item) => item.char)).size >
-      profile.givenNameLength
+      new Set(family.requiredCharacters.map((item) => item.char)).size > basics.givenNameLength
     )
       context.addIssue({
         code: "custom",
         message: "指定字数量超过名字长度",
-        path: ["requiredCharacters"],
+        path: ["family", "requiredCharacters"],
       });
     if (
-      profile.givenNameLength === 1 &&
-      profile.requiredCharacters.some((requirement) => requirement.position === 2)
-    ) {
+      basics.givenNameLength === 1 &&
+      family.requiredCharacters.some((requirement) => requirement.position === 2)
+    )
       context.addIssue({
         code: "custom",
         message: "一字名不能把指定字固定在第二位",
-        path: ["requiredCharacters"],
+        path: ["family", "requiredCharacters"],
       });
+
+    if (calendar.birthLocalDateTime) {
+      const error = validateBirthDateTime(calendar.birthLocalDateTime, calendar.timeKnown);
+      if (error)
+        context.addIssue({
+          code: "custom",
+          message: error,
+          path: ["calendar", "birthLocalDateTime"],
+        });
     }
   });
 
+export type FolkloreModuleId = Infer<typeof folkloreModuleIdSchema>;
+export type FolkloreModuleConfig = Infer<typeof folkloreModuleConfigSchema>;
 export type NamingProfile = Infer<typeof namingProfileSchema>;
+export type NamingProfileDraft = Omit<NamingProfile, "projectId" | "configRevision">;
 
 export function familyRulesArePending(
-  profile: Pick<NamingProfile, "constraintKnowledge">,
+  family: Pick<NamingProfile["family"], "constraintKnowledge">,
 ): boolean {
-  return profile.constraintKnowledge !== "present" && profile.constraintKnowledge !== "none";
+  return family.constraintKnowledge !== "present" && family.constraintKnowledge !== "none";
 }

@@ -1,59 +1,67 @@
 import { describe, expect, it } from "vitest";
+import type { CandidatePool } from "../../../src/domain/candidate/decision";
 import { GetProjectJourneyView } from "../../../src/application/use-cases/GetProjectJourneyView";
-import type { ProjectRepository } from "../../../src/application/ports/ProjectRepository";
 import type { GenerationRepository } from "../../../src/application/ports/GenerationRepository";
+import type { ProjectRepository } from "../../../src/application/ports/ProjectRepository";
+import { namingProfileFixture } from "../../fixtures/namingProfile";
 
 function createUseCase(
-  stages: string[],
-  constraintKnowledge: "none" | "unknown",
-  folkloreReviewed = false,
+  pools: CandidatePool[],
+  exists = true,
+  profile = namingProfileFixture("p1"),
 ) {
   const projects = {
-    getWorkspace: async () => ({
-      project: { id: "p1" },
-      profile: { constraintKnowledge },
-    }),
+    getWorkspace: async () => (exists ? { project: {}, profile } : undefined),
   } as unknown as ProjectRepository;
   const generations = {
-    countBatches: async () => 1,
+    countBatches: async () => (pools.length ? 1 : 0),
     listCandidates: async () =>
-      stages.map((stage, index) => ({
-        decision: {
-          stage,
-          candidateId: `c${index}`,
-          projectId: "p1",
-          ...(folkloreReviewed && stage === "comparison" ? { folkloreReviewed: true } : {}),
-        },
+      pools.map((pool, index) => ({
+        decision: { pool, candidateId: `c${index}`, projectId: "p1" },
       })),
   } as unknown as GenerationRepository;
   return new GetProjectJourneyView(projects, generations);
 }
 
 describe("GetProjectJourneyView", () => {
-  it("derives stage availability from persisted decisions instead of URL order", async () => {
-    const view = await createUseCase(["inbox", "basic_shortlist"], "none").execute("p1");
-
-    expect(view).toEqual({
-      inbox: "completed",
-      basic: "completed",
-      folklore: "optional",
-      compare: "available",
-      finalize: "blocked",
+  it("derives the long-scroll journey from the four persisted pools", async () => {
+    await expect(createUseCase(["inspiration", "candidate"]).execute("p1")).resolves.toEqual({
+      configuration: "completed",
+      inspiration: "completed",
+      candidate: "completed",
+      selected: "available",
+      export: "blocked",
     });
   });
 
-  it("keeps later stages blocked while family rules are pending", async () => {
-    const view = await createUseCase(["comparison", "finalist"], "unknown").execute("p1");
-
-    expect(view.compare).toBe("blocked");
-    expect(view.finalize).toBe("blocked");
+  it("opens unlimited export as soon as the selected pool is non-empty", async () => {
+    const view = await createUseCase(["selected", "selected"]).execute("p1");
+    expect(view.selected).toBe("completed");
+    expect(view.export).toBe("available");
   });
 
-  it("does not mark folklore complete when candidates skipped that stage", async () => {
-    const skipped = await createUseCase(["comparison"], "none").execute("p1");
-    const reviewed = await createUseCase(["comparison"], "none", true).execute("p1");
+  it("keeps folklore-core configuration available until required inputs are complete", async () => {
+    const profile = namingProfileFixture("p1");
+    profile.modules.bazi_wuxing = {
+      analysisEnabled: true,
+      detailsVisible: true,
+      weight: 35,
+      schoolId: "four-path-useful-god-v1",
+      ruleVersion: "1.0.0",
+    };
 
-    expect(skipped.folklore).toBe("optional");
-    expect(reviewed.folklore).toBe("completed");
+    const missingBirth = await createUseCase([], true, profile).execute("p1");
+    expect(missingBirth.configuration).toBe("available");
+    expect(missingBirth.inspiration).toBe("available");
+
+    profile.calendar.birthLocalDateTime = "2024-02-04";
+    const ready = await createUseCase([], true, profile).execute("p1");
+    expect(ready.configuration).toBe("completed");
+  });
+
+  it("blocks every journey stage for a missing project", async () => {
+    expect(new Set(Object.values(await createUseCase([], false).execute("missing")))).toEqual(
+      new Set(["blocked"]),
+    );
   });
 });

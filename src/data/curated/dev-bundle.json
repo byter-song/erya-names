@@ -13,7 +13,13 @@
       "styleTags": ["清朗自然", "文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "扬",
@@ -22,7 +28,13 @@
       "styleTags": ["清朗自然"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "景",
@@ -31,7 +43,13 @@
       "styleTags": ["清朗自然"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "行",
@@ -49,7 +67,12 @@
         }
       ],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ]
     },
     {
       "char": "知",
@@ -58,7 +81,13 @@
       "styleTags": ["文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "远",
@@ -67,7 +96,13 @@
       "styleTags": ["沉稳端正", "文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "怀",
@@ -76,7 +111,13 @@
       "styleTags": ["文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "瑾",
@@ -85,7 +126,13 @@
       "styleTags": ["文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "二级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "二级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "若",
@@ -94,7 +141,13 @@
       "styleTags": ["文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "华",
@@ -112,7 +165,12 @@
         }
       ],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ]
     },
     {
       "char": "嘉",
@@ -121,7 +179,13 @@
       "styleTags": ["沉稳端正"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "树",
@@ -130,7 +194,13 @@
       "styleTags": ["清朗自然"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "修",
@@ -139,7 +209,13 @@
       "styleTags": ["沉稳端正", "文雅书卷"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "安",
@@ -148,7 +224,13 @@
       "styleTags": ["沉稳端正"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "朗",
@@ -157,7 +239,13 @@
       "styleTags": ["清朗自然"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "char": "哲",
@@ -166,7 +254,13 @@
       "styleTags": ["文雅书卷", "沉稳端正"],
       "risks": [],
       "reviewStatus": "verified",
-      "sourceRefs": [{ "sourceId": "standard-hanzi-2013", "location": "一级字表" }]
+      "sourceRefs": [
+        {
+          "sourceId": "standard-hanzi-2013",
+          "location": "一级字表"
+        }
+      ],
+      "riskSignals": []
     }
   ],
   "allusions": [
@@ -186,7 +280,8 @@
           "location": "郑风·野有蔓草",
           "excerpt": "有美一人，清扬婉兮。"
         }
-      ]
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-jingxing",
@@ -204,7 +299,8 @@
           "location": "小雅·车辖",
           "excerpt": "高山仰止，景行行止。"
         }
-      ]
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-zhiyuan",
@@ -222,7 +318,8 @@
           "location": "诫子书",
           "excerpt": "非宁静无以致远。"
         }
-      ]
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-huaijin",
@@ -240,7 +337,8 @@
           "location": "九章·怀沙",
           "excerpt": "怀瑾握瑜兮。"
         }
-      ]
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-ruohua",
@@ -253,8 +351,13 @@
       "risks": ["华存在多音，需确认读音"],
       "reviewStatus": "verified",
       "sourceRefs": [
-        { "sourceId": "chuci-public-domain", "location": "天问", "excerpt": "若华何光。" }
-      ]
+        {
+          "sourceId": "chuci-public-domain",
+          "location": "天问",
+          "excerpt": "若华何光。"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-jiashu",
@@ -267,8 +370,13 @@
       "risks": [],
       "reviewStatus": "verified",
       "sourceRefs": [
-        { "sourceId": "chuci-public-domain", "location": "九章·橘颂", "excerpt": "后皇嘉树。" }
-      ]
+        {
+          "sourceId": "chuci-public-domain",
+          "location": "九章·橘颂",
+          "excerpt": "后皇嘉树。"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-xiuyuan",
@@ -281,8 +389,13 @@
       "risks": [],
       "reviewStatus": "verified",
       "sourceRefs": [
-        { "sourceId": "chuci-public-domain", "location": "离骚", "excerpt": "路漫漫其修远兮。" }
-      ]
+        {
+          "sourceId": "chuci-public-domain",
+          "location": "离骚",
+          "excerpt": "路漫漫其修远兮。"
+        }
+      ],
+      "riskSignals": []
     },
     {
       "id": "allusion-mingzhe",
@@ -300,7 +413,12 @@
           "location": "大雅·烝民",
           "excerpt": "既明且哲。"
         }
-      ]
+      ],
+      "riskSignals": []
     }
-  ]
+  ],
+  "modernCombinations": [],
+  "standardCharacterPinyin": {},
+  "traditionalToSimplified": {},
+  "personUsages": []
 }

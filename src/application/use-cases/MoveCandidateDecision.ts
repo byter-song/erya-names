@@ -1,11 +1,7 @@
 import type { DecisionRepository } from "../ports/DecisionRepository";
-import {
-  candidateStageSchema,
-  candidateRestoreStage,
-  type CandidateDecision,
-  type CandidateStage,
-} from "../../domain/candidate/decision";
-import { canMoveCandidate } from "../../domain/candidate/decisionState";
+import type { CandidateDecision } from "../../domain/candidate/decision";
+import { candidateMoveDirectionSchema } from "../../domain/candidate/decisionState";
+import type { CandidateMoveDirection } from "../../domain/candidate/decisionState";
 import { err, ok, type Result } from "../../domain/shared/result";
 import type { SessionUndoStack } from "../../domain/candidate/sessionUndo";
 
@@ -14,7 +10,6 @@ export class MoveCandidateDecision {
     private readonly repository: DecisionRepository,
     private readonly dependencies: {
       now: () => string;
-      canProgress: (projectId: string) => Promise<boolean>;
       undoStack?: SessionUndoStack;
     },
   ) {}
@@ -22,53 +17,30 @@ export class MoveCandidateDecision {
   async execute(input: {
     projectId: string;
     candidateId: string;
-    to: CandidateStage;
-    rejectionReason?: string;
+    direction: CandidateMoveDirection;
+    expectedUpdatedAt: string;
   }): Promise<Result<CandidateDecision, string>> {
-    candidateStageSchema.parse(input.to);
+    candidateMoveDirectionSchema.parse(input.direction);
     const current = await this.repository.get(input.candidateId);
     if (!current || current.projectId !== input.projectId) return err("candidate-not-found");
-    if (!canMoveCandidate(current.stage, input.to)) {
-      return err(`invalid-transition:${current.stage}->${input.to}`);
-    }
-    if (
-      ["comparison", "finalist"].includes(input.to) &&
-      !(await this.dependencies.canProgress(input.projectId))
-    ) {
-      return err("family-rules-pending");
-    }
-    if (["excluded", "rejected"].includes(input.to) && !input.rejectionReason?.trim()) {
-      return err("rejection-reason-required");
-    }
-    if (input.rejectionReason && input.rejectionReason.trim().length > 500) {
-      return err("rejection-reason-too-long");
-    }
+    if (current.pool === "excluded") return err("invalid-transition");
     try {
       const moved = await this.repository.move({
         projectId: input.projectId,
         candidateId: input.candidateId,
-        from: current.stage,
-        to: input.to,
-        ...(input.rejectionReason ? { rejectionReason: input.rejectionReason } : {}),
-        ...(["excluded", "rejected"].includes(input.to)
-          ? { lastActiveStage: candidateRestoreStage(current.stage) }
-          : {}),
-        ...(["comparison", "finalist", "excluded", "rejected"].includes(input.to) &&
-        (current.folkloreReviewed || current.stage === "folklore_review")
-          ? { folkloreReviewed: true }
-          : {}),
-        ...((input.to === "comparison" || input.to === "finalist") && current.stage !== input.to
-          ? { maximumTargetCount: 5 }
-          : {}),
+        direction: input.direction,
+        expectedUpdatedAt: input.expectedUpdatedAt,
         changedAt: this.dependencies.now(),
       });
+      if (!moved.ok) return moved;
+      if (moved.value.pool === "excluded") return err("invalid-transition");
       this.dependencies.undoStack?.push({
         projectId: input.projectId,
         candidateId: input.candidateId,
-        from: current.stage,
-        to: input.to,
+        from: current.pool,
+        to: moved.value.pool,
       });
-      return ok(moved);
+      return ok(moved.value);
     } catch (error) {
       return err(error instanceof Error ? error.message : "decision-move-failed");
     }

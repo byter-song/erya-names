@@ -1,0 +1,37 @@
+{
+  "moduleId": "bazi_wuxing",
+  "schoolId": "gbt33661-lunar-calendar-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "reviewed",
+  "reviewedAt": "2026-10-16",
+  "reviewedBy": "erya-maintainer",
+  "epistemicStatus": "calculation_convention",
+  "uncertainty": "农历与节气数据按所列标准和年历核对；午夜/晚子时、真太阳时和历史夏令时仍是明确可选的计算口径，不表述为唯一命理流派。",
+  "sourceIds": ["gbt-33661-2017", "hko-almanac-2024"],
+  "applicableInputs": [
+    "birthLocalDateTime",
+    "timeKnown",
+    "timeZone",
+    "dayBoundary",
+    "zodiacConvention"
+  ],
+  "checksum": "sha256:5379624de277f34bed05b4fed684d91b8db4fde06b5b016b5396600e8f9d1cd5",
+  "sources": [
+    {
+      "id": "gbt-33661-2017",
+      "title": "GB/T 33661—2017 农历的编算和颁行",
+      "locator": "https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=E107EA4DE9725EDF819F33C60A44B296",
+      "pageOrSection": "标准号、现行状态、发布与实施信息",
+      "verificationStatus": "official",
+      "notes": "用于锁定中国农历编算基准；产品另行明确四柱流派口径。"
+    },
+    {
+      "id": "hko-almanac-2024",
+      "title": "香港天文台年历 2024",
+      "locator": "https://www.hko.gov.hk/tc/gts/astron2024/files/HKO_almanac_2024.pdf",
+      "pageOrSection": "2024 年 2 月 · Solar Terms · 立春 4 February 16:27",
+      "verificationStatus": "official",
+      "notes": "用于节气交界回归；时间采用香港时间 UTC+8。"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "kangxi-stroke-unreviewed-records-unknown",
+    "moduleId": "five_grids",
+    "schoolId": "kangxi-strokes-erya-v1",
+    "ruleVersion": "1.0.0",
+    "title": "仅有 Unihan 交叉核对字段时不得返回康熙数理笔画",
+    "input": {
+      "fullName": "宋清扬"
+    },
+    "expected": {
+      "status": "unknown",
+      "uncertainty": "三个字均尚未完成康熙原始影像逐字复核。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "unicode-unihan-17.0.0",
+        "pageOrSection": "kKangXi、kTotalStrokes 与 kTraditionalVariant 仅作交叉核对"
+      }
+    ]
+  }
+]

@@ -1,48 +1,60 @@
 import { z, type Infer } from "../shared/zod";
 
-export const candidateStageSchema = z.enum([
-  "inbox",
-  "basic_shortlist",
-  "folklore_review",
-  "favorite",
-  "comparison",
-  "finalist",
-  "excluded",
-  "rejected",
-]);
+export const activeCandidatePoolSchema = z.enum(["inspiration", "candidate", "selected"]);
 
-export const activeCandidateStageSchema = z.enum([
-  "inbox",
-  "basic_shortlist",
-  "folklore_review",
-  "comparison",
-  "finalist",
-]);
+export const candidatePoolSchema = z.enum(["inspiration", "candidate", "selected", "excluded"]);
 
-export const candidateDecisionSchema = z.object({
+const decisionIdentityShape = {
   candidateId: z.string().min(1),
   projectId: z.string().min(1),
-  stage: candidateStageSchema,
-  rejectionReason: z.string().trim().min(1).max(500).optional(),
-  lastActiveStage: activeCandidateStageSchema.optional(),
-  folkloreReviewed: z.boolean().optional(),
   updatedAt: z.iso.datetime(),
-});
+};
 
-export type CandidateStage = Infer<typeof candidateStageSchema>;
-export type ActiveCandidateStage = Infer<typeof activeCandidateStageSchema>;
+const activeCandidateDecisionSchemas = [
+  z
+    .object({
+      ...decisionIdentityShape,
+      pool: z.literal("inspiration"),
+    })
+    .strict(),
+  z
+    .object({
+      ...decisionIdentityShape,
+      pool: z.literal("candidate"),
+    })
+    .strict(),
+  z
+    .object({
+      ...decisionIdentityShape,
+      pool: z.literal("selected"),
+    })
+    .strict(),
+] as const;
+
+const excludedCandidateDecisionSchema = z
+  .object({
+    ...decisionIdentityShape,
+    pool: z.literal("excluded"),
+    lastActivePool: activeCandidatePoolSchema,
+    exclusionReason: z.string().trim().min(1).max(500),
+    excludedAt: z.iso.datetime(),
+  })
+  .strict();
+
+export const candidateDecisionSchema = z.discriminatedUnion("pool", [
+  ...activeCandidateDecisionSchemas,
+  excludedCandidateDecisionSchema,
+]);
+
+export type CandidatePool = Infer<typeof candidatePoolSchema>;
+export type ActiveCandidatePool = Infer<typeof activeCandidatePoolSchema>;
 export type CandidateDecision = Infer<typeof candidateDecisionSchema>;
+export type ActiveCandidateDecision = Extract<CandidateDecision, { pool: ActiveCandidatePool }>;
+export type ExcludedCandidateDecision = Extract<CandidateDecision, { pool: "excluded" }>;
 
-export function normalizeCandidateStage(
-  stage: CandidateStage,
-): ActiveCandidateStage | "excluded" {
-  if (stage === "favorite") return "basic_shortlist";
-  if (stage === "rejected") return "excluded";
-  return stage;
-}
+export const DEFAULT_EXCLUSION_REASON = "未填写理由";
 
-export function candidateRestoreStage(stage: CandidateStage): ActiveCandidateStage {
-  const normalized = normalizeCandidateStage(stage);
-  if (normalized === "excluded" || normalized === "finalist") return "comparison";
-  return normalized;
+export function normalizeExclusionReason(reason?: string): string {
+  const normalized = reason?.trim();
+  return normalized ? normalized : DEFAULT_EXCLUSION_REASON;
 }

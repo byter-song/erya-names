@@ -20,7 +20,7 @@ export function RecoveryRoute() {
           conflictStrategy: strategy,
         });
         if (!result?.ok) throw new Error(result?.error ?? "恢复服务未就绪");
-        return { projectId: result.value.projectId };
+        return result.value;
       }}
     />
   );

@@ -2,15 +2,15 @@ import type {
   GenerationRepository,
   PersistedGeneratedCandidate,
 } from "../../application/ports/GenerationRepository";
-import type { GenerationBatch } from "../../domain/generation/batch";
-import type { CandidateDecision } from "../../domain/candidate/decision";
-import type { EryaDatabase } from "../database/EryaDatabase";
-import type { RuleResultRecord } from "../database/schema";
-import type { CandidateRuleResult } from "../../domain/rules/types";
+import { candidateSchema, type Candidate } from "../../domain/candidate/candidate";
 import {
-  calculateSystemScore,
-  getSystemScoreEvidence,
-} from "../../domain/rules/scoring/systemScore";
+  candidateDecisionSchema,
+  type CandidateDecision,
+} from "../../domain/candidate/decision";
+import type { CandidateSourceEvidence } from "../../domain/candidate/sourceEvidence";
+import type { GenerationBatch } from "../../domain/generation/batch";
+import type { EryaDatabase } from "../database/EryaDatabase";
+import type { CandidateSourceRecord } from "../database/schema";
 
 export class DexieGenerationRepository implements GenerationRepository {
   constructor(private readonly database: EryaDatabase) {}
@@ -27,89 +27,44 @@ export class DexieGenerationRepository implements GenerationRepository {
     return this.database.generationBatches.where("projectId").equals(projectId).count();
   }
 
-  async listCandidates(projectId: string, stages?: CandidateDecision["stage"][]) {
-    const selectedDecisions = stages?.length
+  async listCandidates(projectId: string, pools?: CandidateDecision["pool"][]) {
+    const decisions = pools?.length
       ? (
           await Promise.all(
-            stages.map((stage) =>
+            [...new Set(pools)].map((pool) =>
               this.database.candidateDecisions
-                .where("[projectId+stage]")
-                .equals([projectId, stage])
+                .where("[projectId+pool]")
+                .equals([projectId, pool])
                 .toArray(),
             ),
           )
         ).flat()
       : await this.database.candidateDecisions.where("projectId").equals(projectId).toArray();
-    const candidateIds = selectedDecisions.map((decision) => decision.candidateId);
-    if (candidateIds.length === 0) return [];
-    const [candidateRows, ruleResults] = await Promise.all([
+    if (decisions.length === 0) return [];
+
+    const candidateIds = decisions.map((decision) => decision.candidateId);
+    const [candidateRows, sourceRows] = await Promise.all([
       this.database.candidates.bulkGet(candidateIds),
-      this.database.ruleResults.where("candidateId").anyOf(candidateIds).toArray(),
+      this.database.candidateSources.where("candidateId").anyOf(candidateIds).toArray(),
     ]);
-    const candidates = candidateRows.filter(
-      (candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate),
-    );
-    const decisions = selectedDecisions;
-    const decisionsById = new Map(
-      decisions
-        .filter((decision): decision is NonNullable<typeof decision> => Boolean(decision))
-        .map((decision) => [decision.candidateId, decision as CandidateDecision]),
+    const sourcesByCandidate = groupSources(sourceRows);
+    const decisionsByCandidate = new Map(
+      decisions.map((decision) => [
+        decision.candidateId,
+        candidateDecisionSchema.parse(decision),
+      ]),
     );
 
-    const rulesByCandidate = new Map<string, typeof ruleResults>();
-    for (const rule of ruleResults) {
-      const group = rulesByCandidate.get(rule.candidateId) ?? [];
-      group.push(rule);
-      rulesByCandidate.set(rule.candidateId, group);
-    }
-    return candidates.flatMap((candidate) => {
-      const decision = decisionsById.get(candidate.id);
+    return candidateRows.flatMap((row) => {
+      if (!row) return [];
+      const candidate = candidateSchema.parse(row);
+      const decision = decisionsByCandidate.get(candidate.id);
       if (!decision) return [];
-      const candidateRules = rulesByCandidate.get(candidate.id) ?? [];
-      const domainRules: CandidateRuleResult[] = candidateRules.map((result) => ({
-        evidenceLevel: result.evidenceLevel,
-        outcome: result.outcome,
-        ruleId: result.ruleId,
-        ruleVersion: result.ruleVersion,
-        explanation: result.explanation,
-        sourceRefs: result.sourceRefs,
-        ...(result.scoreDelta !== undefined ? { scoreDelta: result.scoreDelta } : {}),
-      }));
-      const scoreEvidence = getSystemScoreEvidence(domainRules);
       return [
         {
-          candidate: candidate as PersistedGeneratedCandidate,
+          candidate,
           decision,
-          warnings: candidateRules
-            .filter((result) => result.outcome === "warn")
-            .map((result) => ({
-              evidenceLevel: result.evidenceLevel,
-              outcome: result.outcome,
-              ruleId: result.ruleId,
-              ruleVersion: result.ruleVersion,
-              explanation: result.explanation,
-              sourceRefs: result.sourceRefs,
-              ...(result.scoreDelta !== undefined ? { scoreDelta: result.scoreDelta } : {}),
-            })),
-          systemScore: calculateSystemScore(domainRules),
-          scoreEvidence: scoreEvidence.map((result) => ({
-            evidenceLevel: result.evidenceLevel,
-            outcome: result.outcome,
-            ruleId: result.ruleId,
-            ruleVersion: result.ruleVersion,
-            explanation: result.explanation,
-            sourceRefs: result.sourceRefs,
-            ...(result.scoreDelta !== undefined ? { scoreDelta: result.scoreDelta } : {}),
-          })),
-          ruleEvidence: candidateRules.map((result) => ({
-            evidenceLevel: result.evidenceLevel,
-            outcome: result.outcome,
-            ruleId: result.ruleId,
-            ruleVersion: result.ruleVersion,
-            explanation: result.explanation,
-            sourceRefs: result.sourceRefs,
-            ...(result.scoreDelta !== undefined ? { scoreDelta: result.scoreDelta } : {}),
-          })),
+          sources: sourcesByCandidate.get(candidate.id) ?? [],
         },
       ];
     });
@@ -119,70 +74,97 @@ export class DexieGenerationRepository implements GenerationRepository {
     batch: GenerationBatch;
     candidates: PersistedGeneratedCandidate[];
   }): Promise<void> {
+    const candidates = input.candidates.map(toCandidateRecord);
+    const decisions = candidates.map((candidate) =>
+      candidateDecisionSchema.parse({
+        candidateId: candidate.id,
+        projectId: candidate.projectId,
+        pool: "inspiration",
+        updatedAt: candidate.createdAt,
+      }),
+    );
+    const sourceRecords = input.candidates.flatMap(toSourceRecords);
+
     await this.database.transaction(
       "rw",
       [
         this.database.generationBatches,
         this.database.candidates,
         this.database.candidateSources,
-        this.database.ruleResults,
         this.database.candidateDecisions,
       ],
       async () => {
-        // Two tabs may generate from the same history snapshot; reject the stale write atomically.
-        if (input.candidates.length) {
-          const duplicates = await this.database.candidates
+        if (candidates.length > 0) {
+          const duplicateCount = await this.database.candidates
             .where("[projectId+normalizedFingerprint]")
             .anyOf(
-              input.candidates.map((candidate) => [
+              candidates.map((candidate) => [
                 candidate.projectId,
                 candidate.normalizedFingerprint,
               ]),
             )
             .count();
-          if (duplicates)
+          if (duplicateCount > 0)
             throw new Error(
               "另一个窗口已保存了部分同名结果，请重新生成这一批；已有名字未受影响。",
             );
         }
+
         await this.database.generationBatches.add(input.batch);
-        await this.database.candidates.bulkAdd(input.candidates);
-        const sourceRecords = input.candidates.flatMap((candidate) =>
-          candidate.sourceEvidence.map((source, index) => ({
-            id: `${candidate.id}:source:${index + 1}`,
-            projectId: candidate.projectId,
-            candidateId: candidate.id,
-            ...source,
-          })),
-        );
+        if (candidates.length > 0) {
+          await this.database.candidates.bulkAdd(candidates);
+          await this.database.candidateDecisions.bulkAdd(decisions);
+        }
         if (sourceRecords.length > 0)
           await this.database.candidateSources.bulkAdd(sourceRecords);
-
-        const ruleRecords = input.candidates.flatMap<RuleResultRecord>((candidate) => {
-          const evaluated = candidate.ruleResults.map((result, index): RuleResultRecord => ({
-            id: `${candidate.id}:${result.ruleId}:${index + 1}`,
-            projectId: candidate.projectId,
-            candidateId: candidate.id,
-            evidenceLevel: result.evidenceLevel,
-            outcome: result.outcome,
-            ruleId: result.ruleId,
-            ruleVersion: result.ruleVersion,
-            explanation: result.explanation,
-            sourceRefs: result.sourceRefs,
-            ...(result.scoreDelta !== undefined ? { scoreDelta: result.scoreDelta } : {}),
-          }));
-          return evaluated;
-        });
-        await this.database.ruleResults.bulkAdd(ruleRecords);
-        await this.database.candidateDecisions.bulkAdd(
-          input.candidates.map((candidate) => ({
-            candidateId: candidate.id,
-            projectId: candidate.projectId,
-            stage: "inbox",
-            updatedAt: candidate.createdAt,
-          })),
-        );
       },
     );
   }
+}
+
+function toCandidateRecord(candidate: PersistedGeneratedCandidate): Candidate {
+  return candidateSchema.parse({
+    id: candidate.id,
+    projectId: candidate.projectId,
+    batchId: candidate.batchId,
+    normalizedFingerprint: candidate.normalizedFingerprint,
+    surname: candidate.surname,
+    givenName: candidate.givenName,
+    fullName: candidate.fullName,
+    pinyin: candidate.pinyin,
+    sourceType: candidate.sourceType,
+    summary: candidate.summary,
+    createdAt: candidate.createdAt,
+  });
+}
+
+function toSourceRecords(candidate: PersistedGeneratedCandidate): CandidateSourceRecord[] {
+  return candidate.sourceEvidence.map((source, index) => ({
+    id: `${candidate.id}:source:${index + 1}`,
+    projectId: candidate.projectId,
+    candidateId: candidate.id,
+    ...source,
+  }));
+}
+
+function groupSources(
+  records: CandidateSourceRecord[],
+): Map<string, CandidateSourceEvidence[]> {
+  const grouped = new Map<string, CandidateSourceEvidence[]>();
+  for (const record of records) {
+    const source: CandidateSourceEvidence = {
+      sourceId: record.sourceId,
+      ...(record.title ? { title: record.title } : {}),
+      ...(record.work ? { work: record.work } : {}),
+      ...(record.quote ? { quote: record.quote } : {}),
+      ...(record.location ? { location: record.location } : {}),
+      ...(record.excerpt ? { excerpt: record.excerpt } : {}),
+      ...(record.url ? { url: record.url } : {}),
+      ...(record.revision ? { revision: record.revision } : {}),
+    };
+    const current = grouped.get(record.candidateId) ?? [];
+    current.push(source);
+    grouped.set(record.candidateId, current);
+  }
+  return grouped;
 }

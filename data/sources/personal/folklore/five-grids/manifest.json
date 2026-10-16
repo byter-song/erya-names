@@ -1,0 +1,39 @@
+{
+  "moduleId": "five_grids",
+  "schoolId": "kumasaki-five-grid-1930-ndl-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "research_only",
+  "sourceIds": [
+    "ndl-kumasaki-1930",
+    "unicode-unihan-17.0.0",
+    "erya-five-grid-product-convention"
+  ],
+  "applicableInputs": ["surnameStructure", "surnameKangxiStrokes", "givenNameKangxiStrokes"],
+  "checksum": "sha256:3f1e232cea040b206f760664c054d614e6f8113a20916a451f6dcc4b693d5c48",
+  "sources": [
+    {
+      "id": "ndl-kumasaki-1930",
+      "title": "熊崎健翁《運命の神秘：附録・撰名字引》",
+      "locator": "https://ndlsearch.ndl.go.jp/books/R100000039-I1025965",
+      "pageOrSection": "昭和5年（1930），412p，DOI 10.11501/1025965；具体公式及81数影像页待逐条复核",
+      "verificationStatus": "official",
+      "notes": "仅完成国立国会图书馆书目和公开数字影像入口核对，未完成内容逐页核验。"
+    },
+    {
+      "id": "unicode-unihan-17.0.0",
+      "title": "Unicode 17.0.0 Unihan Database",
+      "locator": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+      "pageOrSection": "kKangXi、kTotalStrokes、kTraditionalVariant、kRSUnicode",
+      "verificationStatus": "official",
+      "notes": "下载文件 SHA-256 f7a48b2b545acfaa77b2d607ae28747404ce02baefee16396c5d2d7a8ef34b5e；只用于定位和交叉核对。"
+    },
+    {
+      "id": "erya-five-grid-product-convention",
+      "title": "尔雅民俗起名技术设计",
+      "locator": "specs/20261016-folklore-naming/technical-design.md",
+      "pageOrSection": "§5.7 五格三才",
+      "verificationStatus": "official",
+      "notes": "产品公式、三才映射和扣分映射与原始标签分开保存。"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://erya.local/schemas/folklore-rule-pack.json",
+  "title": "Erya folklore rule pack manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "moduleId",
+    "schoolId",
+    "ruleVersion",
+    "reviewStatus",
+    "sourceIds",
+    "applicableInputs",
+    "checksum",
+    "sources"
+  ],
+  "properties": {
+    "moduleId": {
+      "enum": ["bazi_wuxing", "zodiac", "traditional", "name_hexagram", "five_grids"]
+    },
+    "schoolId": { "type": "string", "minLength": 1 },
+    "ruleVersion": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*$" },
+    "reviewStatus": { "enum": ["research_only", "reviewed"] },
+    "reviewedAt": { "type": "string", "format": "date" },
+    "reviewedBy": { "type": "string", "minLength": 1 },
+    "sourceIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "applicableInputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "checksum": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "reviewStatus": { "const": "reviewed" } } },
+      "then": { "required": ["reviewedAt", "reviewedBy"] }
+    }
+  ],
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "locator", "pageOrSection", "verificationStatus"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "locator": { "type": "string", "minLength": 1 },
+        "pageOrSection": { "type": "string", "minLength": 1 },
+        "verificationStatus": { "enum": ["unverified", "image_checked", "official"] },
+        "notes": { "type": "string" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "moduleId": "zodiac",
+      "schoolId": "zodiac-radical-hints-v1",
+      "ruleVersion": "1.0.0",
+      "reviewStatus": "research_only",
+      "sourceIds": ["source-example"],
+      "applicableInputs": ["zodiac", "nameCharacters"],
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "sources": [
+        {
+          "id": "source-example",
+          "title": "待复核资料",
+          "locator": "local-reference",
+          "pageOrSection": "待定位",
+          "verificationStatus": "unverified"
+        }
+      ]
+    }
+  ]
+}

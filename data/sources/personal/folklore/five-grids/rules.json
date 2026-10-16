@@ -1,0 +1,1136 @@
+{
+  "methodId": "kumasaki-five-grid-1930-ndl-v1",
+  "strokePackId": "kangxi-strokes-erya-v1",
+  "scoreMapId": "kumasaki-score-map-v1",
+  "reviewStatus": "research_only",
+  "sourceBoundary": "已核对 NDL 书目与公开数字影像入口；尚未逐页复核公式、81 数标签和逐字笔画，因此整包不得进入默认预设。",
+  "formulas": {
+    "single_surname_double_given": {
+      "heaven": "surname1 + 1",
+      "person": "surname1 + given1",
+      "earth": "given1 + given2",
+      "outer": "given2 + 1",
+      "total": "surname1 + given1 + given2"
+    },
+    "single_surname_single_given": {
+      "heaven": "surname1 + 1",
+      "person": "surname1 + given1",
+      "earth": "given1 + 1",
+      "outer": "2",
+      "total": "surname1 + given1"
+    },
+    "compound_surname_double_given": {
+      "heaven": "surname1 + surname2",
+      "person": "surname2 + given1",
+      "earth": "given1 + given2",
+      "outer": "surname1 + given2",
+      "total": "surname1 + surname2 + given1 + given2"
+    },
+    "compound_surname_single_given": {
+      "heaven": "surname1 + surname2",
+      "person": "surname2 + given1",
+      "earth": "given1 + 1",
+      "outer": "surname1 + 1",
+      "total": "surname1 + surname2 + given1"
+    }
+  },
+  "combinedParentalSurnamePolicy": "按复姓结构计算，并在详情明确标注这是产品约定。",
+  "threeTalentElements": [
+    {
+      "lastDigits": [1, 2],
+      "element": "wood"
+    },
+    {
+      "lastDigits": [3, 4],
+      "element": "fire"
+    },
+    {
+      "lastDigits": [5, 6],
+      "element": "earth"
+    },
+    {
+      "lastDigits": [7, 8],
+      "element": "metal"
+    },
+    {
+      "lastDigits": [9, 0],
+      "element": "water"
+    }
+  ],
+  "numberMeanings": [
+    {
+      "value": 1,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 2,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 3,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 4,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 5,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 6,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 7,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 8,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 9,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 10,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 11,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 12,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 13,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 14,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 15,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 16,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 17,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 18,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 19,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 20,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 21,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 22,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 23,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 24,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 25,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 26,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 27,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 28,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 29,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 30,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 31,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 32,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 33,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 34,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 35,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 36,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 37,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 38,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 39,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 40,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 41,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 42,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 43,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 44,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 45,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 46,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 47,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 48,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 49,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 50,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 51,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 52,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 53,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 54,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 55,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 56,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 57,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 58,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 59,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 60,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 61,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 62,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 63,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 64,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 65,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 66,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 67,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 68,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 69,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 70,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 71,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 72,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 73,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 74,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 75,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 76,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 77,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 78,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 79,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 80,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    },
+    {
+      "value": 81,
+      "sourceLabel": null,
+      "sourceClassification": "unverified",
+      "productClassification": null,
+      "productPenalty": null,
+      "reviewStatus": "research_only",
+      "sourceLocator": {
+        "sourceId": "ndl-kumasaki-1930",
+        "imagePage": null
+      },
+      "reviewNote": "待对照 NDL 数字影像定位并逐条复核；不得使用网络转载表补值。"
+    }
+  ],
+  "productPenaltyMap": {
+    "coreGrids": {
+      "auspicious": 0,
+      "mixed": 5,
+      "inauspicious": 12
+    },
+    "edgeGrids": {
+      "auspicious": 0,
+      "mixed": 3,
+      "inauspicious": 6
+    },
+    "threeTalentRelations": {
+      "upper_generates_lower": 0,
+      "same_element": 0,
+      "lower_generates_upper": 4,
+      "upper_controls_lower": 10,
+      "lower_controls_upper": 6
+    },
+    "policy": "产品扣分映射与原始标签分开保存；原始标签未复核时不计算扣分。"
+  },
+  "disclaimer": "传统民俗参考，非科学结论。五格是近代姓名判断体系，其解释和分值存在流派差异。"
+}

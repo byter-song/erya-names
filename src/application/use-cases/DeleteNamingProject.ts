@@ -6,9 +6,8 @@ export class DeleteNamingProject {
 
   async execute(projectId: string): Promise<Result<void, string>> {
     try {
-      return (await this.repository.deleteProject(projectId))
-        ? ok(undefined)
-        : err("project-not-found");
+      const deleted = await this.repository.deleteProject(projectId);
+      return deleted.ok ? ok(undefined) : err(deleted.error);
     } catch (error) {
       return err(error instanceof Error ? error.message : "Unable to delete project");
     }

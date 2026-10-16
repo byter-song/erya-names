@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://erya.local/schemas/zuozhuan-naming-principles-v1.json",
+  "title": "Erya traditional naming principle rule pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["behavior", "scoring", "principles", "taboos", "exclusions", "disclaimer"],
+  "properties": {
+    "behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adviceOnly",
+        "filtersCandidates",
+        "blocksProgression",
+        "emitsHardConflict",
+        "familyAvoidanceHandledElsewhere"
+      ],
+      "properties": {
+        "adviceOnly": { "const": true },
+        "filtersCandidates": { "const": false },
+        "blocksProgression": { "const": false },
+        "emitsHardConflict": { "const": false },
+        "familyAvoidanceHandledElsewhere": { "const": true }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "principleDeduction",
+        "tabooDeduction",
+        "moduleDeductionCap",
+        "maximumCompositeWeightPercent"
+      ],
+      "properties": {
+        "principleDeduction": { "const": 0 },
+        "tabooDeduction": { "const": 5 },
+        "moduleDeductionCap": { "const": 15 },
+        "maximumCompositeWeightPercent": { "type": "number", "maximum": 5 }
+      }
+    },
+    "principles": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/principle" }
+    },
+    "taboos": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": { "$ref": "#/$defs/taboo" }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "reason"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "disclaimer": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "principle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "kind",
+        "definition",
+        "deduction",
+        "sourceId",
+        "reviewStatus"
+      ],
+      "properties": {
+        "id": { "enum": ["xin", "yi", "xiang", "jia", "lei"] },
+        "label": { "enum": ["信", "义", "象", "假", "类"] },
+        "kind": { "const": "interpretation_tag" },
+        "definition": { "type": "string", "minLength": 1 },
+        "deduction": { "const": 0 },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "reviewStatus": { "const": "research_only" }
+      }
+    },
+    "taboo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "matchMode",
+        "terms",
+        "deduction",
+        "sourceId",
+        "controversyStatus",
+        "controversyNote",
+        "reviewStatus"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "label": { "type": "string", "minLength": 1 },
+        "matchMode": { "const": "explicit_term" },
+        "terms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "deduction": { "const": 5 },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "controversyStatus": { "const": "contextual" },
+        "controversyNote": { "type": "string", "minLength": 1 },
+        "reviewStatus": { "const": "research_only" }
+      }
+    }
+  }
+}

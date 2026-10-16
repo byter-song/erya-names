@@ -4,6 +4,7 @@ import devBundle from "../../../../src/data/curated/dev-bundle.json";
 import { runtimeBundleSchema } from "../../../../src/data/schema/runtimeBundle";
 import { generateCandidates } from "../../../../src/domain/generation/generateCandidates";
 import { namingProfileSchema } from "../../../../src/domain/project/profile";
+import { namingProfileFixture } from "../../../fixtures/namingProfile";
 
 const bundle = runtimeBundleSchema.parse(devBundle);
 
@@ -11,20 +12,13 @@ describe("generation quality fixtures", () => {
   it.each(scenarios)("generates at least 20 traceable candidates for $id", (scenario) => {
     const result = generateCandidates({
       profile: namingProfileSchema.parse({
-        projectId: `project-${scenario.id}`,
-        surname: scenario.surname,
-        surnameType: "single",
-        givenNameLength: 2,
-        requiredCharacters: [],
-        generationCharacters: [],
-        avoidCharacters: [],
-        relativeNames: [],
-        forbiddenCombinations: [],
-        genderExpression: "unrestricted",
-        styleTags: scenario.styleTags,
-        writingComplexity: "balanced",
-        pinyinFriendly: true,
-        folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+        ...namingProfileFixture(`project-${scenario.id}`),
+        basics: {
+          ...namingProfileFixture(`project-${scenario.id}`).basics,
+          surname: scenario.surname,
+          styleTags: scenario.styleTags,
+          pinyinFriendly: true,
+        },
       }),
       bundle,
       seed: scenario.id,

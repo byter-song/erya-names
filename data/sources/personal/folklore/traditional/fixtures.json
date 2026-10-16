@@ -1,0 +1,88 @@
+[
+  {
+    "id": "five-principles-empty-zero-deduction",
+    "moduleId": "traditional",
+    "schoolId": "zuozhuan-naming-principles-v1",
+    "ruleVersion": "1.0.0",
+    "title": "未标注五原则时不扣分",
+    "input": {
+      "fullName": "宋清扬",
+      "principleTags": []
+    },
+    "expected": {
+      "status": "pass",
+      "score": 100,
+      "facts": {
+        "principleTags": [],
+        "deduction": 0
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "ctext-zuozhuan-huan-6",
+        "pageOrSection": "夫名有五：有信，有义，有象，有假，有类"
+      }
+    ]
+  },
+  {
+    "id": "six-taboo-literal-hits-capped",
+    "moduleId": "traditional",
+    "schoolId": "zuozhuan-naming-principles-v1",
+    "ruleVersion": "1.0.0",
+    "title": "四项字面命中仍封顶十五分",
+    "input": {
+      "fullName": "秦司徒泰山鼎",
+      "principleTags": ["象"],
+      "matchedTabooIds": [
+        "country-name",
+        "office-title",
+        "mountain-river-name",
+        "ritual-object-or-currency"
+      ]
+    },
+    "expected": {
+      "status": "notice",
+      "score": 85,
+      "facts": {
+        "rawDeduction": 20,
+        "deduction": 15,
+        "hardConflict": false,
+        "blocksProgression": false
+      },
+      "uncertainty": "词项归类和现代适用性需人工复核；周代礼制禁忌不等同现代禁用。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "ctext-zuozhuan-huan-6",
+        "pageOrSection": "不以国、不以官、不以山川、不以隐疾、不以畜牲、不以器币"
+      }
+    ]
+  },
+  {
+    "id": "family-avoidance-not-double-counted",
+    "moduleId": "traditional",
+    "schoolId": "zuozhuan-naming-principles-v1",
+    "ruleVersion": "1.0.0",
+    "title": "字辈与长辈避讳不在传统模块重复扣分",
+    "input": {
+      "fullName": "宋承志",
+      "principleTags": ["类"],
+      "familyGenerationCharacter": "承",
+      "familyAvoidanceHit": true
+    },
+    "expected": {
+      "status": "pass",
+      "score": 100,
+      "facts": {
+        "traditionalDeduction": 0,
+        "delegatedModule": "family_constraints"
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "ctext-zuozhuan-huan-6",
+        "pageOrSection": "取于父为类"
+      }
+    ]
+  }
+]

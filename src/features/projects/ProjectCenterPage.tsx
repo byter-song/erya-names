@@ -3,21 +3,30 @@ import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
 import { Button } from "../../design-system/primitives/Button";
 import { Dialog } from "../../design-system/primitives/Dialog";
 import type { ProjectSummary } from "../../application/models/ProjectSummary";
-import { ProjectCard } from "./ProjectCard";
+import {
+  ProjectCard,
+  type CopyProjectInput,
+  type RenameProjectInput,
+  type RenameProjectResult,
+} from "./ProjectCard";
 import "./project-scroll-page.css";
 
 export interface ProjectCenterPageProps {
   projects: ProjectSummary[];
   onCreate: () => void;
+  onCopy?: (input: CopyProjectInput) => Promise<{ projectId: string }>;
   onDelete?: (projectId: string) => Promise<void>;
   onOpen?: (href: string) => void;
+  onRename?: (input: RenameProjectInput) => Promise<RenameProjectResult>;
 }
 
 export function ProjectCenterPage({
   projects,
   onCreate,
+  onCopy,
   onDelete,
   onOpen,
+  onRename,
 }: ProjectCenterPageProps) {
   const [pendingDelete, setPendingDelete] = useState<ProjectSummary>();
   const [deleteError, setDeleteError] = useState("");
@@ -29,14 +38,17 @@ export function ProjectCenterPage({
   const recentProject = sortedProjects[0];
   const otherProjects = sortedProjects.filter((project) => project.id !== recentProject?.id);
   const activeProjects = projects.filter((project) => project.status !== "completed").length;
-  const totalCandidates = projects.reduce((sum, project) => sum + project.candidateCount, 0);
-  const totalFinalists = projects.reduce((sum, project) => sum + project.finalistCount, 0);
+  const totalCandidates = projects.reduce(
+    (sum, project) => sum + project.totalCandidateCount,
+    0,
+  );
+  const totalSelected = projects.reduce((sum, project) => sum + project.poolCounts.selected, 0);
 
   const stats: Array<[string, number]> = [
     ["长卷方案", projects.length],
     ["进行中", activeProjects],
     ["候选之名", totalCandidates],
-    ["定稿之名", totalFinalists],
+    ["精选之名", totalSelected],
   ];
 
   return (
@@ -73,15 +85,18 @@ export function ProjectCenterPage({
             <span>最近展卷</span>
           </h2>
           <ProjectCard
+            key={recentProject.id}
             project={recentProject}
             variant="featured"
+            {...(onCopy ? { onCopy } : {})}
             {...(onDelete ? { onDelete: () => setPendingDelete(recentProject) } : {})}
             {...(onOpen ? { onOpen } : {})}
+            {...(onRename ? { onRename } : {})}
           />
         </section>
       ) : (
         <section className="project-scroll-page__empty paper-card">
-          <div aria-hidden="true" className="project-scroll-page__empty-seal brush-type">
+          <div aria-hidden="true" className="project-scroll-page__empty-seal">
             始
           </div>
           <h2>铺开第一卷</h2>
@@ -100,8 +115,10 @@ export function ProjectCenterPage({
               <ProjectCard
                 key={project.id}
                 project={project}
+                {...(onCopy ? { onCopy } : {})}
                 {...(onDelete ? { onDelete: () => setPendingDelete(project) } : {})}
                 {...(onOpen ? { onOpen } : {})}
+                {...(onRename ? { onRename } : {})}
               />
             ))}
           </div>
@@ -130,7 +147,7 @@ export function ProjectCenterPage({
           <div className="project-delete-dialog">
             <p>
               确定删除“{pendingDelete.title}
-              ”吗？候选姓名、评价、对比记录和最终定稿将一并从本机删除。
+              ”吗？统一配置、候选姓名、四池状态、评分证据和评价将一并从本机删除。
             </p>
             <p className="project-delete-dialog__notice">此操作无法撤销，建议先导出备份。</p>
             {deleteError ? <p role="alert">{deleteError}</p> : null}

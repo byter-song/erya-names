@@ -1,0 +1,51 @@
+{
+  "paths": [
+    {
+      "pathId": "fuyi-v1",
+      "label": "旺衰扶抑",
+      "requiredInputs": ["dayMaster", "monthBranch", "stems", "branches", "hiddenStems"],
+      "evidenceFields": ["seasonalSupport", "rootSupport", "sameParty", "opposingParty"],
+      "counterEvidenceFields": ["transformations", "combinations", "missingHourPillar"],
+      "output": ["dayMasterStrength", "recommendedElements", "opposedElements", "confidence"],
+      "sourceIds": ["ditiansui-qiongtong-1926"],
+      "reviewStatus": "reviewed"
+    },
+    {
+      "pathId": "yueling-v1",
+      "label": "月令格局",
+      "requiredInputs": ["monthBranch", "dayMaster", "stems", "branches"],
+      "evidenceFields": ["candidatePattern", "formationConditions"],
+      "counterEvidenceFields": ["breakingConditions", "missingHourPillar"],
+      "output": ["patternCandidates", "recommendedElements", "opposedElements", "confidence"],
+      "sourceIds": ["ziping-zhenquan-1923"],
+      "reviewStatus": "reviewed"
+    },
+    {
+      "pathId": "tiaohou-v1",
+      "label": "调候",
+      "requiredInputs": ["monthBranch", "dayMaster", "stems", "branches"],
+      "evidenceFields": ["temperature", "dryness", "season"],
+      "counterEvidenceFields": ["existingRegulatingElements", "missingHourPillar"],
+      "output": ["climateAssessment", "recommendedElements", "opposedElements", "confidence"],
+      "sourceIds": ["ditiansui-qiongtong-1926"],
+      "reviewStatus": "reviewed"
+    },
+    {
+      "pathId": "tongguan-v1",
+      "label": "通关",
+      "requiredInputs": ["stems", "branches", "hiddenStems"],
+      "evidenceFields": ["opposedElementPairs", "conflictStrength"],
+      "counterEvidenceFields": ["existingBridgeElements", "conflictNotEstablished"],
+      "output": ["triggered", "recommendedElements", "opposedElements", "confidence"],
+      "sourceIds": ["ditiansui-qiongtong-1926"],
+      "reviewStatus": "reviewed"
+    }
+  ],
+  "aggregation": {
+    "strategy": "preserve-path-results",
+    "consensusStates": ["agreement", "partial_agreement", "conflict", "insufficient_input"],
+    "requiresUserConfirmationForScoring": true,
+    "unconfirmedScoringApplicability": "missing_input"
+  },
+  "disclaimer": "传统民俗参考，非科学结论。四条路径分别呈现，不以一条覆盖另一条。"
+}

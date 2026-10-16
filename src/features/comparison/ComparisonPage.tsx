@@ -1,578 +1,170 @@
+import { useState } from "react";
+import type { CandidateFunnelItem } from "../../application/models/CandidateFunnelItem";
 import type { NamingProfile } from "../../domain/project/profile";
-import { readSurname } from "../../domain/candidate/nameReading";
-import { NameExplanation } from "../insights/NameExplanation";
 import { Dialog } from "../../design-system/primitives/Dialog";
-import { Card } from "../../design-system/primitives/Card";
-import { Button } from "../../design-system/primitives/Button";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import type { CandidateFunnelItem as FunnelCandidate } from "../../application/models/CandidateFunnelItem";
-import type { ComparisonSnapshot } from "../../domain/candidate/comparisonSnapshot";
-import type { ComparisonSnapshotCandidate } from "../../domain/candidate/comparisonSnapshot";
-import { calculateSystemScore } from "../../domain/rules/scoring/systemScore";
+import { NameExplanation } from "../insights/NameExplanation";
 import "./comparison.css";
 
+const poolLabels: Record<CandidateFunnelItem["pool"], string> = {
+  inspiration: "灵感池",
+  candidate: "候选池",
+  selected: "精选池",
+  excluded: "排除区",
+};
+
+const hardStatusLabels: Record<CandidateFunnelItem["hardStatus"], string> = {
+  pass: "基础规范通过",
+  notice: "基础规范有提示",
+  conflict: "基础规范有冲突",
+  unknown: "基础规范待补充",
+};
+
+function scoreLabel(candidate: CandidateFunnelItem) {
+  if (candidate.scoringPending) return "分析中";
+  return `${candidate.completeness < 1 ? "暂定 " : ""}${candidate.totalScore === undefined ? "—" : Number(candidate.totalScore.toFixed(1))}/100`;
+}
+
+const moduleLabels: Record<keyof NamingProfile["modules"], string> = {
+  bazi_wuxing: "八字五行",
+  zodiac: "生肖提示",
+  traditional: "传统原则",
+  name_hexagram: "姓名卦象",
+  five_grids: "五格数理",
+};
+
+/**
+ * Read-only comparison content for the candidate-pool drawer or dialog.
+ * Pool transitions stay on candidate cards so reviewing details cannot change decisions.
+ */
 export function ComparisonPage({
   candidates,
   profile,
-  onReturnToBasic,
-  finalists = [],
-  onPromote,
-  onReturnToComparison,
-  onSaveSnapshot,
-  onOpenFinalization,
-  onBackToCandidates,
-  onUndo,
-  snapshots = [],
-  initialCanUndo = false,
 }: {
-  candidates: FunnelCandidate[];
-  profile?: NamingProfile | undefined;
-  onReturnToBasic?: (id: string) => Promise<void>;
-  finalists?: FunnelCandidate[];
-  onPromote: (candidateId: string) => Promise<void>;
-  onReturnToComparison?: (candidateId: string) => Promise<void>;
-  onSaveSnapshot?: (candidates: FunnelCandidate[], name: string) => Promise<void>;
-  onOpenFinalization?: () => void;
-  onBackToCandidates?: () => void;
-  onUndo?: () => Promise<boolean>;
-  snapshots?: ComparisonSnapshot[];
-  initialCanUndo?: boolean;
+  candidates: CandidateFunnelItem[];
+  profile?: NamingProfile;
 }) {
   const [detailId, setDetailId] = useState<string>();
-  const detail = candidates.find((c) => c.id === detailId);
-  const [promotedIds, setPromotedIds] = useState<Set<string>>(() => new Set());
-  const [pendingIds, setPendingIds] = useState<Set<string>>(() => new Set());
-  const pendingIdsRef = useRef(new Set<string>());
-  const operationQueue = useRef<Promise<void>>(Promise.resolve());
-  const [error, setError] = useState<string | null>(null);
-  const [snapshotSaved, setSnapshotSaved] = useState(false);
-  const [snapshotName, setSnapshotName] = useState("本轮对比");
-  const [openSnapshotId, setOpenSnapshotId] = useState<string>();
-  const [canUndo, setCanUndo] = useState(initialCanUndo);
-  // Finalization is unlocked only by records read back from persistence. Optimistic
-  // selections stay visible, but cannot open finalization before their writes finish.
-  const finalistCount = finalists.length;
-  const comparedCandidates = candidates.slice(0, 5);
-  const visibleFinalists = [
-    ...finalists,
-    ...candidates.filter(
-      (candidate) =>
-        promotedIds.has(candidate.id) &&
-        !finalists.some((finalist) => finalist.id === candidate.id),
-    ),
-  ];
-  const openSnapshot = snapshots.find((snapshot) => snapshot.id === openSnapshotId);
-
-  useEffect(() => {
-    setPromotedIds((current) => {
-      const next = new Set(
-        [...current].filter((id) => !finalists.some((candidate) => candidate.id === id)),
-      );
-      return next.size === current.size ? current : next;
-    });
-  }, [finalists]);
-
-  async function promote(candidate: FunnelCandidate) {
-    if (pendingIdsRef.current.has(candidate.id) || promotedIds.has(candidate.id)) return;
-    pendingIdsRef.current.add(candidate.id);
-    setPendingIds(new Set(pendingIdsRef.current));
-    setError(null);
-    const operation = operationQueue.current.then(() => onPromote(candidate.id));
-    operationQueue.current = operation.catch(() => undefined);
-    try {
-      await operation;
-      setPromotedIds((current) => new Set(current).add(candidate.id));
-      setCanUndo(true);
-    } catch (reason) {
-      setError(
-        reason instanceof Error
-          ? reason.message
-          : `未能将${candidate.fullName}加入定稿名单，请重试。`,
-      );
-    } finally {
-      pendingIdsRef.current.delete(candidate.id);
-      setPendingIds(new Set(pendingIdsRef.current));
-    }
-  }
+  const detail = candidates.find((candidate) => candidate.id === detailId);
 
   return (
-    <main className="comparison-page comparison-page--gravity">
-      <header className="comparison-gravity__hero">
+    <section aria-labelledby="candidate-comparison-title" className="comparison-drawer">
+      <header className="comparison-drawer__header">
         <div>
-          <p className="project-center__kicker">尔雅 · 并卷比较</p>
-          <h1>重点候选</h1>
-          <p>让 2–5 个名字聚拢到同一卷中，横向比较出处、寓意、风险和个人评分。</p>
+          <p className="project-center__kicker">尔雅 · 候选对照</p>
+          <h2 id="candidate-comparison-title">并列比较</h2>
+          <p>横向查看综合分、完整度和主要扣分。比较仅供查看，不会改变名字所在池。</p>
         </div>
-        <div className="comparison-gravity__ring" aria-label="比较状态">
-          <span>COMPARE</span>
-          <strong>{comparedCandidates.length}</strong>
-          <small>重点候选</small>
-          <em>{finalistCount} / 5 已入定稿</em>
-        </div>
+        <p aria-label={`共 ${candidates.length} 个名字`} className="comparison-drawer__count">
+          <strong>{candidates.length}</strong>
+          <span>个名字</span>
+        </p>
       </header>
 
-      <section className="comparison-gravity__toolbar" aria-label="比较操作">
-        <div className="comparison-gravity__metric">
-          <span>{comparedCandidates.length}</span>
-          <strong>同卷比较</strong>
-          <small>最多同时比较 5 个名字</small>
-        </div>
-        {onSaveSnapshot && candidates.length >= 2 ? (
-          <div className="comparison-gravity__snapshot">
-            <label>
-              快照名称
-              <input
-                aria-label="快照名称"
-                maxLength={80}
-                onChange={(event) => setSnapshotName(event.target.value)}
-                value={snapshotName}
-              />
-            </label>
-            <Button
-              disabled={!snapshotName.trim()}
-              onClick={() =>
-                void onSaveSnapshot(candidates.slice(0, 5), snapshotName.trim())
-                  .then(() => setSnapshotSaved(true))
-                  .catch(() => setError("快照保存失败，请重试"))
-              }
-              type="button"
-            >
-              保存对比快照
-            </Button>
-          </div>
-        ) : null}
-        {snapshots.length > 0 ? (
-          <section className="comparison-gravity__history" aria-label="历史对比快照">
-            <h2>历史对比</h2>
-            <div>
-              {snapshots.map((snapshot) => (
-                <button
-                  key={snapshot.id}
-                  onClick={() => setOpenSnapshotId(snapshot.id)}
-                  type="button"
-                >
-                  查看{snapshot.name}
-                </button>
-              ))}
-            </div>
-          </section>
-        ) : null}
-        <div className="comparison-gravity__actions">
-          {onUndo && canUndo ? (
-            <Button
-              onClick={() =>
-                void onUndo().then((hasMore) => {
-                  setCanUndo(hasMore);
-                  setPromotedIds((current) => {
-                    const next = new Set(current);
-                    const latest = [...next].at(-1);
-                    if (latest) next.delete(latest);
-                    return next;
-                  });
-                })
-              }
-              type="button"
-            >
-              撤销上一步
-            </Button>
-          ) : null}
-          {onOpenFinalization && finalistCount >= 1 && finalistCount <= 5 ? (
-            <Button onClick={onOpenFinalization} type="button">
-              查看定稿名单
-            </Button>
-          ) : null}
-        </div>
-      </section>
-
-      {detail && (
-        <Dialog
-          title={`${detail.fullName}详情`}
-          closeLabel="关闭详情"
-          onClose={() => setDetailId(undefined)}
+      {candidates.length ? (
+        <div
+          aria-label="名字对照表，可横向滚动"
+          className="comparison-drawer__scroller"
+          role="region"
+          tabIndex={0}
         >
-          <NameExplanation
-            candidate={detail}
-            profile={profile}
-            showFolklore={Boolean(detail.folkloreReviewed)}
-          />
-        </Dialog>
-      )}
-      <div className="studio-actions">
-        {comparedCandidates.map((candidate) => (
-          <span key={candidate.id}>
-            <button onClick={() => setDetailId(candidate.id)}>
-              查看{candidate.fullName}详情
-            </button>
-            {onReturnToBasic && (
-              <button
-                disabled={pendingIds.has(candidate.id)}
-                onClick={() => {
-                  setPendingIds((current) => new Set(current).add(candidate.id));
-                  void onReturnToBasic(candidate.id)
-                    .catch((reason) =>
-                      setError(reason instanceof Error ? reason.message : "移回失败"),
-                    )
-                    .finally(() =>
-                      setPendingIds((current) => {
-                        const next = new Set(current);
-                        next.delete(candidate.id);
-                        return next;
-                      }),
-                    );
-                }}
-              >
-                将{candidate.fullName}移回基础候选
-              </button>
-            )}
-          </span>
-        ))}
-      </div>
-      {snapshotSaved ? (
-        <p className="comparison-gravity__status" role="status">
-          对比快照已保存
-        </p>
-      ) : null}
-      {error ? (
-        <p className="comparison-gravity__error" role="alert">
-          {error}
-        </p>
-      ) : null}
-      {visibleFinalists.length > 0 ? (
-        <section aria-label="定稿名单" className="comparison-page__finalists">
-          <div>
-            <p className="project-center__kicker">FINAL LIST</p>
-            <h2>定稿名单 {finalistCount} / 5</h2>
-            <p>名单可以保留多个名字；可随时移回重点候选继续比较。</p>
-          </div>
-          <div className="comparison-page__finalist-list">
-            {visibleFinalists.map((candidate) => (
-              <article key={candidate.id}>
-                <strong>{candidate.fullName}</strong>
-                <span>{candidate.summary}</span>
-                {onReturnToComparison && finalists.some((item) => item.id === candidate.id) ? (
-                  <button
-                    disabled={pendingIds.has(candidate.id)}
-                    onClick={() => {
-                      if (pendingIdsRef.current.has(candidate.id)) return;
-                      pendingIdsRef.current.add(candidate.id);
-                      setPendingIds(new Set(pendingIdsRef.current));
-                      setError(null);
-                      const operation = operationQueue.current.then(() =>
-                        onReturnToComparison(candidate.id),
-                      );
-                      operationQueue.current = operation.catch(() => undefined);
-                      void operation
-                        .then(() => setCanUndo(true))
-                        .catch(() =>
-                          setError(`未能将${candidate.fullName}移回重点候选，请重试。`),
-                        )
-                        .finally(() => {
-                          pendingIdsRef.current.delete(candidate.id);
-                          setPendingIds(new Set(pendingIdsRef.current));
-                        });
-                    }}
-                    type="button"
-                  >
-                    移除到重点候选
-                  </button>
-                ) : (
-                  <span className="ui-status">已选</span>
-                )}
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      {candidates.length === 0 ? (
-        <Card className="comparison-page__empty">
-          <p>
-            {visibleFinalists.length > 0
-              ? "重点候选已处理完。上方定稿名单仍然完整保存，可继续调整。"
-              : "请回到基础候选或民俗候选，至少加入 1 个重点候选。"}
-          </p>
-          {visibleFinalists.length === 0 && onBackToCandidates ? (
-            <Button onClick={onBackToCandidates} type="button">
-              返回我的候选
-            </Button>
-          ) : null}
-        </Card>
-      ) : (
-        <section className="comparison-gravity__matrix" aria-label="并卷比较">
-          <div className="comparison-gravity__orbit" aria-hidden="true">
-            {comparedCandidates.map((candidate, index) => (
-              <span key={candidate.id} style={{ "--orbit-index": index } as CSSProperties}>
-                {candidate.fullName}
-              </span>
-            ))}
-          </div>
-          <div
-            className="comparison-page__mobile-table"
-            aria-label="重点候选同属性比较"
-            role="region"
-          >
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">属性</th>
-                  {comparedCandidates.map((candidate) => (
-                    <th key={candidate.id} scope="col">
-                      {candidate.fullName}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["来源", (candidate: FunnelCandidate) => formatProvenance(candidate)],
-                  [
-                    "读音",
-                    (candidate: FunnelCandidate) =>
-                      [
-                        ...(profile ? readSurname(profile.surname, profile.surnamePinyin) : []),
-                        ...candidate.pinyin,
-                      ].join(" · ") || "待人工确认",
-                  ],
-                  ["寓意", (candidate: FunnelCandidate) => candidate.summary],
-                  [
-                    "个人评分",
-                    (candidate: FunnelCandidate) =>
-                      candidate.rating ? `${candidate.rating} 分` : "未评分",
-                  ],
-                  ["心选理由", (candidate: FunnelCandidate) => candidate.note ?? "未填写"],
-                  [
-                    "当前条件",
-                    (candidate: FunnelCandidate) =>
-                      candidate.eligibilityIssue ?? "硬约束检查通过",
-                  ],
-                  [
-                    "排序分",
-                    (candidate: FunnelCandidate) =>
-                      `${candidate.systemScore ?? calculateSystemScore(candidate.ruleEvidence ?? [])}/100`,
-                  ],
-                  [
-                    "民俗筛选",
-                    (candidate: FunnelCandidate) =>
-                      candidate.folkloreReviewed ? "已复筛" : "未复筛",
-                  ],
-                  ["使用提醒", (candidate: FunnelCandidate) => formatUsageNotes(candidate)],
-                ].map(([label, value]) => (
-                  <tr key={String(label)}>
-                    <th scope="row">{String(label)}</th>
-                    {comparedCandidates.map((candidate) => (
-                      <td key={candidate.id}>
-                        {(value as (item: FunnelCandidate) => string)(candidate)}
-                      </td>
-                    ))}
-                  </tr>
+          <table className="comparison-drawer__table">
+            <thead>
+              <tr>
+                <th scope="col">对照项</th>
+                {candidates.map((candidate) => (
+                  <th key={candidate.id} scope="col">
+                    <strong>{candidate.fullName}</strong>
+                    <span>{candidate.pinyin.join(" · ")}</span>
+                  </th>
                 ))}
-                <tr>
-                  <th scope="row">操作</th>
-                  {comparedCandidates.map((candidate) => (
-                    <td key={candidate.id}>
-                      <Button
-                        disabled={
-                          Boolean(candidate.eligibilityIssue) ||
-                          pendingIds.has(candidate.id) ||
-                          promotedIds.has(candidate.id) ||
-                          finalistCount >= 5
-                        }
-                        onClick={() => void promote(candidate)}
-                        type="button"
+              </tr>
+            </thead>
+            <tbody>
+              <ComparisonRow candidates={candidates} label="当前池">
+                {(candidate) => poolLabels[candidate.pool]}
+              </ComparisonRow>
+              <ComparisonRow candidates={candidates} label="基础状态">
+                {(candidate) => hardStatusLabels[candidate.hardStatus]}
+              </ComparisonRow>
+              <ComparisonRow candidates={candidates} label="综合分">
+                {(candidate) => scoreLabel(candidate)}
+              </ComparisonRow>
+              <ComparisonRow candidates={candidates} label="完整度">
+                {(candidate) => `${Math.round(candidate.completeness * 100)}%`}
+              </ComparisonRow>
+              {profile
+                ? (Object.keys(profile.modules) as Array<keyof NamingProfile["modules"]>)
+                    .filter((moduleId) => profile.modules[moduleId].analysisEnabled)
+                    .map((moduleId) => (
+                      <ComparisonRow
+                        candidates={candidates}
+                        key={moduleId}
+                        label={moduleLabels[moduleId]}
                       >
-                        {promotedIds.has(candidate.id)
-                          ? `${candidate.fullName}已加入定稿名单`
-                          : `加入定稿名单`}
-                      </Button>
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <section className="comparison-page__grid">
-            {comparedCandidates.map((candidate) => (
-              <Card className="comparison-column" key={candidate.id}>
-                <h2>{candidate.fullName}</h2>
-                <dl>
-                  <dt>来源与出处</dt>
-                  <dd>{formatProvenance(candidate)}</dd>
-                  <dt>读音与叫名</dt>
-                  <dd>
-                    {[
-                      ...(profile ? readSurname(profile.surname, profile.surnamePinyin) : []),
-                      ...candidate.pinyin,
-                    ].join(" · ") || "待人工确认"}
-                  </dd>
-                  <dt>寓意</dt>
-                  <dd>{candidate.summary}</dd>
-                  <dt>系统匹配</dt>
-                  <dd>
-                    {candidate.systemScore ??
-                      calculateSystemScore(candidate.ruleEvidence ?? [])}
-                    /100
-                  </dd>
-                  <dt>扣分明细</dt>
-                  <dd>{formatDeductions(candidate.ruleEvidence ?? [])}</dd>
-                  <dt>个人评分</dt>
-                  <dd>{candidate.rating ? `${candidate.rating} 分` : "未评分"}</dd>
-                  <dt>备注</dt>
-                  <dd>{candidate.note || "无"}</dd>
-                  <dt>使用提醒</dt>
-                  <dd>{formatUsageNotes(candidate)}</dd>
-                  <dt>民俗筛选</dt>
-                  <dd>{candidate.folkloreReviewed ? "已复筛" : "未复筛"}</dd>
-                </dl>
-                <TechnicalEvidence candidate={candidate} />
-                <Button
-                  disabled={
-                    Boolean(candidate.eligibilityIssue) ||
-                    pendingIds.has(candidate.id) ||
-                    promotedIds.has(candidate.id) ||
-                    finalistCount >= 5
-                  }
-                  onClick={() => void promote(candidate)}
-                  type="button"
-                >
-                  {promotedIds.has(candidate.id)
-                    ? `${candidate.fullName}已加入定稿名单`
-                    : pendingIds.has(candidate.id)
-                      ? `正在处理${candidate.fullName}`
-                      : `将${candidate.fullName}加入定稿名单`}
-                </Button>
-              </Card>
-            ))}
-          </section>
-        </section>
+                        {(candidate) =>
+                          candidate.moduleScores[moduleId] === undefined
+                            ? "待补资料"
+                            : `${candidate.moduleScores[moduleId]}/100`
+                        }
+                      </ComparisonRow>
+                    ))
+                : null}
+              <ComparisonRow candidates={candidates} label="名字寓意">
+                {(candidate) => candidate.summary}
+              </ComparisonRow>
+              <ComparisonRow candidates={candidates} label="主要扣分">
+                {(candidate) => candidate.topDeductions[0]?.explanation ?? "暂无主要扣分"}
+              </ComparisonRow>
+              <ComparisonRow candidates={candidates} label="个人评分">
+                {(candidate) => (candidate.rating ? `${candidate.rating}/5` : "未评分")}
+              </ComparisonRow>
+              <ComparisonRow candidates={candidates} label="个人备注">
+                {(candidate) => candidate.note ?? "未填写"}
+              </ComparisonRow>
+              <tr>
+                <th scope="row">详细依据</th>
+                {candidates.map((candidate) => (
+                  <td key={candidate.id}>
+                    <button onClick={() => setDetailId(candidate.id)} type="button">
+                      查看{candidate.fullName}详情
+                    </button>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="comparison-drawer__empty" role="status">
+          <strong>还没有加入对照的名字</strong>
+          <p>从候选池选择想比较的名字后，会在这里并列显示；对照数量不设上限。</p>
+        </div>
       )}
-      {openSnapshot ? (
-        <Dialog
-          title={openSnapshot.name}
-          closeLabel="关闭历史快照"
-          onClose={() => setOpenSnapshotId(undefined)}
-        >
-          <p>保存于 {new Date(openSnapshot.createdAt).toLocaleString("zh-CN")}</p>
-          {openSnapshot.candidates.map((candidate) => (
-            <section key={candidate.id}>
-              <h3>{candidate.fullName}</h3>
-              <ComparisonEvidence candidate={candidate} />
-            </section>
-          ))}
+
+      {detail ? (
+        <Dialog onClose={() => setDetailId(undefined)} title={`${detail.fullName}详情`}>
+          <NameExplanation candidate={detail} {...(profile ? { profile } : {})} showFolklore />
         </Dialog>
       ) : null}
-    </main>
+    </section>
   );
 }
 
-function ComparisonEvidence({ candidate }: { candidate: ComparisonSnapshotCandidate }) {
-  return (
-    <>
-      <dl>
-        <dt>来源与出处</dt>
-        <dd>{formatProvenance(candidate)}</dd>
-        <dt>读音与叫名</dt>
-        <dd>{candidate.pinyin.join(" · ") || "待人工确认"}</dd>
-        <dt>寓意</dt>
-        <dd>{candidate.summary}</dd>
-        <dt>系统匹配</dt>
-        <dd>{calculateSystemScore(candidate.ruleEvidence)}/100</dd>
-        <dt>扣分明细</dt>
-        <dd>{formatDeductions(candidate.ruleEvidence)}</dd>
-        <dt>个人评分</dt>
-        <dd>{candidate.rating ? `${candidate.rating} 分` : "未评分"}</dd>
-        <dt>备注</dt>
-        <dd>{candidate.note || "无"}</dd>
-        <dt>使用提醒</dt>
-        <dd>{formatUsageNotes(candidate)}</dd>
-      </dl>
-      <TechnicalEvidence candidate={candidate} />
-    </>
-  );
-}
-
-function formatDeductions(
-  rules: ReadonlyArray<{ explanation: string; scoreDelta?: number | undefined }>,
-): string {
-  const deductions = rules.filter((rule) => (rule.scoreDelta ?? 0) < 0);
-  return deductions.length
-    ? deductions.map((rule) => `${rule.explanation}（${rule.scoreDelta}）`).join("；")
-    : "当前评分没有扣分项";
-}
-
-const sourceLabels = {
-  verified_allusion: "古籍取名",
-  modern_combination: "现代组合",
-  user_input: "用户录入",
-  historical_inspiration: "状元灵感",
-} as const;
-
-function formatProvenance(candidate: FunnelCandidate | ComparisonSnapshotCandidate): string {
-  if (candidate.sourceType === "modern_combination") return "现代组合 · 尔雅独立整理";
-  const source = (candidate.sourceEvidence ?? [])
-    .filter((item) => item.sourceId !== "erya-modern-20260927")
-    .map((item) =>
-      [item.work ?? item.title, item.quote ?? item.excerpt, item.location]
-        .filter(Boolean)
-        .join(" · "),
-    )
-    .filter(Boolean)
-    .join("；");
-  return source || sourceLabels[candidate.sourceType];
-}
-
-function formatUsageNotes(candidate: FunnelCandidate | ComparisonSnapshotCandidate): string {
-  const notes = [
-    ...(candidate.usageNotes ??
-      (candidate.sourceEvidence ?? [])
-        .filter((item) => item.sourceId === "erya-modern-20260927")
-        .flatMap((item) => (item.excerpt ? [item.excerpt] : []))),
-    ...candidate.warnings.map((warning) => warning.explanation),
-  ];
-  return (
-    [...new Set(notes)].join("；") || "当前未发现明显风险，仍建议结合方言和真实使用场景确认。"
-  );
-}
-
-function TechnicalEvidence({
-  candidate,
+function ComparisonRow({
+  candidates,
+  label,
+  children,
 }: {
-  candidate: FunnelCandidate | ComparisonSnapshotCandidate;
+  candidates: CandidateFunnelItem[];
+  label: string;
+  children: (candidate: CandidateFunnelItem) => string;
 }) {
-  const shape = candidate.ruleEvidence?.find((rule) => rule.ruleId === "l3-shape-balance");
-  const preferences = candidate.ruleEvidence
-    ?.filter(
-      (rule) =>
-        rule.evidenceLevel === "L3" &&
-        rule.ruleId !== "l3-shape-balance" &&
-        !rule.explanation.startsWith("当前数据包没有"),
-    )
-    .map((rule) => rule.explanation);
-  const folklore = candidate.ruleEvidence
-    ?.filter((rule) => rule.evidenceLevel === "L4")
-    .map((rule) => rule.explanation);
-  if (!shape && !preferences?.length && !folklore?.length) return null;
   return (
-    <details>
-      <summary>查看评分与技术依据</summary>
-      <dl>
-        {shape ? (
-          <>
-            <dt>书写难度</dt>
-            <dd>{shape.explanation}</dd>
-          </>
-        ) : null}
-        {preferences?.length ? (
-          <>
-            <dt>风格与使用匹配</dt>
-            <dd>{preferences.join("；")}</dd>
-          </>
-        ) : null}
-        {folklore?.length ? (
-          <>
-            <dt>传统民俗参考</dt>
-            <dd>{folklore.join("；")}</dd>
-          </>
-        ) : null}
-      </dl>
-    </details>
+    <tr>
+      <th scope="row">{label}</th>
+      {candidates.map((candidate) => (
+        <td key={candidate.id}>{children(candidate)}</td>
+      ))}
+    </tr>
   );
 }

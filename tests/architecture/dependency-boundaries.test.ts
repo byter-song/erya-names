@@ -3,7 +3,6 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { createApplicationContainer } from "../../src/infrastructure/container";
 import { err, ok } from "../../src/domain/shared/result";
-import { createProjectId } from "../../src/domain/shared/ids";
 
 async function listTypeScriptFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -20,8 +19,8 @@ async function listTypeScriptFiles(directory: string): Promise<string[]> {
 }
 
 describe("architecture boundaries", () => {
-  it("provides typed domain results and identifiers", () => {
-    expect(ok(createProjectId("project-1"))).toEqual({ ok: true, value: "project-1" });
+  it("provides typed domain results", () => {
+    expect(ok("project-1")).toEqual({ ok: true, value: "project-1" });
     expect(err("invalid")).toEqual({ ok: false, error: "invalid" });
   });
 

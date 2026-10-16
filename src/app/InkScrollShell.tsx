@@ -28,15 +28,11 @@ function projectChips(
   availability?: Record<JourneyStageId, JourneyAvailability>,
 ): ShellChip[] {
   return [
-    { id: "inbox", label: "灵感池", href: `/projects/${projectId}/generate#inbox` },
-    { id: "basic", label: "基础候选", href: `/projects/${projectId}/generate#basic` },
-    {
-      id: "folklore",
-      label: "民俗候选",
-      href: `/projects/${projectId}/generate#folklore`,
-    },
-    { id: "compare", label: "重点候选", href: `/projects/${projectId}/compare` },
-    { id: "finalize", label: "定稿名单", href: `/projects/${projectId}/finalize` },
+    { id: "configuration", label: "统一配置", href: `/projects/${projectId}/config` },
+    { id: "inspiration", label: "灵感池", href: `/projects/${projectId}/names#inspiration` },
+    { id: "candidate", label: "候选池", href: `/projects/${projectId}/names#candidate` },
+    { id: "selected", label: "精选池", href: `/projects/${projectId}/names#selected` },
+    { id: "export", label: "精选导出", href: `/projects/${projectId}/export` },
     { id: "backup", label: "备份", href: `/projects/${projectId}/backup` },
   ].map((chip) => ({
     ...chip,
@@ -45,13 +41,12 @@ function projectChips(
 }
 
 function activeChipId(pathname: string, hash: string): string {
-  if (pathname.includes("/generate") || pathname.includes("/candidates")) {
+  if (pathname.includes("/config")) return "configuration";
+  if (pathname.includes("/names")) {
     const stage = hash.replace(/^#/, "");
-    if (stage === "conditions") return "inbox";
-    return ["basic", "folklore"].includes(stage) ? stage : "inbox";
+    return ["candidate", "selected"].includes(stage) ? stage : "inspiration";
   }
-  if (pathname.includes("/compare")) return "compare";
-  if (pathname.includes("/finalize")) return "finalize";
+  if (pathname.includes("/export")) return "export";
   if (pathname.includes("/backup") || pathname === "/recovery") return "backup";
   if (pathname.includes("/new/")) return "profile";
   return "projects";
@@ -128,7 +123,7 @@ export function InkScrollShell() {
       <header className="ink-shell__hud">
         <button
           aria-label="返回方案长卷"
-          className="ink-shell__brand brush-type"
+          className="ink-shell__brand"
           onClick={() => navigate("/")}
           type="button"
         >

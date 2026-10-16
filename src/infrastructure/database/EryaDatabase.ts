@@ -1,46 +1,58 @@
 import Dexie, { type EntityTable, type Table } from "dexie";
-import { V1_STORES } from "./migrations/v1";
-import { upgradeToV2, V2_STORES } from "./migrations/v2";
-import { upgradeToV3, V3_STORES } from "./migrations/v3";
-import { upgradeToV4, V4_STORES } from "./migrations/v4";
 import type {
   AppMetadataRecord,
+  AssessmentRunRecord,
   CandidateDecisionRecord,
   CandidateEvaluationRecord,
   CandidateRecord,
+  CandidateScoreRecord,
   CandidateSourceRecord,
   DecisionHistoryRecord,
-  EntityRecord,
-  FinalDecisionRecord,
+  GenerationBatchRecord,
+  NamingProfileRecord,
+  ProjectAssessmentRecord,
   ProjectRecord,
-  RuleResultRecord,
+  RuleEvidenceRecord,
 } from "./schema";
-import type { NamingProfile } from "../../domain/project/profile";
-import type { ComparisonSnapshot } from "../../domain/candidate/comparisonSnapshot";
 
-export const ERYA_DATABASE_NAME = "erya-names";
-export const ERYA_DATABASE_VERSION = 4;
-export const ERYA_TABLES = Object.freeze(Object.keys(V1_STORES));
+export const ERYA_DATABASE_NAME = "erya-names-v2";
+export const ERYA_DATABASE_VERSION = 1;
+
+const ERYA_V2_STORES = Object.freeze({
+  projects: "&id, status, updatedAt",
+  profiles: "&projectId",
+  generationBatches: "&id, projectId, createdAt",
+  candidates: "&id, projectId, &[projectId+normalizedFingerprint], sourceType, createdAt",
+  candidateSources: "&id, projectId, candidateId, sourceId",
+  candidateDecisions: "&candidateId, [projectId+pool], projectId, updatedAt",
+  decisionHistory: "++id, projectId, candidateId, changedAt",
+  candidateEvaluations: "&candidateId, projectId",
+  projectAssessments: "&id, &[projectId+moduleId], projectId, inputHash",
+  ruleEvidence: "&id, [projectId+candidateId], [candidateId+moduleId], projectId, inputHash",
+  candidateScores: "&candidateId, projectId, configRevision, totalScore",
+  assessmentRuns: "&projectId, runId, status",
+  appMetadata: "&key",
+});
+
+export const ERYA_TABLES = Object.freeze(Object.keys(ERYA_V2_STORES));
 
 export class EryaDatabase extends Dexie {
   projects!: EntityTable<ProjectRecord, "id">;
-  profiles!: EntityTable<NamingProfile, "projectId">;
-  generationBatches!: EntityTable<EntityRecord, "id">;
+  profiles!: EntityTable<NamingProfileRecord, "projectId">;
+  generationBatches!: EntityTable<GenerationBatchRecord, "id">;
   candidates!: EntityTable<CandidateRecord, "id">;
   candidateSources!: EntityTable<CandidateSourceRecord, "id">;
-  ruleResults!: EntityTable<RuleResultRecord, "id">;
   candidateDecisions!: EntityTable<CandidateDecisionRecord, "candidateId">;
   decisionHistory!: Table<DecisionHistoryRecord, number>;
   candidateEvaluations!: EntityTable<CandidateEvaluationRecord, "candidateId">;
-  comparisonSnapshots!: EntityTable<ComparisonSnapshot, "id">;
-  finalDecisions!: EntityTable<FinalDecisionRecord, "projectId">;
+  projectAssessments!: EntityTable<ProjectAssessmentRecord, "id">;
+  ruleEvidence!: EntityTable<RuleEvidenceRecord, "id">;
+  candidateScores!: EntityTable<CandidateScoreRecord, "candidateId">;
+  assessmentRuns!: EntityTable<AssessmentRunRecord, "projectId">;
   appMetadata!: EntityTable<AppMetadataRecord, "key">;
 
   constructor(name = ERYA_DATABASE_NAME) {
     super(name);
-    this.version(1).stores(V1_STORES);
-    this.version(2).stores(V2_STORES).upgrade(upgradeToV2);
-    this.version(3).stores(V3_STORES).upgrade(upgradeToV3);
-    this.version(4).stores(V4_STORES).upgrade(upgradeToV4);
+    this.version(ERYA_DATABASE_VERSION).stores(ERYA_V2_STORES);
   }
 }

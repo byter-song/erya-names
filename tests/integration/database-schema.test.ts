@@ -1,150 +1,131 @@
 import "fake-indexeddb/auto";
-import { afterEach, describe, expect, it } from "vitest";
 import Dexie from "dexie";
-import { EryaDatabase, ERYA_TABLES } from "../../src/infrastructure/database/EryaDatabase";
-import { V1_STORES } from "../../src/infrastructure/database/migrations/v1";
-import { V3_STORES } from "../../src/infrastructure/database/migrations/v3";
+import { afterEach, describe, expect, it } from "vitest";
+import {
+  ERYA_DATABASE_NAME,
+  ERYA_DATABASE_VERSION,
+  ERYA_TABLES,
+  EryaDatabase,
+} from "../../src/infrastructure/database/EryaDatabase";
 import { openDatabase } from "../../src/infrastructure/database/openDatabase";
 
-const databases = new Set<string>();
-
-function testDatabaseName(): string {
-  const name = `erya-foundation-${crypto.randomUUID()}`;
-  databases.add(name);
-  return name;
-}
+const LEGACY_DATABASE_NAME = "erya-names";
+const V2_DATABASE_NAME = "erya-names-v2";
+const TARGET_TABLES = [
+  "projects",
+  "profiles",
+  "generationBatches",
+  "candidates",
+  "candidateSources",
+  "candidateDecisions",
+  "decisionHistory",
+  "candidateEvaluations",
+  "projectAssessments",
+  "ruleEvidence",
+  "candidateScores",
+  "assessmentRuns",
+  "appMetadata",
+] as const;
 
 afterEach(async () => {
-  await Promise.all([...databases].map((name) => EryaDatabase.delete(name)));
-  databases.clear();
+  await Promise.all([Dexie.delete(LEGACY_DATABASE_NAME), Dexie.delete(V2_DATABASE_NAME)]);
 });
 
-describe("EryaDatabase schema", () => {
-  it("creates every v1 table through one upgrade path", async () => {
-    const database = await openDatabase({ name: testDatabaseName() });
+function expectCompoundIndex(
+  database: EryaDatabase,
+  tableName: string,
+  indexName: string,
+  options: { unique: boolean },
+): void {
+  const index = database.table(tableName).schema.indexes.find(({ name }) => name === indexName);
 
-    expect([...database.tables.map((table) => table.name)].sort()).toEqual(
-      [...ERYA_TABLES].sort(),
-    );
+  expect(index, `${tableName}.${indexName}`).toMatchObject({
+    name: indexName,
+    compound: true,
+    unique: options.unique,
+  });
+}
 
-    database.close();
+describe("EryaDatabase v2 schema", () => {
+  it("opens erya-names-v2 at schema version 1 with the 13 target tables", async () => {
+    const database = await openDatabase();
+
+    try {
+      expect(ERYA_DATABASE_NAME).toBe(V2_DATABASE_NAME);
+      expect(ERYA_DATABASE_VERSION).toBe(1);
+      expect(database.name).toBe(V2_DATABASE_NAME);
+      expect(database.verno).toBe(1);
+      expect([...ERYA_TABLES].sort()).toEqual([...TARGET_TABLES].sort());
+      expect(database.tables.map(({ name }) => name).sort()).toEqual([...TARGET_TABLES].sort());
+    } finally {
+      database.close();
+    }
   });
 
-  it("reopens the same database without losing project or decision tables", async () => {
-    const name = testDatabaseName();
-    const first = await openDatabase({ name });
-    await first.table("projects").put({
-      id: "project-1",
-      title: "测试方案",
-      status: "active",
-      updatedAt: "2026-09-17T00:00:00.000Z",
-    });
-    first.close();
+  it("declares the candidate, pool, assessment, and evidence compound indexes", async () => {
+    const database = await openDatabase();
 
-    const reopened = await openDatabase({ name });
-
-    await expect(reopened.table("projects").get("project-1")).resolves.toMatchObject({
-      title: "测试方案",
-    });
-    expect(reopened.table("candidateDecisions").name).toBe("candidateDecisions");
-    reopened.close();
+    try {
+      expectCompoundIndex(database, "candidates", "[projectId+normalizedFingerprint]", {
+        unique: true,
+      });
+      expectCompoundIndex(database, "candidateDecisions", "[projectId+pool]", {
+        unique: false,
+      });
+      expectCompoundIndex(database, "projectAssessments", "[projectId+moduleId]", {
+        unique: true,
+      });
+      expectCompoundIndex(database, "ruleEvidence", "[projectId+candidateId]", {
+        unique: false,
+      });
+      expectCompoundIndex(database, "ruleEvidence", "[candidateId+moduleId]", {
+        unique: false,
+      });
+    } finally {
+      database.close();
+    }
   });
 
-  it("migrates valid v1 id-only comparison snapshots to immutable v2 records", async () => {
-    const name = testDatabaseName();
-    const legacy = new Dexie(name);
-    legacy.version(1).stores(V1_STORES);
+  it("does not read from or upgrade an existing erya-names database", async () => {
+    const legacy = new Dexie(LEGACY_DATABASE_NAME);
+    legacy.version(1).stores({
+      projects: "&id",
+      legacyRecords: "&id",
+    });
     await legacy.open();
-    await legacy.table("candidates").bulkAdd(
-      ["c1", "c2"].map((id) => ({
-        id,
-        projectId: "p1",
-        batchId: null,
-        normalizedFingerprint: id,
-        surname: "宋",
-        givenName: id,
-        fullName: id,
-        pinyin: [],
-        sourceType: "user_input",
-        summary: "历史候选",
-        sourceIds: [],
-        sourceEvidence: [],
-        warnings: [],
-        riskSignals: [],
-        ruleResults: [],
-        styleTags: [],
-        characterElements: [],
-        createdAt: "2026-09-17T00:00:00.000Z",
-      })),
-    );
-    await legacy.table("comparisonSnapshots").add({
-      id: "legacy-snapshot",
-      projectId: "p1",
-      candidateIds: ["c1", "c2"],
-      createdAt: "2026-09-17T00:00:00.000Z",
-    });
+    await legacy.table("projects").add({ id: "legacy-project", title: "旧方案" });
+    await legacy.table("legacyRecords").add({ id: "legacy-marker", value: "keep-me" });
     legacy.close();
 
-    const upgraded = await openDatabase({ name });
-    await expect(upgraded.comparisonSnapshots.get("legacy-snapshot")).resolves.toMatchObject({
-      name: "历史对比 2026-09-17 00:00",
-      candidates: [{ id: "c1" }, { id: "c2" }],
-    });
-    upgraded.close();
-  });
+    const current = await openDatabase();
+    try {
+      expect(current.name).toBe(V2_DATABASE_NAME);
+      await expect(current.table("projects").count()).resolves.toBe(0);
+    } finally {
+      current.close();
+    }
 
-  it("adds an empty character evidence collection to existing v2 candidates", async () => {
-    const name = testDatabaseName();
-    const legacy = new Dexie(name);
-    legacy.version(1).stores(V1_STORES);
-    legacy.version(2).stores(V1_STORES);
-    await legacy.open();
-    await legacy.table("candidates").add({
-      id: "legacy-candidate",
-      projectId: "p1",
-      batchId: null,
-      normalizedFingerprint: "宋清扬",
-      surname: "宋",
-      givenName: "清扬",
-      fullName: "宋清扬",
-      pinyin: [],
-      sourceType: "user_input",
-      summary: "",
-      sourceIds: [],
-      sourceEvidence: [],
-      warnings: [],
-      riskSignals: [],
-      ruleResults: [],
-      styleTags: [],
-      characterElements: [],
-      createdAt: "2026-09-17T00:00:00.000Z",
-    });
-    legacy.close();
-    const upgraded = await openDatabase({ name });
-    await expect(upgraded.candidates.get("legacy-candidate")).resolves.toMatchObject({
-      characterEvidence: [],
-    });
-    upgraded.close();
-  });
-
-  it("opens legacy v3 decisions behind the v4 compatibility boundary without rewriting them", async () => {
-    const name = testDatabaseName();
-    const legacy = new Dexie(name);
-    legacy.version(3).stores(V3_STORES);
-    await legacy.open();
-    await legacy.table("candidateDecisions").add({
-      candidateId: "c1",
-      projectId: "p1",
-      stage: "favorite",
-      updatedAt: "2026-10-08T00:00:00.000Z",
-    });
-    legacy.close();
-
-    const upgraded = await openDatabase({ name });
-    expect(upgraded.verno).toBe(4);
-    await expect(upgraded.candidateDecisions.get("c1")).resolves.toMatchObject({
-      stage: "favorite",
-    });
-    upgraded.close();
+    const untouchedLegacy = new Dexie(LEGACY_DATABASE_NAME);
+    await untouchedLegacy.open();
+    try {
+      expect(untouchedLegacy.verno).toBe(1);
+      expect(untouchedLegacy.tables.map(({ name }) => name).sort()).toEqual([
+        "legacyRecords",
+        "projects",
+      ]);
+      await expect(
+        untouchedLegacy.table("legacyRecords").get("legacy-marker"),
+      ).resolves.toEqual({
+        id: "legacy-marker",
+        value: "keep-me",
+      });
+      await expect(
+        untouchedLegacy.table("projects").get("legacy-project"),
+      ).resolves.toMatchObject({
+        title: "旧方案",
+      });
+    } finally {
+      untouchedLegacy.close();
+    }
   });
 });

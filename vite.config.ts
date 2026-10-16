@@ -35,6 +35,7 @@ function corpusAsset(): Plugin {
 }
 export default defineConfig({
   plugins: [react(), corpusAsset()],
+  build: { manifest: true },
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version ?? "0.0.0"),
     __RUNTIME_BUNDLE_URL__: JSON.stringify(`/${corpusFile}`),

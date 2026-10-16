@@ -28,8 +28,9 @@ export class AddManualCandidate {
     const workspace = await this.projects.getWorkspace(input.projectId);
     if (!workspace) return err("project-not-found");
     const fullName = input.fullName.trim().normalize("NFC");
-    if (!fullName.startsWith(workspace.profile.surname)) return err("surname-mismatch");
-    const givenName = fullName.slice(workspace.profile.surname.length);
+    const surname = workspace.profile.basics.surname;
+    if (!fullName.startsWith(surname)) return err("surname-mismatch");
+    const givenName = fullName.slice(surname.length);
     const bundle = this.dependencies.loadBundle();
     const bundleCharacters = new Map(bundle.characters.map((entry) => [entry.char, entry]));
     const pinyinIndex = bundle.standardCharacterPinyin;
@@ -49,7 +50,6 @@ export class AddManualCandidate {
     if (await this.candidates.exists(input.projectId, fullName))
       return err("这个名字已经在本方案中，请在灵感池或候选集中搜索后保留。");
 
-    const missingEvidence = [...givenName].filter((char) => !bundleCharacters.has(char));
     const reviewedRisks = evaluateReviewedRisks({
       givenName,
       sourceRiskSignals: [],
@@ -58,58 +58,28 @@ export class AddManualCandidate {
     const rejectedRisk = reviewedRisks.find((rule) => rule.outcome === "reject");
     if (rejectedRisk) return err(rejectedRisk.explanation);
     const candidateId = this.dependencies.createId();
+    const createdAt = this.dependencies.now();
     await this.candidates.save({
-      id: candidateId,
-      projectId: input.projectId,
-      fullName,
-      surname: workspace.profile.surname,
-      givenName,
-      normalizedFingerprint: fullName,
-      summary: input.meaning.trim(),
-      userSource: input.userSource.trim(),
-      pinyin,
-      riskSignals: [...givenName].flatMap(
-        (char) => bundleCharacters.get(char)?.riskSignals ?? [],
-      ),
-      characterEvidence: [...givenName].map((char) => {
-        const entry = bundleCharacters.get(char);
-        return {
-          char,
-          pinyin: entry?.pinyin ?? pinyinIndex[char] ?? [],
-          meanings: entry?.meanings ?? [],
-          sourceRefs: entry?.sourceRefs.map((source) => source.sourceId) ?? [
-            "standard-hanzi-2013",
-            "pinyin-data",
-          ],
-        };
-      }),
-      createdAt: this.dependencies.now(),
-      ruleResults: [
-        {
-          evidenceLevel: "L1",
-          outcome: "pass",
-          ruleId: "l1-standard-character",
-          ruleVersion: "l1-standard-character-1",
-          explanation: "完整姓名均在《通用规范汉字表》中",
-          sourceRefs: ["standard-hanzi-2013"],
-          scoreDelta: 0,
-        },
-        family,
-        ...reviewedRisks,
-        ...(missingEvidence.length
-          ? [
-              {
-                evidenceLevel: "L2" as const,
-                outcome: "unknown" as const,
-                ruleId: "l2-manual-unreviewed-character",
-                ruleVersion: "manual-candidate-1",
-                explanation: `用户录入字缺少精选字卡证据：${missingEvidence.join("、")}；拼音来自通用规范字索引，字义、具体取音和谐音仍需人工确认`,
-                sourceRefs: ["standard-hanzi-2013", "pinyin-data"],
-                scoreDelta: 0,
-              },
-            ]
-          : []),
-      ],
+      candidate: {
+        id: candidateId,
+        projectId: input.projectId,
+        fullName,
+        surname,
+        givenName,
+        normalizedFingerprint: fullName,
+        summary: input.meaning.trim(),
+        pinyin,
+        sourceType: "user_input",
+        batchId: null,
+        createdAt,
+      },
+      source: {
+        id: `${candidateId}:source:1`,
+        projectId: input.projectId,
+        candidateId,
+        sourceId: "user-input",
+        location: input.userSource.trim(),
+      },
     });
     return ok({ candidateId });
   }

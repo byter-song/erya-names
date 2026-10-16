@@ -5,10 +5,6 @@ export const SYSTEM_SCORE_MIN = 0;
 export const SYSTEM_SCORE_MAX = 100;
 export const SYSTEM_SCORE_BASE_RULE_ID = "l3-score-base";
 
-const FULL_NAME_HOMOPHONE_RULE_ID = "l2-full-name-homophone";
-const LEGACY_FULL_NAME_SOUND_VERSION = "full-name-1";
-const LEGACY_FULL_NAME_SOUND_DELTA = -8;
-
 export function createSystemScoreBaseRule(): CandidateRuleResult {
   return {
     evidenceLevel: "L3",
@@ -26,7 +22,6 @@ export function getSystemScoreEvidence(
 ): CandidateRuleResult[] {
   const evidence: CandidateRuleResult[] = [];
   let hasBaseRule = false;
-  let hasFullNameHomophoneRule = false;
 
   for (const rule of ruleResults) {
     if (rule.evidenceLevel === "L4") continue;
@@ -36,12 +31,7 @@ export function getSystemScoreEvidence(
       hasBaseRule = true;
     }
 
-    if (rule.ruleId === FULL_NAME_HOMOPHONE_RULE_ID) {
-      if (hasFullNameHomophoneRule) continue;
-      hasFullNameHomophoneRule = true;
-    }
-
-    const scoreDelta = effectiveScoreDelta(rule);
+    const scoreDelta = rule.scoreDelta ?? 0;
     if (
       rule.ruleId !== SYSTEM_SCORE_BASE_RULE_ID &&
       rule.evidenceLevel !== "L3" &&
@@ -52,9 +42,7 @@ export function getSystemScoreEvidence(
     evidence.push({ ...rule, scoreDelta });
   }
 
-  // Candidates created before system-score-1 have no persisted base rule. Keep their
-  // display and ordering compatible without rewriting IndexedDB or backup payloads.
-  if (!hasBaseRule) evidence.unshift(createSystemScoreBaseRule());
+  if (!hasBaseRule) throw new Error("system-score-base-missing");
   return evidence;
 }
 
@@ -64,13 +52,4 @@ export function calculateSystemScore(ruleResults: readonly CandidateRuleResult[]
     0,
   );
   return Math.min(SYSTEM_SCORE_MAX, Math.max(SYSTEM_SCORE_MIN, Math.round(total)));
-}
-
-function effectiveScoreDelta(rule: CandidateRuleResult): number {
-  if (
-    rule.ruleId === FULL_NAME_HOMOPHONE_RULE_ID &&
-    rule.ruleVersion === LEGACY_FULL_NAME_SOUND_VERSION
-  )
-    return LEGACY_FULL_NAME_SOUND_DELTA;
-  return rule.scoreDelta ?? 0;
 }

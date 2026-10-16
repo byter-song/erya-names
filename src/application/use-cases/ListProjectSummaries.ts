@@ -1,6 +1,7 @@
+import type { CandidatePool } from "../../domain/candidate/decision";
+import type { ProjectSummary } from "../models/ProjectSummary";
 import type { GenerationRepository } from "../ports/GenerationRepository";
 import type { ProjectRepository } from "../ports/ProjectRepository";
-import type { ProjectSummary } from "../models/ProjectSummary";
 
 export class ListProjectSummaries {
   constructor(
@@ -10,33 +11,34 @@ export class ListProjectSummaries {
 
   async execute(): Promise<ProjectSummary[]> {
     const projects = await this.projects.listProjects();
-    return Promise.all(
-      projects.map(async (project) => {
-        const candidates = await this.generations.listCandidates(project.id);
-        const workspace = await this.projects.getWorkspace(project.id);
+    const summaries = await Promise.all(
+      projects.map(async (project): Promise<ProjectSummary> => {
+        const [candidates, workspace] = await Promise.all([
+          this.generations.listCandidates(project.id),
+          this.projects.getWorkspace(project.id),
+        ]);
+        const poolCounts: Record<CandidatePool, number> = {
+          inspiration: 0,
+          candidate: 0,
+          selected: 0,
+          excluded: 0,
+        };
+        for (const { decision } of candidates) poolCounts[decision.pool] += 1;
         return {
           id: project.id,
           title: project.title,
-          surname: workspace?.profile.surname ?? candidates[0]?.candidate.surname ?? "—",
+          surname: workspace?.profile.basics.surname ?? candidates[0]?.candidate.surname ?? "—",
           stage: project.stage,
           status: project.status,
-          candidateCount: candidates.filter(({ decision }) =>
-            [
-              "favorite",
-              "basic_shortlist",
-              "folklore_review",
-              "comparison",
-              "finalist",
-            ].includes(decision.stage),
-          ).length,
-          favoriteCount: candidates.filter(({ decision }) =>
-            ["favorite", "basic_shortlist", "folklore_review"].includes(decision.stage),
-          ).length,
-          finalistCount: candidates.filter(({ decision }) => decision.stage === "finalist")
-            .length,
+          poolCounts,
+          totalCandidateCount: candidates.length,
           updatedAt: project.updatedAt,
         };
       }),
+    );
+    return summaries.sort(
+      (left, right) =>
+        right.updatedAt.localeCompare(left.updatedAt) || left.id.localeCompare(right.id),
     );
   }
 }

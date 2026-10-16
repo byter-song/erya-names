@@ -1,101 +1,111 @@
 import { describe, expect, it } from "vitest";
-import { canMoveCandidate } from "../../../src/domain/candidate/decisionState";
+import type { CandidatePool } from "../../../src/domain/candidate/decision";
+import {
+  canMoveCandidate,
+  moveCandidatePool,
+  type CandidateMoveDirection,
+} from "../../../src/domain/candidate/decisionState";
 import { SessionUndoStack } from "../../../src/domain/candidate/sessionUndo";
 
+const pools = ["inspiration", "candidate", "selected", "excluded"] as const;
+const directions = ["forward", "backward"] as const;
+
+const expectedDestinations: Record<
+  CandidatePool,
+  Record<CandidateMoveDirection, CandidatePool | undefined>
+> = {
+  inspiration: { forward: "candidate", backward: undefined },
+  candidate: { forward: "selected", backward: "inspiration" },
+  selected: { forward: undefined, backward: "candidate" },
+  excluded: { forward: undefined, backward: undefined },
+};
+
 describe("candidate decision state", () => {
-  it("allows the single-user funnel transitions", () => {
-    for (const [from, to] of [
-      ["inbox", "favorite"],
-      ["inbox", "comparison"],
-      ["inbox", "rejected"],
-      ["favorite", "inbox"],
-      ["favorite", "comparison"],
-      ["favorite", "rejected"],
-      ["comparison", "favorite"],
-      ["comparison", "finalist"],
-      ["comparison", "rejected"],
-      ["finalist", "comparison"],
-      ["finalist", "rejected"],
-      ["rejected", "inbox"],
-    ] as const) {
-      expect(canMoveCandidate(from, to), `${from} -> ${to}`).toBe(true);
-    }
-  });
+  it.each(
+    pools.flatMap((pool) =>
+      directions.map((direction) => ({
+        pool,
+        direction,
+        expected: expectedDestinations[pool][direction],
+      })),
+    ),
+  )(
+    "derives $pool + $direction without accepting a destination",
+    ({ pool, direction, expected }) => {
+      expect(moveCandidatePool(pool, direction)).toBe(expected);
+      expect(canMoveCandidate(pool, direction)).toBe(expected !== undefined);
+    },
+  );
 
-  it("supports the five-stage funnel and recoverable exclusion", () => {
-    for (const [from, to] of [
-      ["inbox", "basic_shortlist"],
-      ["basic_shortlist", "folklore_review"],
-      ["basic_shortlist", "comparison"],
-      ["folklore_review", "basic_shortlist"],
-      ["folklore_review", "comparison"],
-      ["comparison", "finalist"],
-      ["finalist", "comparison"],
-      ["basic_shortlist", "excluded"],
-      ["folklore_review", "excluded"],
-      ["excluded", "basic_shortlist"],
-      ["excluded", "folklore_review"],
-    ] as const) {
-      expect(canMoveCandidate(from, to), `${from} -> ${to}`).toBe(true);
-    }
-  });
+  it("exposes exactly four adjacent active-pool moves", () => {
+    const legalMoves = pools.flatMap((pool) =>
+      directions.flatMap((direction) => {
+        const destination = moveCandidatePool(pool, direction);
+        return destination ? [`${pool}:${direction}:${destination}`] : [];
+      }),
+    );
 
-  it("rejects unsupported shortcuts", () => {
-    const stages = ["inbox", "favorite", "comparison", "finalist", "rejected"] as const;
-    const allowed = new Set([
-      "inbox:favorite",
-      "inbox:comparison",
-      "inbox:rejected",
-      "favorite:inbox",
-      "favorite:comparison",
-      "favorite:rejected",
-      "comparison:favorite",
-      "comparison:finalist",
-      "comparison:rejected",
-      "finalist:comparison",
-      "finalist:rejected",
-      "rejected:inbox",
+    expect(legalMoves).toEqual([
+      "inspiration:forward:candidate",
+      "candidate:forward:selected",
+      "candidate:backward:inspiration",
+      "selected:backward:candidate",
     ]);
-    for (const from of stages) {
-      for (const to of stages) {
-        if (!allowed.has(`${from}:${to}`)) {
-          expect(canMoveCandidate(from, to), `${from} -> ${to}`).toBe(false);
-        }
-      }
-    }
   });
 });
 
 describe("SessionUndoStack", () => {
-  it("undoes only bounded commands created in the current session", () => {
+  it("returns the inverse of the most recent command for the same project", () => {
     const stack = new SessionUndoStack(2);
-    stack.push({ projectId: "p1", candidateId: "c1", from: "inbox", to: "favorite" });
-    stack.push({ projectId: "p1", candidateId: "c2", from: "inbox", to: "comparison" });
-    stack.push({ projectId: "p1", candidateId: "c3", from: "inbox", to: "rejected" });
+    stack.push({
+      projectId: "p1",
+      candidateId: "c1",
+      from: "inspiration",
+      to: "candidate",
+    });
+    stack.push({ projectId: "p1", candidateId: "c2", from: "candidate", to: "selected" });
+    stack.push({
+      projectId: "p1",
+      candidateId: "c3",
+      from: "inspiration",
+      to: "candidate",
+    });
+
     expect(stack.pop("p1")).toEqual({
       projectId: "p1",
       candidateId: "c3",
-      from: "rejected",
-      to: "inbox",
+      from: "candidate",
+      to: "inspiration",
     });
-    expect(stack.hasCommands("p1")).toBe(true);
     expect(stack.pop("p1")).toEqual({
       projectId: "p1",
       candidateId: "c2",
-      from: "comparison",
-      to: "inbox",
+      from: "selected",
+      to: "candidate",
     });
-    expect(stack.hasCommands("p1")).toBe(false);
     expect(stack.pop("p1")).toBeUndefined();
   });
 
-  it("keeps the twenty-command limit independently for each project", () => {
-    const stack = new SessionUndoStack(2);
-    stack.push({ projectId: "p1", candidateId: "p1-c1", from: "inbox", to: "favorite" });
-    stack.push({ projectId: "p1", candidateId: "p1-c2", from: "inbox", to: "favorite" });
-    stack.push({ projectId: "p2", candidateId: "p2-c1", from: "inbox", to: "favorite" });
-    stack.push({ projectId: "p1", candidateId: "p1-c3", from: "inbox", to: "favorite" });
-    expect(stack.pop("p1")?.candidateId).toBe("p1-c3");
+  it("keeps the command limit independently for each project", () => {
+    const stack = new SessionUndoStack(1);
+    stack.push({
+      projectId: "p1",
+      candidateId: "p1-c1",
+      from: "inspiration",
+      to: "candidate",
+    });
+    stack.push({
+      projectId: "p2",
+      candidateId: "p2-c1",
+      from: "inspiration",
+      to: "candidate",
+    });
+    stack.push({
+      projectId: "p1",
+      candidateId: "p1-c2",
+      from: "inspiration",
+      to: "candidate",
+    });
     expect(stack.pop("p1")?.candidateId).toBe("p1-c2");
     expect(stack.pop("p2")?.candidateId).toBe("p2-c1");
   });

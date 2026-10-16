@@ -1,0 +1,9 @@
+{
+  "presetId": "traditional-core",
+  "presetVersion": "1",
+  "packIds": [
+    "bazi_wuxing/four-path-useful-god-v1/1.0.0",
+    "zodiac/zodiac-radical-hints-v1/1.0.0",
+    "traditional/zuozhuan-naming-principles-v1/1.0.0"
+  ]
+}

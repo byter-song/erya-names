@@ -42,18 +42,18 @@
 
 ## 模块地图
 
-| 模块       | 路径                                                                 | 说明                                             |
-| ---------- | -------------------------------------------------------------------- | ------------------------------------------------ |
-| App shell  | `src/app/`                                                           | 页面框架、内部路由和全局样式                     |
-| 项目与向导 | `src/features/projects/`, `src/features/onboarding/`                 | 方案中心、创建向导和表单约束                     |
-| 候选工作台 | `src/features/funnel/`, `src/features/comparison/`                   | 生成同页初选、候选详情、单人评价、对比和快照     |
-| 定稿与导出 | `src/features/finalization/`, `src/features/backup/`                 | 最终决定、PDF、JSON/加密备份与恢复               |
-| 领域模型   | `src/domain/`                                                        | 项目、候选、来源、规则、评价和民俗契约           |
-| 生成与规则 | `src/domain/generation/`, `src/domain/rules/`                        | 候选生成、L1/L2/L3/L4 分层规则和不变量           |
-| 民俗历法   | `src/domain/folklore/`                                               | `lunar-typescript` 封装、四柱和五行分布          |
-| 数据       | `src/data/`, `data/`, `scripts/data/`                                | 运行时语料、来源与中间产物、数据管线脚本         |
-| 存储       | `src/infrastructure/database/`, `src/infrastructure/repositories/`   | Dexie schema v4、迁移和仓储                      |
-| 测试       | `tests/unit/`, `tests/integration/`, `tests/security/`, `tests/e2e/` | 领域、存储、UI、安全、可访问性、性能和浏览器旅程 |
+| 模块       | 路径                                                                          | 说明                                             |
+| ---------- | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| App shell  | `src/app/`                                                                    | 页面框架、内部路由和全局样式                     |
+| 项目与向导 | `src/features/projects/`, `src/features/onboarding/`                          | 方案中心、创建向导和表单约束                     |
+| 候选工作台 | `src/features/scroll/`, `src/features/funnel/`, `src/features/comparison/`    | 长卷四池、候选详情、单人评价和只读对比           |
+| 配置与导出 | `src/features/configuration/`, `src/features/export/`, `src/features/backup/` | 统一配置、精选导出与备份恢复                     |
+| 领域模型   | `src/domain/`                                                                 | 项目、候选、来源、规则、评价和民俗契约           |
+| 生成与规则 | `src/domain/generation/`, `src/domain/rules/`                                 | 候选生成、L1/L2/L3/L4 分层规则和不变量           |
+| 民俗历法   | `src/domain/folklore/`                                                        | `lunar-typescript` 封装、四柱和五行分布          |
+| 数据       | `src/data/`, `data/`, `scripts/data/`                                         | 运行时语料、来源与中间产物、数据管线脚本         |
+| 存储       | `src/infrastructure/database/`, `src/infrastructure/repositories/`            | 全新 Dexie v2 库的 version 1 schema 与仓储       |
+| 测试       | `tests/unit/`, `tests/integration/`, `tests/security/`, `tests/e2e/`          | 领域、存储、UI、安全、可访问性、性能和浏览器旅程 |
 
 ## 构建与验证
 
@@ -82,16 +82,16 @@
 - `data/sources/personal/traditional-to-simplified.json` 是固定 OpenCC 来源生成的持久映射；繁体底本在精选构建和候选生成时先转换为简体，再进入字卡门禁与页面展示。
 - `data/sources/personal/character-elements.json` 为全部 303 张生成字卡提供 `semantic-imagery-1` 五行文化意象与逐字理由；它是 source_checked 项目分类，不是唯一权威字表。
 - 民俗报告和名字解释在 `src/features/insights/`；日柱支持午夜/晚子时口径，时辰不详只展示三柱。
-- 生成与筛选合并到 `/generate`；旧 `/candidates` 保留重定向兼容。
-- 方案中心的“继续方案”按持久化阶段进入 `/generate`、`/compare` 或 `/finalize`；旧 `/projects/:id` 地址会读取方案后跳转，不再停留在占位页。删除方案需二次确认，并在单个 Dexie 事务中清理全部项目从属记录。
+- 统一配置、长卷四池和精选导出分别位于 `/config`、`/names`、`/export`；不存在旧生成、比较或定稿独立路由。
+- 方案中心的“继续方案”按状态进入统一配置、长卷或精选导出。删除方案需二次确认，并在单个 Dexie 事务中清理全部项目从属记录。
 
-- 应用版本 `0.3.0`，Dexie schema v4，项目备份 schema v4（可导入 v1/v2/v3/v4）。
+- 应用版本 `0.3.0`，数据库 `erya-names-v2` version 1，项目备份为严格 v2 契约；不导入旧格式。
 - `public/_headers` 记录静态托管期望的安全头，`public/_redirects` 提供 SPA 深链 fallback；当前部署平台是 ESA Functions & Pages，远端验收需确认平台实际应用这些规则。
 - `npm run release:prepare` 生成一次 `dist/` 和 `output/release/release-manifest.json`；`npm run release:verify` 验证该目录未发生改变。
 - `npm run release:prepare:production` 是唯一生产数据构建入口：只有真实人审通过后才会生成 `releases/current.json` 并注入 production artifact。
 - Chromium/WebKit 可在本机验证；Edge 通过 `npm run test:e2e:edge` 在安装 Microsoft Edge 的环境或 Windows CI 验证。
-- 当前活跃界面为 `InkScrollShell` + `InkLongScrollPage`；顶部五个命名章节与备份入口，手机导航横向滚动并保持当前章可见。长卷按当前状态筛选，旧 `/candidates` 重定向到长卷。
-- 正文、表单与打印使用系统字体；品牌字与大标题使用裁剪版 Ma Shan Zheng。当前长卷采用亮色纸墨金线；旧暗色 token 和原型不等于可切换的活跃主题。启动页显示真实语料加载状态，就绪即退出；长卷支持减少动态效果。
+- 当前活跃界面为 `InkScrollShell` + `InkLongScrollPage`；顶部提供方案、配置、长卷、导出和备份入口，手机导航横向滚动并保持当前章可见。
+- 品牌字、标题、正文、表单与打印统一使用系统字体，不附带 Web 字体资源。当前长卷采用纸墨金线视觉；启动页显示真实语料加载状态，就绪即退出；长卷支持减少动态效果。
 - 生产发布仍受两项硬门禁约束：真实人工复核的 production corpus，以及 preview/production 的同 artifact 提升和真人验收。
 
 同一套命令也记录在 [`skill-build-run-test.md`](skill-build-run-test.md)，供 workbench preflight 读取。
@@ -109,5 +109,5 @@
 - 临时规格与验收：workspace `specs/20261015-scroll-completion/`。长卷旅程测试：`npm run test:e2e -- tests/e2e/scroll-journey.spec.ts`。旧 E2E 中仍有面向退役卡片/侧栏的断言，不能据此宣称全部发布门禁已通过。
 - 状元灵感是可选生成源 `historical_inspiration`，使用已有记录并保留借字关系；不因身份加分。
 - 生肖规则仅用于 `zodiacAdvisory` 展示，不接入生成、评分、排序或阶段 guard；家庭字表逐字匹配，首字排除姓氏。
-- 旧候选推进、首选保存与报告生成重新检查当前家庭硬约束；历史证据保持。`relativeAvoidances` 支持逐亲属整名/同字/同音；同字与同音只比较名，同音按指定普通话拼音与候选现用拼音比较、不分声调。规则包 `core-rules-4`、家庭规则 `l1-family-constraint-2`。定稿允许 1–5 名，首选与理由持久化。
+- 候选推进和导出前重新检查当前家庭硬约束；历史证据保持。`relativeAvoidances` 支持逐亲属整名/同字/同音；同字与同音只比较名，同音按指定普通话拼音与候选现用拼音比较、不分声调。精选名单不限数量。
 - 备份导入使用通过 schema 校验的完整 profile，不能手工重建部分 folklore 字段导致新配置丢失。

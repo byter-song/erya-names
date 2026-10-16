@@ -1,63 +1,87 @@
-import { ZodiacAdvisory } from "./ZodiacAdvisory";
-import { lazy, Suspense } from "react";
 import type { CandidateFunnelItem } from "../../application/models/CandidateFunnelItem";
-import type { NamingProfile } from "../../domain/project/profile";
 import { activeRuntimeBundle } from "../../data/activeRuntimeBundle";
-import writingStrokes from "../../data/curated/writing-strokes.json";
-import { sourceCatalog } from "../../data/sourceCatalog";
-import { nameSoundNotes, readSurname } from "../../domain/candidate/nameReading";
-import { elementLabels } from "../../domain/folklore/fiveElements";
-import { calculateSystemScore } from "../../domain/rules/scoring/systemScore";
+import type { NamingProfile } from "../../domain/project/profile";
 import { matchPersonUsages } from "../../domain/person/matchPersonUsages";
-import { FiveGridsPanel } from "./FiveGridsPanel";
+import type { EvidenceStatus, RuleEvidence, RuleModuleId } from "../../domain/rules/result";
+import { readSurname } from "../../domain/candidate/nameReading";
+import { ZodiacAdvisory } from "./ZodiacAdvisory";
 import "./insights.css";
-const entries = new Map(activeRuntimeBundle.characters.map((entry) => [entry.char, entry]));
-const strokes: Record<string, number> = writingStrokes;
-const FolklorePanel = lazy(() =>
-  import("./FolklorePanel").then((module) => ({ default: module.FolklorePanel })),
-);
+
+const moduleLabels: Record<RuleModuleId, string> = {
+  basic: "基础规范",
+  bazi_wuxing: "八字五行",
+  zodiac: "生肖提示",
+  traditional: "传统起名原则",
+  name_hexagram: "姓名卦象",
+  five_grids: "五格数理",
+};
+
+const statusLabels: Record<CandidateFunnelItem["hardStatus"], string> = {
+  pass: "通过",
+  notice: "有提示",
+  conflict: "有冲突",
+  unknown: "待补充",
+};
+
+const evidenceStatusLabels: Record<EvidenceStatus, string> = {
+  pass: "符合",
+  notice: "有提示",
+  conflict: "不符合",
+  unknown: "暂无法判断",
+};
+
+const applicabilityLabels: Record<RuleEvidence["applicability"], string> = {
+  applied: "已应用",
+  not_applicable: "不适用于当前名字",
+  missing_input: "缺少必要输入",
+  source_unverified: "资料尚未完成复核",
+};
+
+const identityLabels = {
+  historical_person: "历史人物",
+  zhuangyuan: "科举记录 · 状元",
+  bangyan: "科举记录 · 榜眼",
+  tanhua: "科举记录 · 探花",
+  jinshi: "科举记录 · 进士",
+} as const;
+
 export function NameExplanation({
   candidate,
   profile,
   showFolklore = false,
+  evidence = [],
+  hiddenEvidenceCount = 0,
 }: {
   candidate: CandidateFunnelItem;
-  profile?: NamingProfile | undefined;
+  profile?: NamingProfile;
   showFolklore?: boolean;
+  evidence?: RuleEvidence[];
+  hiddenEvidenceCount?: number;
 }) {
   const givenName =
-    candidate.givenName ?? candidate.fullName.slice(profile?.surname.length ?? 1);
+    candidate.givenName ?? candidate.fullName.slice(profile?.basics.surname.length ?? 1);
   const surname = candidate.fullName.slice(0, candidate.fullName.length - givenName.length);
   const reading = [
-    ...readSurname(surname, surname === profile?.surname ? profile.surnamePinyin : undefined),
+    ...readSurname(
+      surname,
+      surname === profile?.basics.surname ? profile.basics.surnamePinyin : undefined,
+    ),
     ...candidate.pinyin,
   ];
-  const evidence = candidate.characterEvidence?.length
-    ? candidate.characterEvidence
-    : [...givenName].map((char) => ({
-        char,
-        pinyin: entries.get(char)?.pinyin ?? [],
-        meanings: entries.get(char)?.meanings ?? [],
-        sourceRefs: [],
-      }));
-  const modernNote = candidate.sourceEvidence?.find(
-    (source) => source.sourceId === "erya-modern-20260927",
-  )?.excerpt;
-  const quotes = (candidate.sourceEvidence ?? []).filter((source) => source.quote);
-  const systemScore =
-    candidate.systemScore ?? calculateSystemScore(candidate.ruleEvidence ?? []);
-  const scoreDeductions = (candidate.scoreEvidence ?? []).filter((rule) => rule.scoreDelta < 0);
-  const visibleRuleEvidence = (candidate.ruleEvidence ?? []).filter(
-    (rule) => showFolklore || rule.evidenceLevel !== "L4",
-  );
+  const moduleScores = Object.entries(candidate.moduleScores ?? {}) as Array<
+    [RuleModuleId, number | undefined]
+  >;
   const personUsages = matchPersonUsages(candidate.fullName, activeRuntimeBundle.personUsages);
-  const identityLabels = {
-    historical_person: "历史人物",
-    zhuangyuan: "科举记录 · 状元",
-    bangyan: "科举记录 · 榜眼",
-    tanhua: "科举记录 · 探花",
-    jinshi: "科举记录 · 进士",
-  } as const;
+  const evidenceByModule = evidence.reduce<Map<RuleModuleId, RuleEvidence[]>>(
+    (groups, item) => {
+      const current = groups.get(item.moduleId) ?? [];
+      current.push(item);
+      groups.set(item.moduleId, current);
+      return groups;
+    },
+    new Map(),
+  );
+
   return (
     <div className="name-explanation">
       <div className="name-explanation__hero">
@@ -66,102 +90,190 @@ export function NameExplanation({
         <p>{reading.join(" · ")}</p>
         <p>{candidate.summary}</p>
       </div>
-      {candidate.eligibilityIssue && (
-        <p role="alert">
-          当前条件检查：{candidate.eligibilityIssue}。保留历史证据，但需调整后再比较或定稿。
+
+      <section aria-labelledby="score-summary-title">
+        <h3 id="score-summary-title">综合评估</h3>
+        <dl>
+          <dt>基础状态</dt>
+          <dd>{statusLabels[candidate.hardStatus]}</dd>
+          <dt>{candidate.completeness < 1 ? "暂定综合分" : "综合分"}</dt>
+          <dd>
+            {candidate.scoringPending ? "分析中" : `${formatScore(candidate.totalScore)}/100`}
+          </dd>
+          <dt>分析完整度</dt>
+          <dd>{Math.round(candidate.completeness * 100)}%</dd>
+        </dl>
+        {(candidate.hiddenScoredModuleCount ?? 0) > 0 ? (
+          <p className="insight-note">
+            有 {candidate.hiddenScoredModuleCount} 个模块已纳入评分，但按方案设置隐藏详情。
+          </p>
+        ) : null}
+        {candidate.topDeductions?.length ? (
+          <ul>
+            {candidate.topDeductions.map((item) => (
+              <li key={item.ruleId}>
+                {item.explanation}（扣 {item.deduction} 分）
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>当前已完成的规则中没有主要扣分项。</p>
+        )}
+      </section>
+
+      {showFolklore && profile ? (
+        <section aria-labelledby="folklore-title" className="folklore-overview">
+          <h3 id="folklore-title">民俗分析总览</h3>
+          <p className="insight-note">
+            按当前方案选择的传统体系与流派计算；结论会随历法口径、资料完整度和流派变化。
+          </p>
+          <ZodiacAdvisory
+            givenName={givenName}
+            profile={profile}
+            evidence={evidenceByModule.get("zodiac") ?? []}
+          />
+          <ul>
+            {(
+              Object.entries(profile.modules) as Array<
+                [
+                  keyof NamingProfile["modules"],
+                  NamingProfile["modules"][keyof NamingProfile["modules"]],
+                ]
+              >
+            ).map(([moduleId, settings]) => (
+              <li key={moduleId}>
+                <strong>{moduleLabels[moduleId]}</strong>：
+                {settings.analysisEnabled
+                  ? candidate.moduleScores[moduleId] === undefined
+                    ? "已启用，当前缺少必要资料"
+                    : `已纳入综合分，模块得分 ${candidate.moduleScores[moduleId]}/100`
+                  : "当前未启用"}
+                ；{settings.detailsVisible ? "详情可见" : "详情已隐藏"}。
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      <section aria-labelledby="evidence-title" className="rule-evidence">
+        <h3 id="evidence-title">规则证据与扣分过程</h3>
+        <p className="muted">
+          每条结论都保留适用条件、计算过程、所选流派和来源编号，便于逐项核对。
         </p>
-      )}
-      <h3>逐字读懂</h3>
-      <div className="character-grid">
-        {evidence.map((item, i) => {
-          const entry = entries.get(item.char);
-          return (
-            <section key={`${item.char}:${i}`}>
-              <strong>{item.char}</strong>
-              <span>{item.pinyin[0] ?? "读音待核"}</span>
-              <p>{item.meanings.join("；") || "暂无可核对的单字说明，请人工补充。"}</p>
-              <small>
-                {entry?.strokes ? `简体书写 ${entry.strokes} 画` : "笔画待核对"}
-                {item.pinyin.length > 1
-                  ? ` · 另有读音 ${item.pinyin.slice(1).join(" / ")}`
-                  : ""}
-              </small>
+        {hiddenEvidenceCount > 0 ? (
+          <p className="insight-note" role="status">
+            另有 {hiddenEvidenceCount} 条证据已参与当前结果，但按方案的“详情显示”设置隐藏。
+          </p>
+        ) : null}
+        {evidenceByModule.size ? (
+          [...evidenceByModule.entries()].map(([moduleId, items]) => (
+            <section
+              key={moduleId}
+              className="rule-evidence__module"
+              aria-labelledby={`evidence-${moduleId}`}
+            >
+              <h4 id={`evidence-${moduleId}`}>{moduleLabels[moduleId]}</h4>
+              {items.map((item) => (
+                <details key={item.id} className="rule-evidence__item">
+                  <summary>
+                    <span>{item.explanation}</span>
+                    <span className="rule-evidence__status" data-status={item.status}>
+                      状态：{evidenceStatusLabels[item.status]}
+                    </span>
+                  </summary>
+                  <dl className="rule-evidence__facts">
+                    <dt>适用性</dt>
+                    <dd>{applicabilityLabels[item.applicability]}</dd>
+                    <dt>规则性质</dt>
+                    <dd>
+                      {item.severity === "hard"
+                        ? "硬性状态规则，不参与加权扣分"
+                        : "软性评分规则"}
+                    </dd>
+                    <dt>输入摘要</dt>
+                    <dd>{item.inputSummary}</dd>
+                    <dt>扣分链</dt>
+                    <dd>
+                      {item.scoreBefore !== undefined &&
+                      item.deduction !== undefined &&
+                      item.scoreAfter !== undefined
+                        ? `${item.scoreBefore} − ${item.deduction} = ${item.scoreAfter}`
+                        : "本条不形成数值扣分"}
+                    </dd>
+                    <dt>计算说明</dt>
+                    <dd>
+                      {item.calculation.length ? (
+                        <ol>
+                          {item.calculation.map((step, index) => (
+                            <li key={`${item.id}:calculation:${index}`}>{step}</li>
+                          ))}
+                        </ol>
+                      ) : (
+                        "没有额外计算步骤"
+                      )}
+                    </dd>
+                    <dt>规则与版本</dt>
+                    <dd>
+                      {item.ruleId} · {item.ruleVersion}
+                      {item.schoolId ? ` · ${item.schoolId}` : ""}
+                    </dd>
+                    <dt>来源编号</dt>
+                    <dd>
+                      {item.sourceIds.length ? item.sourceIds.join("、") : "暂无可核验来源"}
+                    </dd>
+                    <dt>不确定性</dt>
+                    <dd>{item.uncertainty ?? "未记录额外不确定性"}</dd>
+                  </dl>
+                </details>
+              ))}
             </section>
-          );
-        })}
-      </div>
-      <h3>出处与取意</h3>
-      {candidate.sourceType === "historical_inspiration" ? (
-        <>
-          <p>状元用名是可选灵感；下列是人物事实与本次取字关系，不表示原名缘由或功名保证。</p>
-          {candidate.sourceEvidence?.map((source, i) => (
-            <section key={i}>
-              <h4>{source.title}</h4>
-              <p>
-                {source.work} · {source.excerpt}
-              </p>
-              {source.url && (
-                <a href={source.url} target="_blank" rel="noreferrer">
-                  核对人物记录 ↗
-                </a>
-              )}
-            </section>
-          ))}
-        </>
-      ) : candidate.sourceType === "user_input" ? (
-        <p>
-          手工录入：{candidate.sourceEvidence?.map((s) => s.excerpt ?? s.location).join("；")}
-          。来源由你提供，尚未独立核验。
-        </p>
-      ) : quotes.length ? (
-        quotes.map((source, i) => {
-          const info = sourceCatalog[source.sourceId];
-          const sourceUrl = source.url ?? info?.url;
-          return (
-            <blockquote key={`${source.sourceId}:${i}`}>
-              <p>「{source.quote}」</p>
-              <cite>
-                {source.work} · {source.location ?? source.title}
-              </cite>
-              <p className="muted">
-                {source.quote?.includes(givenName)
-                  ? "取原文连续文字"
-                  : "由同一原句依次取字；不是原句中的连续词语"}
-                。现代取名寓意是在原文基础上的引申。
-              </p>
-              {sourceUrl ? (
-                <a href={sourceUrl} target="_blank" rel="noreferrer">
-                  核对古籍原文 ↗
-                </a>
-              ) : (
-                <span>历史来源记录：{source.sourceId}</span>
-              )}
-            </blockquote>
-          );
-        })
-      ) : (
-        <p>
-          现代组合命名：依照单字含义与家庭偏好组合，不宣称整名出自某篇古籍。你可以将喜欢的现代名字保留在候选集。
-        </p>
-      )}
-      <h3>全名音律与日常使用</h3>
-      <ul>
-        {nameSoundNotes(reading).map((note) => (
-          <li key={note}>{note}</li>
-        ))}
-      </ul>
-      <p>
-        推荐试用：你好，我叫{candidate.fullName}。／{candidate.fullName}，请签到。／{givenName}
-        ，回家啦。
-      </p>
+          ))
+        ) : (
+          <p>当前还没有可展示的规则证据。</p>
+        )}
+      </section>
+
+      <section aria-labelledby="module-score-title">
+        <h3 id="module-score-title">分模块得分</h3>
+        {moduleScores.length ? (
+          <dl>
+            {moduleScores.map(([moduleId, score]) => (
+              <div key={moduleId}>
+                <dt>{moduleLabels[moduleId]}</dt>
+                <dd>{score === undefined ? "待评估" : `${score}/100`}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : (
+          <p>当前还没有可展示的分模块结果。</p>
+        )}
+      </section>
+
+      <section aria-labelledby="source-title">
+        <h3 id="source-title">出处与灵感</h3>
+        {candidate.sourceEvidence.length ? (
+          <ul>
+            {candidate.sourceEvidence.map((source) => (
+              <li key={source.sourceId}>
+                <strong>{source.title ?? source.sourceId}</strong>
+                {source.quote ? `：“${source.quote}”` : ""}
+                {source.excerpt ? ` — ${source.excerpt}` : ""}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>这个名字暂时没有可核验的典故出处，按现代组合解释。</p>
+        )}
+      </section>
+
       {personUsages.length ? (
-        <>
-          <h3>历史用名参考</h3>
+        <section aria-labelledby="person-usage-title">
+          <h3 id="person-usage-title">历史用名参考</h3>
           <p className="insight-note">
             以下内容仅表示历史上存在完整同名记录，不构成名字寓意、人物评价或人生结果判断，也不参与评分和排序。
           </p>
           {personUsages.map((usage) => (
-            <section key={usage.id}>
+            <article key={usage.id} className="person-usage">
               <p>
                 <strong>{usage.name}</strong> · {usage.period} ·{" "}
                 {identityLabels[usage.identityType]}
@@ -186,117 +298,14 @@ export function NameExplanation({
                   ),
                 )}
               </p>
-            </section>
+            </article>
           ))}
-        </>
+        </section>
       ) : null}
-      {profile && <ZodiacAdvisory givenName={givenName} folklore={profile.folklore} />}
-      <h3>需要一起考虑</h3>
-      {modernNote ? <p className="insight-note">{modernNote}</p> : null}
-      <ul>
-        {candidate.warnings.map((warning, i) => (
-          <li key={i}>{warning.explanation}</li>
-        ))}
-        <li>常见度、重名人数与全国登记结果未接入实时数据，不能由匹配分推断。</li>
-        {profile?.dialectNotes ? <li>家庭方言备忘：{profile.dialectNotes}</li> : null}
-        {profile?.surnameType === "combined_parental" ? (
-          <li>父母组合姓需先向当地户籍机关核对登记依据；通过规范字检查并不代表可以登记。</li>
-        ) : null}
-      </ul>
-      <details>
-        <summary>为什么推荐 · 查看匹配依据</summary>
-        <p>
-          系统匹配 {systemScore}
-          /100。分数只表示当前家庭偏好，不表示名字的客观优劣；历史候选保留生成时的条件与评分。
-        </p>
-        <h4>扣分明细</h4>
-        {scoreDeductions.length ? (
-          <ul>
-            {scoreDeductions.map((rule) => (
-              <li key={`deduction:${rule.ruleId}`}>
-                {rule.explanation}（{rule.scoreDelta}）
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>当前评分没有扣分项。</p>
-        )}
-        <h4>全部评分依据</h4>
-        <ul>
-          {candidate.scoreEvidence?.map((rule) => (
-            <li key={rule.ruleId}>
-              {rule.explanation}（{rule.scoreDelta >= 0 ? "+" : ""}
-              {rule.scoreDelta}）
-            </li>
-          ))}
-        </ul>
-      </details>
-      {showFolklore && profile?.folklore.enabled ? (
-        <>
-          <h3>这个名字的民俗解释</h3>
-          <p className="insight-note">
-            传统民俗参考，非科学结论。字义五行采用本项目可说明的自然意象口径；未采用偏旁“一刀切”，也不混用纳音、八字或数理五行。
-          </p>
-          {[...givenName].map((char, i) => {
-            const entry = entries.get(char);
-            return (
-              <p key={`${char}:${i}`}>
-                <strong>
-                  {char} · {entry?.element ? elementLabels[entry.element] : "不强行定五行"}
-                </strong>
-                ：
-                {entry?.elementReason ??
-                  "没有足够明确的自然意象依据。不同字典和姓名学流派可能给出不同归类，本包保留未知。"}
-                {entry?.element && profile.folklore.usefulElements.includes(entry.element)
-                  ? " 符合你指定的五行意象。"
-                  : ""}
-              </p>
-            );
-          })}
-          <p>
-            你指定的五行：
-            {profile.folklore.usefulElements.map((e) => elementLabels[e]).join("、") ||
-              "暂不采用"}
-            。
-            {profile.folklore.includeInRanking
-              ? "在民俗候选中作为排序参考。"
-              : "不参与民俗候选排序。"}
-          </p>
-          <Suspense fallback={<p role="status">正在载入民俗参考…</p>}>
-            <FolklorePanel profile={profile} />
-          </Suspense>
-          <FiveGridsPanel surname={surname} givenName={givenName} strokes={strokes} />
-        </>
-      ) : null}
-      <details>
-        <summary>核对历史规则记录</summary>
-        <ul>
-          {visibleRuleEvidence.map((rule, i) => (
-            <li key={i}>
-              {rule.explanation}
-              <small>
-                {" "}
-                · {rule.ruleId} · {rule.ruleVersion} · {rule.sourceRefs.join("、")}
-              </small>
-            </li>
-          ))}
-        </ul>
-      </details>
-      <details>
-        <summary>资料版本与核验说明</summary>
-        <p>
-          本次个人字库：{activeRuntimeBundle.manifest.version}
-          。古籍原文、规范字和读音已进行机器交叉核验；释义由 AI
-          独立整理，未经专家逐条人工审校。选定前请核对原句、实际姓氏读音和家庭习惯。
-        </p>
-        <p className="source-links">
-          {["standard-hanzi-2013", "pinyin-data", "civil-code"].map((id) => (
-            <a key={id} href={sourceCatalog[id]!.url} rel="noreferrer" target="_blank">
-              {sourceCatalog[id]!.title} ↗
-            </a>
-          ))}
-        </p>
-      </details>
     </div>
   );
+}
+
+function formatScore(score: number | undefined): string {
+  return score === undefined ? "—" : Number(score.toFixed(1)).toString();
 }

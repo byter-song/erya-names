@@ -51,55 +51,13 @@
   --shadow-paper: 0 22px 58px rgb(47 54 45 / 11%), 0 2px 8px rgb(94 83 56 / 6%);
   --shadow-lifted: 0 28px 68px rgb(47 54 45 / 16%), 0 8px 22px rgb(174 136 68 / 10%);
   --ease-ink: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-system:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei",
+    sans-serif;
+  color-scheme: light;
   color: var(--text-primary);
   background: var(--paper-100);
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: var(--font-system);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-}
-
-[data-theme="dark"] {
-  --ink-950: #fff2cf;
-  --ink-900: #f4e1b7;
-  --ink-800: #dec79c;
-  --ink-700: #baa37e;
-  --ink-500: #8e7a5e;
-  --ink-300: #5d4f3e;
-  --mist-100: #3c3024;
-  --mist-50: #241b14;
-  --paper-50: #211912;
-  --paper-100: #17120e;
-  --paper-200: #3f3021;
-  --paper-300: #655033;
-  --paper-400: #947440;
-  --gold-700: #f0cf7b;
-  --gold-600: #e2b653;
-  --gold-500: #c99027;
-  --gold-400: #e2b653;
-  --gold-300: #f3d68a;
-  --gold-line: rgb(226 182 83 / 58%);
-  --surface-card: linear-gradient(145deg, rgb(39 30 22 / 96%), rgb(16 13 10 / 93%));
-  --surface-card-solid: #211912;
-  --surface-subtle: rgb(24 18 13 / 72%);
-  --surface-input: rgb(13 11 8 / 78%);
-  --surface-band: linear-gradient(90deg, rgb(201 144 39 / 18%), rgb(20 16 12 / 80%));
-  --surface-hero:
-    radial-gradient(ellipse at 68% 10%, rgb(221 170 68 / 18%), transparent 56%),
-    linear-gradient(145deg, #2a2118, #110d0a);
-  --surface-highlight: linear-gradient(145deg, rgb(39 30 22 / 96%), rgb(201 144 39 / 14%));
-  --surface-selected: linear-gradient(145deg, rgb(45 34 23 / 98%), rgb(201 144 39 / 21%));
-  --surface-border: rgb(226 182 83 / 22%);
-  --accent-soft: rgb(201 144 39 / 18%);
-  --rail-background: linear-gradient(168deg, rgb(20 25 21 / 99%), rgb(7 10 8 / 99%));
-  --rail-panel: linear-gradient(160deg, rgb(18 23 19 / 96%), rgb(7 9 7 / 98%));
-  --rail-border: rgb(226 182 83 / 34%);
-  --rail-text: #f1dfb6;
-  --rail-heading: #fff6dc;
-  --rail-muted: rgb(229 214 184 / 58%);
-  --rail-step-bg: #121712;
-  --text-primary: #f4e8cf;
-  --text-secondary: #c7b697;
-  --shadow-paper: 0 24px 64px rgb(0 0 0 / 28%), 0 2px 8px rgb(201 144 39 / 8%);
-  --shadow-lifted: 0 30px 76px rgb(0 0 0 / 38%), 0 8px 24px rgb(201 144 39 / 12%);
 }

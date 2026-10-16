@@ -32,22 +32,33 @@ export function OnboardingPlaceholder() {
       givenNameLength: input.givenNameLength,
       completeOnboarding: true,
       profile: {
-        requiredCharacters: input.requiredCharacters.map((char) => ({ char, position: "any" })),
-        childGender: input.childGender,
-        constraintKnowledge: input.constraintKnowledge,
-        avoidCharacters: input.avoidCharacters,
-        relativeNames: input.relativeNames,
-        styleTags: input.styleTags,
-        genderExpression: input.genderExpression,
-        writingComplexity: input.writingComplexity,
-        pinyinFriendly: input.pinyinFriendly,
-        folklore: input.folklore,
+        basics: {
+          surname: input.surname,
+          surnameType: input.surnameType,
+          givenNameLength: input.givenNameLength,
+          childGender: input.childGender,
+          genderExpression: input.genderExpression,
+          styleTags: input.styleTags,
+          writingComplexity: input.writingComplexity,
+          pinyinFriendly: input.pinyinFriendly,
+        },
+        family: {
+          constraintKnowledge: input.constraintKnowledge,
+          requiredCharacters: input.requiredCharacters.map((char) => ({
+            char,
+            position: "any",
+          })),
+          generationCharacters: [],
+          avoidCharacters: input.avoidCharacters,
+          relativeNames: input.relativeNames,
+          forbiddenCombinations: [],
+        },
       },
     });
     if (!created.ok) throw new Error(created.error);
 
     await navigate({
-      to: "/projects/$projectId/generate",
+      to: "/projects/$projectId/config",
       params: { projectId: created.value.projectId },
     });
   };

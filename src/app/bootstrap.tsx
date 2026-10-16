@@ -4,16 +4,16 @@ import { RouterProvider } from "@tanstack/react-router";
 import { ApplicationProviders } from "./providers";
 import { router } from "./router";
 import { ReadOnlyRecoveryPage } from "../features/recovery/ReadOnlyRecoveryPage";
+import { exportRawDatabase } from "../infrastructure/backup/exportRawDatabase";
 import { buildDiagnosticBundle } from "../infrastructure/diagnostics/buildDiagnosticBundle";
 import { downloadJson } from "../infrastructure/export/downloadJson";
-import { exportRawDatabase } from "../infrastructure/backup/exportRawDatabase";
 import { createApplicationContainer } from "../infrastructure/container";
 import {
-  EryaDatabase,
   ERYA_DATABASE_NAME,
   ERYA_DATABASE_VERSION,
   ERYA_TABLES,
 } from "../infrastructure/database/EryaDatabase";
+import { openDatabase } from "../infrastructure/database/openDatabase";
 import { DexieDataHealthRepository } from "../infrastructure/repositories/DexieDataHealthRepository";
 import { CheckLocalDataHealth } from "../application/use-cases/CheckLocalDataHealth";
 import { isFutureDexieDatabaseVersion } from "../infrastructure/database/versionCompatibility";
@@ -37,8 +37,9 @@ export async function bootstrap(root: HTMLElement): Promise<void> {
     return;
   }
 
-  const database = new EryaDatabase();
+  let database: Awaited<ReturnType<typeof openDatabase>> | undefined;
   try {
+    database = await openDatabase();
     const health = await new CheckLocalDataHealth(new DexieDataHealthRepository(database), {
       supportedVersion: ERYA_DATABASE_VERSION,
       requiredTables: [...ERYA_TABLES],
@@ -56,7 +57,7 @@ export async function bootstrap(root: HTMLElement): Promise<void> {
       </StrictMode>,
     );
   } catch {
-    database.close();
+    database?.close();
     renderRecovery(root, {
       healthy: false,
       readOnly: true,

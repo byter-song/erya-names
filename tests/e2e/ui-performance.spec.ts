@@ -6,6 +6,19 @@ test(
   { tag: "@performance" },
   async ({ page }) => {
     const generationSamples: number[] = [];
+    const eagerRuleDocuments: string[] = [];
+    page.on("response", (response) => {
+      const pathname = new URL(response.url()).pathname;
+      if (/\/assets\/(?:rules|fixtures)-[^/]+\.js$/.test(pathname))
+        eagerRuleDocuments.push(pathname);
+    });
+    await page.addInitScript(() => {
+      const metrics = { longTasks: 0 };
+      Object.defineProperty(window, "__eryaLargePoolPerformance", { value: metrics });
+      new PerformanceObserver((list) => {
+        metrics.longTasks += list.getEntries().length;
+      }).observe({ type: "longtask", buffered: true });
+    });
     await page.goto("/");
     await page.getByRole("button", { name: "展新卷 · 新建方案" }).first().click();
     await page.getByLabel("姓氏", { exact: true }).fill("宋");
@@ -13,6 +26,11 @@ test(
     await page.getByRole("radio", { name: "没有", exact: true }).check();
     await page.getByRole("button", { name: "下一步", exact: true }).click();
     await page.getByRole("button", { name: "完成建档，开始选名" }).click();
+    await page.getByRole("link", { name: "进入名字长卷" }).click();
+    expect(
+      eagerRuleDocuments,
+      "default folklore rule documents must remain lazy until the first analysis",
+    ).toEqual([]);
 
     for (let sample = 0; sample < 5; sample += 1) {
       const previousCount = await candidateCount(page);
@@ -33,7 +51,7 @@ test(
 
     await page.evaluate(
       async ({ projectId }) => {
-        const request = indexedDB.open("erya-names");
+        const request = indexedDB.open("erya-names-v2");
         const database = await new Promise<IDBDatabase>((resolve, reject) => {
           request.onsuccess = () => resolve(request.result);
           request.onerror = () => reject(request.error);
@@ -57,20 +75,12 @@ test(
             pinyin: [],
             sourceType: "user_input",
             summary: "性能基准候选",
-            sourceIds: [],
-            sourceEvidence: [],
-            warnings: [],
-            riskSignals: [],
-            ruleResults: [],
-            styleTags: [index % 2 ? "清朗自然" : "文雅书卷"],
-            characterElements: [],
-            characterEvidence: [],
             createdAt: new Date().toISOString(),
           });
           decisions.put({
             candidateId: id,
             projectId,
-            stage: "inbox",
+            pool: "inspiration",
             updatedAt: new Date().toISOString(),
           });
         }
@@ -87,7 +97,7 @@ test(
     const filterSamples: number[] = [];
     for (let sample = 0; sample < 5; sample += 1) {
       const projectOpenStart = performance.now();
-      await page.goto(`/projects/${projectId}/generate`);
+      await page.goto(`/projects/${projectId}/names`);
       await expect.poll(() => candidateCount(page)).toBeGreaterThanOrEqual(1_000);
       projectOpenSamples.push(performance.now() - projectOpenStart);
       const filterStart = performance.now();
@@ -102,6 +112,11 @@ test(
       generationP95Ms: percentile95(generationSamples),
       projectOpenP95Ms: percentile95(projectOpenSamples),
       filterP95Ms: percentile95(filterSamples),
+      longTasks: await page.evaluate(
+        () =>
+          (window as Window & { __eryaLargePoolPerformance: { longTasks: number } })
+            .__eryaLargePoolPerformance.longTasks,
+      ),
       samples: {
         generation: generationSamples,
         projectOpen: projectOpenSamples,
@@ -116,6 +131,13 @@ test(
     expect(metrics.generationP95Ms).toBeLessThan(2_000);
     expect(metrics.projectOpenP95Ms).toBeLessThan(1_000);
     expect(metrics.filterP95Ms).toBeLessThan(100);
+    expect(metrics.longTasks).toBe(0);
+    const analyzedRuleDocuments = [...new Set(eagerRuleDocuments)];
+    expect(
+      analyzedRuleDocuments,
+      "the first analysis should load only the three enabled folklore-core rule documents",
+    ).toHaveLength(3);
+    expect(analyzedRuleDocuments.every((path) => path.includes("/assets/rules-"))).toBe(true);
   },
 );
 

@@ -55,11 +55,14 @@ describe("runtime curated bundle", () => {
     expect(riskSourceIds.every((sourceId) => sourceIds.has(sourceId))).toBe(true);
   });
 
-  it("keeps old bundles compatible by defaulting person usages to an empty list", () => {
+  it("requires every top-level dataset required by the current runtime", () => {
     const parsed = runtimeBundleSchema.parse(devBundle);
     expect(parsed.personUsages).toEqual([]);
     expect(parsed.standardCharacterPinyin).toEqual({});
     expect(parsed.traditionalToSimplified).toEqual({});
+    expect(() =>
+      runtimeBundleSchema.parse({ ...devBundle, personUsages: undefined }),
+    ).toThrow();
   });
 
   it("requires explicit rank evidence for every imperial-exam identity", () => {

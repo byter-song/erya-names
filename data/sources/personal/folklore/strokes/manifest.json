@@ -1,0 +1,27 @@
+{
+  "moduleId": "five_grids",
+  "schoolId": "kangxi-strokes-erya-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "research_only",
+  "sourceIds": ["unicode-unihan-17.0.0", "kangxi-image-review-queue"],
+  "applicableInputs": ["nameCharacters"],
+  "checksum": "sha256:8ae8e350a6229238e442775e4942bff8a04acbe4c87f59939ee15f42bc2ddbd0",
+  "sources": [
+    {
+      "id": "unicode-unihan-17.0.0",
+      "title": "Unicode 17.0.0 Unihan Database",
+      "locator": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+      "pageOrSection": "kKangXi、kTotalStrokes、kTraditionalVariant、kRSUnicode",
+      "verificationStatus": "official",
+      "notes": "下载文件 SHA-256 f7a48b2b545acfaa77b2d607ae28747404ce02baefee16396c5d2d7a8ef34b5e；不能代替康熙字典影像复核。"
+    },
+    {
+      "id": "kangxi-image-review-queue",
+      "title": "《康熙字典》原始影像逐字复核队列",
+      "locator": "data/sources/personal/folklore/strokes/characters.json",
+      "pageOrSection": "421 个去重字的 dictionaryIndex 与 imagePage 均待填写",
+      "verificationStatus": "unverified",
+      "notes": "未取得并逐字核对可靠原始影像前，不填 kangxiForm 与 strokeCount。"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ releaseEligible: false
 personalEligible: true
 files:
   - path: data/sources/personal/person-usages.json
-    sha256: d71f18fa6417b4a9b0273849ac002bfe719582587cf2ac43536d8871b7dc7922
+    sha256: b3f55b2689d4f40cad83dfe19952a67d1e413650a59e0d91bc6a64f54dc11fba
   - path: data/sources/personal/corpus-targets.json
     sha256: 470b79f9be3a8a7488336287fed4197e2af84fabf5ff1272f488c6fa3c7053fc
 notes: Project-authored factual curation and corpus baselines. Cross-dynasty zhuangyuan records retain authority links and reviewed inspiration characters; pinned Qing cohorts remain in the separate Wikipedia snapshot source.

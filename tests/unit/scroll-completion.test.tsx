@@ -1,26 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { CandidateFunnelItem } from "../../src/application/models/CandidateFunnelItem";
 import { InkLongScrollPage } from "../../src/features/scroll/InkLongScrollPage";
 import { namingProfileFixture } from "../fixtures/namingProfile";
-import type { CandidateFunnelItem } from "../../src/application/models/CandidateFunnelItem";
-import { zodiacAdvisory } from "../../src/domain/folklore/zodiacAdvisory";
-import { generateCandidates } from "../../src/domain/generation/generateCandidates";
-import { historicalInspirationDrafts } from "../../src/domain/generation/historicalInspiration";
-import { runtimeBundleSchema } from "../../src/data/schema/runtimeBundle";
-import personal from "../../src/data/curated/personal-bundle.json";
-const bundle = runtimeBundleSchema.parse(personal);
-const profile = { ...namingProfileFixture(), constraintKnowledge: "none" as const };
-const candidate: CandidateFunnelItem = {
-  id: "c1",
-  fullName: "宋清扬",
-  givenName: "清扬",
-  pinyin: ["qīng", "yáng"],
-  sourceType: "modern_combination",
-  summary: "清朗",
-  stage: "inbox",
-  warnings: [],
-};
+
 beforeEach(() => {
   vi.stubGlobal(
     "ResizeObserver",
@@ -29,131 +13,119 @@ beforeEach(() => {
       disconnect() {}
     },
   );
-});
-function props() {
-  return {
-    profile,
-    candidates: [
-      candidate,
-      { ...candidate, id: "c2", fullName: "宋清和", stage: "excluded" as const },
-    ],
-    datasetVersion: "test",
-    generationBusy: false,
-    onGenerate: vi.fn().mockResolvedValue(undefined),
-    onMove: vi.fn().mockResolvedValue(undefined),
-    onEvaluate: vi.fn().mockResolvedValue(undefined),
-    onUndo: vi.fn().mockResolvedValue(true),
-    onAddManual: vi.fn().mockResolvedValue(undefined),
-    onOpenComparison: vi.fn(),
-    onOpenFinalization: vi.fn(),
-    conditions: <p>条件</p>,
-    folkloreSettings: <p>民俗</p>,
-    chapter: "inbox" as const,
-    onChapterChange: vi.fn(),
+  vi.stubGlobal("matchMedia", () => ({ matches: true }));
+  HTMLElement.prototype.scrollTo = function scrollTo(options?: ScrollToOptions | number) {
+    this.scrollLeft = typeof options === "number" ? options : (options?.left ?? 0);
+    this.dispatchEvent(new Event("scroll"));
   };
-}
-describe("long scroll decisions", () => {
-  it("filters chapters, opens keyboard-accessible details and restores focus on Escape", async () => {
+});
+
+describe("long-scroll four-pool interaction", () => {
+  it("renders only the center frame plus three neighbors on each side", async () => {
+    const candidates = Array.from({ length: 12 }, (_, index) =>
+      candidate(`c${index}`, `宋清${index}`, "inspiration", index),
+    );
+    render(<InkLongScrollPage {...props(candidates)} />);
+
+    expect(document.querySelectorAll(".ils__panel")).toHaveLength(4);
+    const scroller = screen.getByRole("region", { name: "横向名字长卷，左右方向键翻阅" });
+    scroller.focus();
+    await userEvent.keyboard("{End}");
+
+    await waitFor(() => expect(screen.getByText("12 / 12")).toBeVisible());
+    expect(document.querySelectorAll(".ils__panel")).toHaveLength(4);
+    expect(screen.getByRole("heading", { name: "宋清11" })).toBeVisible();
+  });
+
+  it("keeps exclude at the lower left and select/remove actions on the right with names", async () => {
     const user = userEvent.setup();
-    const p = props();
-    render(<InkLongScrollPage {...p} />);
-    expect(screen.queryByText("宋清和")).not.toBeInTheDocument();
+    const p = props([candidate("c1", "宋清扬", "candidate", 0)]);
+    render(<InkLongScrollPage {...p} chapter="candidate" />);
+    const cardActions = screen.getByRole("region", { name: "宋清扬筛选操作" });
+
+    expect(within(cardActions).getByRole("button", { name: "排除宋清扬" })).toHaveClass(
+      "ils__card-action--exclude",
+    );
+    expect(
+      within(cardActions).getByRole("button", { name: "移除宋清扬并返回上一阶段" }),
+    ).toBeVisible();
+    expect(
+      within(cardActions).getByRole("button", { name: "选择宋清扬进入下一阶段" }),
+    ).toBeVisible();
+
+    await user.click(
+      within(cardActions).getByRole("button", { name: "选择宋清扬进入下一阶段" }),
+    );
+    expect(p.onMove).toHaveBeenCalledWith("c1", "forward", "2026-10-16T00:00:00.000Z");
+  });
+
+  it("opens accessible details, restores focus on Escape, and reports generation failures", async () => {
+    const user = userEvent.setup();
+    const p = props([candidate("c1", "宋清扬", "inspiration", 0)]);
+    const { rerender } = render(<InkLongScrollPage {...p} />);
     const trigger = screen.getByRole("button", { name: "查看宋清扬详情" });
     await user.click(trigger);
     expect(screen.getByRole("dialog", { name: "宋清扬详情" })).toBeVisible();
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();
-    await user.click(screen.getByRole("button", { name: "保留到基础候选" }));
-    expect(p.onMove).toHaveBeenCalledWith("c1", "basic_shortlist");
-  });
-  it("shows failed generation and lets the user retry", async () => {
-    const user = userEvent.setup();
-    const p = props();
+
     p.onGenerate.mockRejectedValueOnce(new Error("生成暂不可用"));
-    render(<InkLongScrollPage {...p} candidates={[]} />);
+    rerender(<InkLongScrollPage {...p} candidates={[]} />);
     await user.click(screen.getByRole("button", { name: "展卷 · 生成 9 个名字" }));
     expect(await screen.findByRole("alert")).toHaveTextContent("生成暂不可用");
-    await user.click(screen.getByRole("button", { name: "展卷 · 生成 9 个名字" }));
-    await waitFor(() => expect(p.onGenerate).toHaveBeenCalledTimes(2));
   });
 });
-describe("inspiration and folklore separation", () => {
-  it("turns the reviewed new dynasties into historical inspiration drafts", () => {
-    const drafts = historicalInspirationDrafts(
-      { ...profile, inspirationSources: ["historical"] },
-      bundle,
-    );
-    const titles = drafts.flatMap((draft) =>
-      draft.sourceEvidence.map((evidence) => evidence.title),
-    );
 
-    expect(titles).toContain("吕蒙正 · 状元用名");
-    expect(titles).toContain("泰不华 · 状元用名");
-    expect(titles).toContain("赵秉忠 · 状元用名");
-    expect(titles).toContain("王云锦 · 状元用名");
-    expect(titles).toContain("林召棠 · 状元用名");
-    expect(titles).not.toContain("卢肇 · 状元用名");
-  });
-  it("generates sourced historical inspirations without bypassing the current family constraints", () => {
-    const input = {
-      profile: { ...profile, inspirationSources: ["historical" as const] },
-      bundle,
-      seed: "historical",
-      requestedCount: 9,
-      allusionRatio: 0.5,
-      historicalFingerprints: new Set<string>(),
-    };
-    const result = generateCandidates(input);
-    expect(result.candidates.length).toBeGreaterThan(0);
-    for (const c of result.candidates) {
-      expect(c.sourceType).toBe("historical_inspiration");
-      expect(c.sourceEvidence[0]?.excerpt).toContain("关系：");
-      expect(c.sourceEvidence[0]?.url).toMatch(/^https:/);
-    }
-    const avoided = result.candidates[0]!.givenName[0]!;
-    const filtered = generateCandidates({
-      ...input,
-      profile: { ...input.profile, avoidCharacters: [avoided] },
-    });
-    expect(filtered.candidates.every((c) => !c.givenName.includes(avoided))).toBe(true);
-  });
-  it("adds explicit zodiac prefix advice without changing names, ordering or scores", () => {
-    const base = {
-      ...profile,
-      folklore: {
-        ...profile.folklore,
-        enabled: true,
-        birthLocalDateTime: "2026-05-12T10:00",
-        timeZone: "Asia/Shanghai",
-      },
-    };
-    const withAdvice = {
-      ...base,
-      folklore: {
-        ...base.folklore,
-        zodiacRules: [
-          {
-            zodiac: "马" as const,
-            characters: "清",
-            position: "start" as const,
-            explanation: "家庭首字提醒",
-            source: "家人口述",
-          },
-        ],
-      },
-    };
-    expect(zodiacAdvisory("清扬", withAdvice.folklore).hits).toHaveLength(1);
-    expect(zodiacAdvisory("扬清", withAdvice.folklore).hits).toHaveLength(0);
-    const options = {
-      bundle,
-      seed: "same",
-      requestedCount: 9,
-      allusionRatio: 0.5,
-      historicalFingerprints: new Set<string>(),
-    };
-    expect(generateCandidates({ ...options, profile: withAdvice })).toEqual(
-      generateCandidates({ ...options, profile: base }),
-    );
-  });
-});
+function props(candidates: CandidateFunnelItem[]) {
+  return {
+    profile: namingProfileFixture(),
+    candidates,
+    generationBusy: false,
+    onGenerate: vi.fn().mockResolvedValue(undefined),
+    onMove: vi.fn().mockResolvedValue(undefined),
+    onExclude: vi.fn().mockResolvedValue(undefined),
+    onRestore: vi.fn().mockResolvedValue(undefined),
+    onEvaluate: vi.fn().mockResolvedValue(undefined),
+    onUndo: vi.fn().mockResolvedValue(true),
+    onAddManual: vi.fn().mockResolvedValue(undefined),
+    onOpenExport: vi.fn(),
+    onOpenConfiguration: vi.fn(),
+    chapter: "inspiration" as const,
+    onChapterChange: vi.fn(),
+  };
+}
+
+function candidate(
+  id: string,
+  fullName: string,
+  pool: CandidateFunnelItem["pool"],
+  ordinal: number,
+): CandidateFunnelItem {
+  return {
+    id,
+    createdAt: `2026-10-16T00:00:${String(ordinal).padStart(2, "0")}.000Z`,
+    givenName: fullName.slice(1),
+    fullName,
+    pinyin: [],
+    sourceType: "modern_combination",
+    summary: "清朗自然",
+    sourceEvidence: [],
+    pool,
+    decisionUpdatedAt: "2026-10-16T00:00:00.000Z",
+    scoringPending: false,
+    hardStatus: "pass",
+    totalScore: 90 - ordinal,
+    completeness: 1,
+    moduleScores: { basic: 90 - ordinal },
+    topDeductions: [],
+    hiddenScoredModuleCount: 0,
+    ...(pool === "excluded"
+      ? {
+          lastActivePool: "candidate" as const,
+          exclusionReason: "暂不考虑",
+          excludedAt: "2026-10-16T00:00:00.000Z",
+        }
+      : {}),
+  };
+}

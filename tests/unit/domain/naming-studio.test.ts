@@ -9,22 +9,15 @@ import {
 } from "../../../src/domain/folklore/calendarAdapter";
 import { calculateFiveGrids } from "../../../src/domain/folklore/fiveGrids";
 import { readSurname, normalizePinyin } from "../../../src/domain/candidate/nameReading";
+import { namingProfileFixture } from "../../fixtures/namingProfile";
 const bundle = runtimeBundleSchema.parse(personal);
 const profile = namingProfileSchema.parse({
-  projectId: "studio-test",
-  surname: "宋",
-  surnameType: "single",
-  givenNameLength: 2,
-  requiredCharacters: [],
-  generationCharacters: [],
-  avoidCharacters: [],
-  relativeNames: [],
-  forbiddenCombinations: [],
-  genderExpression: "unrestricted",
-  styleTags: ["清朗自然"],
-  writingComplexity: "balanced",
-  pinyinFriendly: true,
-  folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+  ...namingProfileFixture("studio-test"),
+  basics: {
+    ...namingProfileFixture("studio-test").basics,
+    styleTags: ["清朗自然"],
+    pinyinFriendly: true,
+  },
 });
 const generate = (patch: Partial<typeof profile> = {}, history = new Set<string>()) =>
   generateCandidates({
@@ -96,10 +89,13 @@ describe("personal corpus and naming invariants", () => {
   });
   it("enforces fixed position, avoid characters and family exclusions", () => {
     const result = generate({
-      requiredCharacters: [{ char: "知", position: 1 }],
-      avoidCharacters: ["远"],
-      forbiddenCombinations: ["知安"],
-      relativeNames: ["宋知宁"],
+      family: {
+        ...profile.family,
+        requiredCharacters: [{ char: "知", position: 1 }],
+        avoidCharacters: ["远"],
+        forbiddenCombinations: ["知安"],
+        relativeNames: ["宋知宁"],
+      },
     });
     expect(result.candidates.length).toBeGreaterThan(0);
     for (const candidate of result.candidates) {
@@ -111,16 +107,30 @@ describe("personal corpus and naming invariants", () => {
   });
   it("keeps folklore out of generation and never lets it override a family constraint", () => {
     const result = generate({
-      avoidCharacters: ["清"],
-      folklore: { enabled: true, usefulElements: ["water"], includeInRanking: true },
+      family: { ...profile.family, avoidCharacters: ["清"] },
+      modules: {
+        ...profile.modules,
+        bazi_wuxing: {
+          ...profile.modules.bazi_wuxing,
+          analysisEnabled: true,
+          weight: 20,
+        },
+      },
     });
     expect(result.candidates.every((x) => !x.givenName.includes("清"))).toBe(true);
     expect(
       result.candidates.every((x) => x.ruleResults.every((r) => r.evidenceLevel !== "L4")),
     ).toBe(true);
     const off = generate({
-      avoidCharacters: ["清"],
-      folklore: { enabled: false, usefulElements: ["water"], includeInRanking: true },
+      family: { ...profile.family, avoidCharacters: ["清"] },
+      modules: {
+        ...profile.modules,
+        bazi_wuxing: {
+          ...profile.modules.bazi_wuxing,
+          analysisEnabled: false,
+          weight: 0,
+        },
+      },
     });
     expect(
       off.candidates.every((x) => x.ruleResults.every((r) => r.evidenceLevel !== "L4")),
@@ -159,10 +169,13 @@ describe("personal corpus and naming invariants", () => {
     expect(() =>
       namingProfileSchema.parse({
         ...profile,
-        requiredCharacters: [
-          { char: "清", position: 1 },
-          { char: "宁", position: 1 },
-        ],
+        family: {
+          ...profile.family,
+          requiredCharacters: [
+            { char: "清", position: 1 },
+            { char: "宁", position: 1 },
+          ],
+        },
       }),
     ).toThrow();
   });
@@ -232,10 +245,13 @@ it("keeps editorial interpretation when the same characters could also be freely
     const result = generateCandidates({
       profile: {
         ...profile,
-        requiredCharacters: [
-          { char: combination!.givenName[0]!, position: 1 },
-          { char: combination!.givenName[1]!, position: 2 },
-        ],
+        family: {
+          ...profile.family,
+          requiredCharacters: [
+            { char: combination!.givenName[0]!, position: 1 },
+            { char: combination!.givenName[1]!, position: 2 },
+          ],
+        },
       },
       bundle,
       seed,

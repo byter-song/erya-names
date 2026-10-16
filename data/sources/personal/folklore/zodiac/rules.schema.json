@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://erya.local/schemas/zodiac-radical-hints-v1.json",
+  "title": "Erya zodiac soft-advice rule pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["behavior", "scoring", "conventions", "matchSemantics", "rules", "disclaimer"],
+  "properties": {
+    "behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adviceOnly",
+        "filtersCandidates",
+        "blocksProgression",
+        "emitsHardConflict",
+        "noMatchMessage"
+      ],
+      "properties": {
+        "adviceOnly": { "const": true },
+        "filtersCandidates": { "const": false },
+        "blocksProgression": { "const": false },
+        "emitsHardConflict": { "const": false },
+        "noMatchMessage": { "type": "string", "minLength": 1 }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "avoidDeduction",
+        "preferBonus",
+        "moduleDeductionCap",
+        "maximumCompositeWeightPercent"
+      ],
+      "properties": {
+        "avoidDeduction": { "const": 8 },
+        "preferBonus": { "const": 0 },
+        "moduleDeductionCap": { "const": 20 },
+        "maximumCompositeWeightPercent": { "type": "number", "maximum": 5 }
+      }
+    },
+    "conventions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["lunar_new_year", "pillar_year_start_of_spring"] }
+    },
+    "matchSemantics": { "type": "string", "minLength": 1 },
+    "rules": {
+      "type": "array",
+      "minItems": 12,
+      "items": { "$ref": "#/$defs/rule" }
+    },
+    "disclaimer": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "zodiac",
+        "position",
+        "characters",
+        "radicalOrImage",
+        "direction",
+        "deduction",
+        "explanation",
+        "sourceId",
+        "controversyStatus",
+        "controversyNote",
+        "reviewStatus"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "zodiac": {
+          "enum": ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]
+        },
+        "position": { "enum": ["start", "any"] },
+        "characters": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "radicalOrImage": { "type": "string", "minLength": 1 },
+        "direction": { "enum": ["prefer", "avoid"] },
+        "deduction": { "enum": [0, 8] },
+        "explanation": { "type": "string", "minLength": 1 },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "controversyStatus": { "enum": ["disputed", "school_specific", "contextual"] },
+        "controversyNote": { "type": "string", "minLength": 1 },
+        "reviewStatus": { "const": "research_only" }
+      }
+    }
+  }
+}

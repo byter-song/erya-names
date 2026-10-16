@@ -5,10 +5,7 @@ export async function seedDecisionWorkspace(
   projectId = "p1",
   ids = ["c1", "c2", "c3", "c4", "c5", "c6"],
 ) {
-  await database.profiles.put({
-    ...namingProfileFixture(projectId),
-    constraintKnowledge: "none",
-  });
+  await database.profiles.put(namingProfileFixture(projectId));
   await database.candidates.bulkPut(
     ids.map((id, i) => ({
       id,
@@ -22,14 +19,6 @@ export async function seedDecisionWorkspace(
       sourceType: "user_input",
       summary: "测试姓名",
       createdAt: "2026-10-15T00:00:00.000Z",
-      sourceIds: [],
-      sourceEvidence: [],
-      warnings: [],
-      riskSignals: [],
-      ruleResults: [],
-      styleTags: [],
-      characterElements: [],
-      characterEvidence: [],
     })),
   );
 }

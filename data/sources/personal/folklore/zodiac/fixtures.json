@@ -1,0 +1,88 @@
+[
+  {
+    "id": "dragon-walk-radical-soft-hint",
+    "moduleId": "zodiac",
+    "schoolId": "zodiac-radical-hints-v1",
+    "ruleVersion": "1.0.0",
+    "title": "属龙名字含逸只产生软提示",
+    "input": {
+      "zodiacConvention": "lunar_new_year",
+      "zodiac": "龙",
+      "givenName": "逸安"
+    },
+    "expected": {
+      "status": "notice",
+      "score": 92,
+      "facts": {
+        "hitRuleIds": ["dragon-walk-radical-avoid"],
+        "deduction": 8,
+        "filtersCandidate": false,
+        "blocksProgression": false,
+        "hardConflict": false
+      },
+      "uncertainty": "辶的生肖解释存在流派冲突；仅按当前 research_only 规则包展示。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "sohu-zodiac-bazi-comparison",
+        "pageOrSection": "龙与辶的生肖偏旁示例"
+      }
+    ]
+  },
+  {
+    "id": "rabbit-shelter-positive-no-bonus",
+    "moduleId": "zodiac",
+    "schoolId": "zodiac-radical-hints-v1",
+    "ruleVersion": "1.0.0",
+    "title": "正向生肖命中只展示且不加分",
+    "input": {
+      "zodiacConvention": "pillar_year_start_of_spring",
+      "zodiac": "兔",
+      "givenName": "安然"
+    },
+    "expected": {
+      "status": "pass",
+      "score": 100,
+      "facts": {
+        "hitRuleIds": ["rabbit-shelter-prefer"],
+        "bonus": 0,
+        "filtersCandidate": false,
+        "blocksProgression": false
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "wikiversity-zodiac-naming",
+        "pageOrSection": "喜忌字根：洞穴"
+      }
+    ]
+  },
+  {
+    "id": "zodiac-no-match-is-not-full-compliance",
+    "moduleId": "zodiac",
+    "schoolId": "zodiac-radical-hints-v1",
+    "ruleVersion": "1.0.0",
+    "title": "未命中不宣称全面符合",
+    "input": {
+      "zodiacConvention": "lunar_new_year",
+      "zodiac": "鼠",
+      "givenName": "清扬"
+    },
+    "expected": {
+      "status": "unknown",
+      "score": 100,
+      "facts": {
+        "hitRuleIds": [],
+        "deduction": 0,
+        "message": "未命中当前规则包提醒；不代表符合所有生肖姓名流派。"
+      },
+      "uncertainty": "规则包只覆盖明确例字，不进行通用偏旁拆分。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "wikiversity-zodiac-naming",
+        "pageOrSection": "喜忌部首与偏旁繁多不胜枚举"
+      }
+    ]
+  }
+]

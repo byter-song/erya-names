@@ -3,23 +3,17 @@ import devBundle from "../../../../src/data/curated/dev-bundle.json";
 import { runtimeBundleSchema } from "../../../../src/data/schema/runtimeBundle";
 import { generateCandidates } from "../../../../src/domain/generation/generateCandidates";
 import { namingProfileSchema } from "../../../../src/domain/project/profile";
+import { namingProfileFixture } from "../../../fixtures/namingProfile";
 
 const bundle = runtimeBundleSchema.parse(devBundle);
 const profile = namingProfileSchema.parse({
-  projectId: "project-song",
-  surname: "宋",
-  surnameType: "single",
-  givenNameLength: 2,
-  requiredCharacters: [],
-  generationCharacters: [],
-  avoidCharacters: ["病"],
-  relativeNames: [],
-  forbiddenCombinations: [],
-  genderExpression: "unrestricted",
-  styleTags: ["清朗自然", "文雅书卷"],
-  writingComplexity: "balanced",
-  pinyinFriendly: true,
-  folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+  ...namingProfileFixture("project-song"),
+  basics: {
+    ...namingProfileFixture("project-song").basics,
+    styleTags: ["清朗自然", "文雅书卷"],
+    pinyinFriendly: true,
+  },
+  family: { ...namingProfileFixture("project-song").family, avoidCharacters: ["病"] },
 });
 
 describe("generateCandidates", () => {
@@ -62,8 +56,11 @@ describe("generateCandidates", () => {
     const result = generateCandidates({
       profile: namingProfileSchema.parse({
         ...profile,
-        requiredCharacters: [{ char: "清", position: 1 }],
-        avoidCharacters: ["宁"],
+        family: {
+          ...profile.family,
+          requiredCharacters: [{ char: "清", position: 1 }],
+          avoidCharacters: ["宁"],
+        },
       }),
       bundle,
       seed: "song-required",
@@ -86,8 +83,7 @@ describe("generateCandidates", () => {
     const result = generateCandidates({
       profile: namingProfileSchema.parse({
         ...profile,
-        childGender: "male",
-        genderExpression: "unrestricted",
+        basics: { ...profile.basics, childGender: "male", genderExpression: "unrestricted" },
       }),
       bundle,
       seed: "song-gender-reference",
@@ -112,7 +108,7 @@ describe("generateCandidates", () => {
     const result = generateCandidates({
       profile: namingProfileSchema.parse({
         ...profile,
-        forbiddenCombinations: ["清扬"],
+        family: { ...profile.family, forbiddenCombinations: ["清扬"] },
       }),
       bundle,
       seed: "song-hard-rules",
@@ -171,10 +167,13 @@ describe("generateCandidates", () => {
     const result = generateCandidates({
       profile: namingProfileSchema.parse({
         ...profile,
-        requiredCharacters: [
-          { char: "清", position: 1 },
-          { char: "扬", position: 2 },
-        ],
+        family: {
+          ...profile.family,
+          requiredCharacters: [
+            { char: "清", position: 1 },
+            { char: "扬", position: 2 },
+          ],
+        },
       }),
       bundle: {
         ...bundle,

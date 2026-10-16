@@ -1,5 +1,9 @@
 import type { DecisionRepository } from "../ports/DecisionRepository";
-import { candidateRestoreStage, type CandidateStage } from "../../domain/candidate/decision";
+import type { ActiveCandidatePool } from "../../domain/candidate/decision";
+import {
+  moveCandidatePool,
+  type CandidateMoveDirection,
+} from "../../domain/candidate/decisionState";
 import { err, ok, type Result } from "../../domain/shared/result";
 import type { SessionUndoStack } from "../../domain/candidate/sessionUndo";
 
@@ -8,7 +12,6 @@ export class UndoCandidateDecision {
     private readonly repository: DecisionRepository,
     private readonly dependencies: {
       now: () => string;
-      canProgress: (projectId: string) => Promise<boolean>;
       undoStack: SessionUndoStack;
     },
   ) {}
@@ -21,34 +24,27 @@ export class UndoCandidateDecision {
     const command = this.dependencies.undoStack.pop(input.projectId);
     if (!command) return err("no-undo-command");
     const current = await this.repository.get(command.candidateId);
-    if (!current || current.projectId !== input.projectId || current.stage !== command.from) {
+    if (!current || current.projectId !== input.projectId || current.pool !== command.from) {
       this.restore(command);
       return err(!current ? "candidate-not-found" : "undo-state-changed");
     }
-    if (
-      ["comparison", "finalist"].includes(command.to) &&
-      !(await this.dependencies.canProgress(input.projectId))
-    ) {
+    const direction = directionBetween(command.from, command.to);
+    if (!direction) {
       this.restore(command);
-      return err("family-rules-pending");
+      return err("undo-state-changed");
     }
     try {
-      await this.repository.move({
+      const moved = await this.repository.move({
         projectId: input.projectId,
         candidateId: command.candidateId,
-        from: command.from,
-        to: command.to,
-        ...(["excluded", "rejected"].includes(command.to)
-          ? {
-              rejectionReason: "撤销恢复",
-              lastActiveStage: candidateRestoreStage(current.stage),
-            }
-          : {}),
-        ...(command.to === "comparison" || command.to === "finalist"
-          ? { maximumTargetCount: 5 }
-          : {}),
+        direction,
+        expectedUpdatedAt: current.updatedAt,
         changedAt: this.dependencies.now(),
       });
+      if (!moved.ok) {
+        this.restore(command);
+        return moved;
+      }
       return ok({ hasMore: this.dependencies.undoStack.hasCommands(input.projectId) });
     } catch (error) {
       this.restore(command);
@@ -59,8 +55,8 @@ export class UndoCandidateDecision {
   private restore(command: {
     projectId: string;
     candidateId: string;
-    from: CandidateStage;
-    to: CandidateStage;
+    from: ActiveCandidatePool;
+    to: ActiveCandidatePool;
   }) {
     this.dependencies.undoStack.push({
       ...command,
@@ -68,4 +64,13 @@ export class UndoCandidateDecision {
       to: command.from,
     });
   }
+}
+
+function directionBetween(
+  from: ActiveCandidatePool,
+  to: ActiveCandidatePool,
+): CandidateMoveDirection | undefined {
+  if (moveCandidatePool(from, "forward") === to) return "forward";
+  if (moveCandidatePool(from, "backward") === to) return "backward";
+  return undefined;
 }

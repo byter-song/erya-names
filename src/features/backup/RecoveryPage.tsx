@@ -1,9 +1,11 @@
 import { useState } from "react";
+import type {
+  BackupConflictStrategy,
+  BackupImportAction,
+} from "../../application/ports/BackupRepository";
 import type { BackupImportPreview } from "../../application/use-cases/PreviewBackupImport";
 import { Button } from "../../design-system/primitives/Button";
 import "./backup.css";
-
-type ConflictStrategy = "keep-current" | "replace" | "import-copy";
 
 export function RecoveryPage({
   onPreview,
@@ -12,14 +14,14 @@ export function RecoveryPage({
   onPreview: (file: File, password?: string) => Promise<BackupImportPreview>;
   onRestore: (
     file: File,
-    strategy: ConflictStrategy,
+    strategy: BackupConflictStrategy,
     password?: string,
-  ) => Promise<{ projectId: string }>;
+  ) => Promise<{ projectId: string; action: BackupImportAction }>;
 }) {
   const [file, setFile] = useState<File>();
   const [password, setPassword] = useState("");
   const [preview, setPreview] = useState<BackupImportPreview>();
-  const [strategy, setStrategy] = useState<ConflictStrategy | "">("");
+  const [strategy, setStrategy] = useState<BackupConflictStrategy>();
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [activity, setActivity] = useState<"preview" | "restore">();
@@ -27,12 +29,14 @@ export function RecoveryPage({
   async function previewFile(selected: File) {
     setFile(selected);
     setPreview(undefined);
-    setStrategy("");
+    setStrategy(undefined);
     setStatus("");
     setError("");
     setActivity("preview");
     try {
-      setPreview(await onPreview(selected, password || undefined));
+      const result = await onPreview(selected, password || undefined);
+      setPreview(result);
+      setStrategy(result.conflict === "project-id" ? "import-copy" : "replace");
     } catch (reason) {
       setError(toRecoveryMessage(reason, "preview"));
     } finally {
@@ -47,7 +51,11 @@ export function RecoveryPage({
     setActivity("restore");
     try {
       const result = await onRestore(file, strategy, password || undefined);
-      setStatus(`恢复完成：${result.projectId}`);
+      setStatus(
+        result.action === "kept"
+          ? "已保留当前方案，未写入备份。"
+          : `恢复完成：${result.projectId}`,
+      );
     } catch (reason) {
       setError(toRecoveryMessage(reason, "restore"));
     } finally {
@@ -61,7 +69,10 @@ export function RecoveryPage({
         <div>
           <p className="project-center__kicker">尔雅 · 恢复长卷</p>
           <h1>恢复数据</h1>
-          <p>文件会在本机完成校验和解密。预览确认前，不会修改本地数据。</p>
+          <p>
+            仅接受当前尔雅 v2 导出的 backup
+            v1。文件会在本机完成校验和解密，预览确认前不会修改本地数据。
+          </p>
         </div>
         <div className="safety-vault-hero__status" aria-label="恢复状态">
           <span>恢复步骤</span>
@@ -74,7 +85,7 @@ export function RecoveryPage({
           <div>
             <p className="project-center__kicker">IMPORT</p>
             <h2 id="recovery-title">预览并恢复备份</h2>
-            <p>恢复前请确认文件来源可信；失败时不会覆盖现有数据。</p>
+            <p>恢复前请确认文件来源可信；旧版备份不会转换或写入当前数据库。</p>
           </div>
           <a href="/">返回方案中心</a>
         </div>
@@ -113,22 +124,32 @@ export function RecoveryPage({
         {preview ? (
           <section aria-label="恢复预览">
             <h2>{preview.projectTitle}</h2>
-            <p>{preview.conflict === "project-id" ? "检测到同 ID 方案" : "可作为新方案导入"}</p>
+            <p>
+              {preview.conflict === "project-id"
+                ? "检测到同 ID 方案，将使用新的方案 ID 恢复为副本"
+                : "可作为新方案导入"}
+            </p>
             <p>候选 {preview.counts.candidates ?? 0} 条</p>
-            <p>最终决定 {preview.counts.finalDecisions ?? 0} 条</p>
-            <label className="ui-field">
-              <span>冲突处理方式</span>
-              <select
-                aria-label="冲突处理方式"
-                onChange={(event) => setStrategy(event.target.value as ConflictStrategy)}
-                value={strategy}
-              >
-                <option value="">请选择</option>
-                <option value="keep-current">保留当前数据</option>
-                <option value="replace">覆盖当前方案</option>
-                <option value="import-copy">另存为副本</option>
-              </select>
-            </label>
+            <p>
+              精选 {preview.poolCounts.selected} 条 · 排除 {preview.poolCounts.excluded} 条 ·
+              评分 {preview.counts.candidateScores ?? 0} 条 · 证据{" "}
+              {preview.counts.ruleEvidence ?? 0}条
+            </p>
+            {preview.conflict === "project-id" ? (
+              <label className="ui-field">
+                <span>冲突处理方式</span>
+                <select
+                  aria-label="冲突处理方式"
+                  onChange={(event) =>
+                    setStrategy(event.target.value as BackupConflictStrategy)
+                  }
+                  value={strategy}
+                >
+                  <option value="import-copy">使用新 ID 另存为副本</option>
+                  <option value="keep-current">保留当前数据，不导入</option>
+                </select>
+              </label>
+            ) : null}
             <Button
               disabled={!strategy || Boolean(activity)}
               onClick={() => void restore()}
@@ -147,12 +168,12 @@ export function RecoveryPage({
           <article>
             <span>01</span>
             <strong>读取文件</strong>
-            <p>支持普通 JSON 备份与加密备份；加密文件需要输入正确密码。</p>
+            <p>支持当前 v2 backup v1 的普通 JSON 与加密备份；加密文件需要正确密码。</p>
           </article>
           <article>
             <span>02</span>
             <strong>预览影响</strong>
-            <p>先展示方案名称、候选数量、最终决定和冲突状态。</p>
+            <p>先展示方案名称、候选、四池状态、评分证据和冲突状态。</p>
           </article>
           <article>
             <span>03</span>
@@ -167,10 +188,12 @@ export function RecoveryPage({
 
 function toRecoveryMessage(reason: unknown, phase: "preview" | "restore"): string {
   const message = reason instanceof Error ? reason.message : "";
+  if (message === "unsupported-format")
+    return "不支持的备份格式（unsupported-format）。仅可恢复当前尔雅 v2 导出的 backup v1，旧版备份不会迁移。";
+  if (message === "invalid-checksum") return "备份完整性校验失败，文件可能已损坏。";
+  if (message === "invalid-payload") return "备份内容不完整或不属于当前 v2 数据模型。";
   if (/password|required|decrypt|operationerror/i.test(message))
     return "无法解密备份，请确认密码正确后重试。";
-  if (/schemaVersion|version|版本/i.test(message))
-    return "备份版本不受支持，请使用当前版本导出的备份文件。";
   if (/checksum|校验/i.test(message)) return "备份完整性校验失败，文件可能已损坏。";
   if (/json|invalid|unrecognized|format|parse|格式/i.test(message))
     return "备份文件格式无效，请确认选择了完整的尔雅 JSON 备份。";

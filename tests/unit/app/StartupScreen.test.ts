@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { createStartupScreen } from "../../../src/app/startupScreen";
 
 describe("startup screen", () => {
-  it("creates an accessible brush-opening status without remote assets", () => {
+  it("creates an accessible loading status without remote assets", () => {
     const controller = createStartupScreen();
     const screen = controller.element;
 

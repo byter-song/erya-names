@@ -1,5 +1,4 @@
 @import "./tokens.css";
-@import "./brush-font.css";
 
 * {
   box-sizing: border-box;
@@ -15,8 +14,7 @@ body {
   margin: 0;
   color: var(--text-primary);
   background: var(--paper-100);
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: var(--font-system);
 }
 
 body * {
@@ -138,13 +136,6 @@ summary {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-@media (min-width: 761px) {
-  .ink-scene__content main {
-    width: min(calc(100vw - 292px), var(--content-max, 1240px));
-    margin-left: 260px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

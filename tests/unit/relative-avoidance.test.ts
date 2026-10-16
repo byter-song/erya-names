@@ -12,10 +12,13 @@ import personal from "../../src/data/curated/personal-bundle.json";
 it("checks each relative against the given name without treating a shared surname as a taboo", () => {
   const profile = {
     ...namingProfileFixture(),
-    surname: "林",
-    relativeAvoidances: [
-      { fullName: "林清和", givenName: "清和", mode: "same-character" as const, pinyin: [] },
-    ],
+    basics: { ...namingProfileFixture().basics, surname: "林" },
+    family: {
+      ...namingProfileFixture().family,
+      relativeAvoidances: [
+        { fullName: "林清和", givenName: "清和", mode: "same-character" as const, pinyin: [] },
+      ],
+    },
   };
   const check = (givenName: string) =>
     evaluateFamilyConstraints({ profile, fullName: `林${givenName}`, givenName });
@@ -26,14 +29,17 @@ it("checks each relative against the given name without treating a shared surnam
 it("compares explicit Mandarin syllables across tones while keeping u distinct from ü", () => {
   const profile = {
     ...namingProfileFixture(),
-    relativeAvoidances: [
-      {
-        fullName: "林庆和",
-        givenName: "庆和",
-        mode: "same-sound" as const,
-        pinyin: ["qìng", "hé"],
-      },
-    ],
+    family: {
+      ...namingProfileFixture().family,
+      relativeAvoidances: [
+        {
+          fullName: "林庆和",
+          givenName: "庆和",
+          mode: "same-sound" as const,
+          pinyin: ["qìng", "hé"],
+        },
+      ],
+    },
   };
   const check = (pinyin?: string[]) =>
     evaluateFamilyConstraints({
@@ -51,21 +57,27 @@ it("compares explicit Mandarin syllables across tones while keeping u distinct f
 it("validates relative boundaries and applies same-sound constraints during generation", () => {
   const profile = {
     ...namingProfileFixture(),
-    constraintKnowledge: "present" as const,
-    relativeAvoidances: [
-      {
-        fullName: "林庆和",
-        givenName: "庆和",
-        mode: "same-sound" as const,
-        pinyin: ["qing", "he"],
-      },
-    ],
+    family: {
+      ...namingProfileFixture().family,
+      constraintKnowledge: "present" as const,
+      relativeAvoidances: [
+        {
+          fullName: "林庆和",
+          givenName: "庆和",
+          mode: "same-sound" as const,
+          pinyin: ["qing", "he"],
+        },
+      ],
+    },
   };
   expect(namingProfileSchema.safeParse(profile).success).toBe(true);
   expect(
     namingProfileSchema.safeParse({
       ...profile,
-      relativeAvoidances: [{ ...profile.relativeAvoidances[0], givenName: "知远" }],
+      family: {
+        ...profile.family,
+        relativeAvoidances: [{ ...profile.family.relativeAvoidances[0], givenName: "知远" }],
+      },
     }).success,
   ).toBe(false);
   const result = generateCandidates({

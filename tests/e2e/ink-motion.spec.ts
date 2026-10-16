@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { createProject } from "./helpers";
 
 test("the static long-scroll background ignores pointer input", async ({ page }) => {
   await page.goto("/");
@@ -17,4 +18,21 @@ test("the static long-scroll background ignores pointer input", async ({ page })
   expect(await mountains.evaluate((element) => getComputedStyle(element).transform)).toBe(
     before,
   );
+});
+
+test("reduced motion disables long-scroll panel and control transitions", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await createProject(page);
+
+  await expect(page.locator(".ils__panel.is-center")).toBeVisible();
+  expect(
+    await page
+      .locator(".ils__panel.is-center")
+      .evaluate((element) => getComputedStyle(element).transitionDuration),
+  ).toBe("0s");
+  expect(
+    await page
+      .getByRole("button", { name: "下一帧" })
+      .evaluate((element) => getComputedStyle(element).transitionDuration),
+  ).toBe("0s");
 });

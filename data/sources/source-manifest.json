@@ -87,7 +87,7 @@
       "upstreamVersion": "2026-09-30",
       "sourceLocation": "data/sources/personal/person-usages.json",
       "retrievedAt": "2026-09-30",
-      "contentHash": "15d68f39da54c886a6d539e46e2744f2a93024043e2cd99ea6b4da0db000d2e1",
+      "contentHash": "b3f55b2689d4f40cad83dfe19952a67d1e413650a59e0d91bc6a64f54dc11fba",
       "reviewStatus": "source_checked",
       "reviewNotes": "Factual curation with explicit ranks; pinned Wikipedia evidence is governed by its executable YAML contract. No rank is inferred from a generic jinshi record."
     },

@@ -5,6 +5,13 @@ import { generationBatchSchema } from "../../domain/generation/batch";
 import { generateCandidates } from "../../domain/generation/generateCandidates";
 import { RULE_PACK_VERSION } from "../../domain/rules/rulePack";
 import { err, ok, type Result } from "../../domain/shared/result";
+import type { ProjectAnalysisOutcome } from "./AnalyzeCurrentProjectCandidates";
+
+export interface GenerateCandidateBatchResult {
+  batchId: string;
+  candidateIds: string[];
+  analysis: ProjectAnalysisOutcome;
+}
 
 export class GenerateCandidateBatch {
   constructor(
@@ -15,6 +22,7 @@ export class GenerateCandidateBatch {
       createBatchId: () => string;
       createCandidateId: (fullName: string) => string;
       now: () => string;
+      analyzeCurrentRevision(input: { projectId: string }): Promise<ProjectAnalysisOutcome>;
     },
   ) {}
 
@@ -23,7 +31,7 @@ export class GenerateCandidateBatch {
     requestedCount: number;
     allusionRatio: number;
     seed: string;
-  }): Promise<Result<{ batchId: string; candidateIds: string[] }, string>> {
+  }): Promise<Result<GenerateCandidateBatchResult, string>> {
     const workspace = await this.projects.getWorkspace(input.projectId);
     if (!workspace) return err("project-not-found");
 
@@ -42,11 +50,22 @@ export class GenerateCandidateBatch {
       });
       const batchId = this.dependencies.createBatchId();
       const createdAt = this.dependencies.now();
+      // Generation keeps rich, transient material for filtering and ordering. Persist only the
+      // v2 candidate fact plus its separately stored source evidence; assessments are produced by
+      // the assessment pipeline and must never become a second fact source on the candidate row.
       const candidates = generated.candidates.map((candidate) => ({
-        ...candidate,
         id: this.dependencies.createCandidateId(candidate.fullName),
+        projectId: candidate.projectId,
         batchId,
+        normalizedFingerprint: candidate.normalizedFingerprint,
+        surname: candidate.surname,
+        givenName: candidate.givenName,
+        fullName: candidate.fullName,
+        pinyin: candidate.pinyin,
+        sourceType: candidate.sourceType,
+        summary: candidate.summary,
         createdAt,
+        sourceEvidence: candidate.sourceEvidence,
       }));
       const sequence = (await this.generations.countBatches(input.projectId)) + 1;
       const batch = generationBatchSchema.parse({
@@ -54,7 +73,7 @@ export class GenerateCandidateBatch {
         projectId: input.projectId,
         sequence,
         seed: input.seed,
-        inspirationSources: workspace.profile.inspirationSources ?? ["poetry", "modern"],
+        inspirationSources: workspace.profile.inspiration.sources,
         requestedCount: input.requestedCount,
         profileSnapshot: workspace.profile,
         datasetVersion: bundle.manifest.version,
@@ -65,7 +84,22 @@ export class GenerateCandidateBatch {
       });
 
       await this.generations.saveCompletedBatch({ batch, candidates });
-      return ok({ batchId, candidateIds: candidates.map((candidate) => candidate.id) });
+      let analysis: ProjectAnalysisOutcome;
+      try {
+        analysis = await this.dependencies.analyzeCurrentRevision({
+          projectId: input.projectId,
+        });
+      } catch (error) {
+        analysis = {
+          status: "failed",
+          error: error instanceof Error ? error.message : "assessment-run-failed",
+        };
+      }
+      return ok({
+        batchId,
+        candidateIds: candidates.map((candidate) => candidate.id),
+        analysis,
+      });
     } catch (error) {
       return err(error instanceof Error ? error.message : "generation-failed");
     }

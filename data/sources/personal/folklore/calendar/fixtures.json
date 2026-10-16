@@ -1,0 +1,84 @@
+[
+  {
+    "id": "hko-2024-start-of-spring-before",
+    "moduleId": "bazi_wuxing",
+    "schoolId": "gbt33661-lunar-calendar-v1",
+    "ruleVersion": "1.0.0",
+    "title": "2024 立春交节前仍使用上一年柱",
+    "input": {
+      "localDateTime": "2024-02-04T16:20",
+      "timeZone": "Asia/Shanghai",
+      "dayBoundary": "midnight",
+      "timeKnown": true
+    },
+    "expected": {
+      "status": "pass",
+      "facts": {
+        "nextJie": "立春",
+        "boundary": "2024-02-04T16:27+08:00",
+        "pillarYear": "癸卯"
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "hko-almanac-2024",
+        "pageOrSection": "2024 年 2 月 · Solar Terms · 立春 4 February 16:27"
+      }
+    ]
+  },
+  {
+    "id": "hko-2024-start-of-spring-after",
+    "moduleId": "bazi_wuxing",
+    "schoolId": "gbt33661-lunar-calendar-v1",
+    "ruleVersion": "1.0.0",
+    "title": "2024 立春交节后切换年柱",
+    "input": {
+      "localDateTime": "2024-02-04T16:30",
+      "timeZone": "Asia/Shanghai",
+      "dayBoundary": "midnight",
+      "timeKnown": true
+    },
+    "expected": {
+      "status": "pass",
+      "facts": {
+        "previousJie": "立春",
+        "boundary": "2024-02-04T16:27+08:00",
+        "pillarYear": "甲辰"
+      }
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "hko-almanac-2024",
+        "pageOrSection": "2024 年 2 月 · Solar Terms · 立春 4 February 16:27"
+      }
+    ]
+  },
+  {
+    "id": "unknown-birth-hour-three-pillars",
+    "moduleId": "bazi_wuxing",
+    "schoolId": "gbt33661-lunar-calendar-v1",
+    "ruleVersion": "1.0.0",
+    "title": "未知时辰只输出三柱",
+    "input": {
+      "localDateTime": "2024-08-08",
+      "timeZone": "Asia/Shanghai",
+      "dayBoundary": "midnight",
+      "timeKnown": false
+    },
+    "expected": {
+      "status": "unknown",
+      "facts": {
+        "pillarCount": 3,
+        "trueSolarTimeCorrection": "not_applied",
+        "historicalDstCorrection": "not_applied"
+      },
+      "uncertainty": "时辰不详，时柱不生成；交节附近需核对出生记录。"
+    },
+    "sourceRefs": [
+      {
+        "sourceId": "gbt-33661-2017",
+        "pageOrSection": "国家标准信息页及历法口径"
+      }
+    ]
+  }
+]

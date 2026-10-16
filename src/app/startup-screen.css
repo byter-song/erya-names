@@ -1,338 +1,129 @@
-/* ============================================================
-   尔雅 · 初始加载 ——「落墨 · 运笔 · 成章 · 钤印」
-   亮纸 / 金墨 / Canvas / 自绘书法 / 朱砂印章 / 冲屏退场
-   ============================================================ */
-
 .startup-screen {
   position: fixed;
   z-index: 100;
   inset: 0;
+  display: grid;
+  place-items: center;
+  min-width: 320px;
   overflow: hidden;
   color: var(--ink-950);
   background:
-    radial-gradient(circle at 78% 12%, rgba(176, 141, 87, 0.13), transparent 28%),
-    radial-gradient(circle at 12% 88%, rgba(35, 38, 32, 0.05), transparent 32%),
-    linear-gradient(150deg, #fdfbf4 0%, #f5f3ea 55%, #faf8f1 100%);
-  animation: ss-fade-in 0.5s ease both;
+    radial-gradient(circle at 78% 12%, rgb(174 136 68 / 14%), transparent 30%),
+    radial-gradient(circle at 12% 88%, rgb(47 54 45 / 7%), transparent 34%),
+    linear-gradient(150deg, var(--paper-50), var(--paper-100));
+  animation: startup-fade-in 240ms ease both;
 }
 
-@keyframes ss-fade-in {
+.startup-screen__center {
+  display: flex;
+  width: min(88vw, 420px);
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.startup-screen__mark {
+  display: grid;
+  width: 88px;
+  aspect-ratio: 1;
+  place-items: center;
+  color: var(--gold-700);
+  border: 1px solid var(--gold-line);
+  border-radius: 24px 8px 24px 8px;
+  background: rgb(250 247 238 / 80%);
+  box-shadow: var(--shadow-paper);
+  font-size: 3.25rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.startup-screen__center > p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+}
+
+.startup-screen progress {
+  width: min(72vw, 280px);
+  height: 4px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper-200);
+  appearance: none;
+}
+
+.startup-screen progress::-webkit-progress-bar {
+  background: var(--paper-200);
+}
+
+.startup-screen progress::-webkit-progress-value {
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gold-700), var(--gold-400));
+  transition: width 180ms ease;
+}
+
+.startup-screen progress::-moz-progress-bar {
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gold-700), var(--gold-400));
+}
+
+.startup-screen__error-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-paper);
+}
+
+.startup-screen__error-card strong {
+  font-size: 1.25rem;
+}
+
+.startup-screen__error-card p {
+  margin: 12px 0 22px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.startup-screen__error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.startup-screen__error-actions button {
+  min-height: 44px;
+  padding: 9px 20px;
+  border: 1px solid var(--gold-600);
+  border-radius: 999px;
+  color: var(--gold-700);
+  background: transparent;
+  cursor: pointer;
+}
+
+.startup-screen__error-actions [data-action="retry"] {
+  color: var(--paper-50);
+  background: var(--gold-700);
+}
+
+@keyframes startup-fade-in {
   from {
     opacity: 0;
   }
 }
 
-.startup-screen__grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.22;
-  mix-blend: multiply;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(7deg, transparent 0 3px, rgba(52, 59, 50, 0.03) 4px),
-    repeating-linear-gradient(95deg, transparent 0 7px, rgba(255, 252, 240, 0.22) 8px);
-}
-
-.startup-screen__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* —— 中心舞台 —— */
-.startup-screen__center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translate(-50%, -50%);
-  transition:
-    transform 0.8s cubic-bezier(0.7, 0, 0.2, 1),
-    opacity 0.6s ease;
-}
-.startup-screen.is-exiting .startup-screen__center {
-  transform: translate(-50%, -50%) scale(1.5);
-  opacity: 0;
-}
-
-/* —— 进度环 —— */
-.ss-ring {
-  width: clamp(250px, 32vmin, 320px);
-  aspect-ratio: 1;
-  overflow: visible;
-}
-.ss-ring__track {
-  fill: none;
-  stroke: rgba(121, 103, 66, 0.13);
-  stroke-width: 1.4;
-}
-.ss-ring__progress {
-  fill: none;
-  stroke: #b08d57;
-  stroke-width: 3;
-  stroke-linecap: round;
-  transform: rotate(-90deg);
-  transform-origin: 120px 120px;
-  filter: drop-shadow(0 0 6px rgba(176, 141, 87, 0.55));
-}
-.ss-ring__ticks {
-  fill: none;
-  stroke: rgba(176, 141, 87, 0.38);
-  stroke-width: 2.4;
-  stroke-dasharray: 1.5 9.5;
-  transform-origin: 120px 120px;
-  animation: ss-spin 16s linear infinite;
-}
-.ss-ring__halo {
-  fill: none;
-  stroke: rgba(176, 141, 87, 0.22);
-  stroke-width: 1;
-  transform-origin: 120px 120px;
-  animation: ss-spin-rev 30s linear infinite;
-}
-@keyframes ss-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes ss-spin-rev {
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-/* —— 书法自绘（与毛笔运笔对齐：820ms 起，约 1.3s 写完）—— */
-.ss-brand {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: clamp(140px, 17vmin, 176px);
-  transform: translate(-50%, -56%);
-  overflow: visible;
-}
-.ss-brand text {
-  font-family: var(--font-brush);
-  font-size: 76px;
-  stroke: #232620;
-  stroke-width: 1.1;
-  stroke-linejoin: round;
-  fill: transparent;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: ss-draw 1.35s cubic-bezier(0.65, 0, 0.35, 1) 0.95s forwards;
-}
-@keyframes ss-draw {
-  0% {
-    stroke-dashoffset: 1000;
-    fill: transparent;
-  }
-  66% {
-    fill: transparent;
-  }
-  100% {
-    stroke-dashoffset: 0;
-    fill: #232620;
-  }
-}
-
-.ss-percent {
-  position: absolute;
-  bottom: 25%;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.95rem;
-  color: #b08d57;
-  letter-spacing: 0.08em;
-}
-
-/* —— 阶段文案 —— */
-.startup-screen__phase {
-  margin-top: 36px;
-  font-size: 1.05rem;
-  letter-spacing: 0.55em;
-  padding-left: 0.55em;
-  color: var(--ink-700);
-}
-.startup-screen__sub {
-  margin-top: 12px;
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
-  color: var(--ink-300);
-  font-family: ui-monospace, Menlo, monospace;
-}
-
-/* —— 朱砂印章 —— */
-.ss-seal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  pointer-events: none;
-}
-.ss-seal__box {
-  position: absolute;
-  width: 74px;
-  height: 74px;
-  margin: -128px 0 0 58px;
-  display: grid;
-  place-items: center;
-  font-size: 1.7rem;
-  color: #b5442f;
-  border: 3px solid rgba(181, 68, 47, 0.85);
-  border-radius: 10px;
-  background: rgba(250, 244, 232, 0.5);
-  opacity: 0;
-  transform-origin: center;
-}
-.ss-seal__ripple {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  margin: -136px 0 0 50px;
-  border-radius: 50%;
-  border: 2px solid rgba(181, 68, 47, 0.6);
-  opacity: 0;
-}
-.startup-screen.is-stamping .ss-seal__box {
-  animation: ss-seal-stamp 0.56s cubic-bezier(0.2, 1.5, 0.4, 1) forwards;
-}
-.startup-screen.is-stamping .ss-seal__ripple {
-  animation: ss-seal-ripple 0.56s ease-out forwards;
-}
-.startup-screen.is-stamping {
-  animation: ss-shake 0.4s ease;
-}
-@keyframes ss-seal-stamp {
-  0% {
-    opacity: 0;
-    transform: translateY(-190px) rotate(-24deg) scale(2.3);
-  }
-  55% {
-    opacity: 1;
-    transform: translateY(0) rotate(7deg) scale(0.9);
-  }
-  75% {
-    transform: rotate(-2deg) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: rotate(0) scale(1);
-  }
-}
-@keyframes ss-seal-ripple {
-  0% {
-    opacity: 0.8;
-    transform: scale(0.4);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(2.6);
-  }
-}
-@keyframes ss-shake {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  20% {
-    transform: translate(-7px, 3px);
-  }
-  40% {
-    transform: translate(6px, -3px);
-  }
-  60% {
-    transform: translate(-4px, 2px);
-  }
-  80% {
-    transform: translate(3px, -1px);
-  }
-}
-
-/* —— 退场墨光 —— */
-.startup-screen__wash {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120vmax;
-  height: 120vmax;
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background: radial-gradient(
-    circle,
-    rgba(253, 251, 244, 0.92) 0%,
-    rgba(253, 251, 244, 0.92) 84%,
-    rgba(176, 141, 87, 0.65) 94.5%,
-    rgba(253, 251, 244, 0) 100%
-  );
-  pointer-events: none;
-}
-.startup-screen.is-exiting .startup-screen__wash {
-  animation: ss-wash 0.9s cubic-bezier(0.35, 0, 0.2, 1) forwards;
-}
-@keyframes ss-wash {
-  to {
-    transform: translate(-50%, -50%) scale(2.6);
-  }
-}
-
-/* —— 错误态 —— */
-.startup-screen__error-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 440px;
-  text-align: center;
-}
-.startup-screen__error-card strong {
-  font-size: 1.35rem;
-  letter-spacing: 0.2em;
-}
-.startup-screen__error-card p {
-  margin: 10px 0 22px;
-  color: var(--text-secondary);
-  line-height: 1.8;
-  font-size: 0.95rem;
-}
-.startup-screen__error-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.startup-screen__error-actions button {
-  min-height: 42px;
-  padding: 9px 22px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 0.92rem;
-}
-.startup-screen__error-actions [data-action="retry"] {
-  border: 1px solid #b08d57;
-  background: #b08d57;
-  color: #fff;
-}
-.startup-screen__error-actions [data-action="browse"] {
-  border: 1px solid rgba(176, 141, 87, 0.6);
-  background: transparent;
-  color: #795922;
-}
-
-@media (max-width: 600px) {
-  .startup-screen__phase {
-    font-size: 0.9rem;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .startup-screen,
-  .ss-ring__ticks,
-  .ss-ring__halo,
-  .ss-brand text {
-    animation: none !important;
-  }
-  .ss-brand text {
-    stroke-dashoffset: 0;
-    fill: #232620;
+  .startup-screen progress::-webkit-progress-value {
+    animation: none;
+    transition: none;
   }
 }

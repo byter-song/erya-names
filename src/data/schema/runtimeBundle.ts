@@ -1,4 +1,4 @@
-import { z, type Infer } from "../../domain/shared/zod";
+import { z, type Infer } from "../../domain/shared/zod.js";
 
 const singleNfcCharacterSchema = z
   .string()
@@ -35,7 +35,7 @@ export const runtimeCharacterSchema = z.object({
   meanings: z.array(z.string().min(1)).min(1),
   styleTags: z.array(z.string().min(1)),
   risks: z.array(z.string()),
-  riskSignals: z.array(reviewedRiskSignalSchema).default([]),
+  riskSignals: z.array(reviewedRiskSignalSchema),
   reviewStatus: z.enum(["verified", "source_checked"]),
   strokes: z.number().int().positive().optional(),
   genderExpression: z.enum(["neutral", "masculine", "feminine"]).optional(),
@@ -76,7 +76,7 @@ export const runtimeAllusionSchema = z.object({
   interpretation: z.string().min(1),
   styleTags: z.array(z.string().min(1)),
   risks: z.array(z.string()),
-  riskSignals: z.array(reviewedRiskSignalSchema).default([]),
+  riskSignals: z.array(reviewedRiskSignalSchema),
   reviewStatus: z.enum(["verified", "source_checked"]),
   checkedAt: z.string().optional(),
   sourceRefs: z.array(sourceRefSchema).min(1),
@@ -107,17 +107,23 @@ const historicalPersonUsageSchema = personUsageBaseSchema.extend({
   rankEvidence: z.never().optional(),
 });
 
-const imperialExamPersonUsageSchema = personUsageBaseSchema.extend({
-  identityType: z.enum(["zhuangyuan", "bangyan", "tanhua", "jinshi"]),
+const imperialExamPersonUsageBaseSchema = personUsageBaseSchema.extend({
   rankEvidence: z.string().min(1),
-  inspirationEligible: z.boolean().optional(),
-  inspirationCharacters: z.array(singleNfcCharacterSchema).min(1).max(2).optional(),
+});
+
+const zhuangyuanPersonUsageSchema = imperialExamPersonUsageBaseSchema.extend({
+  identityType: z.literal("zhuangyuan"),
+  inspirationEligible: z.boolean(),
+  inspirationCharacters: z.array(singleNfcCharacterSchema).min(1).max(2),
   inspirationReviewNote: z.string().min(1).optional(),
 });
 
 export const personUsageSchema = z.discriminatedUnion("identityType", [
   historicalPersonUsageSchema,
-  imperialExamPersonUsageSchema,
+  zhuangyuanPersonUsageSchema,
+  imperialExamPersonUsageBaseSchema.extend({ identityType: z.literal("bangyan") }),
+  imperialExamPersonUsageBaseSchema.extend({ identityType: z.literal("tanhua") }),
+  imperialExamPersonUsageBaseSchema.extend({ identityType: z.literal("jinshi") }),
 ]);
 
 export const modernCombinationSchema = z
@@ -135,24 +141,25 @@ export const modernCombinationSchema = z
 
 export type RuntimeModernCombination = Infer<typeof modernCombinationSchema>;
 
-export const runtimeBundleSchema = z.object({
-  manifest: z.object({
-    version: z.string().min(1),
-    status: z.enum(["development", "personal", "production"]),
-    builtAt: z.iso.datetime(),
-    contentHash: z.string().min(1),
-  }),
-  characters: z.array(runtimeCharacterSchema),
-  allusions: z.array(runtimeAllusionSchema),
-  modernCombinations: z.array(modernCombinationSchema).optional(),
-  standardCharacterPinyin: z
-    .record(singleNfcCharacterSchema, z.array(z.string().min(1)).min(1))
-    .default({}),
-  traditionalToSimplified: z
-    .record(singleNfcCharacterSchema, singleNfcCharacterSchema)
-    .default({}),
-  personUsages: z.array(personUsageSchema).default([]),
-});
+export const runtimeBundleSchema = z
+  .object({
+    manifest: z.object({
+      version: z.string().min(1),
+      status: z.enum(["development", "personal", "production"]),
+      builtAt: z.iso.datetime(),
+      contentHash: z.string().min(1),
+    }),
+    characters: z.array(runtimeCharacterSchema),
+    allusions: z.array(runtimeAllusionSchema),
+    modernCombinations: z.array(modernCombinationSchema),
+    standardCharacterPinyin: z.record(
+      singleNfcCharacterSchema,
+      z.array(z.string().min(1)).min(1),
+    ),
+    traditionalToSimplified: z.record(singleNfcCharacterSchema, singleNfcCharacterSchema),
+    personUsages: z.array(personUsageSchema),
+  })
+  .strict();
 
 export type RuntimeBundle = Infer<typeof runtimeBundleSchema>;
 export type RuntimeCharacter = Infer<typeof runtimeCharacterSchema>;

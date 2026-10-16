@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
+  BACKUP_FORMAT,
+  BACKUP_SCHEMA_VERSION,
+  BackupValidationError,
   createBackupEnvelope,
   validateBackupEnvelope,
 } from "../../../src/application/backup/backupSchema";
+import { sha256 } from "../../../src/application/backup/checksum";
 import { namingProfileFixture } from "../../fixtures/namingProfile";
 import { namingProjectFixture } from "../../fixtures/namingProject";
-import { sha256 } from "../../../src/application/backup/checksum";
 
 const payload = {
   projectId: "project-song",
@@ -14,224 +17,108 @@ const payload = {
   generationBatches: [],
   candidates: [],
   candidateSources: [],
-  ruleResults: [],
   candidateDecisions: [],
   decisionHistory: [],
   candidateEvaluations: [],
-  comparisonSnapshots: [],
-  finalDecisions: [],
+  projectAssessments: [],
+  ruleEvidence: [],
+  candidateScores: [],
+  assessmentRuns: [],
+  appMetadata: [],
 };
 
-describe("project backup envelope", () => {
-  it("creates and validates a complete checksummed envelope", async () => {
-    const envelope = await createBackupEnvelope({
-      payload,
-      appVersion: "0.2.0",
-      datasetVersion: "dev-2026.09.17",
-      rulePackVersion: "core-rules-1",
-      exportedAt: "2026-09-17T10:00:00.000Z",
-    });
+const envelopeInput = {
+  appVersion: "1.0.0",
+  datasetVersion: "personal-2026.10.16",
+  rulePackVersion: "folklore-rules-1",
+  exportedAt: "2026-10-16T10:00:00.000Z",
+};
 
+describe("v2 project backup v1 envelope", () => {
+  it("creates and validates the only supported format with a canonical payload checksum", async () => {
+    const envelope = await createBackupEnvelope({ payload, ...envelopeInput });
+
+    expect(envelope).toMatchObject({
+      format: BACKUP_FORMAT,
+      schemaVersion: BACKUP_SCHEMA_VERSION,
+      checksum: await sha256(payload),
+    });
     await expect(validateBackupEnvelope(envelope)).resolves.toEqual(envelope);
-    expect(envelope.checksum).toMatch(/^[a-f0-9]{64}$/);
   });
 
-  it.each([2, 3])(
-    "upgrades a valid schema v%s envelope to schema v4",
-    async (schemaVersion) => {
-      const legacy = {
-        format: "erya-names-project-backup",
-        schemaVersion,
-        appVersion: "0.3.0",
-        datasetVersion: "personal",
-        rulePackVersion: "rules",
-        exportedAt: "2026-10-08T00:00:00.000Z",
-        checksum: await sha256(payload),
-        payload,
-      };
+  it.each([
+    ["legacy v1", "erya-names-project-backup", 1],
+    ["legacy v4", "erya-names-project-backup", 4],
+    ["future v2 schema", BACKUP_FORMAT, 2],
+    ["unknown format", "unknown", 1],
+  ])("rejects %s as unsupported-format without migration", async (_, format, schemaVersion) => {
+    const legacyPayload = { ...payload, finalDecisions: [] };
+    const input = {
+      format,
+      schemaVersion,
+      ...envelopeInput,
+      checksum: await sha256(legacyPayload),
+      payload: legacyPayload,
+    };
 
-      await expect(validateBackupEnvelope(legacy)).resolves.toMatchObject({
-        schemaVersion: 4,
-        payload,
-      });
+    await expect(validateBackupEnvelope(input)).rejects.toMatchObject<BackupValidationError>({
+      code: "unsupported-format",
+    });
+  });
+
+  it("reports invalid-checksum when a valid v2 payload was changed", async () => {
+    const envelope = await createBackupEnvelope({ payload, ...envelopeInput });
+    const changed = {
+      ...envelope,
+      payload: {
+        ...envelope.payload,
+        projects: [{ ...envelope.payload.projects[0], title: "已篡改" }],
+      },
+    };
+
+    await expect(validateBackupEnvelope(changed)).rejects.toMatchObject<BackupValidationError>({
+      code: "invalid-checksum",
+    });
+  });
+
+  it.each([
+    {
+      name: "legacy table",
+      changed: { ...payload, finalDecisions: [] },
     },
-  );
-
-  it("rejects missing fields, unsupported versions and changed payloads", async () => {
-    const envelope = await createBackupEnvelope({
-      payload,
-      appVersion: "0.2.0",
-      datasetVersion: "dev-2026.09.17",
-      rulePackVersion: "core-rules-1",
-      exportedAt: "2026-09-17T10:00:00.000Z",
-    });
-
-    await expect(validateBackupEnvelope({ ...envelope, format: "unknown" })).rejects.toThrow(
-      /format/i,
-    );
-    await expect(validateBackupEnvelope({ ...envelope, schemaVersion: 99 })).rejects.toThrow(
-      /schema/i,
-    );
-    await expect(
-      validateBackupEnvelope({
-        ...envelope,
-        payload: {
-          ...envelope.payload,
-          projects: [{ ...envelope.payload.projects[0], title: "已篡改" }],
-        },
-      }),
-    ).rejects.toThrow(/checksum/i);
-  });
-
-  it("rejects incomplete records, foreign projects and dangling references before checksumming", async () => {
-    const base = structuredClone(payload);
-    await expect(
-      createBackupEnvelope({
-        payload: {
-          ...base,
-          generationBatches: [{ id: "batch-incomplete", projectId: "project-song" }],
-        },
-        appVersion: "0.2.0",
-        datasetVersion: "dev",
-        rulePackVersion: "rules",
-        exportedAt: "2026-09-17T10:00:00.000Z",
-      }),
-    ).rejects.toThrow();
-
-    await expect(
-      createBackupEnvelope({
-        payload: {
-          ...base,
-          profiles: [namingProfileFixture("foreign-project")],
-        },
-        appVersion: "0.2.0",
-        datasetVersion: "dev",
-        rulePackVersion: "rules",
-        exportedAt: "2026-09-17T10:00:00.000Z",
-      }),
-    ).rejects.toThrow(/project/i);
-
-    await expect(
-      createBackupEnvelope({
-        payload: {
-          ...base,
-          candidateDecisions: [
-            {
-              projectId: "project-song",
-              candidateId: "missing-candidate",
-              stage: "favorite",
-              updatedAt: "2026-09-17T10:00:00.000Z",
-            },
-          ],
-        },
-        appVersion: "0.2.0",
-        datasetVersion: "dev",
-        rulePackVersion: "rules",
-        exportedAt: "2026-09-17T10:00:00.000Z",
-      }),
-    ).rejects.toThrow(/candidate/i);
-
-    const foreignSnapshotProfile = namingProfileFixture("foreign-project");
-    await expect(
-      createBackupEnvelope({
-        payload: {
-          ...base,
-          generationBatches: [
-            {
-              id: "batch-1",
-              projectId: "project-song",
-              sequence: 1,
-              seed: "seed",
-              requestedCount: 1,
-              profileSnapshot: foreignSnapshotProfile,
-              datasetVersion: "dev",
-              rulePackVersion: "rules",
-              status: "completed",
-              statistics: {
-                sourceCandidates: 1,
-                hardRejected: 0,
-                duplicateRejected: 0,
-                historicalRejected: 0,
-                persisted: 0,
-              },
-              createdAt: "2026-09-17T10:00:00.000Z",
-            },
-          ],
-        },
-        appVersion: "0.2.0",
-        datasetVersion: "dev",
-        rulePackVersion: "rules",
-        exportedAt: "2026-09-17T10:00:00.000Z",
-      }),
-    ).rejects.toThrow(/snapshot project/i);
-  });
-
-  it("verifies a legacy v1 checksum before normalizing derived candidate fields", async () => {
-    const legacyPayload = {
-      ...structuredClone(payload),
-      candidates: [
-        {
-          id: "c1",
-          projectId: "project-song",
-          batchId: null,
-          normalizedFingerprint: "宋清扬",
-          surname: "宋",
-          givenName: "清扬",
-          fullName: "宋清扬",
-          pinyin: ["sòng", "qīng", "yáng"],
-          sourceType: "user_input",
-          summary: "清朗",
-          sourceIds: [],
-          sourceEvidence: [],
-          warnings: [],
-          riskSignals: [],
-          ruleResults: [],
-          createdAt: "2026-09-17T10:00:00.000Z",
-        },
-      ],
-    };
-    const envelope = {
-      format: "erya-names-project-backup",
-      schemaVersion: 1,
-      appVersion: "0.1.0",
-      datasetVersion: "dev",
-      rulePackVersion: "rules",
-      exportedAt: "2026-09-17T10:00:00.000Z",
-      checksum: await sha256(legacyPayload),
-      payload: legacyPayload,
+    {
+      name: "foreign profile",
+      changed: { ...payload, profiles: [namingProfileFixture("foreign-project")] },
+    },
+    {
+      name: "foreign metadata",
+      changed: { ...payload, appMetadata: [{ key: "project:foreign:layout", value: "wide" }] },
+    },
+    {
+      name: "dangling decision",
+      changed: {
+        ...payload,
+        candidateDecisions: [
+          {
+            projectId: "project-song",
+            candidateId: "missing-candidate",
+            pool: "selected",
+            updatedAt: "2026-10-16T10:00:00.000Z",
+          },
+        ],
+      },
+    },
+  ])("rejects invalid-payload: $name", async ({ changed }) => {
+    const input = {
+      format: BACKUP_FORMAT,
+      schemaVersion: BACKUP_SCHEMA_VERSION,
+      ...envelopeInput,
+      checksum: await sha256(changed),
+      payload: changed,
     };
 
-    await expect(validateBackupEnvelope(envelope)).resolves.toMatchObject({
-      payload: { candidates: [{ styleTags: [], characterElements: [] }] },
-    });
-  });
-
-  it("drops an invalid one-candidate legacy v1 snapshot after verifying its checksum", async () => {
-    const legacyPayload = {
-      ...structuredClone(payload),
-      comparisonSnapshots: [
-        {
-          id: "legacy-invalid",
-          projectId: "project-song",
-          candidateIds: ["candidate-1"],
-          createdAt: "2026-09-17T10:00:00.000Z",
-        },
-      ],
-    };
-    const envelope = {
-      format: "erya-names-project-backup",
-      schemaVersion: 1,
-      appVersion: "0.1.0",
-      datasetVersion: "dev",
-      rulePackVersion: "rules",
-      exportedAt: "2026-09-17T10:00:00.000Z",
-      checksum: await sha256(legacyPayload),
-      payload: legacyPayload,
-    };
-
-    await expect(validateBackupEnvelope(envelope)).resolves.toMatchObject({
-      schemaVersion: 4,
-      payload: { comparisonSnapshots: [] },
+    await expect(validateBackupEnvelope(input)).rejects.toMatchObject<BackupValidationError>({
+      code: "invalid-payload",
     });
   });
 });

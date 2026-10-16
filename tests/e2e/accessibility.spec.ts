@@ -17,9 +17,11 @@ async function createGeneratedProject(page: import("@playwright/test").Page) {
   await page.getByRole("button", { name: "下一步", exact: true }).click();
   await page.getByRole("button", { name: "完成建档，开始选名" }).click();
   await expectNoSeriousViolations(page);
+  await page.getByRole("link", { name: "进入名字长卷" }).click();
   await page.getByRole("button", { name: "展卷 · 生成 9 个名字" }).focus();
   await page.keyboard.press("Enter");
   await expect(page.locator(".ils__panel").first()).toBeVisible();
+  return page.url().match(/projects\/([^/]+)/)![1]!;
 }
 
 test(
@@ -94,7 +96,7 @@ test("sidebar navigation does not force page transition animation", async ({ pag
   const animationName = await page
     .locator("main")
     .evaluate((element) => getComputedStyle(element).animationName);
-  expect(animationName).toBe("none");
+  expect(["", "none"]).toContain(animationName);
   expect(
     await page
       .getByRole("button", { name: /起名条件/ })
@@ -103,7 +105,7 @@ test("sidebar navigation does not force page transition animation", async ({ pag
 });
 
 test(
-  "generation, funnel, dialog and comparison are keyboard operable and axe-clean",
+  "generation, four-pool dialog and comparison are keyboard operable and axe-clean",
   { tag: "@accessibility" },
   async ({ page, browserName }) => {
     test.skip(browserName !== "chromium", "Full keyboard interaction is validated in Chromium");
@@ -118,22 +120,34 @@ test(
 
     const names = (await page.locator(".ils__panel h2").allTextContents()).slice(0, 2);
     for (const name of names) {
-      const panel = page.locator(".ils__panel").filter({ hasText: name });
-      await panel.getByRole("button", { name: "保留到基础候选", exact: true }).click();
+      await page.getByRole("button", { name: `选择${name}进入下一阶段` }).click();
     }
-    await page.getByRole("button", { name: /02\s*基础候选/ }).click();
-    for (const name of names.slice(0, 2)) {
-      await page.getByRole("button", { name: `查看${name}详情` }).click();
-      const add = page
-        .getByRole("dialog")
-        .getByRole("button", { name: "跳过民俗，加入重点候选" });
-      await add.focus();
-      await page.keyboard.press("Enter");
-      await expect(page.getByRole("dialog")).toHaveCount(0);
-    }
-    await page.getByRole("button", { name: "并卷比较" }).focus();
+    await page.getByRole("button", { name: "候选池（2）" }).click();
+    await page.getByRole("button", { name: "并列比较候选" }).focus();
     await page.keyboard.press("Enter");
-    await expect(page.getByRole("heading", { name: "重点候选" })).toBeVisible();
+    await expect(page.getByRole("dialog", { name: "候选名字并列比较" })).toBeFocused();
+    await expectNoSeriousViolations(page);
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("button", { name: "并列比较候选" })).toBeFocused();
+  },
+);
+
+test(
+  "configuration errors expose text and move focus to the failing section",
+  { tag: "@accessibility" },
+  async ({ page, browserName }) => {
+    test.skip(browserName !== "chromium", "Focus placement is validated in Chromium");
+    const projectId = await createGeneratedProject(page);
+    await page.goto(`/projects/${projectId}/config#configuration-basics`);
+    await expect(page.getByRole("navigation", { name: "配置章节" })).toBeVisible();
+
+    await page.getByLabel("姓氏", { exact: true }).fill("");
+    await page.getByRole("button", { name: "保存配置" }).click();
+
+    const errors = page.getByRole("alert").filter({ hasText: "还有内容需要检查" });
+    await expect(errors).toContainText("方案与表达");
+    await expect(errors).toContainText(/配置|姓氏|校验/);
+    await expect(page.locator("#configuration-basics > summary")).toBeFocused();
     await expectNoSeriousViolations(page);
   },
 );

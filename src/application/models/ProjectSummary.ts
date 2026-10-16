@@ -1,12 +1,13 @@
+import type { CandidatePool } from "../../domain/candidate/decision";
+
 export interface ProjectSummary {
   id: string;
   title: string;
   surname: string;
-  stage: "onboarding" | "generation" | "funnel" | "comparison" | "finalization";
-  status: "draft" | "active" | "archived" | "completed";
-  candidateCount: number;
-  favoriteCount: number;
-  finalistCount: number;
+  stage: "configuration" | "naming" | "export";
+  status: "draft" | "active" | "completed";
+  poolCounts: Record<CandidatePool, number>;
+  totalCandidateCount: number;
   updatedAt: string;
 }
 

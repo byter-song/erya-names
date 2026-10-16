@@ -122,16 +122,18 @@ if (zhuangyuan.length !== corpusTargets.zhuangyuan)
 const modernNames = modernCombinations?.map((item) => item.givenName) ?? [];
 const characterSet = new Set(characters.map((item) => item.char));
 const reviewedInspirationZhuangyuan = zhuangyuan.filter(
-  (usage) => usage.inspirationEligible !== undefined,
+  (usage) =>
+    typeof usage.inspirationEligible === "boolean" && usage.inspirationCharacters?.length,
 );
-const generatableZhuangyuan = reviewedInspirationZhuangyuan.filter((usage) => {
-  if (usage.inspirationEligible === false) return false;
-  const simplifiedName = simplify(usage.name);
-  const legacyCharacters = [...simplifiedName.slice(1)];
-  const reviewedCharacters = usage.inspirationCharacters?.map(simplify);
-  const usable = (reviewedCharacters ?? legacyCharacters).filter((char) =>
-    characterSet.has(char),
-  );
+if (reviewedInspirationZhuangyuan.length !== zhuangyuan.length)
+  failures.push("Every zhuangyuan record must declare inspiration eligibility and characters");
+const eligibleInspirationZhuangyuan = reviewedInspirationZhuangyuan.filter(
+  (usage) => usage.inspirationEligible,
+);
+const generatableZhuangyuan = eligibleInspirationZhuangyuan.filter((usage) => {
+  const usable = usage.inspirationCharacters
+    .map(simplify)
+    .filter((char) => characterSet.has(char));
   return (
     usable.length > 0 &&
     (usable.length === 2 ||
@@ -140,11 +142,11 @@ const generatableZhuangyuan = reviewedInspirationZhuangyuan.filter((usage) => {
 });
 if (
   reviewedInspirationZhuangyuan.length > 0 &&
-  generatableZhuangyuan.length / reviewedInspirationZhuangyuan.length <
+  generatableZhuangyuan.length / eligibleInspirationZhuangyuan.length <
     corpusTargets.minimumGeneratableNewZhuangyuanRatio
 )
   failures.push(
-    `Generatable new zhuangyuan ratio ${generatableZhuangyuan.length}/${reviewedInspirationZhuangyuan.length} is below ${corpusTargets.minimumGeneratableNewZhuangyuanRatio}`,
+    `Generatable zhuangyuan ratio ${generatableZhuangyuan.length}/${eligibleInspirationZhuangyuan.length} is below ${corpusTargets.minimumGeneratableNewZhuangyuanRatio}`,
   );
 for (const usage of personUsages) {
   if (

@@ -3,16 +3,13 @@ import type { NamingProfile } from "../project/profile";
 import type { GeneratedCandidate } from "./generateCandidates";
 import { toSimplifiedText } from "../candidate/toSimplifiedText";
 
-/** Only explicit, reviewed personal records with a known single surname are split. */
+/** Only explicitly reviewed inspiration characters may enter name generation. */
 export function historicalInspirationDrafts(
   profile: NamingProfile,
   bundle: RuntimeBundle,
 ): GeneratedCandidate[] {
   const cards = new Map(bundle.characters.map((c) => [c.char, c]));
   const drafts: GeneratedCandidate[] = [];
-  // Legacy records predate explicit inspirationCharacters. Keep their reviewed single surnames
-  // as a fallback, while new records declare the exact characters that may be borrowed.
-  const knownSurnames = new Set([..."刘翁林王黄陈吴张陆梁洪孙赵曹崇骆夏"]);
   for (const person of bundle.personUsages) {
     if (
       person.identityType !== "zhuangyuan" ||
@@ -22,23 +19,20 @@ export function historicalInspirationDrafts(
       continue;
     const name = toSimplifiedText(person.name, bundle.traditionalToSimplified);
     if (name.length < 2 || name.length > 4) continue;
-    const legacyOriginal = knownSurnames.has(name[0]!) ? name.slice(1) : "";
-    const reviewedCharacters = person.inspirationCharacters?.map((char) =>
+    const reviewedCharacters = person.inspirationCharacters.map((char) =>
       toSimplifiedText(char, bundle.traditionalToSimplified),
     );
-    const original = reviewedCharacters?.join("") || legacyOriginal;
-    const borrowed = (reviewedCharacters ?? [...legacyOriginal]).filter((char) =>
-      cards.has(char),
-    );
+    const original = reviewedCharacters.join("");
+    const borrowed = reviewedCharacters.filter((char) => cards.has(char));
     if (!borrowed.length) continue;
     const options = new Set<string>();
     if (
-      original.length === profile.givenNameLength &&
+      original.length === profile.basics.givenNameLength &&
       [...original].every((char) => cards.has(char))
     )
       options.add(original);
     for (const char of borrowed) {
-      if (profile.givenNameLength === 1) options.add(char);
+      if (profile.basics.givenNameLength === 1) options.add(char);
       else
         for (const pair of bundle.modernCombinations ?? [])
           if (pair.givenName.includes(char)) options.add(pair.givenName);
@@ -50,13 +44,13 @@ export function historicalInspirationDrafts(
           : `借用原名“${original}”中的“${[...givenName].filter((c) => original.includes(c)).join("、")}”，与当代字义组合“${givenName}”相接`;
       const entries = [...givenName].map((char) => cards.get(char));
       if (entries.some((c) => !c)) continue;
-      const fullName = profile.surname + givenName;
+      const fullName = profile.basics.surname + givenName;
       drafts.push({
         id: `candidate:${fullName}`,
         projectId: profile.projectId,
         batchId: null,
         normalizedFingerprint: fullName.normalize("NFC"),
-        surname: profile.surname,
+        surname: profile.basics.surname,
         givenName,
         fullName,
         pinyin: entries.map((c) => c!.pinyin[0]!),

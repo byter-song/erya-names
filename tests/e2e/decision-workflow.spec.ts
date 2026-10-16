@@ -1,56 +1,63 @@
-import { expect, test } from "@playwright/test";
-import { chooseNames, createProject } from "./helpers";
+import { expect, test, type Page } from "@playwright/test";
+import { createProject } from "./helpers";
 
-test("builds a multi-name final list with source explanations and folklore", async ({
-  page,
-}) => {
-  const id = await createProject(page);
-  const names = await chooseNames(page);
-  const dialog = page.getByRole("dialog");
+test("completes the four-pool decision workflow in the names scroll", async ({ page }) => {
+  const projectId = await createProject(page);
+  await page.goto(`/projects/${projectId}/names`);
+  await expect(page.getByRole("heading", { name: "灵感池 9 个" })).toBeVisible();
 
-  await page.getByRole("button", { name: `查看${names[0]}详情` }).click();
-  await dialog.getByRole("combobox", { name: "个人评分" }).selectOption("5");
-  await dialog.getByRole("textbox", { name: "心选理由" }).fill("第一批保留");
-  await dialog.getByRole("button", { name: "保存评价" }).click();
-  await expect(dialog.getByRole("status")).toHaveText("评价已保存");
-  await dialog.getByRole("button", { name: "进入民俗候选", exact: true }).click();
-  for (const name of names.slice(1)) {
-    await page.getByRole("button", { name: `查看${name}详情` }).click();
-    await dialog.getByRole("button", { name: "进入民俗候选", exact: true }).click();
-  }
+  const names = (await page.locator(".ils__panel h2").allTextContents()).slice(0, 3);
+  expect(names).toHaveLength(3);
+  const [first, second, third] = names as [string, string, string];
 
-  await page.getByRole("button", { name: /03\s*民俗候选/ }).click();
-  await page.getByRole("button", { name: "民俗设置", exact: true }).click();
-  await dialog.getByRole("checkbox", { name: "采用传统民俗参考" }).check();
-  await dialog.getByLabel("民俗出生时间", { exact: true }).fill("2024-02-10T12:00");
-  await dialog.getByRole("checkbox", { name: "水", exact: true }).check();
-  await dialog.getByRole("button", { name: "保存并重新评估民俗候选" }).click();
-  await expect(dialog.getByRole("status").filter({ hasText: "已更新" })).toBeVisible();
-  await dialog.getByRole("button", { name: "完成并返回长卷" }).click();
+  await selectForward(page, first);
+  await selectForward(page, second);
+  await expect(page.getByRole("button", { name: "候选池（2）" })).toBeVisible();
 
-  await page.getByRole("button", { name: `查看${names[0]}详情` }).click();
-  await expect(dialog).toContainText("藏干");
-  await expect(dialog).toContainText("这个名字的民俗解释");
-  await dialog.getByRole("button", { name: "加入重点候选", exact: true }).click();
-  for (const name of names.slice(1)) {
-    await page.getByRole("button", { name: `查看${name}详情` }).click();
-    await dialog.getByRole("button", { name: "加入重点候选", exact: true }).click();
-  }
+  await page.getByRole("button", { name: "候选池（2）" }).click();
+  await page.getByRole("button", { name: "并列比较候选" }).click();
+  const comparison = page.getByRole("dialog", { name: "候选名字并列比较" });
+  await expect(comparison.getByRole("columnheader", { name: new RegExp(first) })).toBeVisible();
+  await expect(
+    comparison.getByRole("columnheader", { name: new RegExp(second) }),
+  ).toBeVisible();
+  await comparison.getByRole("button", { name: "关闭比较" }).click();
 
-  await page.getByRole("button", { name: "并卷比较", exact: true }).click();
-  await page.getByRole("button", { name: "保存对比快照" }).click();
-  await expect(page.getByRole("status")).toHaveText("对比快照已保存");
-  for (const name of names)
-    await page.getByRole("button", { name: `将${name}加入定稿名单` }).click();
-  await page.getByRole("button", { name: "查看定稿名单" }).click();
-  await expect(page.getByLabel(`${names[0]}的保留理由`)).toHaveValue("第一批保留");
-  await expect(page.getByText("个人评分 5 分")).toBeVisible();
+  await selectForward(page, first);
+  await expect(page.getByRole("button", { name: "精选池（1）" })).toBeVisible();
+  await moveBackward(page, second);
+  await page.getByRole("button", { name: "撤销上一步" }).click();
+  await expect(page.getByRole("heading", { name: "候选池 1 个" })).toBeVisible();
 
-  const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "导出定稿名单" }).click();
-  await expect((await download).suggestedFilename()).toBe("erya-final-list.txt");
-  await page.goto("/");
-  await expect(page.getByText(`定稿 ${names.length} / 5`)).toBeVisible();
-  await page.goto(`/projects/${id}/candidates`);
-  await expect(page).toHaveURL(new RegExp(`/projects/${id}/generate$`));
+  await page.getByRole("button", { name: "灵感池（7）" }).click();
+  await page.getByRole("button", { name: `排除${third}` }).click();
+  await page.getByRole("button", { name: "已排除（1）" }).click();
+  await expect(page.getByRole("heading", { name: "已排除的名字" })).toBeVisible();
+  await expect(page.getByText("从长卷卡片排除")).toBeVisible();
+
+  await page.getByRole("button", { name: new RegExp(`恢复${third}到灵感池`) }).click();
+  await expect(page.getByText("目前没有已排除的名字。")).toBeVisible();
+
+  await page.getByRole("button", { name: "灵感池（7）" }).click();
+  await page.getByRole("button", { name: `排除${third}` }).click();
+  await page.getByRole("button", { name: "已排除（1）" }).click();
+  await page.getByLabel(`选择永久清空${third}`).check();
+  await page.getByRole("button", { name: "永久清空已勾选的 1 个名字" }).click();
+  const clear = page.getByRole("dialog", { name: "确认永久清空" });
+  await clear.getByLabel("输入数字 1 以确认").fill("1");
+  await clear.getByRole("button", { name: "确认永久删除 1 个名字" }).click();
+  await expect(page.getByText("目前没有已排除的名字。")).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "已排除 0 个" })).toBeVisible();
+  await page.getByRole("button", { name: "精选池（1）" }).click();
+  await expect(page.getByRole("heading", { name: first })).toBeVisible();
 });
+
+async function selectForward(page: Page, name: string) {
+  await page.getByRole("button", { name: `选择${name}进入下一阶段` }).click();
+}
+
+async function moveBackward(page: Page, name: string) {
+  await page.getByRole("button", { name: `移除${name}并返回上一阶段` }).click();
+}

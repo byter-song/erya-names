@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { createProjectId } from "../../../src/domain/shared/ids";
 import {
   familyRulesArePending,
   namingProfileSchema,
@@ -8,59 +7,49 @@ import { namingProjectSchema } from "../../../src/domain/project/project";
 import { generationBatchSchema } from "../../../src/domain/generation/batch";
 import { candidateSchema } from "../../../src/domain/candidate/candidate";
 import { candidateDecisionSchema } from "../../../src/domain/candidate/decision";
+import { namingProfileFixture } from "../../fixtures/namingProfile";
 
 describe("production domain contracts", () => {
   it("parses a complete Song surname naming profile", () => {
-    const projectId = createProjectId("project-song");
+    const projectId = "project-song";
     const profile = namingProfileSchema.parse({
-      projectId,
-      surname: "宋",
-      surnameType: "single",
-      givenNameLength: 2,
-      requiredCharacters: [],
-      generationCharacters: [],
-      avoidCharacters: ["病"],
-      relativeNames: [],
-      forbiddenCombinations: [],
-      genderExpression: "unrestricted",
-      styleTags: ["清朗自然"],
-      writingComplexity: "balanced",
-      pinyinFriendly: true,
-      folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+      ...namingProfileFixture(projectId),
+      basics: {
+        ...namingProfileFixture(projectId).basics,
+        styleTags: ["清朗自然"],
+        pinyinFriendly: true,
+      },
+      family: {
+        ...namingProfileFixture(projectId).family,
+        constraintKnowledge: "unknown",
+        avoidCharacters: ["病"],
+      },
     });
 
-    expect(profile.surname).toBe("宋");
-    expect(profile.givenNameLength).toBe(2);
-    expect(familyRulesArePending(profile)).toBe(true);
+    expect(profile.basics.surname).toBe("宋");
+    expect(profile.basics.givenNameLength).toBe(2);
+    expect(familyRulesArePending(profile.family)).toBe(true);
   });
 
   it("rejects conflicting required positions for a one-character given name", () => {
     expect(() =>
       namingProfileSchema.parse({
-        projectId: "project-song",
-        surname: "宋",
-        surnameType: "single",
-        givenNameLength: 1,
-        requiredCharacters: [{ char: "清", position: 2 }],
-        generationCharacters: [],
-        avoidCharacters: [],
-        relativeNames: [],
-        forbiddenCombinations: [],
-        genderExpression: "unrestricted",
-        styleTags: [],
-        writingComplexity: "balanced",
-        pinyinFriendly: false,
-        folklore: { enabled: false, usefulElements: [], includeInRanking: false },
+        ...namingProfileFixture(),
+        basics: { ...namingProfileFixture().basics, givenNameLength: 1 },
+        family: {
+          ...namingProfileFixture().family,
+          requiredCharacters: [{ char: "清", position: 2 }],
+        },
       }),
     ).toThrow("一字名不能把指定字固定在第二位");
   });
 
-  it("models project, immutable batch, candidate, and compatible decision stages", () => {
+  it("models project, immutable batch, candidate, and strict candidate pools", () => {
     expect(
       namingProjectSchema.parse({
         id: "project-song",
         title: "宋姓宝宝起名",
-        stage: "generation",
+        stage: "naming",
         status: "active",
         createdAt: "2026-09-17T00:00:00.000Z",
         updatedAt: "2026-09-17T00:00:00.000Z",
@@ -109,17 +98,20 @@ describe("production domain contracts", () => {
       candidateDecisionSchema.parse({
         candidateId: "candidate-1",
         projectId: "project-song",
-        stage: "favorite",
+        pool: "selected",
         updatedAt: "2026-09-17T00:00:00.000Z",
-      }).stage,
-    ).toBe("favorite");
+      }).pool,
+    ).toBe("selected");
     expect(
       candidateDecisionSchema.parse({
         candidateId: "candidate-2",
         projectId: "project-song",
-        stage: "folklore_review",
+        pool: "excluded",
+        lastActivePool: "candidate",
+        exclusionReason: "家庭讨论后暂不考虑",
+        excludedAt: "2026-09-17T00:00:00.000Z",
         updatedAt: "2026-09-17T00:00:00.000Z",
-      }).stage,
-    ).toBe("folklore_review");
+      }).pool,
+    ).toBe("excluded");
   });
 });

@@ -2,18 +2,15 @@ import "./design-system/global.css";
 import "./app/startup-screen.css";
 import { initializeRuntimeBundle } from "./data/activeRuntimeBundle";
 import { createStartupScreen } from "./app/startupScreen";
-import { applyTheme } from "./design-system/theme";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Missing #root application mount point");
-applyTheme();
 
 async function start(root: HTMLElement) {
   const startup = createStartupScreen();
   root.replaceChildren(startup.element);
   const bootstrapPromise = import("./app/bootstrap");
 
-  // 路由代码和本地资料并行读取；只有资料就绪后才挂载应用。
   const proceed = async () => {
     await startup.exit();
     const { bootstrap } = await bootstrapPromise;

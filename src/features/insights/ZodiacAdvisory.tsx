@@ -1,30 +1,71 @@
 import type { NamingProfile } from "../../domain/project/profile";
-import { zodiacAdvisory } from "../../domain/folklore/zodiacAdvisory";
+import { calculateBasicFiveElements } from "../../domain/folklore/calendarAdapter";
+import type { RuleEvidence } from "../../domain/rules/result";
+
 export function ZodiacAdvisory({
   givenName,
-  folklore,
+  profile,
+  evidence = [],
 }: {
   givenName: string;
-  folklore: NamingProfile["folklore"];
+  profile: Pick<NamingProfile, "calendar" | "modules">;
+  evidence?: readonly RuleEvidence[];
 }) {
-  const result = zodiacAdvisory(givenName, folklore);
+  const module = profile.modules.zodiac;
+  if (!module.detailsVisible) return null;
+  if (!profile.calendar.birthLocalDateTime)
+    return (
+      <section className="insight-note" aria-label="生肖选字提示">
+        <h3>生肖选字提示</h3>
+        <p>出生日期未填写，生肖待定。</p>
+      </section>
+    );
+
+  let status = "出生信息尚不能确定生肖，请核对日期与时间。";
+  try {
+    const calendar = calculateBasicFiveElements({
+      localDateTime: profile.calendar.birthLocalDateTime,
+      timeZone: profile.calendar.timeZone,
+      dayBoundary: profile.calendar.dayBoundary,
+      timeKnown: profile.calendar.timeKnown,
+    });
+    const zodiac =
+      profile.calendar.zodiacConvention === "pillar"
+        ? calendar.pillarZodiac
+        : calendar.lunarZodiac;
+    status = `${profile.calendar.zodiacConvention === "pillar" ? "立春年支" : "农历正月初一"}口径：属${zodiac}。名字“${givenName}”将按当前规则包显示字形提示。`;
+  } catch {
+    // Keep the actionable fallback above.
+  }
+
   return (
     <section className="insight-note" aria-label="生肖选字提示">
       <h3>生肖选字提示</h3>
-      <p>{result.status}</p>
-      {result.hits.map((hit, i) => (
-        <p key={i}>
-          <strong>
-            提醒：{hit.position === "start" ? "名字首字" : "名中"}“{hit.matched}”
-          </strong>{" "}
-          · {hit.explanation}
-          <br />
-          来源：{hit.source}（家庭录入，未经系统独立核验）
-        </p>
-      ))}
+      <p>{status}</p>
       <p>
-        传统民俗参考，非科学结论。只提醒，不过滤、不扣分、不影响排序与定稿。字形部件仅按你明确列出的字表匹配，不推测未收录字的偏旁。
+        按所选生肖流派提供选字提示，不直接过滤名字；规则口径为 {module.schoolId} ·{" "}
+        {module.ruleVersion}。
       </p>
+      {evidence.length ? (
+        <ul>
+          {evidence.map((item) => (
+            <li key={item.id}>
+              <strong>
+                {item.status === "pass"
+                  ? "符合"
+                  : item.status === "notice"
+                    ? "提示"
+                    : item.status === "conflict"
+                      ? "需留意"
+                      : "待补资料"}
+              </strong>
+              ：{item.explanation}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>当前名字没有可展示的生肖字形命中；完整证据会随分析结果保留。</p>
+      )}
     </section>
   );
 }

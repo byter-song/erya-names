@@ -1,0 +1,31 @@
+{
+  "moduleId": "traditional",
+  "schoolId": "zuozhuan-naming-principles-v1",
+  "ruleVersion": "1.0.0",
+  "reviewStatus": "reviewed",
+  "reviewedAt": "2026-10-16",
+  "reviewedBy": "erya-maintainer",
+  "epistemicStatus": "historical_context",
+  "uncertainty": "五原则与六禁忌源于周代礼制语境；现代姓名只按完整名词或明确单字做低权重字面提示，不推断人生结果，也不替代家庭避讳。",
+  "sourceIds": ["ctext-zuozhuan-huan-6", "chinanews-five-six-naming"],
+  "applicableInputs": ["fullName", "principleTags", "explicitTabooTerms"],
+  "checksum": "sha256:8b1f1b4b7e2756611dd0d864b62ab0b0761a34b7cbe8739daa0a1f4f7a965c49",
+  "sources": [
+    {
+      "id": "ctext-zuozhuan-huan-6",
+      "title": "《春秋左传》桓公六年：申繻论命名",
+      "locator": "https://ctext.org/text.pl?if=gb&node=17216&show=parallel",
+      "pageOrSection": "“夫名有五”至“不以器币”段",
+      "verificationStatus": "image_checked",
+      "notes": "已核对电子文本中“夫名有五”至“不以器币”段；产品仍明确保留周代礼制语境，不把古代禁忌表述为现代硬规范。"
+    },
+    {
+      "id": "chinanews-five-six-naming",
+      "title": "中国新闻网：周代人取名有五原则六禁忌",
+      "locator": "https://www.chinanews.com.cn/m/cul/2015/06-14/7342453.shtml",
+      "pageOrSection": "申繻五原则、六禁忌及周代礼制语境",
+      "verificationStatus": "image_checked",
+      "notes": "已核对文章对申繻五原则、六禁忌及礼制语境的转述；只作辅助理解，不替代《左传》原文。"
+    }
+  ]
+}

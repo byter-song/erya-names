@@ -20,15 +20,15 @@ export function evaluateFamilyConstraints(input: {
 }): CandidateRuleResult {
   const failures: string[] = [];
   const nameCharacters = [...input.givenName];
+  const { basics, family } = input.profile;
 
-  if (!input.fullName.startsWith(input.profile.surname)) failures.push("姓氏不一致");
-  if (nameCharacters.length !== input.profile.givenNameLength) failures.push("名字长度不符");
-  if (input.profile.avoidCharacters.some((char) => input.givenName.includes(char)))
+  if (!input.fullName.startsWith(basics.surname)) failures.push("姓氏不一致");
+  if (nameCharacters.length !== basics.givenNameLength) failures.push("名字长度不符");
+  if (family.avoidCharacters.some((char) => input.givenName.includes(char)))
     failures.push("包含避字");
-  if (input.profile.forbiddenCombinations.includes(input.givenName))
-    failures.push("命中禁用组合");
-  if (input.profile.relativeNames.includes(input.fullName)) failures.push("与亲属姓名重复");
-  for (const rule of input.profile.relativeAvoidances ?? []) {
+  if (family.forbiddenCombinations.includes(input.givenName)) failures.push("命中禁用组合");
+  if (family.relativeNames.includes(input.fullName)) failures.push("与亲属姓名重复");
+  for (const rule of family.relativeAvoidances ?? []) {
     if (rule.mode === "whole-name" && rule.fullName === input.fullName)
       failures.push(`与亲属${rule.fullName}整名相同`);
     if (rule.mode === "same-character") {
@@ -48,7 +48,7 @@ export function evaluateFamilyConstraints(input: {
     }
   }
   if (
-    input.profile.requiredCharacters.some(({ char, position }) =>
+    family.requiredCharacters.some(({ char, position }) =>
       position === "any"
         ? !input.givenName.includes(char)
         : nameCharacters[position - 1] !== char,
